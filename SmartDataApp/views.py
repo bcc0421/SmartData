@@ -1,10 +1,13 @@
 #coding:utf-8
+from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.db import transaction
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 def index(request):
@@ -25,12 +28,53 @@ def register(request):
         if email and username and password:
             user = User.objects.get_or_create(username=username)[0]
             if password:
-                user.password = password
+                user.password = make_password(password, 'md5')
             if email:
                 user.email = email
             user.save()
             user = authenticate(username=username, password=password)
             if user is not None:
                 if user.is_active:
-                    login(request, user)
+                    auth_login(request, user)
                 return redirect(index)
+
+
+@transaction.autocommit
+@csrf_protect
+@api_view(['POST'])
+def update_profile(request):
+    email = request.POST.get(u'email', None)
+    username = request.POST.get(u'username', None)
+    password = request.POST.get(u'password', None)
+    if email and username and password:
+        user = User.objects.get(username=username)[0]
+        if password:
+            if check_password(password, user.password):
+                user.password = check_password(password, user.password)
+            else:
+                return Response({
+                    "密码不正确！"
+                })
+        if email:
+            user.email = email
+        user.save()
+        return Response({
+            "密码更新成功！"
+        })
+
+
+@api_view(['GET'])
+def login(request):
+    username = request.POST.get(u'username', None)
+    password = request.POST.get(u'password', None)
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            auth_login(request, user)
+        return redirect(index)
+
+
+@api_view(['GET'])
+def logout(request):
+    auth_logout(request)
+    return redirect(index)
