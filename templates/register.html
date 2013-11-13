@@ -3,17 +3,16 @@
 
 {% block body_id %}id_body{% endblock %}
 {% block body %}
-{#    {% block content_title %}用户注册{% endblock %}#}
     {% block content %}
         <div class="container">
-            <form class="form-signin">
-                <h2 class="form-signin-heading">Please sign in</h2>
-                <input type="text" class="form-control" placeholder="Email address" required autofocus>
-                <input type="password" class="form-control" placeholder="Password" required>
-                <label class="checkbox">
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <form class="form-signin" method="post" action="/register/">
+                {% csrf_token %}
+                <h2 class="form-signin-heading">用户注册</h2>
+                <input name="email" type="email" class="form-control" placeholder="邮箱地址" required autofocus>
+                <input name="username" type="text" class="form-control" placeholder="用户名" required>
+                <input name="password" type="password" class="form-control" placeholder="密码" required>
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
             </form>
         </div> <!-- /container -->
     {% endblock %}
