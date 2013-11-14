@@ -63,15 +63,18 @@ def update_profile(request):
 
 @csrf_exempt
 def login(request):
-    username = request.POST.get(u'username', None)
-    password = request.POST.get(u'password', None)
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            auth_login(request, user)
+    if request.method != 'POST':
         return redirect(index)
     else:
-        return render_to_response('index.html', {"hide": False})
+        username = request.POST.get(u'username', None)
+        password = request.POST.get(u'password', None)
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                auth_login(request, user)
+            return redirect(index)
+        else:
+            return render_to_response('index.html', {"hide": False})
 
 
 def logout(request):
