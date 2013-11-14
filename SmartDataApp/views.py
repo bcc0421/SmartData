@@ -1,4 +1,5 @@
 #coding:utf-8
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.models import User
@@ -79,7 +80,7 @@ def login(request):
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
-            return redirect(index)
+                return redirect(dashboard)
         else:
             return render_to_response('index.html', {"hide": False})
 
@@ -87,3 +88,8 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect(index)
+
+
+@login_required
+def dashboard(request):
+    return render_to_response('dashboard.html', {})

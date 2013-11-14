@@ -9,5 +9,7 @@ urlpatterns = patterns('',
                        url(r'^$', index),
                        url(r'^index/$', index),
                        url(r'^register/$', register),
-                       url(r'^login/$', login)
+                       url(r'^login/$', login),
+                       url(r'^logout/$', logout),
+                       url(r'^dashboard/$', dashboard),
 )
