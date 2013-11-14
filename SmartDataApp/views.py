@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.models import User
 from django.core.context_processors import csrf
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from rest_framework.response import Response
@@ -47,26 +47,29 @@ def register(request):
 
 
 @transaction.autocommit
-@csrf_protect
-def update_profile(request):
-    email = request.POST.get(u'email', None)
-    username = request.POST.get(u'username', None)
-    password = request.POST.get(u'password', None)
-    if email and username and password:
-        user = User.objects.get(username=username)[0]
-        if password:
-            if check_password(password, user.password):
-                user.password = check_password(password, user.password)
-            else:
-                return Response({
-                    "密码不正确！"
-                })
-        if email:
-            user.email = email
-        user.save()
-        return Response({
-            "密码更新成功！"
-        })
+@csrf_exempt
+def profile(request):
+    if request.method != 'POST':
+        return render_to_response('profile.html')
+    else:
+        email = request.POST.get(u'email', None)
+        username = request.POST.get(u'username', None)
+        password = request.POST.get(u'password', None)
+        if email and username and password:
+            user = User.objects.get(username=username)[0]
+            if password:
+                if check_password(password, user.password):
+                    user.password = check_password(password, user.password)
+                else:
+                    return Response({
+                        "密码不正确！"
+                    })
+            if email:
+                user.email = email
+            user.save()
+            return Response({
+                "密码更新成功！"
+            })
 
 
 @csrf_exempt
@@ -92,4 +95,6 @@ def logout(request):
 
 @login_required
 def dashboard(request):
-    return render_to_response('dashboard.html', {})
+    return render_to_response('dashboard.html', {
+        'username': request.user.username
+    })
