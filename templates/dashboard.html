@@ -14,33 +14,11 @@
                 <a class="navbar-brand" href="/index/">项目名称</a>
             </div>
             <div class="navbar-collapse collapse">
-                <form class="navbar-form navbar-right" action="/login/" method="post">
-                    <div class="form-group">
-                        <input type="text" placeholder="用户名" class="form-control" name="username" required autofocus>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="密码" class="form-control" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-success">登陆</button>
-                    <a class="btn btn-primary" href="/register/">注册</a>
+                <form class="navbar-form navbar-right">
+                    <a class="btn btn-primary" href="/logout/">登出</a>
                 </form>
             </div>
             <!--/.navbar-collapse -->
-        </div>
-    </div>
-    <div class="alert alert-danger" {% if hide %}style="display: none;" {% endif %}>
-        <strong>请检查您的用户名或密码，是否正确。</strong>
-    </div>
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Hello, world!</h1>
-
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a
-                jumbotron and three supporting pieces of content. Use it as a starting point to create something more
-                unique.</p>
-
-            <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
         </div>
     </div>
 
@@ -76,6 +54,6 @@
             </div>
         </div>
         <hr>
-    </div> <!-- /container -->
+    </div>
 
 {% endblock %}
