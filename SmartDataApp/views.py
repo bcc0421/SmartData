@@ -17,14 +17,21 @@ def index(request):
 @csrf_exempt
 def register(request):
     if request.method == 'GET':
-        c = {}
-        c.update(csrf(request))
-        return render_to_response('register.html', c)
+        dict = {}
+        dict['error'] = False
+        dict.update(csrf(request))
+        return render_to_response('register.html', dict)
     elif request.method == 'POST':
         email = request.POST.get(u'email', None)
         username = request.POST.get(u'username', None)
         password = request.POST.get(u'password', None)
         if email and username and password:
+            if len(User.objects.filter(username=username)) > 0:
+                dict = {}
+                dict.update(csrf(request))
+                dict['error'] = True
+                dict['error_msg'] = '该用户名已经存在！'
+                return render_to_response('register.html', dict)
             user = User.objects.get_or_create(username=username)[0]
             if password:
                 user.password = make_password(password, 'md5')
