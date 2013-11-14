@@ -3,19 +3,18 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.models import User
 from django.core.context_processors import csrf
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 
 def index(request):
-    return render_to_response('index.html')
+    return render_to_response('index.html', {"hide": True})
 
 
 @transaction.autocommit
-@csrf_protect
+@csrf_exempt
 def register(request):
     if request.method == 'GET':
         c = {}
@@ -41,7 +40,6 @@ def register(request):
 
 @transaction.autocommit
 @csrf_protect
-@api_view(['POST'])
 def update_profile(request):
     email = request.POST.get(u'email', None)
     username = request.POST.get(u'username', None)
@@ -63,7 +61,7 @@ def update_profile(request):
         })
 
 
-@api_view(['GET'])
+@csrf_exempt
 def login(request):
     username = request.POST.get(u'username', None)
     password = request.POST.get(u'password', None)
@@ -72,9 +70,10 @@ def login(request):
         if user.is_active:
             auth_login(request, user)
         return redirect(index)
+    else:
+        return render_to_response('index.html', {"hide": False})
 
 
-@api_view(['GET'])
 def logout(request):
     auth_logout(request)
     return redirect(index)
