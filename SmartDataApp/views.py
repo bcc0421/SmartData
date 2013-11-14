@@ -17,14 +17,21 @@ def index(request):
 @csrf_exempt
 def register(request):
     if request.method == 'GET':
-        c = {}
-        c.update(csrf(request))
-        return render_to_response('register.html', c)
+        dict = {}
+        dict['error'] = False
+        dict.update(csrf(request))
+        return render_to_response('register.html', dict)
     elif request.method == 'POST':
         email = request.POST.get(u'email', None)
         username = request.POST.get(u'username', None)
         password = request.POST.get(u'password', None)
         if email and username and password:
+            if len(User.objects.filter(username=username)) > 0:
+                dict = {}
+                dict.update(csrf(request))
+                dict['error'] = True
+                dict['error_msg'] = '该用户名已经存在！'
+                return render_to_response('register.html', dict)
             user = User.objects.get_or_create(username=username)[0]
             if password:
                 user.password = make_password(password, 'md5')
@@ -63,15 +70,18 @@ def update_profile(request):
 
 @csrf_exempt
 def login(request):
-    username = request.POST.get(u'username', None)
-    password = request.POST.get(u'password', None)
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            auth_login(request, user)
+    if request.method != 'POST':
         return redirect(index)
     else:
-        return render_to_response('index.html', {"hide": False})
+        username = request.POST.get(u'username', None)
+        password = request.POST.get(u'password', None)
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                auth_login(request, user)
+            return redirect(index)
+        else:
+            return render_to_response('index.html', {"hide": False})
 
 
 def logout(request):

@@ -4,7 +4,13 @@
 {% block body_id %}id_body{% endblock %}
 {% block body %}
     {% block content %}
+
         <div class="container">
+            {% if error %}
+                <div class="alert alert-danger">
+                    <strong>{{ error_msg }}</strong>
+                </div>
+            {% endif %}
             <form class="form-signin" method="post" action="/register/">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">用户注册</h2>
