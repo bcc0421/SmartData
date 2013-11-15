@@ -13,11 +13,7 @@ from rest_framework.response import Response
 def index(request):
     return render_to_response('index.html', {"hide": True})
 
-def profile(request):
-    dict = {}
-    #dict['hide'] = True
-    #dict['update_pwd']=True
-    return render_to_response('profile.html')
+
 @transaction.autocommit
 @csrf_exempt
 def register(request):
@@ -50,37 +46,7 @@ def register(request):
                 return redirect(index)
 
 
-@transaction.autocommit
-@csrf_exempt
-@login_required
-def update_profile(request):
-    if request.method != 'POST':
-        return render_to_response('profile.html')
-    else:
-        username=request.POST.get(u'username',None)
-        present_pwd = request.POST.get(u'present_pwd', None)
-        new_pwd = request.POST.get(u'new_pwd', None)
-        conf_pwd = request.POST.get(u'conf_pwd', None)
-        if new_pwd!=conf_pwd:
-            return render_to_response('profile.html', {"hide": True})
-        else:
-            if len(User.objects.filter(username=username)) > 0:
-                if present_pwd and new_pwd and conf_pwd:
-                    user = User.objects.get(username=username)
-                    if check_password(present_pwd, user.password):
-                        user.password =make_password(new_pwd, 'md5')
-                        user.save()
-                        return render_to_response('profile.html', {"visible": True})
-                    else:
-                        dict = {}
-                        dict['error'] = True
-                        dict['error_msg'] = '密码错误！'
-                        return render_to_response('profile.html', dict)
-            else:
-                dict = {}
-                dict['error'] = True
-                dict['error_msg'] = '该用户名不存在！'
-                return render_to_response('profile.html', dict)
+
 
 @csrf_exempt
 def login(request):
