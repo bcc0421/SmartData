@@ -1,10 +1,6 @@
 #coding:utf-8
-<<<<<<< HEAD
-import simplejson as json
-=======
 import simplejson
 import re
->>>>>>> local
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponse
@@ -26,13 +22,6 @@ def register(request):
         dict.update(csrf(request))
         return render_to_response('register.html', dict)
     elif request.method == 'POST':
-<<<<<<< HEAD
-        if request.META['CONTENT_TYPE'] == 'application/json':
-            data = json.loads(request.body)
-            email = data.get(u'email', None)
-            username = data.get(u'username', None)
-            password = data.get(u'password', None)
-=======
         flag = False
         email, username, password = None,None,None
         if request.META['CONTENT_TYPE'] == 'application/json':
@@ -41,7 +30,6 @@ def register(request):
             username = data.get(u'username', None)
             password = data.get(u'password', None)
             flag = True
->>>>>>> local
         else:
             email = request.POST.get(u'email', None)
             username = request.POST.get(u'username', None)
@@ -84,15 +72,6 @@ def register(request):
                 user.email = email
             user.save()
             user = authenticate(username=username, password=password)
-<<<<<<< HEAD
-            if user is not None:
-                if user.is_active:
-                    auth_login(request, user)
-                else:
-                    return redirect(index)
-        else:
-            return redirect(index)
-=======
             if flag:
                 response_data = {}
                 response_data['result'] = 'success'
@@ -105,7 +84,6 @@ def register(request):
                         return redirect(index)
         return redirect(index)
 
->>>>>>> local
 
 @transaction.autocommit
 @csrf_exempt
@@ -221,4 +199,3 @@ def dashboard(request):
     return render_to_response('dashboard.html', {
         'username': request.user.username
     })
-
