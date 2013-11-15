@@ -120,3 +120,4 @@ def dashboard(request):
     return render_to_response('dashboard.html', {
         'username': request.user.username
     })
+

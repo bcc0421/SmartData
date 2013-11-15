@@ -7,7 +7,10 @@ from django.utils import timezone
 class ProfileDetail(models.Model):
     profile = models.ForeignKey(User)
     avatar = models.ImageField(upload_to='avatar/%Y/%m/%d')
-    cell_phone = models.CharField(max_length=11,null=True,)
+    cell_phone = models.CharField(max_length=11, null=True, )
+
+    def __str__(self):
+        return self.cell_phone
 
 
 class Picture(models.Model):
