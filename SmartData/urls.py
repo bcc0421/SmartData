@@ -12,4 +12,6 @@ urlpatterns = patterns('',
                        url(r'^login/$', login),
                        url(r'^logout/$', logout),
                        url(r'^dashboard/$', dashboard),
+                       url(r'^profile/$', profile),
+
 )

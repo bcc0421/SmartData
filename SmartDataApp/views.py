@@ -7,7 +7,6 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from rest_framework.response import Response
 
 
 def index(request):
@@ -45,7 +44,43 @@ def register(request):
                     auth_login(request, user)
                 return redirect(index)
 
-
+@transaction.autocommit
+@csrf_exempt
+@login_required
+def profile(request):
+    if request.method != 'POST':
+        return render_to_response('profile.html', {
+            'username': request.user.username,
+            'error': False
+        })
+    else:
+        old_password = request.POST.get(u'old_password', None)
+        new_password = request.POST.get(u'new_password', None)
+        new_password_again = request.POST.get(u'new_password_again', None)
+        if old_password and new_password and new_password_again:
+            user = request.user
+            if old_password:
+                if check_password(old_password, user.password):
+                    if new_password == new_password_again:
+                        user.password = make_password(new_password, 'md5')
+                    else:
+                        return render_to_response('profile.html', {
+                            'username': user.username,
+                            'error': True,
+                            'error_msg': '两次密码输入不正确!'
+                        })
+                else:
+                    return render_to_response('profile.html', {
+                        'username': user.username,
+                        'error': True,
+                        'error_msg': '密码不正确!'
+                    })
+            user.save()
+            return render_to_response('profile.html', {
+                'username': user.username,
+                'success': True,
+                'success_msg': '密码修改成功!'
+            })
 
 
 @csrf_exempt
@@ -62,6 +97,7 @@ def login(request):
                 return redirect(dashboard)
         else:
             return render_to_response('index.html', {"hide": False})
+
 
 def logout(request):
     auth_logout(request)
