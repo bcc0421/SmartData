@@ -1,4 +1,5 @@
 #coding:utf-8
+import simplejson as json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render_to_response, redirect
@@ -22,9 +23,15 @@ def register(request):
         dict.update(csrf(request))
         return render_to_response('register.html', dict)
     elif request.method == 'POST':
-        email = request.POST.get(u'email', None)
-        username = request.POST.get(u'username', None)
-        password = request.POST.get(u'password', None)
+        if request.META['CONTENT_TYPE'] == 'application/json':
+            data = json.loads(request.body)
+            email = data.get(u'email', None)
+            username = data.get(u'username', None)
+            password = data.get(u'password', None)
+        else:
+            email = request.POST.get(u'email', None)
+            username = request.POST.get(u'username', None)
+            password = request.POST.get(u'password', None)
         if email and username and password:
             if len(User.objects.filter(username=username)) > 0:
                 dict = {}
@@ -42,7 +49,10 @@ def register(request):
             if user is not None:
                 if user.is_active:
                     auth_login(request, user)
-                return redirect(index)
+                else:
+                    return redirect(index)
+        else:
+            return redirect(index)
 
 
 @transaction.autocommit
