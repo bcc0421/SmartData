@@ -13,4 +13,5 @@ urlpatterns = patterns('',
                        url(r'^logout/$', logout),
                        url(r'^dashboard/$', dashboard),
                        url(r'^profile/$', profile),
+                       url(r'^update_profile/$', update_profile),
 )
