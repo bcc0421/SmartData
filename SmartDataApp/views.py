@@ -54,6 +54,7 @@ def register(request):
         else:
             return redirect(index)
 
+
 @transaction.autocommit
 @csrf_exempt
 @login_required
@@ -120,3 +121,10 @@ def dashboard(request):
         'username': request.user.username
     })
 
+
+def shine(request):
+    user = request.user
+    username = user.username if user.id else None
+    return render_to_response('shine.html', {
+        'username': username
+    })
