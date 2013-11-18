@@ -10,7 +10,6 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-
 def index(request):
     return render_to_response('index.html', {"hide": True})
 @transaction.autocommit
@@ -48,7 +47,8 @@ def register(request):
             if len(User.objects.filter(username=username)) > 0:
                 if flag:
                     response_data = {}
-                    response_data['result'] = '该用户名已经存在'
+                    response_data['success'] = False
+                    response_data['error'] = '该用户名已经存在'
                     return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
                 else:
                     dict = {}
@@ -58,7 +58,8 @@ def register(request):
             if len(User.objects.filter(email=email)) > 0:
                 if flag:
                     response_data = {}
-                    response_data['result'] = '该邮箱已经存在'
+                    response_data['success'] = False
+                    response_data['error'] = '该邮箱已经存在'
                     return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
                 else:
                     dict = {}
@@ -74,7 +75,7 @@ def register(request):
             user = authenticate(username=username, password=password)
             if flag:
                 response_data = {}
-                response_data['result'] = 'success'
+                response_data['success'] = True
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
                 if user is not None:
@@ -132,7 +133,8 @@ def profile(request):
                 else:
                     if flag:
                         response_data = {}
-                        response_data['result'] = '密码不正确'
+                        response_data['success'] = False
+                        response_data['error'] = '密码不正确'
                         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
                     else:
                         return render_to_response('profile.html', {
@@ -143,7 +145,7 @@ def profile(request):
             user.save()
             if flag:
                 response_data = {}
-                response_data['result'] = 'sucess'
+                response_data['success'] = True
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
                 return render_to_response('profile.html', {
@@ -151,7 +153,6 @@ def profile(request):
                     'success': True,
                     'success_msg': '密码修改成功!'
                 })
-
 
 @csrf_exempt
 def login(request):
@@ -175,24 +176,23 @@ def login(request):
                 auth_login(request, user)
                 if flag:
                     response_data = {}
-                    response_data['result'] = 'success'
+                    response_data['success'] = True
+                    response_data['user_id'] = user.id
                     return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
                 else:
                     return redirect(dashboard)
         else:
             if flag:
                     response_data = {}
-                    response_data['result'] = '用户不存在'
+                    response_data['success'] = False
+                    response_data['error'] = '用户不存在'
                     return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
                    return render_to_response('index.html', {"hide": False})
 
-
-
 def logout(request):
     auth_logout(request)
     return redirect(index)
-
 
 @login_required
 def dashboard(request):
