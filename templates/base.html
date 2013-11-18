@@ -5,7 +5,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/register.css" rel="stylesheet">
-
+    {% block css %}{% endblock %}
 </head>
 <body id="{% block body_id %}{% endblock %}">
 <div id="body">
@@ -18,6 +18,8 @@
 </div>
 <!-- FOOTER -->
 <footer>
+    <p class="pull-right"><a href="#">回到顶部</a></p>
+
     <p style="text-align: center;">&copy; 2013 SFI Suzhou Company, Inc.</p>
 </footer>
 <!-- Bootstrap core JavaScript
@@ -25,6 +27,6 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="/static/js/jquery-1.10.2.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
-
+{% block script %}{% endblock %}
 </body>
 </html>

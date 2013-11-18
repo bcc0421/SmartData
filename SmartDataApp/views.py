@@ -12,6 +12,8 @@ from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 def index(request):
     return render_to_response('index.html', {"hide": True})
+
+
 @transaction.autocommit
 @csrf_exempt
 def register(request):
@@ -84,7 +86,6 @@ def register(request):
                     else:
                         return redirect(index)
         return redirect(index)
-
 
 @transaction.autocommit
 @csrf_exempt
@@ -198,4 +199,11 @@ def logout(request):
 def dashboard(request):
     return render_to_response('dashboard.html', {
         'username': request.user.username
+    })
+
+def shine(request):
+    user = request.user
+    username = user.username if user.id else None
+    return render_to_response('shine.html', {
+        'username': username
     })

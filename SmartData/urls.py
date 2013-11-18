@@ -13,6 +13,5 @@ urlpatterns = patterns('',
                        url(r'^logout/$', logout),
                        url(r'^dashboard/$', dashboard),
                        url(r'^profile/$', profile),
-
-
+                       url(r'^shine/$', shine),
 )
