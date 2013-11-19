@@ -18,8 +18,11 @@
 </div>
 <!-- FOOTER -->
 <footer>
-    <p class="pull-right"><a href="#">回到顶部</a></p>
-
+    <p class="pull-right" >
+        <div id="backtop"
+            style="display:none;position:fixed;width:50px;height:50px;background-image: url(/static/img/onbacktop.png);">
+        </div>
+    </p>
     <p style="text-align: center;">&copy; 2013 SFI Suzhou Company, Inc.</p>
 </footer>
 <!-- Bootstrap core JavaScript
@@ -27,6 +30,39 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="/static/js/jquery-1.10.2.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function goTop() {
+            $(window).scroll(function (e) {
+                var clientHeight = $(window).height();
+                var clientWidth = $(window).width();
+                var realtop = clientHeight - 50;
+                var realleft = clientWidth - 60;
+                //若滚动条离顶部大于100元素
+                if ($(window).scrollTop() > 100) {
+                    $("#backtop").css(
+                            {
+                                "top": realtop + "px",
+                                "left": realleft + "px"
+                            });
+                      $("#backtop").fadeIn(1000);//以1秒的间隔渐显id=backtop的元素
+                      }
+                  else
+                     $("#backtop").fadeOut(1000);//以1秒的间隔渐隐id=backtop的元素
+             });
+         }
+     //点击回到顶部的元素
+     $("#backtop").click(function(e) {
+             //以0.5秒的间隔返回顶部
+             $('body,html').animate({scrollTop:0},500);
+    });
+     $("#backtop").mouseover(function(e) {
+         $(this).css("background","url(../static/img/outbacktop.png) no-repeat 0px 0px");
+     });
+     $("#backtop").mouseout(function(e) {
+        $(this).css("background","url(../static/img/onbacktop.png) no-repeat 0px 0px");
+     });
+     goTop();//实现回到顶部元素的渐显与渐隐
+</script>
 {% block script %}{% endblock %}
 </body>
 </html>
