@@ -88,6 +88,10 @@
                 </ul>
                 {% if username %}
                     <form class="navbar-form navbar-right">
+                        <!-- Button trigger modal -->
+                        <button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                            添加图片
+                        </button>
                         <a class="btn btn-info" href="/profile/">{{ username }}</a>
                         <a class="btn btn-primary" href="/logout/">登出</a>
                     </form>
@@ -104,10 +108,36 @@
                         <a class="btn btn-primary" href="/register/">注册</a>
                     </form>
                 {% endif %}
+
             </div>
             <!--/.navbar-collapse -->
         </div>
     </div>
+
+    <!-- Modal -->
+    <div style="overflow: hidden" class="modal fade" id="myModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">添加图片</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="id_img" type="file">
+                    <textarea id="id_comments"
+                              style="height: 100px;width: 527px;margin: 0px;margin-top: 10px;"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button id="id_save_img" name="upload_img" type="button" class="btn btn-primary">确定
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <div class="container">
 
@@ -150,7 +180,7 @@
         <div class="caption">
             <div class="title">
                 <a target="_blank"
-                                  href="http://fineui.com/bbs/forum.php?mod=viewthread&tid=925">小型网站管理系统</a></div>
+                   href="http://fineui.com/bbs/forum.php?mod=viewthread&tid=925">小型网站管理系统</a></div>
             <div class="content">
 
             </div>
@@ -742,6 +772,12 @@
                 }
                 return '#' + rand;
             }
+
+            {# TODO:add upload images functions#}
+            $('#id_save_img').click(function () {
+                alert('have a test');
+            })
+
         });
     </script>
 {% endblock %}
