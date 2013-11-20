@@ -21,7 +21,6 @@ class Picture(models.Model):
     like = models.IntegerField(default=0)
     keep = models.IntegerField(default=0)
 
-
     def __str__(self):
         return self.title
 
