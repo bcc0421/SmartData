@@ -11,17 +11,27 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from SmartDataApp.models import Picture
 
 
 def index(request):
     return render_to_response('index.html', {"hide": True})
 
 
+def multi_response(flag, success, info, template):
+    if flag:
+        response_data = {'success': success, 'info': info}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+    else:
+        response_data = {'success': success, 'info': info}
+        return render_to_response(template, response_data)
+
+
 @transaction.atomic
 @csrf_exempt
 def register(request):
     if request.method == 'GET':
-        response_data = {'error': False}
+        response_data = {'success': True}
         response_data.update(csrf(request))
         return render_to_response('register.html', response_data)
     elif request.method == 'POST':
@@ -41,25 +51,11 @@ def register(request):
             pattern = re.compile('\w{6,15}')
             match = pattern.match(password)
             if not match:
-                response_data = {'error': True, 'error_msg': '密码长度为6-15位数字或字母'}
-                if flag:
-                    return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-                else:
-                    return render_to_response('register.html', response_data)
+                return multi_response(flag, False, '密码长度为6-15位数字或字母', 'register.html')
             if len(User.objects.filter(username=username)) > 0:
-                if flag:
-                    response_data = {'success': False, 'error': '该用户名已经存在'}
-                    return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-                else:
-                    response_data = {'error': True, 'error_msg': '该用户名已经存在!'}
-                    return render_to_response('register.html', response_data)
+                return multi_response(flag, False, '该用户名已经存在', 'register.html')
             if len(User.objects.filter(email=email)) > 0:
-                if flag:
-                    response_data = {'success': False, 'error': '该邮箱已经存在'}
-                    return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-                else:
-                    response_data = {'error': True, 'error_msg': '该邮箱已经存在!'}
-                    return render_to_response('register.html', response_data)
+                return multi_response(flag, False, '该邮箱已经存在', 'register.html')
             user = User.objects.get_or_create(username=username)[0]
             if password:
                 user.password = make_password(password, 'md5')
@@ -76,18 +72,17 @@ def register(request):
                         auth_login(request, user)
                     else:
                         return redirect(index)
-        return redirect(index)
-
+        return redirect(dashboard)
 
 
 @transaction.atomic
 @csrf_exempt
 @login_required
 def profile(request):
-    if request.method != 'POST':
+    if request.method == 'GET':
         return render_to_response('profile.html', {
             'username': request.user.username,
-            'error': False
+            'init': True
         })
     elif request.method == 'POST':
         flag = False
@@ -109,38 +104,34 @@ def profile(request):
                     pattern = re.compile('\w{6,15}')
                     match = pattern.match(new_password)
                     if not match:
-                        response_data = {'error': True, 'error_msg': '密码长度为6-15位数字或字母'}
-                        if flag:
-                            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-                        else:
-                            return render_to_response('profile.html', response_data)
+                        multi_response(flag, True, '密码长度为6-15位数字或字母', 'profile.html')
                     if new_password == new_password_again:
                         user.password = make_password(new_password, 'md5')
+                        user.save()
                     else:
                         return render_to_response('profile.html', {
                             'username': user.username,
-                            'error': True,
-                            'error_msg': '两次密码输入不正确!'
+                            'success': False,
+                            'info': '两次密码输入不正确!'
                         })
                 else:
                     if flag:
-                        response_data = {'success': False, 'error': '密码不正确'}
+                        response_data = {'success': False, 'info': '密码不正确'}
                         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
                     else:
                         return render_to_response('profile.html', {
                             'username': user.username,
-                            'error': True,
-                            'error_msg': '密码不正确!'
+                            'success': False,
+                            'info': '密码不正确!'
                         })
-            user.save()
             if flag:
-                response_data = {'success': True}
+                response_data = {'success': True, 'info': '密码修改成功!'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
                 return render_to_response('profile.html', {
                     'username': user.username,
                     'success': True,
-                    'success_msg': '密码修改成功!'
+                    'info': '密码修改成功!'
                 })
 
 
@@ -171,9 +162,7 @@ def login(request):
                     return redirect(dashboard)
         else:
             if flag:
-
-                response_data = {}
-                response_data = {'success': False, 'error': '用户不存在'}
+                response_data = {'success': False, 'info': '用户不存在'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
                 return render_to_response('index.html', {"hide": False})
@@ -198,10 +187,30 @@ def shine(request):
         'username': username
     })
 
+
 @csrf_exempt
+@transaction.atomic
+@login_required
 def ajax_upload_image(request):
     if request.method == 'POST':
-        print "123"
-        pass
+
+        upload_src = request.FILES.get('upload_img', None)
+        comment = request.POST.get('introduction', None)
+        if upload_src is None:
+            response_data = {'success': False, 'info': '上传图片不存在！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        name = upload_src.name
+        pic_objects = Picture.objects.filter(title=name)
+        if len(pic_objects) > 0:
+            response_data = {'success': False, 'info': '图片已存在！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        pic = Picture(author=request.user)
+        pic.src = upload_src
+        pic.comment = comment
+        pic.title = upload_src.name
+        pic.save()
+        response_data = {'success': True, 'info': '图片上传成功！'}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
     else:
-        pass
+        response_data = {'success': False, 'info': '仅接受POST请求！'}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
