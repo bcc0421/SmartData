@@ -202,6 +202,6 @@ def shine(request):
 def ajax_upload_image(request):
     if request.method == 'POST':
         print "123"
-        return render_to_response('index.html', {"hide": False})
+        pass
     else:
         pass
