@@ -14,4 +14,5 @@ urlpatterns = patterns('',
                        url(r'^dashboard/$', dashboard),
                        url(r'^profile/$', profile),
                        url(r'^shine/$', shine),
+                       url(r'^ajax_upload_image/$', ajax_upload_image),
 )

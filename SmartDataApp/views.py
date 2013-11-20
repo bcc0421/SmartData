@@ -10,6 +10,8 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+
+
 def index(request):
     return render_to_response('index.html', {"hide": True})
 
@@ -24,7 +26,7 @@ def register(request):
         return render_to_response('register.html', dict)
     elif request.method == 'POST':
         flag = False
-        email, username, password = None,None,None
+        email, username, password = None, None, None
         if request.META['CONTENT_TYPE'] == 'application/json':
             data = simplejson.loads(request.body)
             email = data.get(u'email', None)
@@ -87,6 +89,7 @@ def register(request):
                         return redirect(index)
         return redirect(index)
 
+
 @transaction.autocommit
 @csrf_exempt
 @login_required
@@ -98,7 +101,7 @@ def profile(request):
         })
     elif request.method == 'POST':
         flag = False
-        old_password, new_password, new_password_again = None,None,None
+        old_password, new_password, new_password_again = None, None, None
         if request.META['CONTENT_TYPE'] == 'application/json':
             data = simplejson.loads(request.body)
             old_password = data.get(u'old_password', None)
@@ -155,6 +158,7 @@ def profile(request):
                     'success_msg': '密码修改成功!'
                 })
 
+
 @csrf_exempt
 def login(request):
     if request.method != 'POST':
@@ -184,16 +188,18 @@ def login(request):
                     return redirect(dashboard)
         else:
             if flag:
-                    response_data = {}
-                    response_data['success'] = False
-                    response_data['error'] = '用户不存在'
-                    return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+                response_data = {}
+                response_data['success'] = False
+                response_data['error'] = '用户不存在'
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
-                   return render_to_response('index.html', {"hide": False})
+                return render_to_response('index.html', {"hide": False})
+
 
 def logout(request):
     auth_logout(request)
     return redirect(index)
+
 
 @login_required
 def dashboard(request):
@@ -201,9 +207,19 @@ def dashboard(request):
         'username': request.user.username
     })
 
+
 def shine(request):
     user = request.user
     username = user.username if user.id else None
     return render_to_response('shine.html', {
         'username': username
     })
+
+
+@csrf_exempt
+def ajax_upload_image(request):
+    if request.method == 'POST':
+        print "123"
+        return render_to_response('index.html', {"hide": False})
+    else:
+        pass

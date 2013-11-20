@@ -3,6 +3,7 @@
 {% block css %}
     <link href="/static/css/docs.css" rel="stylesheet">
     <link href="/static/css/lightbox.css" rel="stylesheet">
+    <link href="/static/css/jquery.fileupload-ui.css" rel="stylesheet">
     <style>
         #masonry {
             padding: 0;
@@ -124,9 +125,18 @@
                     <h4 class="modal-title" id="myModalLabel">添加图片</h4>
                 </div>
                 <div class="modal-body">
-                    <input id="id_img" type="file">
-                    <textarea id="id_comments"
+                    <input id="id_img" type="file" name="upload_img">
+                    <textarea id="id_comments" name="id_comments" onKeyDown="textCounter(id_comments,remLen,250);"onKeyUp="textCounter(id_comments,remLen,250);"
                               style="height: 100px;width: 527px;margin: 0px;margin-top: 10px;"></textarea>
+                    <div style="padding-bottom: 20px;" id="id_file_name"></div>
+                     <p>
+                             <font color="red" size="2px">还可输入:</font>
+                            <input name="remLen" id="remLen" type="text" value="250" size="5" readonly="readonly"style="width:33px;height:20px">
+                             <font color="red" size="2px">个字符</font>
+                     </p>
+                    <div id="progress_pic" class="progress progress-striped active">
+                        <div class="bar"></div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -680,7 +690,22 @@
     <script src="/static/js/masonry.pkgd.min.js"></script>
     <script src="/static/js/imagesloaded.pkgd.min.js"></script>
     <script src="/static/js/lightbox-2.6.min.js"></script>
+    <script src="/static/js/jquery.ui.widget.js"></script>
+    <script src="/static/js/jquery.iframe-transport.js"></script>
+    <script src="/static/js/jquery.fileupload.js"></script>
+
     <script>
+           function textCounter(field, countfield, maxlimit) {
+               // 函数，3个参数，表单名字，表单域元素名，限制字符；
+               if (field.value.length > maxlimit)
+               //如果元素区字符数大于最大字符数，按照最大字符数截断；
+               field.value = field.value.substring(0, maxlimit);
+               else
+               //在记数区文本框内显示剩余的字符数；
+               countfield.value = maxlimit - field.value.length;
+            }
+
+
         $(function () {
             var ghostNode = $('#masonry_ghost').find('.thumbnail'), i, ghostIndexArray = [];
             var ghostCount = ghostNode.length;
@@ -717,7 +742,6 @@
                     var title = $this.find('.title').text();
                     var author = $this.find('.author').text();
                     title += '&nbsp;&nbsp;(' + author + ')';
-                    {#TODO: coding add here #}
                     var lightboxName = 'lightbox_'; // + imgNames[0];
                     var imgNames = imgsNode.find('input[type=hidden]').val().split(',');
                     $.each(imgNames, function (index, item) {
@@ -773,10 +797,46 @@
                 return '#' + rand;
             }
 
-            {# TODO:add upload images functions#}
-            $('#id_save_img').click(function () {
-                alert('have a test');
-            })
+
+            //文件上传地址
+            var url = "/ajax_upload_image/";
+            //初始化，主要是设置上传参数，以及事件处理方法(回调函数)
+            $('#id_img').fileupload({
+                autoUpload: false,//是否自动上传
+                url: url,//上传地址
+                dataType: 'json',
+                maxNumberOfFiles: 1,
+                done: function (e, data) {//设置文件上传完毕事件的回调函数
+                    alert("上传成功！");
+                    //window.location.href = "/controlskip/" + board_index + "";
+                },
+                fail: function (e, data) {
+                    alert("上传失败！");
+                },
+                add: function (e, data) {
+                    $("#id_file_name").html(data.files[0].name);
+                    $("#id_save_img").unbind("click");
+                    $("#id_save_img").click(function () {
+                        var intro = $("#id_comments");
+                        var textval = $("#id_comments").val();
+                        if (textval.length != 0) {
+                            data.formData = {introduction: intro.val()};
+                            data.submit();//上传文件
+                        }
+                        else {
+                            alert("请描述图片");
+                            return false;
+                        }
+                    });
+                },
+                progressall: function (e, data) {//设置上传进度事件的回调函数
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress_pic .bar').css(
+                            'width',
+                            progress + '%'
+                    );
+                }
+            });
 
         });
     </script>
