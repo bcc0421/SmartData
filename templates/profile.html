@@ -27,15 +27,16 @@
     {% block content %}
 
         <div class="container">
-            {% if error %}
-                <div class="alert alert-danger">
-                    <strong>{{ error_msg }}</strong>
-                </div>
-            {% endif %}
-            {% if success %}
-                <div class="alert alert-success">
-                    <strong>{{ success_msg }}</strong>
-                </div>
+            {% if not init %}
+                {% if not success %}
+                    <div class="alert alert-danger">
+                        <strong>{{ info }}</strong>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success">
+                        <strong>{{ info }}</strong>
+                    </div>
+                {% endif %}
             {% endif %}
             <form class="form-signin" method="post" action="/profile/">
                 {% csrf_token %}
