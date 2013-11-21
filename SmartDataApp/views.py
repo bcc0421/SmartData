@@ -185,6 +185,12 @@ def shine(request):
     user = request.user
     username = user.username if user.id else None
     pictures = list(Picture.objects.all().order_by('timestamp_add'))
+    order = request.GET.get('order', None)
+    if order == u'like':
+        pictures = list(Picture.objects.all().order_by('-like'))
+    elif order == u'keep':
+        pictures = list(Picture.objects.all().order_by('-keep'))
+
     return render_to_response('shine.html', {
         'username': username,
         'pictures': pictures,
