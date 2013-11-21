@@ -11,7 +11,7 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from SmartDataApp.models import Picture
+from SmartDataApp.models import Picture, ProfileDetail
 
 
 def index(request):
@@ -211,6 +211,40 @@ def ajax_upload_image(request):
         pic.title = upload_src.name
         pic.save()
         response_data = {'success': True, 'info': '图片上传成功！'}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+    else:
+        response_data = {'success': False, 'info': '仅接受POST请求！'}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+@login_required
+@csrf_exempt
+@transaction.atomic
+def ajax_like(request, id=None):
+    if request.method == 'POST' and id:
+        picture = Picture.objects.get(id=id)
+        picture.like += 1
+        picture.save()
+        response_data = {'success': True, 'info': '感谢您喜欢这张图片！', 'like': picture.like}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+    else:
+        response_data = {'success': False, 'info': '仅接受POST请求！'}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+@login_required
+@csrf_exempt
+@transaction.atomic
+def ajax_keep(request, id=None):
+    if request.method == 'POST' and id:
+        picture = Picture.objects.get(id=id)
+        picture.keep += 1
+        picture.save()
+        user = request.user
+        profile_detail = ProfileDetail.objects.get_or_create(profile=user)[0]
+        profile_detail.add(picture)
+        profile_detail.save()
+        response_data = {'success': True, 'info': '感谢您喜欢收藏图片！', 'like': picture.keep}
         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
     else:
         response_data = {'success': False, 'info': '仅接受POST请求！'}

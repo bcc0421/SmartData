@@ -26,7 +26,7 @@ class Picture(models.Model):
 
 
 class ProfileDetail(models.Model):
-    profile = models.ForeignKey(User)
+    profile = models.OneToOneField(User)
     avatar = models.ImageField(upload_to='avatar/%Y/%m/%d')
     cell_phone = models.CharField(max_length=11, null=True)
     community = models.ForeignKey(Community, null=True)
