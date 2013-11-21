@@ -1,5 +1,10 @@
 from django.conf.urls import patterns, url
+from django.conf import settings
+from django.conf.urls.static import static
+
 from SmartDataApp.views import *
+
+
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -15,4 +20,4 @@ urlpatterns = patterns('',
                        url(r'^profile/$', profile),
                        url(r'^shine/$', shine),
                        url(r'^ajax_upload_image/$', ajax_upload_image),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

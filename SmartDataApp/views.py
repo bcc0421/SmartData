@@ -183,8 +183,10 @@ def dashboard(request):
 def shine(request):
     user = request.user
     username = user.username if user.id else None
+    pictures = list(Picture.objects.all().order_by('timestamp_add'))
     return render_to_response('shine.html', {
-        'username': username
+        'username': username,
+        'pictures': pictures
     })
 
 
