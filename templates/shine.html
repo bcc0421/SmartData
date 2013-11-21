@@ -159,6 +159,7 @@
 
     <div class="container">
         <div id="id_sort" style="margin-top: 30px;">
+            <a class="btn btn-info" href="../shine/">按时间排序</a>
             <a class="btn btn-info" href="../shine?order=like">按喜欢排序</a>
             <a class="btn btn-info" href="../shine?order=keep">按收藏排序</a>
         </div>
@@ -222,7 +223,6 @@
                 if (result) {
                     $.post("/delete_picture/" + keyid + "/",
                             function (data, textStatus) {
-                                alert("删除成功");
                                 window.location.href = '/shine/'
                             });
                 }
@@ -338,7 +338,6 @@
                 dataType: 'json',
                 maxNumberOfFiles: 1,
                 done: function (e, data) {//设置文件上传完毕事件的回调函数
-                    alert(data.result.info);
                     window.location.href = '/shine/'
                 },
                 fail: function (e, data) {
