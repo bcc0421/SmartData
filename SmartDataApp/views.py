@@ -187,7 +187,8 @@ def shine(request):
     pictures = list(Picture.objects.all().order_by('timestamp_add'))
     return render_to_response('shine.html', {
         'username': username,
-        'pictures': pictures
+        'pictures': pictures,
+        'user': user
     })
 
 
@@ -237,15 +238,17 @@ def ajax_like(request, id=None):
 @csrf_exempt
 @transaction.atomic
 def ajax_keep(request, id=None):
+    #TODO: like function not completed.
     if request.method == 'POST' and id:
         picture = Picture.objects.get(id=id)
-        picture.keep += 1
-        picture.save()
         user = request.user
         profile_detail = ProfileDetail.objects.get_or_create(profile=user)[0]
-        profile_detail.add(picture)
-        profile_detail.save()
-        response_data = {'success': True, 'info': '感谢您喜欢收藏图片！', 'like': picture.keep}
+        if picture not in profile_detail.pictures.all():
+            picture.keep += 1
+            picture.save()
+            profile_detail.pictures.add(picture)
+            profile_detail.save()
+        response_data = {'success': True, 'info': '感谢您喜欢收藏图片！', 'keep': picture.keep}
         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
     else:
         response_data = {'success': False, 'info': '仅接受POST请求！'}

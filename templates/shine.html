@@ -171,13 +171,11 @@
                     <div class="caption">
                         <div class="title">{{ picture.title }}</div>
                         <div class="content">
-                            <div>
-                                <button><span class="glyphicon glyphicon-heart-empty"></span></button>
-                            </div>
-                            <button>store</button>
-                            <button onclick="delete_img(this)" name="{{ picture.id }}">删除</button>
+                            <button onclick="like_img(this)" name="{{ picture.id }}"><span class="glyphicon glyphicon-heart-empty"></span>+<span id="like_{{ picture.id  }}"></span></button>
+                            <button onclick="store_img(this)" name="{{ picture.id }}">收藏+<span id="store_{{ picture.id  }}"></span></button>
+                            <button onclick="delete_img(this)" {% ifnotequal user picture.author %} style="display:none " {% endifnotequal %} name="{{ picture.id }}">删除</button>
                         </div>
-                        <div class="author">
+                        <div class="author">store
                             by {{ picture.author.username }}
                         </div>
                     </div>
@@ -197,7 +195,7 @@
     <script src="/static/js/jquery.ui.widget.js"></script>
     <script src="/static/js/jquery.iframe-transport.js"></script>
     <script src="/static/js/jquery.fileupload.js"></script>
-
+    <script src="/static/js/bootstrap-confirmation.js"></script>
     <script>
         function textCounter(field, countfield, maxlimit) {
             // 函数，3个参数，表单名字，表单域元素名，限制字符；
@@ -222,7 +220,23 @@
                 return false;
 
         }
-
+           function like_img(obj) {
+            var keyid = obj.name;
+                $.post("/like/" + keyid + "/",
+                        function (data, textStatus) {
+                            // $$("#showdelete_" + $$keyid + "").remove();
+                             $("#like_" + keyid + "").html(data.like);
+                        });
+        }
+           function store_img(obj) {
+            var keyid = obj.name;
+                $.post("/keep/" + keyid + "/",
+                        function (data, textStatus) {
+                            // $$("#showdelete_" + $$keyid + "").remove();
+                            alert(data.keep);
+                           $("#store_" + keyid + "").html(data.keep);
+                        });
+        }
         $(function () {
             var ghostNode = $('#masonry_ghost').find('.thumbnail'), i, ghostIndexArray = [];
             var ghostCount = ghostNode.length;
