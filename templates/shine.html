@@ -164,14 +164,16 @@
 
         <div id="masonry_ghost" class="hide">
             {% for picture in pictures %}
-                <div class="thumbnail" id="remove_{{picture.id }}">
+                <div class="thumbnail" id="remove_{{ picture.id }}">
                     <div class="imgs">
                         <input type="hidden" value="{{ picture.src }}">
                     </div>
                     <div class="caption">
                         <div class="title">{{ picture.title }}</div>
                         <div class="content">
-                            <div><button><span class="glyphicon glyphicon-heart-empty"></span></button></div>
+                            <div>
+                                <button><span class="glyphicon glyphicon-heart-empty"></span></button>
+                            </div>
                             <button>store</button>
                             <button onclick="delete_img(this)" name="{{ picture.id }}">删除</button>
                         </div>
@@ -206,19 +208,19 @@
             //在记数区文本框内显示剩余的字符数；
                 countfield.value = maxlimit - field.value.length;
         }
-        function delete_img(obj){
-             var keyid = obj.name;
+        function delete_img(obj) {
+            var keyid = obj.name;
             alert(keyid);
-        if (confirm("是否确认删除")) {
-            $.get("/ajax_delete_picture/" + keyid + "",
-                    function (data, textStatus) {
-                        // $$("#showdelete_" + $$keyid + "").remove();
-                        alert("删除成功");
-                        $("#remove_" + keyid + "").remove();
-                    });
-        }
-        else
-            return false;
+            if (confirm("是否确认删除")) {
+                $.get("/ajax_delete_picture/" + keyid + "",
+                        function (data, textStatus) {
+                            // $$("#showdelete_" + $$keyid + "").remove();
+                            alert("删除成功");
+                            $("#remove_" + keyid + "").remove();
+                        });
+            }
+            else
+                return false;
 
         }
 
