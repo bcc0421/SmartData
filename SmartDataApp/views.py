@@ -261,10 +261,10 @@ def ajax_delete_picture(request, id=None):
         current_user = request.user
         if current_user == picture.author or current_user.is_staff:
             picture.delete()
-            response_data = {'success': True, 'info': '删除成功！', 'like': picture.keep}
+            response_data = {'success': True, 'info': '删除成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
-            response_data = {'success': True, 'info': '非作者，不能删除！', 'like': picture.keep}
+            response_data = {'success': True, 'info': '非作者，不能删除！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
     else:
         response_data = {'success': False, 'info': '仅接受POST请求！'}
