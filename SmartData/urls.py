@@ -22,4 +22,5 @@ urlpatterns = patterns('',
                        url(r'^ajax_upload_image/$', ajax_upload_image),
                        url(r'^like/(?P<id>\d+)/$', ajax_like),
                        url(r'^keep/(?P<id>\d+)/$', ajax_keep),
+                       url(r'^ajax_delete_picture/(?P<id>\d+)/$', ajax_delete_picture),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
