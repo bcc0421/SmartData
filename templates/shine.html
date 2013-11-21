@@ -210,9 +210,8 @@
         }
         function delete_img(obj) {
             var keyid = obj.name;
-            alert(keyid);
             if (confirm("是否确认删除")) {
-                $.get("/ajax_delete_picture/" + keyid + "",
+                $.post("/delete_picture/" + keyid + "/",
                         function (data, textStatus) {
                             // $$("#showdelete_" + $$keyid + "").remove();
                             alert("删除成功");
