@@ -20,6 +20,6 @@ urlpatterns = patterns('',
                        url(r'^profile/$', profile),
                        url(r'^shine/$', shine),
                        url(r'^ajax_upload_image/$', ajax_upload_image),
-                       url(r'^like/(?P<id>.+)/$', ajax_like),
-                       url(r'^keep/(?P<id>.+)/$', ajax_keep),
+                       url(r'^like/(?P<id>\d+)/$', ajax_like),
+                       url(r'^keep/(?P<id>\d+)/$', ajax_keep),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
