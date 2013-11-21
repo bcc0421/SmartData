@@ -292,7 +292,7 @@
 
 
             //文件上传地址
-            var url = "/ajax_upload_image/";
+            var url = "/upload_image/";
             //初始化，主要是设置上传参数，以及事件处理方法(回调函数)
             $('#id_img').fileupload({
                 autoUpload: false,//是否自动上传
@@ -301,6 +301,7 @@
                 maxNumberOfFiles: 1,
                 done: function (e, data) {//设置文件上传完毕事件的回调函数
                     alert(data.result.info);
+                    window.location.href = '/shine/'
                 },
                 fail: function (e, data) {
                     alert("网络异常，请检查！");
