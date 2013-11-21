@@ -195,7 +195,6 @@ def shine(request):
 @login_required
 def ajax_upload_image(request):
     if request.method == 'POST':
-
         upload_src = request.FILES.get('upload_img', None)
         comment = request.POST.get('introduction', None)
         if upload_src is None:
