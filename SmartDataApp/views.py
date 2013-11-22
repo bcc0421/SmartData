@@ -1,6 +1,8 @@
 #coding:utf-8
 import re
 
+import logging
+
 import simplejson
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
@@ -11,6 +13,7 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.core import serializers
 
 from SmartDataApp.models import Picture, ProfileDetail
 
@@ -63,6 +66,7 @@ def register(request):
             if email:
                 user.email = email
             user.save()
+            logging.info("user %s, userid %s register success" % (username, user.id))
             user = authenticate(username=username, password=password)
             if flag:
                 response_data = {'success': True}
@@ -125,6 +129,7 @@ def profile(request):
                             'success': False,
                             'info': '密码不正确!'
                         })
+            logging.info("user %s, userid %s change password success" % (user.username, user.id))
             if flag:
                 response_data = {'success': True, 'info': '密码修改成功!'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
@@ -190,7 +195,11 @@ def shine(request):
         pictures = list(Picture.objects.all().order_by('-like'))
     elif order == u'keep':
         pictures = list(Picture.objects.all().order_by('-keep'))
-
+    mobile = request.GET.get('mobile', None)
+    if mobile:
+        pictures = serializers.serialize("json", pictures)
+        response_data = {'username': username, 'pictures': pictures, 'user_id': user.id}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
     return render_to_response('shine.html', {
         'username': username,
         'pictures': pictures,
