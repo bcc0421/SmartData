@@ -23,4 +23,5 @@ urlpatterns = patterns('',
                        url(r'^like/(?P<id>\d+)/$', ajax_like),
                        url(r'^keep/(?P<id>\d+)/$', ajax_keep),
                        url(r'^delete_picture/(?P<id>\d+)/$', ajax_delete_picture),
+                       url(r'^cloudlife/$', cloudlife),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

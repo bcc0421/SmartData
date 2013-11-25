@@ -17,6 +17,8 @@ from django.core import serializers
 
 from SmartDataApp.models import Picture, ProfileDetail
 
+def cloudlife(request):
+    return render_to_response('cloudlife.html')
 
 def index(request):
     return render_to_response('index.html', {"hide": True})

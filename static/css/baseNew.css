@@ -1,0 +1,40 @@
+* {margin:0;padding:0;}
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, form, img, dl, dt, dd, table, th, td, blockquote, fieldset, div, strong, label, em{border:0 none; margin:0; padding:0;}
+ul, ol, li{list-style:none outside none;}
+input, button{font-size:12px; margin:0; vertical-align: middle;}
+body{font-family:Arial,Helvetica,sans-serif; font-size:12px; color:#686868;}
+table{border-collapse:collapse; border-spacing:0;}
+b, em, i{font-style:normal; font-weight:normal;}
+h1, h2, h3, h4{font-size:14px; font-style:normal;}
+h5{font-size:12px;}
+h6{font-size:12px; font-weight:normal;}
+a {text-decoration:none; color:#686868}
+ul, li{list-style:none outside none; margin:0; padding:0;}
+img{border:0 none; margin:0; padding:0; vertical-align:middle}
+.clearfix:after{clear:both; content:"."; display:block; height:0; visibility:hidden;}
+.clearfix {display: inline-table;}
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+.fn_clear, .fn_clearL {line-height:0;font-size:0;display:block;}
+.fn_clear {clear:both;}
+.fn_clearL {clear:left;}
+.fn_f0 {font-size:0;}
+.fn_left {float:left;}
+.fn_right {float:right;}
+.fn_none {display:none;}
+.fn_block {display:block;}
+.strike{ text-decoration:line-through;}
+.price_color{color:#d93535;}
+.yellow_color{color:#ff7e00;}
+.black_color{color:#000;}
+.cut_off_line{height:1px; overflow:hidden; background:#dadada; border:none; width:100%; text-indent:-1000px; font-size:0; color:#fff; margin:10px 0;}
+a.price_color:hover{color:#d93535; text-decoration:underline}
+a.yellow_color:hover{color:#ff7e00; text-decoration:underline}
+
+/*鼠标变形*/
+
+.func_address { cursor:pointer;}
+.main .borderChange,.Commodity .block_right ul li.borderChange{border:1px solid #686868;}

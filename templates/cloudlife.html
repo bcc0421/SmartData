@@ -1,0 +1,2078 @@
+{% extends "base.html" %}
+{% block title %}首页{% endblock %}
+{% block css %}
+        <link href="/static/css/page.css" rel="stylesheet">
+        <link href="/static/css/common.css" rel="stylesheet">
+        <link href="/static/css/base.css" rel="stylesheet">
+        <link href="/static/css/form.css" rel="stylesheet">
+        <link href="/static/css/propertyFee.css" rel="stylesheet">
+        <link href="/static/css/commonNew.css" rel="stylesheet">
+        <link href="/static/css//baseNew.css" rel="stylesheet">
+        <link href="/static/css/indexNew.css" rel="stylesheet">
+        <!--[if IE]>
+        <link href="http://cc.colourlife.com/common/css/ie.css" rel="stylesheet">
+        <![endif]-->
+    <style>
+
+        .help-inline {
+            display: block;
+            margin-left: 70px;
+            padding-top: 10px;
+        }
+
+        .error {
+            color: #f00;
+        }
+
+        input.error {
+            border-color: #f00;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+
+    <body class="s_info_lst">
+    <!-- 工具栏 start -->
+    <div class="topBanner_box">
+        <div class="toolbar el_container">
+
+            <!-- left part start -->
+            <div class="fn_left">
+                <a class="favorite el_btn" title="添加收藏">
+                    <i class="icon"></i>
+                    <span class="txt">添加收藏</span>
+                </a>
+                <a class="phoneToCL el_btn" title="手机彩之云" href="http://mapp.colourlife.com/" target="_blank">
+                    <i class="icon"></i>
+                    <span class="txt">手机彩之云</span>
+                </a>
+                <a class="ttWeibo shareBox el_btn" href="http://e.t.qq.com/caishenghuoshequ?preview" target="_blank">
+                    <i class="icon"></i>
+                </a>
+                <a class="sinaWeibo shareBox el_btn" href="http://e.weibo.com/3170349347/profile" target="_blank">
+                    <i class="icon"></i>
+                </a>
+                <a class="weixin shareBox el_btn">
+                    <i class="icon"></i>
+                    <span class="shareBox_inner">
+                        <strong class="shareBox_box">
+                            <img src="http://cc.colourlife.com/common/images/pic_blank.gif" class="codeImg">
+                            <span class="txt">关注微信公众账号，获取更多优惠。</span>
+                        </strong>
+                    </span>
+                </a>
+            </div>
+            <!-- left part end -->
+
+            <!-- right part start -->
+            <div class="fn_right">
+                <a href="http://passport.colourlife.com/site/login"
+                   class="optLink el_btn">[登录]</a><!-- title="登录" -->
+                <a href="http://passport.colourlife.com/site/reg" class="optLink el_btn" class="免费注册">[免费注册]</a>
+                        <span href="#" class="optMore el_btn">
+                    <span class="optMore_item">
+                        <span class="txt" title="帮助">帮助</span>
+                        <i class="icon"></i>
+                    </span>
+                    <span class="optMore_box">
+                        <div class="optMore_box_inner">
+                            <a href="http://www.colourlife.com/help?category_id=40"
+                               class="optMore_link optMore_link_first"> 常见问题</a>
+                            <a href="http://www.colourlife.com/help?category_id=27"
+                               class="optMore_link">售后服务</a>
+                            <a href="http://www.colourlife.com/help?category_id=28"
+                               class="optMore_link optMore_link_last">客服中心</a>
+                        </div>
+                    </span>
+                </span>
+            </div>
+            <!-- right part end -->
+
+            <div class="fn_clear"></div>
+        </div>
+    </div>
+    <!-- 工具栏 end -->
+
+    <!-- 头部广告栏 start -->
+    <div class="topBanner el_container">
+        <a href="http://mapp.colourlife.com/act/201311/chinaWake/index.html" class="imgLink" target="_blank">
+            <img src="http://cc.colourlife.com/common/images/ad/12new.jpg" class="demoPic">
+        </a>
+    </div>
+    <!-- 头部广告栏 end -->
+
+    <!-- 搜索栏 start -->
+    <div class="searchBar el_container">
+
+        <!-- logo start -->
+        <div class="logoBox fn_left">
+            <a href="http://bslt.c.colourlife.com/" class="logoLink" title="彩生活">
+                <img src="http://cc.colourlife.com/common/images/pic_blank.gif" class="logoImg">
+            </a>
+        </div>
+        <!-- logo end -->
+
+        <!-- search start -->
+        <form id="search-form" action="/site/search" method="GET">
+            <div class="searchBox fn_left">
+                <div class="searchBox_tabs">
+                    <a class="searchBox_tab searchBox_tab_cur"
+                       val="1">商家</a>
+                    <a class="searchBox_tab "
+                       val="2">商品</a>
+                    <a class="searchBox_tab "
+                       val="3">信息</a>
+                    <input class="searchBox_tab_val" name='searchType' type="hidden"
+                           value="1">
+                </div>
+                <div class="searchBox_container">
+                    <input type="text" name='searchText' class="keyword_by_el_inText el_inText"
+                           value="" defaultTxt="搜索">
+
+                    <button class="search_by_el_btn el_btn">
+                        <i class="icon"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- search end -->
+
+        <!-- telephone start -->
+        <div class="phoneBox fn_right">
+                <span class="phoneBox_item">
+                    <i class="icon"></i>
+                    <span class="txt">客服热线:4008 893 893</span>
+                </span>
+        </div>
+        <!-- telephone end -->
+
+        <div class="fn_clear"></div>
+    </div>
+    <!-- 搜索栏 end -->
+
+    <!-- 主导航栏 start -->
+    <div class="mainNav">
+        <div class="mainNav_box el_container">
+            <span class="nowPos">碧水龙庭</span>
+            <!-- address start -->
+                <span class="addressBox">
+                    <span class="el_selectBox">
+                        <span class="el_selectBox_valBox el_selectBox_valBox_bg">
+                            <input type="text" class="el_selectBox_val" value="切换小区" disabled="disabled">
+                            <i class="el_selectBox_icon"></i>
+                        </span>
+                    </span>
+                </span>
+            <!-- address end -->
+
+            <a href="http://bslt.c.colourlife.com/" class="mainNav_item" title="小区首页">
+                <span class="txt">小区首页</span>
+            </a>
+
+            <a href="/property" class="mainNav_item" title="物业服务">
+                <span class="txt">物业服务</span>
+            </a>
+
+            <a href="/localLife" class="mainNav_item" title="本地生活">
+                <span class="txt">本地生活</span>
+            </a>
+
+            <a href="/goods" class="mainNav_item" title="生活超市">
+                <span class="txt">生活超市</span>
+            </a>
+
+            <a href="/cheap" class="mainNav_item" title="天天特价">
+                <span class="txt">天天特价</span>
+            </a>
+
+
+            <a href="/facility" class="mainNav_item" title="便民服务">
+                <span class="txt">便民服务</span>
+            </a>
+        </div>
+    </div>
+    <!-- 主导航栏 end -->
+
+    <div class="container" id="page">
+
+
+    <!-- 主要内容区域 start -->
+    <div class="s_sur_ix main el_container">
+    <div class="el_blank_h20"></div>
+
+    <!-- 左侧 start -->
+    <div class="el_w_203 fn_left">
+        <!-- 服务列表 start -->
+        <div class="sur_ix_serBox">
+            <!-- 元素 start -->
+            <a class="item_s1 item" href="/repair/create">
+                <i class="icon"></i>
+                <span class="title">报修</span>
+            </a>
+            <!-- 元素 end -->
+
+            <!-- 元素 start -->
+            <a class="item_s2 item" href="/complain/create">
+                <i class="icon"></i>
+                <span class="title">投诉</span>
+            </a>
+            <!-- 元素 end -->
+
+            <!-- 元素 start -->
+            <a class="item_s3 item" href="/property/createProperty">
+                <i class="icon"></i>
+                <span class="title">物业缴费</span>
+            </a>
+            <!-- 元素 end -->
+
+            <!-- 元素 start -->
+            <a class="item_s4 item" href="/property/createParking">
+                <i class="icon"></i>
+                <span class="title">停车费</span>
+            </a>
+            <!-- 元素 end -->
+
+            <!-- 元素 start -->
+            <a class="item_s5 item" href="/phoneRecharge">
+                <i class="icon"></i>
+                <span class="title">充值</span>
+            </a>
+            <!-- 元素 end -->
+
+            <!-- 元素 start -->
+            <a class="item_s6 item" href="/educate">
+                <i class="icon"></i>
+                <span class="title">教育</span>
+            </a>
+            <!-- 元素 end -->
+
+            <!-- 元素 start -->
+            <a class="item_s7 item" href="http://caizhijia.p.colourlife.com/">
+                <i class="icon"></i>
+                <span class="title">房屋</span>
+            </a>
+            <!-- 元素 end -->
+
+            <!-- 元素 start -->
+            <a class="item_s8 item" target="_blank" href="/life?type=1">
+                <i class="icon"></i>
+                <span class="title">餐饮</span>
+            </a>
+            <!-- 元素 end -->
+        </div>
+        <!-- 服务列表 end -->
+    </div>
+    <!-- 左侧 end -->
+
+    <!-- 中部 start -->
+    <div class="el_w_524 fn_left">
+        <!-- 广告滚动 start -->
+        <div class="sur_ix_by_skyScrollPicBox skyScrollPicBox">
+            <div class="skyScrollPicBox_btns">
+                <a class="skyScrollPicBox_btn"></a>
+                <a class="skyScrollPicBox_btn"></a>
+                <a class="skyScrollPicBox_btn"></a>
+                <a class="skyScrollPicBox_btn"></a>
+            </div>
+            <div class="skyScrollPicBox_pics">
+                <a href="#" class="skyScrollPicBox_picLink">
+                    <img src="http://cc.colourlife.com/common/images/ad/13.jpg" class="skyScrollPicBox_pic">
+                </a>
+                <a href="#" class="skyScrollPicBox_picLink">
+                    <img src="http://cc.colourlife.com/common/images/ad/14.jpg" class="skyScrollPicBox_pic">
+                </a>
+                <a href="#" class="skyScrollPicBox_picLink">
+                    <img src="http://cc.colourlife.com/common/images/ad/15.jpg" class="skyScrollPicBox_pic">
+                </a>
+                <a target="_blank" href="http://mapp.colourlife.com/act/201310/wsq/index.html"
+                   class="skyScrollPicBox_picLink">
+                    <img src="http://cc.colourlife.com/common/images/ad/117.jpg" class="skyScrollPicBox_pic"/>
+                </a>
+            </div>
+        </div>
+        <!-- 广告滚动 end -->
+
+        <!-- 便民服务 start
+        <div class="sur_ix_cSerBox">
+                        <a class="item_s1 item" href="/facility/156"
+                title="深圳原子锁">
+                <img src="http://cimg.colourlife.com/images/2013/08/22/11/433674719.jpg" class="icon">
+                <p class="title">深圳原子锁</p>
+                <p class="phone">13530682968</p>
+            </a>
+                        <a class="item_s2 item" href="/facility/157"
+                title="深圳龙之方家电维修">
+                <img src="http://cimg.colourlife.com/images/2013/08/10/02/351376274.jpg" class="icon">
+                <p class="title">深圳龙之方家电维修</p>
+                <p class="phone">18926007359</p>
+            </a>
+                        <a class="item_s3 item" href="/facility/252"
+                title="深圳市兰斐婚纱摄影有限公司">
+                <img src="http://cimg.colourlife.com/images/2013/09/24/14/593069293.jpg" class="icon">
+                <p class="title">深圳市兰斐婚纱摄影有限公司</p>
+                <p class="phone">400-7881520</p>
+            </a>
+                    </div>
+       便民服务 end -->
+    </div>
+    <!-- 中部 end -->
+
+    <!-- 右侧 start -->
+    <div class="el_w_237 fn_right">
+        <!-- 右侧焦点图 start -->
+        <div>
+            <a href="/event">
+                <img src="http://cc.colourlife.com/common/images/184x34.gif"/>
+            </a>
+        </div>
+        <!-- 右侧焦点图 end -->
+        <!-- 通知 start -->
+        <div class="sur_ix_infoBox">
+            <div class="titBox">
+                <i class="icon"></i>
+                <a class="title link" href="/notify">通知</a>
+            </div>
+
+            <div class="conBox">
+                <ul>
+                    <li class="conBox1">
+                        <a class="link" href="/notify?category_id=2">
+                            [小区通知]
+                        </a>
+                        <a class="link link1" href="/notify/51" title="活动正式开启---幸福中国行金秋11月感恩行动">
+                            活动正式开启---幸…… </a>
+                    </li>
+                    <li class="conBox1">
+                        <a class="link" href="/notify?category_id=3">
+                            [资 讯]
+                        </a>
+                        <a class="link link1" href="/notify/50" title="彩生活打造幸福温暖社区">
+                            彩生活打造幸福温暖社…… </a>
+                    </li>
+                    <li class="conBox1">
+                        <a class="link" href="/notify?category_id=3">
+                            [资 讯]
+                        </a>
+                        <a class="link link1" href="/notify/49" title="幸福中国行金秋11月感恩行动">
+                            幸福中国行金秋11月…… </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 通知 end -->
+
+        <!-- 登录注册 start -->
+        <!-- 登录注册 end -->
+
+        <!-- 物业费、停车费、手机充值 start -->
+        <div class="defaultSwitchBox switchBox">
+            <div class="headBox">
+                 <span class="headBox_itemBox first" tarIndex="1">
+                     <a class="headBox_item">手机充值</a>
+                 </span>
+                <!--<span class="headBox_itemBox" tarIndex="2">
+                    <a class="headBox_item">Q币</a>
+                </span>
+                <span class="headBox_itemBox" tarIndex="3">
+                    <a class="headBox_item">游戏</a>
+                </span>-->
+            </div>
+            <div class="containBox">
+                <!-- 手机充值 start -->
+                <div class="containBox_inner" srcIndex="1">
+                    <form class="form-horizontal" id="phoneRecharge-form" action="/" method="post">
+                        <div class="formBox Pmoney">
+                            <div class="row">
+                                <label class="el_lab" for="PhoneRechargeForm_mobile" style="width:73px">手机号码</label>:
+                                <input class="el_inText" id="mobile" placeholder="请填写手机号"
+                                       name="PhoneRechargeForm[mobile]" type="text"/></div>
+                            <div class="row mobile_info"></div>
+                            <div class="row">
+                                <label class="el_lab" for="PhoneRechargeForm_faceValue">面值</label>:
+                            <span class="upToCardSelectBox default_by_el_selectBox el_selectBox">
+                                <select class="shoujichongzhi" name="PhoneRechargeForm[faceValue]"
+                                        id="PhoneRechargeForm_faceValue">
+                                    <option value="50">50元</option>
+                                    <option value="100">100元</option>
+                                    <option value="200">200元</option>
+                                </select>                                                            </span>
+                            </div>
+                            <input type="hidden" id='mobile_type' name='PhoneRechargeForm[type]'>
+
+                            <div class="row">
+                                <label class="el_lab">售价</label>:
+                                <span class="price"></span>
+                            </div>
+                            <div class="btns">
+                                <!--<a href="" class="mark el_btn_gray_xxxl el_btn btn">立即充值</a>-->
+                                <a href="http://passport.colourlife.com/site/login"
+                                   class="el_btn_gray_sl el_btn">立即充值</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- 手机充值 end -->
+                <!-- Q币 start -->
+                <!--<div class="containBox_inner" srcIndex="2">
+                    <div class="formBox Qmoney">
+                        <div class="row">
+                            <label class="el_lab">QQ：</label>
+                            <input class="el_inText" type="text" value="QQ号" defaultTxt="QQ号">
+                        </div>
+                        <div class="row">
+                            <label class="el_lab">业务：</label>
+                                      <span class="upToCardSelectBox default_by_el_selectBox el_selectBox">
+                                          <select class="shoujichongzhi">
+                                              <option value="会员">会员</option>
+                                              <option value="Q币">Q币</option>
+                                              <option value="红钻">红钻</option>
+                                              <option value="绿钻">绿钻</option>
+                                              <option value="黄钻">黄钻</option>
+                                          </select>
+                                      </span>
+                        </div>
+                        <div class="row">
+                            <label class="el_lab">数量：</label>
+                            <input class="el_inText el_amount" type="text" value="10" defaultTxt="10">
+                            <label>个</label>
+                        </div>
+                        <div class="row">
+                            <label class="el_lab">期限：</label>
+                                      <span class="upToCardSelectBox default_by_el_selectBox el_selectBox">
+                                          <select class="shoujichongzhi">
+                                              <option value="1个月">1个月</option>
+                                              <option value="3个月">3个月</option>
+                                              <option value="6个月">6个月</option>
+                                              <option value="12个月">12个月</option>
+                                          </select>
+                                      </span>
+                        </div>
+                        <div class="row" style="margin:0;">
+                            <label class="el_lab" style="line-height:normal;">售价：</label>
+                            <span class="price">10元</span>
+                        </div>
+                        <div class="btns">
+                            <button class="el_btn_gray_sl el_btn"><span class="txt">立即购买</span></button>
+                        </div>
+                    </div>
+                </div>-->
+                <!-- Q币 end -->
+                <!-- 游戏 start -->
+                <!--<div class="containBox_inner" srcIndex="3">
+                    <div class="formBox game">
+                        <div class="row">
+                            <label class="el_lab">游戏：</label>
+                                      <span class="upToCardSelectBox default_by_el_selectBox el_selectBox">
+                                          <select class="shoujichongzhi">
+                                              <option value="请选择游戏">请选择游戏</option>
+                                          </select>
+                                      </span>
+                        </div>
+                        <div class="row">
+                            <label class="el_lab">面值：</label>
+                                      <span class="upToCardSelectBox default_by_el_selectBox el_selectBox">
+                                          <select class="shoujichongzhi mianzhi">
+                                              <option value="50元">50元</option>
+                                              <option value="100元">100元</option>
+                                          </select>
+                                      </span>
+                                      <span>
+                                          售价：<span>49元</span>
+                                      </span>
+                        </div>
+                        <div class="row">
+                            <label class="el_lab">账号：</label>
+                            <input class="el_inText" type="text" value="账号" defaultTxt="账号">
+                        </div>
+                        <div class="row">
+                            <label class="el_lab">区：</label>
+                                      <span class="upToCardSelectBox default_by_el_selectBox el_selectBox">
+                                          <select class="shoujichongzhi">
+                                              <option value="请选择分区">请选择分区</option>
+                                          </select>
+                                      </span>
+                        </div>
+                        <div class="btns">
+                            <button class="el_btn_gray_sl el_btn"><span class="txt">立即充值</span></button>
+                        </div>
+                    </div>
+                </div>-->
+                <!-- 游戏 end -->
+            </div>
+        </div>
+        <!-- 物业费、停车费、手机充值 end -->
+    </div>
+    <!-- 右侧 end -->
+    <div class="el_blank_h10 fn_clear"></div>
+
+
+    <!-- 周边优惠 start -->
+    <div class="third_content">
+        <div class="clearfix">
+            <a href="/life">
+                <div class="ttHead">&nbsp;周边优惠</div>
+            </a>
+            <a href="/life" class="fn_right yellow_color" style="margin:8px 10px 0 0;">&gt;&gt;更多</a>
+        </div>
+        <div class="blockcontainer clearfix">
+            <div class="block_left">
+                <a href="#"><img src="http://cc.colourlife.com/common/images/ad/188x482.jpg" height="482" width="188"
+                                 alt="个性化的专业旅游"></a>
+            </div>
+            <div class="block_center content_switch">
+                <ul>
+                    <li class="Hborder">
+                        <a href="http://fygjyjhs333.p.colourlife.com" title="深圳市梵羽国际瑜伽会所">
+                            <img src="http://cimg.colourlife.com/images/2013/11/13/17/150376427.jpg" alt="深圳市梵羽国际瑜伽会所">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p><a href="http://fygjyjhs333.p.colourlife.com">深圳市梵羽国际瑜伽会所</a></p>
+
+                            <p>0755-23056682</p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://wdssg.p.colourlife.com" title="味道涮涮锅">
+                            <img src="http://cimg.colourlife.com/images/2013/09/25/16/441894770." alt="味道涮涮锅">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p><a href="http://wdssg.p.colourlife.com">味道涮涮锅</a></p>
+
+                            <p>0755-29528589</p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://hxh.p.colourlife.com" title="和谐号餐厅">
+                            <img src="http://cimg.colourlife.com/images/2013/09/25/16/071844046." alt="和谐号餐厅">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p><a href="http://hxh.p.colourlife.com">和谐号餐厅</a></p>
+
+                            <p>0755-29014006</p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://slxt.p.colourlife.com" title="莎莉纤体美颜养生馆">
+                            <img src="http://cimg.colourlife.com/images/2013/09/25/16/210224634." alt="莎莉纤体美颜养生馆">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p><a href="http://slxt.p.colourlife.com">莎莉纤体美颜养生馆</a></p>
+
+                            <p>0755-29828119</p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://snmfsld.p.colourlife.com" title="首脑美发沙龙">
+                            <img src="http://cimg.colourlife.com/images/2013/09/25/16/330451542." alt="首脑美发沙龙">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p><a href="http://snmfsld.p.colourlife.com">首脑美发沙龙</a></p>
+
+                            <p>13670051488</p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://bgx.p.colourlife.com" title="百鲜果水果专卖">
+                            <img src="http://cimg.colourlife.com/images/2013/09/25/15/365716298." alt="百鲜果水果专卖">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p><a href="http://bgx.p.colourlife.com">百鲜果水果专卖</a></p>
+
+                            <p>0755-29737310</p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://kltn45.p.colourlife.com" title="克丽缇娜">
+                            <img src="http://cimg.colourlife.com/images/2013/11/08/15/303691248.jpg" alt="克丽缇娜">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p><a href="http://kltn45.p.colourlife.com">克丽缇娜</a></p>
+
+                            <p>0755--29528139</p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://xingshikong.p.colourlife.com" title="星时空KTV">
+                            <img src="http://cimg.colourlife.com/images/2013/11/22/10/481270648.jpg" alt="星时空KTV">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p><a href="http://xingshikong.p.colourlife.com">星时空KTV</a></p>
+
+                            <p>0755-28188159</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- 广告栏 start -->
+            <!-- 广告栏 end -->
+        </div>
+    </div>
+    <div class="el_blank_h10 fn_clear"></div>
+    <!--周边优惠 end-->
+
+    <!-- 天天特价 start -->
+    <div class="fourth_content">
+        <ul class="dayday_bargain clearfix">
+            <li>
+                <div class="bargain_info">
+                    <div class="bargain_img">
+                        <img src="http://cimg.colourlife.com/images/2013/11/08/17/152370934.jpg" alt="特价商品图片">
+                    </div>
+                    <div class="bargain_txt">
+                        <h5><a href="/goods/290" title="湖南沅江无籽蜜桔 5斤礼盒装">湖南沅江无籽蜜桔 5斤礼……</a></h5>
+
+                        <p><span class="strike">原价：<span>￥10.00</span></span></p>
+
+                        <p class="take_away_price">现价：<span>￥7.50</span></p>
+
+                        <p>已售出：<span>213</span>份</p>
+                        <a href="/goods/290" class="buy">购买</a>
+                    </div>
+                </div>
+                <div class="bargain_countdown countdown1">
+
+                    <p>剩余时间：<span class="hour">133</span> 小时 <span class="minute">27</span> 分 <span
+                            class="sec">38</span> 秒</p>
+
+                    <p style="display:none;"><span class="year">2013</span><span class="month">11</span><span
+                            class="day">30</span></p>
+                </div>
+                <img src="http://cc.colourlife.com/common/images/bargain.png" alt="天天特价" class="descorate"/>
+            </li>
+            <li>
+                <div class="bargain_info">
+                    <div class="bargain_img">
+                        <img src="http://cimg.colourlife.com/images/2013/11/13/10/424340824.jpg" alt="特价商品图片">
+                    </div>
+                    <div class="bargain_txt">
+                        <h5><a href="/goods/308" title="湖南沅江无籽蜜桔 10斤礼盒装">湖南沅江无籽蜜桔 10斤……</a></h5>
+
+                        <p><span class="strike">原价：<span>￥30.00</span></span></p>
+
+                        <p class="take_away_price">现价：<span>￥15.00</span></p>
+
+                        <p>已售出：<span>57</span>份</p>
+                        <a href="/goods/308" class="buy">购买</a>
+                    </div>
+                </div>
+                <div class="bargain_countdown countdown1">
+
+                    <p>剩余时间：<span class="hour">133</span> 小时 <span class="minute">27</span> 分 <span
+                            class="sec">38</span> 秒</p>
+
+                    <p style="display:none;"><span class="year">2013</span><span class="month">11</span><span
+                            class="day">30</span></p>
+                </div>
+                <img src="http://cc.colourlife.com/common/images/bargain.png" alt="天天特价" class="descorate"/>
+            </li>
+            <li>
+                <div class="bargain_info">
+                    <div class="bargain_img">
+                        <img src="http://cimg.colourlife.com/images/2013/09/29/18/302555898." alt="特价商品图片">
+                    </div>
+                    <div class="bargain_txt">
+                        <h5><a href="/goods/205" title="菇木真 6合1礼盒 (5瓶香菇酱+一瓶鱼子金针菇酱)">菇木真 6合1礼盒 (5……</a></h5>
+
+                        <p><span class="strike">原价：<span>￥80.00</span></span></p>
+
+                        <p class="take_away_price">现价：<span>￥60.00</span></p>
+
+                        <p>已售出：<span>12</span>份</p>
+                        <a href="/goods/205" class="buy">购买</a>
+                    </div>
+                </div>
+                <div class="bargain_countdown countdown1">
+
+                    <p>剩余时间：<span class="hour">133</span> 小时 <span class="minute">27</span> 分 <span
+                            class="sec">38</span> 秒</p>
+
+                    <p style="display:none;"><span class="year">2013</span><span class="month">11</span><span
+                            class="day">30</span></p>
+                </div>
+                <img src="http://cc.colourlife.com/common/images/bargain.png" alt="天天特价" class="descorate"/>
+            </li>
+        </ul>
+    </div>
+    <!-- 天天特价 end -->
+
+    <div class="el_blank_h10 fn_clear"></div>
+
+    <div class="Commodity">
+        <div class="levels clearfix">
+            <div class="ttHead">
+                <span>1F</span>
+                <a href="/goods/list/19">
+                    食品饮料、酒水 </a>
+            </div>
+            <div class="level_menu tab_goods_content">
+                <span style="display:none;" onclick="goodsTab(this,2)" key="2" class="tab_2" tag="27">清凉饮料</span>
+                <span style="display:none;" onclick="goodsTab(this,2)" key="2" class="tab_2" tag="29">粮油干货</span>
+                <span style="display:none;" onclick="goodsTab(this,2)" key="2" class="tab_2" tag="97">冷冻食品</span>
+                <span style="display:none;" onclick="goodsTab(this,2)" key="2" class="tab_2" tag="114">酒类</span>
+            </div>
+        </div>
+        <div class="blockcontainer clearfix">
+            <div class="block_left " style="padding-top: 0px;">
+                <img style="padding-top: 0px;" src="http://cc.colourlife.com/common/images/ad/190_500.jpg"/>
+            </div>
+            <div class="block_right">
+                <ul id="27" style="display: none" class="tab_content_2">
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=291">
+                            <img src="http://cimg.colourlife.com/images/2013/11/11/14/540218160.jpg"
+                                 alt="长白山高山蓝莓酒 11° 醇香型 （单瓶）">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="长白山高山蓝莓酒 11° 醇香型 （单瓶）">长白山高山蓝莓酒 11°……</p>
+
+                            <p><span class="take_away_price">￥118.00</span></p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=292">
+                            <img src="http://cimg.colourlife.com/images/2013/11/11/15/251213557.jpg"
+                                 alt="羅曼蒂蓝7°蓝莓酒（单瓶）">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="羅曼蒂蓝7°蓝莓酒（单瓶）">羅曼蒂蓝7°蓝莓酒（单瓶……</p>
+
+                            <p><span class="take_away_price">￥46.00</span></p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=293">
+                            <img src="http://cimg.colourlife.com/images/2013/11/11/15/474955118.jpg"
+                                 alt="百禄百瑞红钻蓝莓果汁 90元/箱">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="百禄百瑞红钻蓝莓果汁 90元/箱">百禄百瑞红钻蓝莓果汁 9……</p>
+
+                            <p><span class="take_away_price">￥90.00</span></p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=294">
+                            <img src="http://cimg.colourlife.com/images/2013/11/11/15/560831718.jpg"
+                                 alt="百禄百瑞蓝钻蓝莓果汁 135元/箱">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="百禄百瑞蓝钻蓝莓果汁 135元/箱">百禄百瑞蓝钻蓝莓果汁 1……</p>
+
+                            <p><span class="take_away_price">￥135.00</span></p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=295">
+                            <img src="http://cimg.colourlife.com/images/2013/11/11/16/025143812.jpg"
+                                 alt="百禄百瑞极品蓝莓果汁 216元/箱">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="百禄百瑞极品蓝莓果汁 216元/箱">百禄百瑞极品蓝莓果汁 2……</p>
+
+                            <p><span class="take_away_price">￥216.00</span></p>
+                        </div>
+                    </li>
+                </ul>
+                <ul id="28" style="display: none" class="tab_content_2">
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=296">
+                            <img src="http://cimg.colourlife.com/images/2013/11/12/10/420919346.jpg"
+                                 alt="野树林 纯天然野生蜜制蓝莓果干100g 独立小包">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="野树林 纯天然野生蜜制蓝莓果干100g 独立小包">野树林 纯天然野生蜜制蓝……</p>
+
+                            <p><span class="take_away_price">￥38.00</span></p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=297">
+                            <img src="http://cimg.colourlife.com/images/2013/11/12/10/480876517.jpg"
+                                 alt="野树林野生蓝莓果干200克 大兴安岭森林特产">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="野树林野生蓝莓果干200克 大兴安岭森林特产">野树林野生蓝莓果干200……</p>
+
+                            <p><span class="take_away_price">￥78.00</span></p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=298">
+                            <img src="http://cimg.colourlife.com/images/2013/11/12/10/523193886.jpg"
+                                 alt="野树林100g盒装野生蓝莓果干">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="野树林100g盒装野生蓝莓果干">野树林100g盒装野生蓝……</p>
+
+                            <p><span class="take_away_price">￥40.00</span></p>
+                        </div>
+                    </li>
+                </ul>
+                <ul id="29" style="display: none" class="tab_content_2">
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=205">
+                            <img src="http://cimg.colourlife.com/images/2013/09/29/18/302555898."
+                                 alt="菇木真 6合1礼盒 (5瓶香菇酱+一瓶鱼子金针菇酱)">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="菇木真 6合1礼盒 (5瓶香菇酱+一瓶鱼子金针菇酱)">菇木真 6合1礼盒 (5……</p>
+
+                            <p><span class="take_away_price">￥60.00</span></p>
+                        </div>
+                    </li>
+                    <li class="Hborder">
+                        <a href="http://bslt.c.colourlife.com/goods/view?id=203">
+                            <img src="http://cimg.colourlife.com/images/2013/09/29/17/581751062."
+                                 alt="菇木真组合干货礼盒装（花菇150g+猴头菇100g）">
+                        </a>
+
+                        <div class="take_away_info">
+                            <p title="菇木真组合干货礼盒装（花菇150g+猴头菇100g）">菇木真组合干货礼盒装（花……</p>
+
+                            <p><span class="take_away_price">￥128.00</span></p>
+                        </div>
+                    </li>
+                </ul>
+                <ul id="97" style="display: none" class="tab_content_2">
+                </ul>
+                <ul id="114" style="display: none" class="tab_content_2">
+                </ul>
+                <ul id="115" style="display: none" class="tab_content_2">
+                </ul>
+                <ul id="157" style="display: none" class="tab_content_2">
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="Commodity">
+    <div class="levels clearfix">
+        <div class="ttHead">
+            <span>2F</span>
+            <a href="/goods/list/136">
+                生蔬水果 </a>
+        </div>
+        <div class="level_menu tab_goods_content">
+            <span style="display:none;" onclick="goodsTab(this,5)" key="5" class="tab_5" tag="137">水果</span>
+            <span style="display:none;" onclick="goodsTab(this,5)" key="5" class="tab_5" tag="140">冷冻水产</span>
+        </div>
+    </div>
+    <div class="blockcontainer clearfix">
+    <div class="block_left " style="padding-top: 0px;">
+        <img style="padding-top: 0px;" src="http://cc.colourlife.com/common/images/ad/guanggao2.jpg"/>
+    </div>
+    <div class="block_right">
+    <ul id="137" style="display: none" class="tab_content_5">
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=290">
+                <img src="http://cimg.colourlife.com/images/2013/11/08/17/152370934.jpg" alt="湖南沅江无籽蜜桔 5斤礼盒装">
+            </a>
+
+            <div class="take_away_info">
+                <p title="湖南沅江无籽蜜桔 5斤礼盒装">湖南沅江无籽蜜桔 5斤礼……</p>
+
+                <p><span class="take_away_price">￥7.50</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=308">
+                <img src="http://cimg.colourlife.com/images/2013/11/13/10/424340824.jpg" alt="湖南沅江无籽蜜桔 10斤礼盒装">
+            </a>
+
+            <div class="take_away_info">
+                <p title="湖南沅江无籽蜜桔 10斤礼盒装">湖南沅江无籽蜜桔 10斤……</p>
+
+                <p><span class="take_away_price">￥15.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=270">
+                <img src="http://cimg.colourlife.com/images/2013/11/07/10/331184045.jpg" alt="德庆皇帝柑7.5kg 包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="德庆皇帝柑7.5kg 包邮">德庆皇帝柑7.5kg 包……</p>
+
+                <p><span class="take_away_price">￥128.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=271">
+                <img src="http://cimg.colourlife.com/images/2013/11/07/11/031239568.jpg" alt="广东珍珠番茄1kg 装 包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="广东珍珠番茄1kg 装 包邮">广东珍珠番茄1kg 装 ……</p>
+
+                <p><span class="take_away_price">￥16.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=272">
+                <img src="http://cimg.colourlife.com/images/2013/11/07/11/324596822.jpg" alt="进口甜橙2.5kg 包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="进口甜橙2.5kg 包邮">进口甜橙2.5kg 包邮</p>
+
+                <p><span class="take_away_price">￥68.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=273">
+                <img src="http://cimg.colourlife.com/images/2013/11/07/11/482543850.jpg" alt="美国蛇果4.5kg ">
+            </a>
+
+            <div class="take_away_info">
+                <p title="美国蛇果4.5kg ">美国蛇果4.5kg </p>
+
+                <p><span class="take_away_price">￥135.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=274">
+                <img src="http://cimg.colourlife.com/images/2013/11/07/14/200021393.jpg" alt="美国无籽黑提1kg ">
+            </a>
+
+            <div class="take_away_info">
+                <p title="美国无籽黑提1kg ">美国无籽黑提1kg </p>
+
+                <p><span class="take_away_price">￥56.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=275">
+                <img src="http://cimg.colourlife.com/images/2013/11/07/14/314056807.jpg" alt="山东A级水晶富士7.5kg 包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="山东A级水晶富士7.5kg 包邮">山东A级水晶富士7.5k……</p>
+
+                <p><span class="take_away_price">￥100.00</span></p>
+            </div>
+        </li>
+    </ul>
+    <ul id="138" style="display: none" class="tab_content_5">
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=223">
+                <img src="http://cimg.colourlife.com/images/2013/10/23/15/240254610.jpg" alt="田地精品金银甜玉米2.5kg 装 包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="田地精品金银甜玉米2.5kg 装 包邮">田地精品金银甜玉米2.5……</p>
+
+                <p><span class="take_away_price">￥28.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=225">
+                <img src="http://cimg.colourlife.com/images/2013/10/23/16/170631919.jpg" alt="田地精品包芥菜300g装 包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="田地精品包芥菜300g装 包邮">田地精品包芥菜300g装……</p>
+
+                <p><span class="take_away_price">￥4.90</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=226">
+                <img src="http://cimg.colourlife.com/images/2013/10/23/16/433298121.jpg" alt="田地精品芥菜300g 包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="田地精品芥菜300g 包邮">田地精品芥菜300g 包……</p>
+
+                <p><span class="take_away_price">￥7.50</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=229">
+                <img src="http://cimg.colourlife.com/images/2013/10/24/10/263840215.jpg" alt="生态菜心苗400g 包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="生态菜心苗400g 包邮">生态菜心苗400g 包邮</p>
+
+                <p><span class="take_away_price">￥8.80</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=231">
+                <img src="http://cimg.colourlife.com/images/2013/10/24/11/020858819.jpg" alt="田地精品意大利西生菜400g  包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="田地精品意大利西生菜400g  包邮">田地精品意大利西生菜40……</p>
+
+                <p><span class="take_away_price">￥7.50</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=232">
+                <img src="http://cimg.colourlife.com/images/2013/10/24/11/164193098.jpg" alt="东北香椿200g  包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="东北香椿200g  包邮">东北香椿200g 包邮</p>
+
+                <p><span class="take_away_price">￥14.90</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=233">
+                <img src="http://cimg.colourlife.com/images/2013/10/24/11/281432878.jpg" alt="田地精品奶白菜300g 包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="田地精品奶白菜300g 包邮">田地精品奶白菜300g ……</p>
+
+                <p><span class="take_away_price">￥5.90</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=234">
+                <img src="http://cimg.colourlife.com/images/2013/10/24/11/392889191.jpg" alt="生态芥蓝苗400g  包邮">
+            </a>
+
+            <div class="take_away_info">
+                <p title="生态芥蓝苗400g  包邮">生态芥蓝苗400g 包……</p>
+
+                <p><span class="take_away_price">￥8.50</span></p>
+            </div>
+        </li>
+    </ul>
+    <ul id="139" style="display: none" class="tab_content_5">
+    </ul>
+    <ul id="140" style="display: none" class="tab_content_5">
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=194">
+                <img src="http://cimg.colourlife.com/images/2013/09/24/10/120496434."
+                     alt="『九生堂』价值258元的阳澄湖大闸蟹6只礼盒装 仅售198元！">
+            </a>
+
+            <div class="take_away_info">
+                <p title="『九生堂』价值258元的阳澄湖大闸蟹6只礼盒装 仅售198元！">『九生堂』价值258元的……</p>
+
+                <p><span class="take_away_price">￥198.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=195">
+                <img src="http://cimg.colourlife.com/images/2013/09/24/10/350460855."
+                     alt="『九生堂』价值318元的阳澄湖大闸蟹8只礼盒装 仅售248元！">
+            </a>
+
+            <div class="take_away_info">
+                <p title="『九生堂』价值318元的阳澄湖大闸蟹8只礼盒装 仅售248元！">『九生堂』价值318元的……</p>
+
+                <p><span class="take_away_price">￥248.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=196">
+                <img src="http://cimg.colourlife.com/images/2013/09/24/10/132231302."
+                     alt="『九生堂』价值558元的阳澄湖大闸蟹10只礼盒装 仅售428元！">
+            </a>
+
+            <div class="take_away_info">
+                <p title="『九生堂』价值558元的阳澄湖大闸蟹10只礼盒装 仅售428元！">『九生堂』价值558元的……</p>
+
+                <p><span class="take_away_price">￥428.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=197">
+                <img src="http://cimg.colourlife.com/images/2013/09/24/10/290584537."
+                     alt="『九生堂』价值398元的阳澄湖大闸蟹10只礼盒装 仅售308元！">
+            </a>
+
+            <div class="take_away_info">
+                <p title="『九生堂』价值398元的阳澄湖大闸蟹10只礼盒装 仅售308元！">『九生堂』价值398元的……</p>
+
+                <p><span class="take_away_price">￥308.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=198">
+                <img src="http://cimg.colourlife.com/images/2013/09/24/10/294082795."
+                     alt="『九生堂』价值998元的阳澄湖大闸蟹10只礼盒装 仅售788元！">
+            </a>
+
+            <div class="take_away_info">
+                <p title="『九生堂』价值998元的阳澄湖大闸蟹10只礼盒装 仅售788元！">『九生堂』价值998元的……</p>
+
+                <p><span class="take_away_price">￥788.00</span></p>
+            </div>
+        </li>
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=199">
+                <img src="http://cimg.colourlife.com/images/2013/09/24/10/140995067."
+                     alt="『九生堂』价值1398元的阳澄湖大闸蟹10只礼盒装 仅售1088元！">
+            </a>
+
+            <div class="take_away_info">
+                <p title="『九生堂』价值1398元的阳澄湖大闸蟹10只礼盒装 仅售1088元！">『九生堂』价值1398元……</p>
+
+                <p><span class="take_away_price">￥1088.00</span></p>
+            </div>
+        </li>
+    </ul>
+    <ul id="141" style="display: none" class="tab_content_5">
+        <li class="Hborder">
+            <a href="http://bslt.c.colourlife.com/goods/view?id=202">
+                <img src="http://cimg.colourlife.com/images/2013/10/29/17/415518049.jpg" alt="【鸣吉园】湛江檀香鸡 皮薄肉香细嫩">
+            </a>
+
+            <div class="take_away_info">
+                <p title="【鸣吉园】湛江檀香鸡 皮薄肉香细嫩">【鸣吉园】湛江檀香鸡 皮……</p>
+
+                <p><span class="take_away_price">￥158.00</span></p>
+            </div>
+        </li>
+    </ul>
+    </div>
+
+    </div>
+
+    </div>
+    </div>
+    <!-- 主要内容区域 end -->
+
+    </div>
+    <!-- page -->
+
+    <!-- 服务快链区域 start -->
+    <div class="serverBar">
+        <div class="serverBar_box el_container">
+
+            <!-- borderBox start -->
+                <span class="borderBox">
+                    <!-- item start -->
+                                            <span class="item">
+                              <strong class="title">购物指南</strong>
+                                   <span class="box">
+                                                                    <a href="http://www.colourlife.com/help?category_id=24"
+                                                                       class="link"
+                                                                       title="购物流程">购物流程</a>
+                                    <em class="el_blank"></em>
+                                                                    <a href="http://www.colourlife.com/help?category_id=36"
+                                                                       class="link"
+                                                                       title="订单状态说明">订单状态说明</a>
+                                    <em class="el_blank"></em>
+                                                                    <a href="http://www.colourlife.com/help?category_id=37"
+                                                                       class="link"
+                                                                       title="优惠券说明">优惠券说明</a>
+                                    <em class="el_blank"></em>
+                                                               </span>
+                    </span>
+                                            <span class="item">
+                              <strong class="title">支付帮助</strong>
+                                   <span class="box">
+                                                                    <a href="http://www.colourlife.com/help?category_id=25"
+                                                                       class="link"
+                                                                       title="在线支付">在线支付</a>
+                                    <em class="el_blank"></em>
+                                                               </span>
+                    </span>
+                                            <span class="item">
+                              <strong class="title">物流配送</strong>
+                                   <span class="box">
+                                                                    <a href="http://www.colourlife.com/help?category_id=26"
+                                                                       class="link"
+                                                                       title="商家配送">商家配送</a>
+                                    <em class="el_blank"></em>
+                                                               </span>
+                    </span>
+                                            <span class="item">
+                              <strong class="title">服务条款</strong>
+                                   <span class="box">
+                                                                    <a href="http://www.colourlife.com/help?category_id=27"
+                                                                       class="link"
+                                                                       title="退换货说明">退换货说明</a>
+                                    <em class="el_blank"></em>
+                                                                    <a href="http://www.colourlife.com/help?category_id=28"
+                                                                       class="link"
+                                                                       title="联系客服">联系客服</a>
+                                    <em class="el_blank"></em>
+                                                               </span>
+                    </span>
+                                            <span class="item">
+                              <strong class="title">关于彩之云</strong>
+                                   <span class="box">
+                                                                    <a href="http://www.colourlife.com/about/8"
+                                                                       class="link"
+                                                                       title="彩之云简介">彩之云简介</a>
+                                    <em class="el_blank"></em>
+                                                                    <a href="http://www.colourlife.com/jobs"
+                                                                       class="link"
+                                                                       title="招贤纳士">招贤纳士</a>
+                                    <em class="el_blank"></em>
+                                                                    <a href="http://www.colourlife.com/help?category_id=29"
+                                                                       class="link"
+                                                                       title="供应商直通车">供应商直通车</a>
+                                    <em class="el_blank"></em>
+                                                                    <a href="http://www.colourlife.com/help?category_id=38"
+                                                                       class="link"
+                                                                       title="加盟商直通车">加盟商直通车</a>
+                                    <em class="el_blank"></em>
+                                                               </span>
+                    </span>
+
+                    <!-- item end -->
+                </span>
+            <!-- borderBox end -->
+
+            <!-- exBox start -->
+                <span class="exBox">
+                    <!-- item start -->
+                    <span class="item">
+                        <strong class="title">联系我们</strong>
+                        <span class="box">
+                            <a href="mailto:Service@colourlife.com" class="link"
+                               title="彩之云简介">Service@colourlife.com</a>
+                            <em class="el_blank"></em>
+                            <a class="txt">客服:4008-893-893</a>
+                            <em class="el_blank"></em>
+                            <!--<a class="txt">业务：0755-999999999</a>-->
+                        </span>
+                    </span>
+                    <!-- item end -->
+                </span>
+            <!-- exBox start -->
+        </div>
+    </div>
+    <!-- 服务快链区域 end -->
+
+    <!-- 公司链接区域 start -->
+    <div class="companyBar el_container">
+        <p class="quicklinkBox">
+            <a href="http://www.colourlife.com/" class="link"
+               title="彩生活">彩生活</a>
+            |
+            <a href="http://www.colourlife.com/about/20" class="link"
+               title="公司介绍">公司介绍</a>
+            |
+            <a href="http://www.colourlife.com/help?category_id=30" class="link"
+               title="服务协议">服务协议</a>
+            |
+            <a href="http://www.colourlife.com/help?category_id=31" class="link"
+               title="隐私权保护">隐私权保护</a>
+            |
+            <a href="http://www.colourlife.com/advertising/16" class="link"
+               title="广告服务">广告服务</a>
+            |
+            <a href="http://www.colourlife.com/help?category_id=28" class="link"
+               title="客服中心">客服中心</a>
+            |
+            <a href="http://www.colourlife.com/jobs" class="link"
+               title="加入我们">加入我们</a>
+            |
+            <a href="http://www.colourlife.com/help" class="link"
+               title="帮助">帮助</a>
+        </p>
+
+        <p class="copyrightBox">
+            CopyRigth ©2013 Colour Life All Rights Reserved <a target="_blank" href="http://www.miitbeian.gov.cn">粤ICP备13038151号</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cspan id='cnzz_stat_icon_1000022871'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000022871%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+        </p>
+
+    </div>
+    <!-- 公司链接区域 end -->
+    </body>
+    </html>
+
+{% endblock %}
+{% block script %}
+        <script src="http://cc.colourlife.com/common/js/colourlife.common.js"></script>
+        <script src="http://cc.colourlife.com/common/js/colourlife.page.js"></script>
+        <script src="http://cc.colourlife.com/common/js/colourlife.form.js"></script>
+        <!--[if IE 6]>
+        <script src="http://cc.colourlife.com/common/js/DD_belatedPNG.js"></script>
+        <script src="http://cc.colourlife.com/common/js/DD_belatedPNG.use.js"></script>
+        <![endif]-->
+         <script type="text/javascript">
+    //周边优惠内容切换
+    $(document).ready(function () {
+        var starindex = $(".directory_switch dd").index($(".directory_switch dd.selected"));
+        $(".content_switch ul").eq(starindex).show();
+        $(".content_switch ul").eq(starindex).siblings().hide();
+        $(".directory_switch dd").click(function () {
+            $(this).addClass("selected");
+            $(this).siblings("dd").removeClass("selected");
+            var index = $(".directory_switch dd").index(this);
+            $(".content_switch ul").eq(index).show();
+            $(".content_switch ul").eq(index).siblings("ul").hide();
+        })
+
+
+    })
+    //周边优惠内容切换
+    //获取当前URL 的主机部分
+    var url = window.location.host + "/site/";
+    var set_province_id = "";
+    var set_city_id = "";
+    var set_area_id = "";
+    //获取默认市级单位
+    function GetDefaultCity(obj) {
+        $.get("http://" + url + "regions?parent_id=" + obj, function (defaultCityData) {
+            //var defaultAreaId = defaultCityData[0].id;
+            //构造对应的省级下面的市级单位 并将第一个设置为选中默认
+            for (var i = 0; i < defaultCityData.length; i++) {
+                var defaultCityname = defaultCityData[i].name;
+                var defaultCityid = defaultCityData[i].id;
+                $('#cmbCity').append("<option value=" + defaultCityid + ">" + defaultCityname + "</option>");
+            }
+            GetDefaultArea(set_city_id);
+            $("#cmbProvince").val(set_province_id);
+            $("#cmbCity").val(set_city_id);
+        }, 'json')
+    }
+
+    //获取默认市级单位下的地区
+    function GetDefaultArea(obj) {
+        $.get("http://" + url + "regions?parent_id=" + obj, function (defaultAreaData) {
+            //构造对应地区的 下拉框
+            for (var i = 0; i < defaultAreaData.length; i++) {
+                var defaultAreaname = defaultAreaData[i].name;
+                var defaultAreaid = defaultAreaData[i].id;
+                $('#cmbArea').append("<option value=" + defaultAreaid + ">" + defaultAreaname + "</option>");
+            }
+        }, 'json')
+        defaultGetCommunity(set_area_id);
+
+    }
+    function GetDefaultAreaS(obj) {
+        $.get("http://" + url + "regions?parent_id=" + obj, function (defaultAreaData) {
+            //构造对应地区的 下拉框
+            for (var i = 0; i < defaultAreaData.length; i++) {
+                var defaultAreaname = defaultAreaData[i].name;
+                var defaultAreaid = defaultAreaData[i].id;
+                $('#cmbArea').append("<option value=" + defaultAreaid + ">" + defaultAreaname + "</option>");
+            }
+        }, 'json')
+        //defaultGetCommunity(set_area_id);
+
+    }
+
+    //加载市县
+    function GetCity(obj) {
+        $.get("http://" + url + "regions?parent_id=" + $(obj).find("option:selected").val(), function (cityData) {
+            var firstCityId = cityData[0].id;
+            $('#cmbCity').empty();
+            $('#cmbArea').empty();
+            for (var i = 0; i < cityData.length; i++) {
+                var cityname = cityData[i].name;
+                var cityid = cityData[i].id;
+                $('#cmbCity').append("<option value=" + cityid + ">" + cityname + "</option>");
+            }
+            //加载默认地区
+            GetDefaultAreaS(firstCityId);
+        }, 'json');
+    }
+    ;
+    //加载地区
+    function GetArea(obj) {
+        $.get("http://" + url + "regions?parent_id=" + $(obj).find("option:selected").val(), function (areaData) {
+            $('#cmbArea').empty();
+            for (var i = 0; i < areaData.length; i++) {
+                var areaname = areaData[i].name;
+                var areaid = areaData[i].id;
+                $('#cmbArea').append("<option value=" + areaid + ">" + areaname + "</option>");
+            }
+        }, 'json');
+    }
+    ;
+
+    //加载小区
+    function defaultGetCommunity(obj) {
+        $.get("http://" + url + "communities?region_id=" + obj, function (communitiesData) {
+            var newA = "";
+            var newABox = "";
+            $('.dataTable_s8').find(".alphaBox").remove();
+            $('.dataTable_s8').find("p").remove();
+            //判断小区数据是否为空
+            if (communitiesData.length > 0) {
+                for (var i = 0; i < communitiesData.length; i++) {
+                    var communitiesAlpha = communitiesData[i].alpha;
+                    var communitiesName = communitiesData[i].name;
+                    var communitiesId = communitiesData[i].id;
+                    if ($("div[id=" + communitiesAlpha + "]").length > 0) //判断字母Box是否存在
+                    {
+                        newA = '<a class="el_btn" val="' + communitiesId + '">' + communitiesName + '</a>';
+                        $("div[id=" + communitiesAlpha + "]").find("h1").after(newA);
+                    }
+                    else {
+                        newABox = '<div class="alphaBox" id="' + communitiesAlpha + '"><h1>' + communitiesAlpha + '</h1><a class="el_btn" val="' + communitiesId + '">' + communitiesName + '</a></div>'
+                        $(".innerBox .dataTable_s8 .fn_clear").before(newABox);
+                    }
+                }
+            }
+            else {
+                $('.dataTable_s8').find("p").remove();
+                $(".innerBox .dataTable_s8 .fn_clear").before("<p style='padding:20px 0;'>对不起，您所选地区下暂无数据！</p>");
+            }
+            $("#cmbArea").val(set_area_id);
+        }, 'json');
+    }
+    ;
+    //加载小区
+    function GetCommunity(obj) {
+        $.get("http://" + url + "communities?region_id=" + obj, function (communitiesData) {
+            var newA = "";
+            var newABox = "";
+            $('.dataTable_s8').find(".alphaBox").remove();
+            $('.dataTable_s8').find("p").remove();
+            //判断小区数据是否为空
+            if (communitiesData.length > 0) {
+                for (var i = 0; i < communitiesData.length; i++) {
+                    var communitiesAlpha = communitiesData[i].alpha;
+                    var communitiesName = communitiesData[i].name;
+                    var communitiesId = communitiesData[i].id;
+                    if ($("div[id=" + communitiesAlpha + "]").length > 0) //判断字母Box是否存在
+                    {
+                        newA = '<a class="el_btn" val="' + communitiesId + '">' + communitiesName + '</a>';
+                        $("div[id=" + communitiesAlpha + "]").find("h1").after(newA);
+                    }
+                    else {
+                        newABox = '<div class="alphaBox" id="' + communitiesAlpha + '"><h1>' + communitiesAlpha + '</h1><a class="el_btn" val="' + communitiesId + '">' + communitiesName + '</a></div>'
+                        $(".innerBox .dataTable_s8 .fn_clear").before(newABox);
+                    }
+                }
+            }
+            else {
+                $('.dataTable_s8').find("p").remove();
+                $(".innerBox .dataTable_s8 .fn_clear").before("<p style='padding:20px 0;'>对不起，您所选地区下暂无数据！</p>");
+            }
+        }, 'json');
+    }
+    ;
+    //加载我们的楼栋
+    function GetBuilds(obj) {
+        $.get("http://" + url + "builds?community_id=" + obj, function (buildData) {
+            $(".address_buildingBox").empty();
+            //判断楼栋数据是否为空
+            if (buildData.length > 0) {
+                for (var i = 0; i < buildData.length; i++) {
+                    var buildname = buildData[i].name;
+                    var buildid = buildData[i].id;
+                    var newBuilds = '<a class="el_btn" val="' + buildid + '">' + buildname + '</a>';
+                    $(newBuilds).appendTo(".address_buildingBox");
+                }
+            }
+            else {
+                $("<p style='padding:20px 0;'>对不起，您所选小区下暂无楼栋数据！</p>").appendTo(".address_buildingBox");
+            }
+        }, 'json');
+    }
+    ;
+    function GetColourdBuilds(obj) {
+        $.get("http://" + url + "colourdBuilds?community_id=" + obj, function (buildData) {
+            $(".address_buildingBox").empty();
+            //判断楼栋数据是否为空
+            if (buildData.length > 0) {
+                for (var i = 0; i < buildData.length; i++) {
+                    var buildname = buildData[i].name;
+                    var buildid = buildData[i].id;
+                    var colorcloud = buildData[i].colorcloud;//彩之云小区
+                    var newBuilds = '<a class="el_btn" colorcloud="' + colorcloud + '" val="' + buildid + '">' + buildname + '</a>';
+                    $(newBuilds).appendTo(".address_buildingBox");
+                }
+            }
+            else {
+                $("<p style='padding:20px 0;'>对不起，您所选小区下暂无楼栋数据！</p>").appendTo(".address_buildingBox");
+            }
+        }, 'json');
+    }
+    ;
+    //加载房间号
+    function getRooms(obj) {
+        $.get("http://" + url + "colourdRooms?build_id=" + obj, function (roomData) {
+            $(".address_houseBox").empty();
+            //判断楼栋数据是否为空
+            if (roomData.length > 0) {
+                for (var i = 0; i < roomData.length; i++) {
+                    var roomname = roomData[i].name;
+                    var roomid = roomData[i].id;
+                    var newRooms = '<a class="el_btn" val="' + roomid + '">' + roomname + '</a>';
+                    $(newRooms).appendTo(".address_houseBox");
+                }
+            }
+            else {
+                $("<p style='padding:20px 0;'>对不起，您所选小区下暂无房间数据！</p>").appendTo(".address_houseBox");
+            }
+        }, 'json');
+    }
+    ;
+
+
+    (function () {
+
+        // 当前页面配置信息
+        pageConfig = {
+            "pageItemType": 1,	// 当前页面所属的大类
+            "mainNavCurIndex": 0		// 主栏目中当前栏目的索引值，从1开始，0表示没有当前效果
+        }
+    })();
+    $(function () {
+
+        // 选择楼宇弹出框主要模板内容
+        var addressTemp = '\
+					<div class="innerBox" innerid="position">\
+						<div class="dataTable_s8">\
+							<div class="fn_clear"></div>\
+						</div>\
+					</div>\
+				';
+
+        var addressTemp2 = '\
+					<div class="innerBox" innerid="building">\
+						<div class="address_buildingBox">\
+						</div>\
+					</div>\
+					<div class="innerBox" innerid="house">\
+						<div class="address_formBox">\
+							<label class="el_lab">房间号：</label>\
+							<input class="el_inText_house el_inText" type="text">\
+						</div>\
+						<div class="btns">\
+							<button class="el_btn_finish el_btn_gray_xl el_btn"><span class="txt">完成</span></button>\
+							<button class="el_btn_back el_btn_gray_xl el_btn"><span class="txt">上一步</span></button>\
+						</div>\
+					</div>\
+				';
+        var addressTemp3 = '\
+					<div class="innerBox" innerid="building">\
+						<div class="address_buildingBox">\
+						</div>\
+					</div>\
+                    <div class="innerBox" innerid="house">\
+						<div class="address_houseBox">\
+						</div>\
+                        <div class="btns">\
+							<button class="el_btn_back el_btn_gray_xl el_btn"><span class="txt">上一步</span></button>\
+						</div>\
+					</div>\
+				';
+
+
+        // 物业费、停车费、手机充值
+        $(".defaultSwitchBox").cl_switchBox({
+            "startTarIndex": "",
+            "switchAction": "click",
+            "fixedContainer": false,
+            "callback": null
+        });
+
+        // 广告滚动
+        $(".sur_ix_by_skyScrollPicBox").cl_skyScrollPicBox({
+            "delay": 3000
+        });
+
+        // 电话卡充值
+        $(".upToCardSelectBox").cl_selectbox({
+            "callback": function (selectNode, val) {
+                var _selectNode = selectNode,
+                        _val = val,
+                        _inText = _selectNode.find(".el_selectBox_val"),
+                        _priceNode = _selectNode.parents(".formBox").find(".price");
+
+                _inText.val(_val + "元");
+
+                //_priceNode.text(_val * 0.98 + "元");
+                _priceNode.text("暂无商品");
+            }
+        });
+
+        $('.btn_by_property').click(function () {
+            var _customer_id = $.trim($(this).closest('form').children('.community_text_for_property').val());
+            var _build_id = $.trim($(this).closest('form').children('.build_text_for_property').val());
+            var _room_id = $.trim($(this).closest('form').children('.room_text_for_property').val());
+            if (_customer_id == '' || _build_id == '' || _room_id == '') {
+                alert("请选择小区和楼栋！");
+                return false;
+            }
+            $(this).closest('form').submit();
+        });
+
+        $('.btn_by_parking').click(function () {
+            var car_number = $.trim($('#car_number').val());
+            var default_text = $.trim($('#car_number').attr("defaultTxt"));
+            if (car_number == '' || car_number == default_text) {
+                alert("请输入车牌号！");
+                return false;
+            }
+            var _customer_id = $.trim($(this).closest('form').children('.community_text_for_form').val());
+            var _build_id = $.trim($(this).closest('form').children('.build_text_for_form').val());
+            var _room_id = $.trim($(this).closest('form').children('.room_text_for_form').val());
+            if (_customer_id == '' || _build_id == '' || _room_id == '') {
+                alert("请选择小区和楼栋！");
+                return false;
+            }
+            $(this).closest('form').submit();
+        });
+
+        // 选择小区弹出框
+        $(".func_position").click(function () {//alert("功能暂未开通");return false;
+            var pId_1 = $(".func_position").attr("get_position_pid");
+            var cId_1 = $(".func_position").attr("get_position_cid");
+            var aId_1 = $(".func_position").attr("get_position_aid");
+            if (pId_1 != "" && cId_1 != "" && aId_1 != "") {
+                set_province_id = pId_1;
+                set_city_id = cId_1;
+                set_area_id = aId_1;
+            }
+            else {
+                set_province_id = 19;
+                set_city_id = 233;
+                set_area_id = 2149;
+            }
+
+
+            var titleHtml = "<select id='cmbProvince'  onchange='GetCity(this)'>"
+            /*首先加载所有的省级单位*/
+            $.get("http://" + url + "regions?region_id=0", function (provinceData) {
+                for (var i = 0; i < provinceData.length; i++) {
+                    var value = provinceData[i].id;
+                    var text = provinceData[i].name;
+                    var defaultData = provinceData[0].id;
+                    if (i == 0)
+                        titleHtml += "<option value=" + value + " selected='true'>" + text + "</option>";
+                    else
+                        titleHtml += "<option value=" + value + ">" + text + "</option>";
+                }
+
+                titleHtml += "</select><select id='cmbCity'onchange='GetArea(this)'></select><select id='cmbArea'></select><input type='button' value='确定'id='addressOk'/>";
+
+                //加载默认城市
+                GetDefaultCity(set_province_id);
+
+
+                $.cl_tipPop({
+                    "$this": $(this),
+                    "title": '当前所在地点：' + titleHtml,
+                    "type": "default",
+                    "addClass": "addressTipPop",
+                    "temp": addressTemp,
+                    "needBg": true,
+                    "onlyOne": true,
+                    "callback": function ($tipWin, $this) {
+                        var _tipWin = $tipWin,
+                                _this = $this,
+                                _positionInner = _tipWin.find('.innerBox[innerid="position"]'),
+                                _pos_btn = _positionInner.find(".el_btn");
+                        _positionInner.css({"height": "370px", "overflow": "auto"});
+
+                        // 楼盘选项
+                        _pos_btn.die("click").live("click", function () {
+                            var _tip = $(".el_tipPop_bg");
+                            var _bg = $(".addressTipPop");
+                            _get_positionId = $(this).attr("val");
+                            _get_position_pid = $("#cmbProvince option:selected").attr("value");
+                            _get_position_cid = $("#cmbCity option:selected").attr("value");
+                            _get_position_aid = $("#cmbArea option:selected").attr("value");
+                            _get_positionName = $(this).text();
+
+                            $(".func_building_parking,.func_building_property").attr("value", "选择楼栋");
+
+                            $(".func_position").attr({
+                                "value": _get_positionName,
+                                "get_positionId": _get_positionId,
+                                "get_position_pid": _get_position_pid,
+                                "get_position_cid": _get_position_cid,
+                                "get_position_aid": _get_position_aid
+                            });
+                            //点击调用加载
+                            //GetBuilds(_get_position);
+                            $(_bg).remove();
+                            $(_tip).remove();
+                        });
+
+                        _positionInner.show();
+                    }
+                });
+
+                //点击确定获取地区id
+                $("#addressOk").die("click").live("click", function () {
+                    $(".innerBox").eq(0).siblings().hide();
+                    $(".innerBox").eq(0).show();
+                    var getAddressData = $("#cmbArea option:selected").val();
+                    GetCommunity(getAddressData);
+                })
+
+
+            }, 'json');
+            //end 省级单位加载
+
+        });
+
+        // 选择我们的楼栋弹出框
+        $(".func_building_parking").click(function () {//alert("功能暂未开通");return false;
+
+
+            function buildsShow() {
+                $.cl_tipPop({
+                    "$this": $(this),
+                    "title": '当前所在地点：' + $(".func_position").attr("value"),
+                    "type": "default",
+                    "addClass": "addressTipPop",
+                    "temp": addressTemp2,
+                    "needBg": true,
+                    "onlyOne": true,
+                    "callback": function ($tipWin, $this) {
+                        var _tipWin = $tipWin,
+                                _this = $this,
+                                _positionInner = _tipWin.find('.innerBox[innerid="position"]'),
+                                _pos_btn = _positionInner.find(".el_btn"),
+                                _buindingInner = _tipWin.find('.innerBox[innerid="building"]'),
+                                _build_btn = _buindingInner.find(".el_btn[val]"),
+                                _houseInner = _tipWin.find('.innerBox[innerid="house"]'),
+                                _house_inText = _houseInner.find('.el_inText_house'),
+                                _house_finishBtn = _houseInner.find(".el_btn_finish"),
+                                _backBtn = _tipWin.find(".el_btn_back"),
+                                _get_position = "",
+                                _get_building = "",
+                                _get_buildingName = "",
+                                _get_colorcloud = "",
+                                _get_house = "";
+
+                        // 返回按钮
+                        _backBtn.click(function () {
+                            $(this).parents(".innerBox").hide().prev().show();
+                        });
+                        _buindingInner.find(".address_buildingBox").css({"height": "310px", "overflow": "auto"});
+                        _houseInner.css({"height": "370px", "overflow": "auto"});
+                        _houseInner.find(".address_formBox").css({"padding": "100px 0"});
+                        // 楼盘选项
+                        //_pos_btn.click(function() {
+                        //	_get_position = $(this).attr("val");
+
+                        //	$(this).parents(".innerBox").hide().next().show();
+                        //});
+
+                        // 楼栋选项
+                        _build_btn.die("click").live("click", function () {
+                            _get_building = $(this).attr("val");
+                            _get_buildingName = $(this).text();
+                            _get_colorcloud = $(this).attr('colorcloud');
+                            $(this).parents(".innerBox").hide().next().show();
+                        });
+
+                        // 完成按钮
+                        _house_finishBtn.click(function () {
+                            _get_house = _house_inText.val();
+
+                            if (_get_position === "") {
+                                _get_position = $(".func_position").attr("get_positionid");
+                            }
+
+                            if (_get_house == "") {
+                                alert("请输入房间号!");
+                                return false;
+                            }
+
+                            //alert("你选择的小区：" + _get_position + "；楼栋：" + _get_building + "；房号：" + _get_house + "；");
+                            $('.community_text_for_form').val(_get_position);
+                            $('.build_text_for_form').val(_get_building);
+                            $('.room_text_for_form').val(_get_house);
+
+                            $(".func_building_parking").attr("value", _get_buildingName + _get_house);
+                            _this.val(_get_building + "-" + _get_house);
+
+                            _tipWin.find(".el_tipPop_h_i .close").click();
+                        });
+
+                        // 楼栋innerBox出现
+                        _buindingInner.show();
+                    }
+                });
+            }
+
+            //判断加载楼栋
+            var selectedCommunityId = $(".func_position").attr("get_positionid")
+            if (selectedCommunityId != "") {
+                buildsShow();
+                GetBuilds(selectedCommunityId);
+            }
+            else {
+                alert("请先选择小区！");
+                return false;
+            }
+
+        });
+
+        // 选择彩之云的楼栋弹出框
+        $(".func_building_property").click(function () {
+
+            function colourdBuildsShow() {
+                $.cl_tipPop({
+                    "$this": $(this),
+                    "title": '当前所在地点：' + $(".func_position").attr("value"),
+                    "type": "default",
+                    "addClass": "addressTipPop",
+                    "temp": addressTemp3,
+                    "needBg": true,
+                    "onlyOne": true,
+                    "callback": function ($tipWin, $this) {
+                        var _tipWin = $tipWin,
+                                _this = $this,
+                                _positionInner = _tipWin.find('.innerBox[innerid="position"]'),
+                                _pos_btn = _positionInner.find(".el_btn"),
+                                _buindingInner = _tipWin.find('.innerBox[innerid="building"]'),
+                                _build_btn = _buindingInner.find(".el_btn[val]"),
+                                _houseInner = _tipWin.find('.innerBox[innerid="house"]'),
+                                _house_btn = _houseInner.find(".el_btn[val]");
+                        //_house_inText = _houseInner.find('.el_inText_house'),
+                        //_house_finishBtn = _houseInner.find(".el_btn_finish"),
+                        _backBtn = _tipWin.find(".el_btn_back"),
+                                _get_position = "",
+                                _get_building = "",
+                                _get_buildingName = "",
+                                _get_colorcloud = "",
+                                _get_house = "";
+
+                        // 返回按钮
+                        _backBtn.click(function () {
+                            $(this).parents(".innerBox").hide().prev().show();
+                        });
+                        _buindingInner.find(".address_buildingBox").css({"height": "310px", "overflow": "auto"});
+                        _houseInner.css({"height": "370px", "overflow": "auto"});
+                        _houseInner.find(".address_formBox").css({"padding": "100px 0"});
+
+                        // 楼栋选项
+                        _build_btn.die("click").live("click", function () {
+                            _get_building = $(this).attr("val");
+                            _get_buildingName = $(this).text();
+                            _get_colorcloud = $(this).attr('colorcloud');
+                            $(this).parents(".innerBox").hide().next().show();
+                            //调用选择房间号的方法
+                            getRooms(_get_building);
+                        });
+                        //选择房间号的处理
+                        _house_btn.die("click").live("click", function () {
+                            _get_house = $(this).attr("val");
+                            _get_houseName = $(this).text();
+
+                            if (_get_position === "") {
+                                _get_position = $(".func_position").attr("get_positionid");
+                            }
+
+                            $('.community_text_for_property').val(_get_position);
+                            $('.build_text_for_property').val(_get_building);
+                            $('.room_text_for_property').val(_get_house);
+                            $('.community_name_for_property').val($(".func_position").val());
+                            $('.build_name_for_property').val(_get_buildingName);
+                            $('.room_name_for_property').val(_get_houseName);
+                            $('.colorcloud_for_property').val(_get_colorcloud);//赋值
+
+                            $(".func_building_property").attr("value", _get_buildingName + _get_houseName);
+                            _this.val(_get_building + "-" + _get_house);
+
+                            _tipWin.find(".el_tipPop_h_i .close").click();
+                        });
+
+                        // 楼栋innerBox出现
+                        _buindingInner.show();
+                    }
+                });
+            }
+
+            //判断加载楼栋
+            var selectedCommunityId = $(".func_position").attr("get_positionid")
+            if (selectedCommunityId != "") {
+                colourdBuildsShow();
+                GetColourdBuilds(selectedCommunityId);
+            }
+            else {
+                alert("请先选择小区！");
+                return false;
+            }
+
+        });
+
+        //js检测手机号码
+        $("#mobile").blur(function () {
+            if ($("#mobile").val() == '') {
+                $(".price").html("手机号不能为空！");
+                return false;
+            }
+            reg = /^0{0,1}(13[0-9]|145|15[0-9]|18[0-9])[0-9]{8}$/i;
+            if (!reg.test($("#mobile").val())) {
+                $(".price").html("手机号不正确！");
+                return false;
+            }
+            if ($("#mobile").val()) {
+                $.ajax({
+                    url: '/phoneRecharge/ajaxGetMobileInfo',
+                    type: 'POST',
+                    data: {'mobile': $("#mobile").val()},
+                    dataType: 'json',
+                    async: false,
+                    //timeout: 5000,
+                    error: function () {
+                        $(".price").html("无货");
+                    },
+                    success: function (result) {
+                        $(".help-inline .error").html(result.errorMessage);
+                        $("#mobile_type").val(result.type);
+                        $(".mobile_info").html(result.errorMessage).css("color", "red").css("text-align", "center");
+                    }
+                });
+            }
+
+            var faceValue = $.trim($('.shoujichongzhi').val());//面值
+            if ($("#mobile").val() && faceValue && $("#mobile_type").val()) {
+                //ajax得到价格
+                $.ajax({
+                    url: '/phoneRecharge/ajaxGetPrice',
+                    type: 'POST',
+                    data: {'mobile': $("#mobile").val(), 'type': $("#mobile_type").val(), 'faceValue': faceValue},
+                    dataType: 'json',
+                    //timeout: 5000,
+                    error: function () {
+                        $(".price").html("无货");
+                    },
+                    success: function (result) {
+                        if (result.errorCode > 0)
+                            $(".price").html(result.errorMessage);
+                        else if (result.errorCode == 0)
+                            $('.price').html('￥' + result.price);
+                    }
+                });
+            }
+        });
+        $('.shoujichongzhi').change(function () {
+            var faceValue = $.trim($('.shoujichongzhi').val());//面值
+            //ajax得到价格
+            if ($("#mobile").val()) {
+                $.ajax({
+                    url: '/phoneRecharge/ajaxGetPrice',
+                    type: 'POST',
+                    data: {'mobile': $("#mobile").val(), 'type': $("#mobile_type").val(), 'faceValue': faceValue},
+                    dataType: 'json',
+                    //timeout: 5000,
+                    error: function () {
+                        alert('页面出错，或者暂不支持充值');
+                    },
+                    success: function (result) {
+                        if (result.errorCode > 0)
+                            $(".help-inline .error").html(result.errorMessage);
+                        else if (result.errorCode == 0)
+                            $('.price').html('￥' + result.price);
+                    }
+                });
+            }
+        });
+    });
+
+    </script>
+
+        <script>
+            (function () {
+
+                // 当前页面配置信息
+                pageConfig = {
+                    "pageItemType": 1,	// 当前页面所属的大类
+                    "mainNavCurIndex": 0		// 主栏目中当前栏目的索引值，从1开始，0表示没有当前效果
+                }
+            })();
+        </script>
+        <script type="text/javascript">
+
+        //天天特价倒计时
+        function CountDown() {
+            this.y;
+            this.d;
+            this.h;
+            this.startTime;
+            this.obj;
+            this._self;
+        }
+
+        //初始化对象
+        CountDown.prototype.init = function () {
+            this.startTime.setFullYear(this.y, this.d, this.h);
+            this.startTime.setHours(23);
+            this.startTime.setMinutes(59);
+            this.startTime.setSeconds(59);
+            this.startTime.setMilliseconds(999);
+            this.EndTime = this.startTime.getTime();
+            this._self = this;
+            this.GetRTime();
+        }
+
+        CountDown.prototype.GetRTime = function () {
+            var NowTime = new Date();
+            var nMS = this.EndTime - NowTime.getTime();
+            var nH = Math.floor(nMS / (1000 * 60 * 60));
+            var nM = Math.floor(nMS / (1000 * 60)) % 60;
+            var nS = Math.floor(nMS / 1000) % 60;
+            if (nMS > 0) {
+                this.obj.find(".hour").text(nH);
+                this.obj.find(".minute").text(nM);
+                this.obj.find(".sec").text(nS);
+            } else {
+                this.obj.find(".hour").text("0");
+                this.obj.find(".minute").text("0");
+                this.obj.find(".sec").text("0");
+            }
+            var _self = this;
+            window.setTimeout(function () {
+                _self.GetRTime();
+            }, 1000);
+        }
+        var ObjArray = new Array();
+        var i = 9;
+        $(".bargain_countdown").each(function () {
+            var TmpObject = new CountDown();
+            TmpObject.startTime = new Date();
+            TmpObject.y = parseFloat($(this).find(".year").text());
+            TmpObject.d = parseFloat($(this).find(".month").text()) - 1;
+            TmpObject.h = parseFloat($(this).find(".day").text());
+            TmpObject.obj = $(this);
+            var tmp = $(this).find(".hour");
+            TmpObject.init();
+        });
+
+        //天天特价倒计时
+    </script>
+        <script type="text/javascript">
+        function goodsTab(obj, f) {
+            var tag = $(obj).attr("tag");
+
+            $(".tab_" + f).removeClass("lv_selected");
+            $(obj).addClass("lv_selected");
+            $(".tab_content_" + f).hide();
+            $("#" + tag).show();
+        }
+
+        $(document).ready(function () {
+            $(".tab_goods_content").map(function () {
+                var obj = $(this).find("span:first-child");
+                var key = $(obj).attr("key");
+                goodsTab(obj, key);
+            });
+
+        });
+    </script>
+{% endblock %}

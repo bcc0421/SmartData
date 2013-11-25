@@ -1,0 +1,224 @@
+/*物业服务*/
+.vesse{border:1px solid #dadada;}
+.vesse_titBox{height:40px; background:url(../images/bg_repeat_x.png) repeat-x scroll 0 -226px transparent; border-bottom:1px solid #dadada; height:40px; line-height:40px; padding-left:10px;}
+.tit{font:18px "宋体"; color:#000;}
+.vessel_conBox_step {width:660px;height:40px;background:url(../images/bg_wuye_line1.png) no-repeat;margin:20px 0 0 20px; display:inline-block; overflow:hidden;}
+.vessel_conBox_step_head {height:40px;font-size:0;border-bottom:1px solid #dadada;}
+.vessel_conBox_step_head .stepName {width:165px;height:40px;line-height:40px;font-size:18px;text-align:center;display:inline-block;font-family:"微软雅黑";float:left;}
+.service_list{padding:10px 0 10px 10px; color:#686868;}
+.service_list ul li{padding-bottom:10px; clear:both; overflow:hidden; _zoom:1;}
+.service_list ul li:after{clear:both; content:"."; display:block; height:0; visibility:hidden;}
+.service_icon{width:45px; height:45px; float:left; margin-right:10px;}
+.service_item{width:95px; float:left;}
+.service_list ul li p{ line-height:200%;}
+.service_item p span{color:#000;}
+.serviced{width:92px; float:right; padding:0 5px 0 0; text-align:right; white-space:nowrap; overflow:hidden;}
+.service_icon span{display:block; width:45px; height:45px; overflow:hidden; background:url(../images/pic_elements.png) no-repeat 0 -3728px;}
+.service_icon span.icon2{background-position:0 -3773px;}
+.service_icon span.icon3{background-position:0 -3818px;}
+.service_icon span.icon4{background-position:0 -3863px;}
+.service_icon span.icon5{background-position:0 -3908px;}
+
+.vessel_s2,.vessel_s3{color:#686868;}
+/*物业服务step1*/
+
+.vessel_conBox_step .stepName_s1 {color:#fff;}
+.vessel_conBox_step .stepName_s2,.vessel_conBox_step .stepName_s3,.vessel_conBox_step .stepName_s4 {color:#686868;}
+.vessel_conBox_text {margin:20px 20px 0;line-height:24px;}
+.vessel_conBox_text p{height:25px; line-height:25px;}
+.vessel_conBox_text p input{*margin-top:-2px}
+.vessel_conBox_text p input,.vessel_conBox_text p span{ vertical-align:middle;}
+.vessel_conBox_text_head{border-bottom:1px dashed #424242;}
+.vessel_conBox_text_content{padding:10px 0 25px;}
+.vessel_conBox_text2 {padding:10px 25px 10px 10px; color:#686868;}
+.paymethod .vessel_conBox_text2{padding-left:3px;}
+.vessel_conBox_text_button {padding:25px 0 35px 0;}
+#add .el_tipPop_h_i {background:none #dadada;height:30px;padding:0px;}
+#add {width:660px;display:none;  }
+#add .el_tipPop_h_i .title {margin:5px;}
+#add .el_tipPop_h_i .close {margin:10px 10px 5px 0;}
+#add .add_box {width:620px;height:119px;padding:19px;border:1px solid #dadada;}
+#add .add_box input {background: url(../images/bg_repeat_x.png) repeat-x 0 -151px;height:30px;border:1px solid #dadada;}
+#add .add_box .xiaoqu {width:140px;}
+#add .add_box .loudong {width:60px;margin-right:14px;}
+#add .add_box p {line-height:44px; height:44px;}
+.save {width:100px;display:block;float:left;margin:10px 0 0 63px;}
+.payment_button{padding-bottom:60px;}
+.simulate_s input{width:208px; height:28px; border:1px solid #c1c1c1; color:#9c9b9b; line-height:28px; margin:10px 0; text-indent:5px; cursor:pointer;}
+
+/*停车费step1*/
+
+.add {width:630px;margin-top:30px;}
+.add input[type="button"] { cursor:pointer;}
+.add .umFormBox_tab .el_inText{width:232px;}
+.add .umFormBox_tab select {padding:5px; }
+.vessel_conBox_text .line {width:660px;height:15px; border-bottom:dashed 1px #686868;}
+.vessel_conBox_text_button div {width:101px;height:28px; float:right;margin-right:90px;}
+.vessel_conBox_text_button .el_lab { display:block; float:left;width:180px;height:30px; color:#686868;}
+.vessel_conBox_text_button .el_lab input { vertical-align: middle;}
+.last_text_box {padding:20px 0;}
+.last_text_box p {color:#686868;}
+.last_text_box .txt {color:#F00;font-size:15px;}
+
+/*停车费step2*/
+.last_text_box2 {padding:20px 0 0 0;}
+.last_text_box2 p {color:#686868;}
+.last_text_box2 .txt {color:#F00;font-size:15px;}
+
+
+
+
+/*物业服务step2*/
+
+.vessel_conBox_step2 {width:660px;height:40px;background:url(../images/bg_wuye_line2.png) no-repeat;margin:10px 0 0 20px; display:inline-block; overflow:hidden}
+.vessel_conBox_step2 .stepName_s1,.vessel_conBox_step2 .stepName_s2{ color:#fff;}
+.vessel_conBox_step2 .stepName_s3,.vessel_conBox_step2 .stepName_s4 {color:#686868;}
+table.payment_table{border:1px solid #dadada; vertical-align:middle; width:100%; color:#686868}
+table.payment_table th{height:104px; border:1px solid #dadada;}
+table.payment_table td{height:39px; text-indent:10px; border:1px solid #dadada;}
+.pay_table_th{height:100%; background:#eef7ff; padding:5px 0; overflow:hidden;}
+.pay_btn2{text-align:right; padding-top:10px;}
+.pay_table_th p{text-align:left; color:#686868; font-weight:lighter;}
+a.goback{float:right; margin-right:10px; color:#686868;}
+.list_number{margin-left:10px;}
+.pay_table_th h4{color:#d93535; height:60px; line-height:60px; font-size:18px; font-weight:normal;}
+.owner_info{padding-left:30px;}
+.owner_info span{display:inline-block; margin-right:10px;}
+.owner_name{width:100px;}
+.owner_area{width:305px;}
+
+
+/*物业服务step3*/
+.vessel_conBox_step3 {width:660px;height:40px;background:url(../images/bg_wuye_line3.png) no-repeat;margin:10px 0 0 20px; display:inline-block; overflow:hidden}
+.vessel_conBox_step3 .stepName_s1,.vessel_conBox_step3 .stepName_s2, .vessel_conBox_step3 .stepName_s3{ color:#fff;}
+.vessel_conBox_step3 .stepName_s4 {color:#686868;}
+.whether_discount{padding-top:10px;}
+.whether_input *,.discount_details label,.discount_details input,.discount_details span{ vertical-align:middle;}
+.discount_details{border:1px solid #dadada; padding:10px 30px; margin-top:10px;}
+.write_cash{width:92px; height:28px; border:1px solid #c1c1c1;}
+.cost{margin:10px 0;}
+.paylist li{height:39px; line-height:39px; border-bottom:1px solid #dadada;}
+.slideDown_detail{overflow:hidden; display:none;}
+.paylist li span,a.pay_details{display:inline-block; width:120px; overflow:hidden; margin-left:10px;}
+.paylist li span.price_color{width:150px;}
+.paylist li a.pay_details{width:60px; color:#686868;}
+.paylist li a.pay_details:hover{ text-decoration:underline;}
+.paylist li span *{ vertical-align:middle;}
+.paylist li span input{margin-right:5px;}
+.paylist .whether_discount,.receipt_detail .whether_discount{ margin-left:30px; text-indent:0px; padding:0;}
+.paylist .whether_discount .whether_input{height:30px; line-height:30px;}
+.pay_bank dt{background:#f4f4f4; height:30px; *overflow:hidden}
+.pay_bank dt span{display:inline-block; text-align:center; width:96px; height:29px; line-height:29px; color:#686868; border:1px solid #dadada; border-bottom:none; background:#fff; vertical-align:top; margin-left:10px; cursor:pointer;}
+.pay_bank dt span.currenBank{position:relative; overflow:hidden; top:0px; height:30px; line-height:30px; color:#000;}
+.pay_bank dd{border:1px solid #dadada; padding:20px 5px 20px 15px;}
+.pay_bank dd ul li{float:left; margin:0 0 15px 0; width:159px; overflow:hiddenl; word-spacing:-6px;}
+.pay_bank dd ul li *{ vertical-align:middle;}
+.pay_bank dd ul li label{display:inline-block; width:121px; height:40px; text-align:center; line-height:40px; background:#e9e9e9; margin-left:5px;}
+.receipt{padding:20px 0 20px 20px;}
+.receipt_detail{padding-left:60px; _word-spacing:-4px;}
+.receipt .whether_discount{margin-left:9px;}
+.payitem{margin:10px 0 30px;}
+.payitem a{color:#d93535;}
+.payitem a:hover{ text-decoration:underline;}
+.paydetails_box{padding:15px;}
+.user_info span,.prepay_info span{display:inline-block; width:140px;}
+.paydetails_box table{border:1px solid #dadada; vertical-align:middle; width:100%; color:#686868; text-align:center; margin:15px 0;}
+.paydetails_box table th,.paydetails_box table td{font-weight:normal; border:1px solid #dadada;height:39px;}
+.precautions{color:#d93535}
+.precautions dd{ text-indent:10px; margin:10px 0;}
+.cashpay{margin-bottom:15px;}
+
+/*物业服务step4*/
+.vessel_conBox_step4 {width:660px;height:40px;background:url(../images/bg_wuye_line4.png) no-repeat;margin:10px 0 0 20px; display:inline-block; overflow:hidden;}
+.vessel_conBox_step4 .stepName_s1,.vessel_conBox_step4 .stepName_s2,.vessel_conBox_step4 .stepName_s3,.vessel_conBox_step4 .stepName_s4 {color:#fff;}
+.success{text-align:center; width:100%; overflow:hidden; border:none;}
+.success_content{width:470px; margin:0 auto; text-align:left; overflow:hidden; clear:both; _zoom:1; padding:72px 0; _padding:81px 0;}
+.success_icon{float:left; display:block; width:62px; height:62px; margin-right:10px;}
+.success_txt{float:left;}
+.success_txt h4{font-size:18px; font-weight:lighter; color:#000; margin-bottom:20px;}
+.success_txt a{color:#ff7e00}
+
+/*切换小区弹出框*/
+.pop_box{width:715px; overflow:hidden; position:absolute; display:none; z-index:100;}
+.hs_top,.hs_bottom{height:15px;}
+.hs_top{background:url(../images/pop_top.png) no-repeat;}
+.hs_bottom{background:url(../images/pop_bottom.png) no-repeat;}
+.hs_middle{background:url(../images/pop_middle.png) repeat;}
+.hs_content{padding:0 8px; overflow:hidden;}
+.hs_content h3{height:35px; overflow:hidden; border-bottom:1px solid #dadada; background:#f2f2f2; font:18px/35px "宋体"; color:#000; text-indent:10px;}
+.hs_select_param span{margin:0 5px 0 0;}
+.hs_select_param{padding:15px 40px 15px 20px;}
+.fast_nav label,.fast_nav div{float:left;}
+.fast_nav div{width:90px;}
+.word_anchor{margin-top:20px;}
+.word_anchor label,.simulate_s label{float:left; display:block; margin-top:4px;}
+.word_anchor div,.simulate_s div{width:500px; float:left;}
+.word_anchor div a{color:#ff7e00; font:18px "微软雅黑"; margin-left:5px; width:26px; text-align:center; display:inline-block; margin-bottom:8px;}
+.simulate_s label{margin-top:0px;}
+.simulate_s div a{color:#000; margin-left:5px; width:60px; text-align:center; display:inline-block; margin-bottom:8px;}
+.simulate_s div a:hover{color:#ff7e00;}
+.dstrct_box{padding:0 5px 0 20px; height:270px; position:relative;}
+.cross_line{height:1px; overflow:hidden; background:#dadada; border:none; position:absolute; left:20px; top:2px; width:641px; text-indent:-1000px; font-size:0; color:#fff;}
+.dstrct_list{height:270px; overflow:auto;}
+.dstrct_list_content{ width:641px; overflow:hidden;}
+.dstrct_list ul li{margin-top:15px;}
+.letter_tit{width:26px;height:13px;line-height:13px;padding-right:5px;text-align:center;color:#fff;font-size:12px;display:inline-block;background:url(../images/pic_elements.png) no-repeat 0 -2961px;}
+.dstrct_list ul li a{display:inline-block; height:13px; line-height:13px; margin-right:5px; color:#686868;}
+.dstrct_list ul.building_number{display:inline-block; border:1px solid #c5c5c5; border-bottom:none; border-right:none; overflow:hidden; clear:both; _zoom:1;}
+.dstrct_list ul.building_number li{width:79px; height:79px; float:left; margin:0; border:1px solid #c5c5c5; border-top:none; border-left:none; }
+.dstrct_list ul.building_number li a{display:block; width:77px; height:77px; font:18px/77px "宋体"; text-align:center; color:#686868; margin:0; border:1px solid #fff;}
+.dstrct_list ul.building_number li a:hover{background:#f2f2f2;}
+.current_dstrct,.current_building{margin:20px 0; margin-right:30px;}
+.select_doorplate .current_building span,.select_doorplate .current_dstrct span{width:110px; display:inline-block;}
+a.modify{color:#686868; margin-left:20px;}
+.dstrct_list .simulate_s input{margin:0; width:145px;}
+.dstrct_list .el_btn_gray_sl{border:none; margin-top:30px; cursor:pointer; font:12px "宋体"; color:#000;}
+.modify_building,.modify_district{width:398px; overflow:hidden; border:1px solid #dadada;}
+.md_top{height:42px; border-bottom:1px solid #dadada;}
+.modify_info .close_it{display:block; float:right; width:50px; height:42px; border-left:1px solid #dadada; background:url(../images/close_me.jpg) no-repeat; cursor:pointer; margin:0; }
+.md_bld_current{font:18px/42px "宋体"; color:#000; text-indent:10px;}
+.md_content{height:210px; overflow:auto;}
+.md_detials{padding:20px 15px;}
+.md_detials a{color:#686868; display:inline-block; min-width:20px; width:auto!important; width:20px; margin-right:20px; margin-bottom:10px;}
+.modify_district .fast_nav{padding-top:12px; padding-left:10px;}
+.md_dstrct dl{overflow:hidden; margin-bottom:10px;}
+.md_dstrct dl dt{font-size:18px; color:#FF7E00;}
+.md_dstrct dl dd a{display:inline-block; margin:0 20px 10px 0; white-space:nowrap;}
+.modifyAddr{margin:15px 0 30px;}
+.select_doorplate .modifyAddr .current_building span,.select_doorplate .modifyAddr .current_dstrct span{width:auto; margin-right:10px;}
+.noneBorder{border:none; padding:10px 17px; margin:0;}
+
+/*投诉报修*/
+.complaint_style,.complaint_matter,.complaint_photo{margin-top:20px;}
+.complaint_photo{width:515px; float:left; overflow:hidden;}
+.complaint_photo dt,.complaint_photo dd{float:left; margin-right:5px; display:inline;}
+.complaint_photo dt{width:121px; height:121px; cursor:pointer;}
+.complaint_photo dd{width:120px; height:120px; position:relative; background:#d4d4d4;}
+.complaint_photo dd img{width:120px; height:120px;}
+.complaint_photo dd .del_it{display:block; width:23px; height:23px; position:absolute; top:5px; right:5px; background:url(../images/del_it.png) no-repeat; cursor:pointer;}
+.img_and_btn{padding-bottom:20px;}
+.complaint_btn{float:right; width:132px; margin-top:20px;}
+.inputW118{width:118px; height:28px; margin:0; padding:0; border:1px solid #c1c1c1; vertical-align:middle; line-height:28px;}
+.complaint_matter label{float:left;}
+.noscrollTextarea{width:595px; float:left; border:1px solid #dadada;}
+.noscrollTextarea textarea{width:100%; height:150px;}
+
+.repairs_img_list{min-height:360px; height:auto!important; _height:360px;}
+.repairs_img_list li{width:81px; height:81px; float:left; margin:0 10px 10px 0;}
+
+.choose_service{padding:20px 10px 20px 30px;}
+.choose_service_content{height:225px; overflow:auto;}
+.choose_service_content dl{overflow:hidden; clear:both; _zoom:1; margin-bottom:20px;}
+.choose_service_content dl dt{font:14px "宋体"; color:#000; margin-bottom:10px;}
+.choose_service_content dl dd{float:left; min-width:80px; width:auto!important; _width:70px; _white-space:nowrap; margin-right:20px;}
+.choose_service_content dl dd label,.choose_service_content dl dd input{ vertical-align:middle;}
+.choose_service_content dl dd input{_margin-top:-4px;}
+.complaint_repairs .success_content{padding:99px 0; font-family:"宋体";}
+
+
+
+
+
+
+
+
