@@ -1,0 +1,379 @@
+/*
+ * name		: toolbar
+ * content	: 工具栏
+ */
+.topBanner_box {background:#e8e8e8;margin-bottom:8px;}
+.toolbar {padding:5px 0 10px 0;z-index:5;}
+.toolbar .icon, .toolbar .el_btn .txt {vertical-align:middle;}
+.toolbar .fn_right {padding-top:3px;}
+.toolbar .favorite {line-height:20px;}
+.toolbar .favorite .icon {width:17px;height:15px;background:url(../images/pic_elements.png) no-repeat 0 -829px;#margin-right:2px;}
+.toolbar .favorite .txt {color:#686868;}
+.toolbar .phoneToCL {height:20px;line-height:20px;background-color:#ff7e00;padding:0 10px;margin:0 15px;}
+.toolbar .phoneToCL .icon {width:9px;height:16px;background:url(../images/pic_elements.png) no-repeat 0 -39px;#margin-right:4px;}
+.toolbar .phoneToCL .txt {color:#fff;}
+.toolbar .shareBox {position:relative;margin-right:5px;}
+.toolbar .shareBox_inner {padding-top:16px;position:absolute;display:block;visibility:hidden;left:-110px;top:0px;}
+.toolbar .shareBox_box {width:178px;height:197px;padding-top:22px;font-size:0;display:block;background:url(../images/pic_elements.png) no-repeat 0 -2182px;text-align:center;}
+.toolbar .shareBox:hover .shareBox_box {visibility:visible;}
+.toolbar .shareBox .txt {width:142px;font-size:12px;text-align:center;display:block;padding-top:5px;margin:0 auto;text-align:left;color:#686868;line-height:16px;}
+.toolbar .codeImg {width:142px;height:142xp;}
+.toolbar .ttWeibo .icon {width:16px;height:16px;background:url(../images/pic_elements.png) no-repeat 0 -779px;}
+.toolbar .ttWeibo .codeImg {background:url(../images/pic_elements.png) no-repeat 0 -1048px;}
+.toolbar .sinaWeibo .icon {width:16px;height:16px;background:url(../images/pic_elements.png) no-repeat 0 -813px;}
+.toolbar .sinaWeibo .codeImg {background:url(../images/pic_elements.png) no-repeat 0 -1168px;}
+.toolbar .weixin .icon {width:23px;height:18px;background:url(../images/pic_elements.png) no-repeat 0 -795px;}
+.toolbar .weixin .codeImg {background:url(../images/pic_elements.png) no-repeat 0 -2401px;}
+.toolbar .optLink, .toolbar .optMore .txt {color:#686868;vertical-align:top;}
+.toolbar .optLink {margin-right:10px;}
+.toolbar .optLink:hover {text-decoration:underline;}
+.toolbar .optMore {position:relative;}
+.toolbar .optMore .icon {width:8px;height:7px;background:url(../images/pic_elements.png) no-repeat 0 0;}
+.toolbar .optMore:hover .optMore_box {visibility:visible;}
+.toolbar .optMore_box {width:109px;position:absolute;right:0;visibility:hidden;}
+.toolbar .optMore_box_inner {border-left:1px solid #cdcdcd;border-right:1px solid #cdcdcd;}
+.toolbar .optMore_link {display:block;padding:4px;color:#686868;text-align:center;background:#f4f4f4;border-top:1px solid #f4f4f4;border-bottom:1px solid #f4f4f4;}
+.toolbar .optMore_link_first {border-top-color:#cdcdcd;}
+.toolbar .optMore_link_last {border-bottom-color:#cdcdcd;}
+.toolbar .optMore_link:hover {background:#e3e3e3;color:#ff7e00;border-color:#cdcdcd;}
+
+/*
+ * name		: topBanner
+ * content	: 头部广告栏
+ */
+
+.topBanner .imgLink {font-size:0;}
+.topBanner .demoPic {width:974px;height:80px;background:url(../images/pic_demo_banner.png) no-repeat;}
+
+
+/*
+ * name		: searchBar
+ * content	: 搜索栏
+ */
+
+.searchBar {z-index:4;}
+.searchBar .logoBox {padding:8px 29px 7px 12px;}
+.searchBar .logoLink {font-size:0;}
+.searchBar .logoImg {width:176px;height:57px;background:url(../images/pic_elements.png) no-repeat 0 -892px;}
+.searchBar .searchBox_tabs {font-size:0;}
+.searchBar .searchBox_tab {width:70px;line-height:21px;display:inline-block;font-size:12px;text-align:center;cursor:pointer;}
+.searchBar .searchBox_tab_cur {background:url(../images/pic_elements.png) no-repeat 0 -2543px;color:#fff;}
+.searchBar .searchBox {padding-top:9px;}
+.searchBar .searchBox_container {display:inline-block;border:3px solid #a238b4;background-color:#a238b4;width:480px;}
+.searchBar .keyword_by_el_inText {width:375px;height:28px;padding-left:6px;line-height:28px;border:none 0;font-size:15px;vertical-align:top;}
+.searchBar .el_selectBox_valBox {height:28px;background:#feecff;vertical-align:top;padding:0 7px 0 12px;}
+.searchBar .el_selectBox_val {width:64px;height:28px;line-height:28px;color:#000;}
+.searchBar .el_selectBox_icon {width:12px;height:11px;background:url(../images/pic_elements.png) no-repeat 0 -19px;}
+.searchBar .el_selectBox_list {top:28px;}
+.searchBar .el_selectBox_list_item {padding-left:15px;background:#f0f0f0;}
+.searchBar .el_selectBox_list_item:hover {background:#CCC;}
+.searchBar .search_by_el_btn {width:84px;height:28px;vertical-align:top;}
+.searchBar .search_by_el_btn .icon {width:17px;height:16px;background:url(../images/pic_elements.png) no-repeat 0 -763px;}
+.searchBar .phoneBox {padding:37px 25px 0 0;}
+.searchBar .phoneBox_item .icon {width:23px;height:15px;background:url(../images/pic_elements.png) no-repeat 0 -844px;}
+.searchBar .phoneBox_item .txt {font-size:15px;vertical-align:top;}
+
+/*下拉框摸拟*/
+.CRselectBox {background:#FFFFFF url(../images/select_box_off.gif) no-repeat right center; border:1px solid #999; cursor:pointer;
+display:block; width:100px; height:20px;}
+.CRselectBoxHover {background:#FFFFFF url(../images/select_box_on.gif) no-repeat right center;}
+.CRselectBox a.CRselectValue {display:block; margin:1px 1px 2px; padding:1px 20px 2px 4px; white-space:nowrap; color:#000; overflow:hidden; width:74px;}
+.CRselectBoxOptions {background:#FFFFFF;b border:1px solid #999; margin-left:-1px; overflow-y:auto; z-index:1000; position: absolute;width:100px;display:none;}
+.CRselectBoxOptions a{color:#000; display:block; height:22px; line-height:22px; padding-left:4px; background:#fff; overflow:hidden;white-space:nowrap;}
+.CRselectBoxOptions a:hover{background:#bbb}
+.CRselectBoxOptions a.selected{background:#bbb}
+/* 解决 firefox 点击放大出现虚线框，从而导致滚动条的问题  */
+.CRselectBox a {outline: none; text-decoration:none;}
+.CRselectBox a:focus { outline: none; text-decoration:none;} 
+
+/*
+ * name		: addressChoseBox
+ * content	: 地点选择弹出框
+ */
+
+div.addressChoseBox {width:700px;left:30px;top:40px;}
+.addressChoseBox .el_tipPop_m_i_b {padding:20px 15px;}
+.addressChoseBox_item {padding-bottom:10px;}
+.addressChoseBox_item .title {color:#686868;display:inline-block;line-height:28px;}
+.addressChoseBox_item .title_s1 {float:left;}
+.addressChoseBox_item .default_by_el_selectBox {margin-right:10px;}
+.addressChoseBox_item .default_by_el_selectBox .el_selectBox_val {width:80px;}
+.addressChoseBox_item .enCon {margin-left:110px;}
+.addressChoseBox_item .enCon_item {width:15px;text-align:center;color:#ff7e00;font-size:18px;font-family:"微软雅黑";display:inline-block;line-height:28px;margin-left:15px;cursor:pointer;}
+.addressChoseBox .sepLine {font-size:0;border-bottom:1px solid #dadada;margin-bottom:10px;}
+.addressChoseBox .lstBox {height:250px;overflow:auto;}
+.addressChoseBox .lstBox_item {padding:10px 0;}
+.addressChoseBox .tit {width:26px;height:13px;line-height:13px;padding-right:5px;text-align:center;color:#fff;font-size:12px;display:inline-block;background:url(../images/pic_elements.png) no-repeat 0 -2961px;float:left;}
+.addressChoseBox .address {margin-left:35px;}
+.addressChoseBox .address_item {margin:0 0 5px 10px;display:inline-block;}
+.addressChoseBox .address_item:hover {text-decoration:underline;cursor:pointer;}
+
+
+/*
+ * name		: logTipPop
+ * content	: 登录提示框
+ */
+
+div.logTipPop {width:350px;top:50%;left:50%;margin-left:-200px;margin-top:-130px;position:fixed;}
+.logTipPop .el_tipPop_m_i_b {padding:20px;}
+.logTipPop .item {padding-bottom:15px;}
+.logTipPop .el_lab {display:inline-block;width:80px;text-align:right;color:#686868;}
+.logTipPop .el_inText {width:160px;height:28px;line-height:28px;padding-left:5px;vertical-align:middle;}
+.logTipPop .el_inText_sx {width:75px;}
+.logTipPop .codeImg {width:80px;height:30px;vertical-align:middle;}
+.logTipPop .btns {text-align:right;padding-right:30px;padding-top:5px;}
+.logTipPop .fpwLink {color:#686868;}
+.logTipPop .fpwLink:hover {text-decoration:underline;}
+.logTipPop .el_btn {margin-left:10px;}
+.el_lab_a {width:150px;height:30px;background:#ddd;display:block;}
+.el_lab_a:hover {background:#FF7E00;}
+.el_lab_a span {color: rgb(104, 104, 104);line-height:30px;margin-left:50px;}
+
+/*
+ * name		: infoTipPop
+ * content	: 正常信息提示框
+ */
+
+div.infoTipPop {width:300px;position:fixed;top:50%;margin-top:-80px;left:50%;margin-left:-150px;}
+.infoTipPop .el_tipPop_m_i_b {padding:20px;}
+.infoTipPop .item {text-align:center;}
+.infoTipPop .infoTxt {font-size:16px;}
+.infoTipPop .btns {text-align:center;padding-top:20px;}
+.infoTipPop .el_btn {}
+
+
+/*
+ * name		: chargeTipPop
+ * content	: 支付方式提示框
+ */
+
+div.chargeTipPop {width:700px;top:40px;left:50%;margin-left:-350px;}
+.chargeTipPop .el_tipPop_m_i_b {padding:10px 0;}
+.chargeTipPop .defaultSwitchBox .headBox {height:30px;background:none;}
+.chargeTipPop .defaultSwitchBox .headBox_item {width:90px;font-size:12px;line-height:29px;}
+.chargeTipPop .box {padding:10px 10px 0 5px;}
+.chargeTipPop .sepLine {border-bottom:1px dashed #dadada;font-size:0;margin-bottom:10px;}
+.chargeTipPop .radio {display:inline-block;margin:0 0 10px 15px;cursor:pointer;}
+.chargeTipPop .radio .el_radio {vertical-align:middle;}
+.chargeTipPop .radio .txt {width:121px;height:40px;color:#686868;line-height:40px;display:inline-block;background-color:#e9e9e9;text-align:center;}
+
+
+/*
+ * name		: couponTipPop
+ * content	: 我的优惠提示框
+ */
+
+div.couponTipPop {width:700px;top:40px;left:50%;margin-left:-350px;}
+.couponTipPop .el_tipPop_m_i_b {padding:10px 0;}
+.couponTipPop .box {padding:10px 10px 0 5px;}
+.couponTipPop .price {color:#d93535;font-size:18px;}
+
+
+/*
+ * name		: addressTipPop
+ * content	: 地址选择提示框
+ */
+
+div.addressTipPop {width:700px;top:40px;left:50%;margin-left:-350px;position:fixed;top:30px;}
+.addressTipPop .el_tipPop_h_i .title {font-size:13px;}
+.addressTipPop .el_tipPop_h_i .posName {font-size:18px;color:#ff7e00;}
+.addressTipPop .dataTable_s8 {width:90%;margin:0 auto;}
+.addressTipPop .innerBox {display:none;}
+.addressTipPop .btns {text-align:center;padding-bottom:30px;}
+.addressTipPop .btns .el_btn {margin:0 10px;}
+.addressTipPop .address_buildingBox {width:90%;margin:0 auto;padding:30px 0;}
+.addressTipPop .address_buildingBox .el_btn {width:24%;display:inline-block;font-size:18px;color:#686868;margin-bottom:10px;}
+.addressTipPop .address_buildingBox .el_btn:hover {text-decoration:underline;color:#000;}
+.addressTipPop .address_houseBox {width:90%;margin:0 auto;padding:30px 0;}
+.addressTipPop .address_houseBox .el_btn {width:24%;display:inline-block;font-size:18px;color:#686868;margin-bottom:10px;}
+.addressTipPop .address_houseBox .el_btn:hover {text-decoration:underline;color:#000;}
+.addressTipPop .address_formBox {text-align:center;text-align:center;padding:30px 0px;}
+.addressTipPop .address_formBox .el_inText {width:195px;height:28px;line-height:28px;padding-left:5px;font-size:15px;vertical-align:middle;}
+.addressTipPop .address_formBox .el_lab {display:inline-block;font-size:15px;vertical-align:middle;}
+
+/*
+ * name		: posAddressTipPop
+ * content	: 所在地选择提示框
+ */
+
+div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:fixed;top:30px;}
+.posAddressTipPop .innerBox {padding-top:10px;padding-bottom:50px;}
+.posAddressTipPop .conBox {border-top:1px solid #dadada;margin-top:10px;padding:10px 0;display:none;}
+.posAddressTipPop .current {display:block;}
+.posAddressTipPop .link {display:inline-block;color:#686868;margin-right:10px;margin-bottom:5px;}
+.posAddressTipPop .link:hover {text-decoration:underline;}
+
+
+/*
+ * name		: mainNav
+ * content	: 主导航栏
+ */
+
+.mainNav {height:38px;background:url(../images/nav_main_bg.png) repeat-x;font-size:0;}
+.mainNav_box {vertical-align:top;z-index:3;}
+.mainNav_box .nowPos {min-width:110px;vertical-align:middle;display:inline-block;color:#CDB8D5;font-size:15px;line-height:38px;padding-left:10px;float:left;}
+.mainNav .addressBox { background:url(../images/nav_tab_bg.png) no-repeat; z-index:10; position: relative;}
+.mainNav .addressBox .el_selectBox {height:38px;padding-right:20px;}
+.mainNav .addressBox .el_selectBox_val { font-family:"微软雅黑";width:90px;height:38px;line-height:38px;padding-right:5px;text-align:right;color:#fff;font-size:15px;}
+.mainNav .addressBox .el_selectBox_icon {width:11px;height:9px;background:url(../images/pic_elements.png) no-repeat 0 -30px;}
+.mainNav .addressBox .el_selectBox_list {top:36px;}
+.mainNav .addressBox .el_selectBox_list_item {color:#fff;text-align:right;padding-right:28px;background-color:#552F57;}
+.mainNav .addressBox .el_selectBox_list_item:hover {background-color:#884D8C;}
+.mainNav_item {display:inline-block;height:38px;line-height:38px;vertical-align:top; text-align:center; width:103px;padding:0;}
+/*.mainNav_item:hover, .mainNav_item_cur {background:url(../images/bg_repeat_x.png) repeat-x 0 -36px;}  */
+.mainNav_item:hover, .mainNav_item_cur {background:url(../images/nav_hover_bg.png) no-repeat;}
+.mainNav_item .txt {font-size:15px;color:#fff; vertical-align:middle;}
+
+/*
+ * name		: main
+ * content	: 主要编辑区域
+ */
+
+.main {z-index:2;}
+
+/*
+ * name		: serverBar
+ * content	: 服务快链区域
+ */
+
+.serverBar {border-top:2px solid #c3c3c3;background-color:#f0f0f0;padding:20px 0;}
+.serverBar_box {text-align:center;}
+.serverBar .borderBox, .serverBar .exBox {display:inline-block;vertical-align:top;}
+.serverBar .borderBox {background:url(../images/bg_dot.png) repeat-y right top;padding-right:20px;}
+.serverBar .exBox {padding-left:50px;}
+.serverBar .item {width:132px;display:inline-block;vertical-align:top;}
+.serverBar .title, .serverBar .box, .serverBar .link, .serverBar .txt {text-align:left;}
+.serverBar .title, .serverBar .box {display:block;}
+.serverBar .title {font-size:15px;font-weight:normal;}
+.serverBar .box {padding-top:15px;}
+.serverBar .link, .serverBar .txt {color:#686868;}
+.serverBar .link:hover {text-decoration:underline;}
+.serverBar .el_blank {height:13px;display:block;}
+
+
+/*
+ * name		: companyBar
+ * content	: 公司链接区域
+ */
+
+.companyBar {text-align:center;color:#686868;}
+.companyBar .quicklinkBox {padding:27px 0 15px 0;}
+.companyBar .link {color:#686868;margin:0 5px;}
+.companyBar .link:hover {text-decoration:underline;}
+.companyBar .copyrightBox {padding-bottom:40px;font-family: Arial;}
+.companyBar_s1 .copyrightBox {padding-bottom:15px;}
+.companyBar_s1 .quicklinkBox {padding-bottom:40px;padding-top:0;}
+
+
+/* el_container */
+.el_container {width:974px;margin:0 auto;display:block;}
+
+/* el_btn */
+.el_btn {cursor:pointer;background:none;border:none 0; padding:0; margin:0;}
+.payment_btn{color:#fff; text-align:center; background:url(../images/pic_elements.png) no-repeat -100px -6430px; font-size:18px; width:132px; height:43px; line-height:43px; font-family:"微软雅黑";}
+.payment_btn .txt{height:40px; line-height:43px;}
+.el_btn, .icon, .el_btn .txt {display:inline-block;}
+.el_btn_orange_xl, .el_btn_orange_xsl, .el_btn_orange_xxl, .el_btn_orange_sl, .el_btn_orange_xxsl, .el_btn_gray_xxsl, .el_btn_gray_sl, .el_btn_gray_xssl, .el_btn_gray_xsl, .el_btn_orange_xxxl, .el_btn_gray_xxxl, .el_btn_orange_zxl, .el_btn_gray_zxl {color:#fff;text-align:center;background:url(../images/pic_elements.png) no-repeat 0 -1408px;font-size:18px;}
+.el_btn_orange_xl {width:125px;height:37px;line-height:37px;}
+.el_btn_orange_xsl, .el_btn_orange_xxl, .el_btn_orange_sl, .el_btn_orange_xxsl, .el_btn_gray_sl, .el_btn_gray_xssl, .el_btn_gray_xsl, .el_btn_orange_xxxl, .el_btn_gray_xxxl, .el_btn_orange_zxl, .el_btn_gray_zxl {width:101px;height:28px;line-height:28px;background-position:0 -1607px;font-size:15px;font-family:"微软雅黑";}
+.el_btn_orange_xxl {width:167px;height:28px;background-position:0 -1758px;}
+.el_btn_orange_sl {width:82px;height:28px;background-position:0 -859px;}
+.el_btn_orange_xxxl {width:254px;height:49px;background-position:0 -3158px;font-size:22px;line-height:49px;}
+.el_btn_orange_zxl {width:186px;height:54px;background-position:0 -5986px;font-size:18px;line-height:54px;}
+.el_btn_gray_xl {width:122px;height:35px;border:1px solid #c1c1c1;background:url(../images/bg_repeat_x.png) repeat-x 0 -191px;color:#686868;font-size:18px;}
+.el_btn_orange_xxsl, .el_btn_gray_xxsl {width:180px;height:49px;background-position:0 -1889px;font-size:18px;}
+.el_btn_gray_xxsl, .el_btn_gray_sl, .el_btn_gray_xssl, .el_btn_gray_xsl, .el_btn_gray_zxl {color:#000;}
+.el_btn_gray_xxsl {background-position:0 -1840px;}
+.el_btn_gray_sl {width:81px;height:28px;background-position:0 -2921px;}
+.el_btn_gray_xssl {width:91px;height:28px;background-position:0 -2974px;font-size:12px;}
+.el_btn_gray_xsl {width:101px;height:28px;background-position:0 -3020px;font-size:12px;}
+.el_btn_gray_xxxl {width:205px;height:27px;background-position:0 -5054px;font-size:12px;}
+.el_btn_gray_zxl {width:186px;height:54px;background-position:0 -5932px;font-size:18px;line-height:54px;}
+.el_btn_addCart_s1 .icon, .el_btn_buy_s1 .icon {width:30px;height:27px;background:url(../images/pic_elements.png) no-repeat;vertical-align:middle;margin-top:-3px;}
+.el_btn_addCart_s1 .icon {background-position:0 -1786px;}
+.el_btn_buy_s1 .icon {background-position:0 -1813px;}
+
+/* el_inText */
+.el_inText {background:#fff;border:1px solid #c1c1c1;color:#666;resize:none;font-size:12px;padding-left:5px;}
+
+/* el_selectBox */
+.el_selectBox {position:relative;cursor:pointer;font-size:0;display:inline-block;vertical-align:top;}
+.el_selectBox_valBox {display:inline-block;vertical-align:top; }
+.el_selectBox_valBox_bg {background:url(../images/nav_tab_bg.png) no-repeat center;width:128px;}
+.el_selectBox_val {background:none;border:none 0;vertical-align:middle;display:inline-block;cursor:pointer;}
+.el_selectBox_icon {display:inline-block;vertical-align:middle;}
+.el_selectBox_list {width:100%;position:absolute;left:0;visibility:hidden;}
+.el_selectBox_list_item {display:block;font-size:12px;padding:4px;}
+.el_selectBox_list_item:hover {background-color:#666;color:#FFF;}
+.el_checkbox .checkbox, .el_checkbox .txt {vertical-align:middle;}
+.default_by_el_selectBox {}
+.default_by_el_selectBox .el_selectBox_valBox {border:1px solid #c1c1c1;padding-right:0px;font-size:0;}
+/*.default_by_el_selectBox .el_selectBox_valBox {border:1px solid #c1c1c1;padding-right:7px;font-size:0;}*/
+.default_by_el_selectBox .el_selectBox_val {width:194px;height:30px;color:#686868;}
+.default_by_el_selectBox .el_selectBox_val span {line-height:30px!important;}
+.default_by_el_selectBox .el_selectBox_icon {width:14px;height:12px;background:url(../images/pic_elements.png) no-repeat 0 -7px;}
+.default_by_el_selectBox .el_selectBox_list {border-bottom:1px solid #c1c1c1;top:27px;}
+.default_by_el_selectBox .el_selectBox_list_item {background-color:#fff;border-left:1px solid #c1c1c1;border-right:1px solid #c1c1c1;color:#686868;padding:4px 5px;}
+.default_by_el_selectBox .el_selectBox_list_item:hover {background-color:#dadada;}
+.el_form {width:148px;padding:5px 0;}
+
+/* el_tipPop */
+.el_tipPop_bg {width:100%;height:100%;position:fixed;background-color:#000;opacity:0.5;filter:alpha(opacity=50);top:0;left:0;z-index:99;display:none;}
+.el_tipPop {position:absolute;font-size:0;z-index:99;display:none;}
+.el_tipPop_h, .el_tipPop_h_i, .el_tipPop_b, .el_tipPop_b_i {background:url(../images/bg_tipPop_hab.png) no-repeat;}
+.el_tipPop_h, .el_tipPop_h_i {height:51px;}
+.el_tipPop_h {background-position:0 0;padding-left:15px;}
+.el_tipPop_h_i {background-position:right -51px;}
+.el_tipPop_h_i .title {font-size:18px;float:left;display:block;margin:20px 0 0 5px;}
+.el_tipPop_h_i .close {width:11px;height:12px;display:inline-block;background:url(../images/pic_elements.png) no-repeat 0 -2949px;float:right;margin:25px 21px 0 0;}
+.el_tipPop_m {background:url(../images/bg_tipPop_mid_l.png) repeat-y 0 0;padding-left:15px;}
+.el_tipPop_m_i {background:url(../images/bg_tipPop_mid_r.png) repeat-y right 0;padding-right:15px;}
+.el_tipPop_m_i_b {background:#fff;font-size:12px;}
+.el_tipPop_b_i {height:11px;}
+.el_tipPop_b {background-position:0 -102px;padding-left:15px;}
+.el_tipPop_b_i {background-position:right -113px;}
+
+/* el_blank */
+.el_blank_h10, .el_blank_h20, .el_blank_h50 {font-size:0;}
+.el_blank_h10 {height:10px;}
+.el_blank_h20 {height:10px;}
+.el_blank_h30 {height:30px;}
+.el_blank_h50 {height:20px;}
+
+/* el_bd */
+.el_bd_s1 {border:1px solid #dadada;}
+
+/* el_w */
+#el_w_209 {width:167px;height:360px;}
+.el_w_209 {width:209px;}
+.el_w_746 {width:746px;}
+.el_w_225 {width:184px;}
+.el_w_739 {width:774px;}
+.el_w_271 {width:271px;}
+.el_w_683 {width:683px;}
+.el_w_207 {width:207px;}
+.el_w_495 {width:495px;}
+.el_w_252 {width:252px;}
+.el_w_712 {width:712px;}
+.el_w_264 {width:264px;}
+.el_w_974 {width:974px;}
+.el_w_690 {width:690px;}
+.el_w_712 {width:700px;}
+.el_w_203 {width:203px;}
+.el_w_524 {width:524px;}
+.el_w_237 {width:237px;}
+.el_w_744 {width:744px;}
+.el_w_700 {width:700px;}
+.el_w_264 {width:264px;}
+.close_it{width:11px;height:12px;display:inline-block;background:url(../images/pic_elements.png) no-repeat 0 -2949px;float:right;margin:5px 10px 0 0; cursor:pointer; overflow:hidden;}
+.marginR10{margin-right:10px;}
+.newbtn {cursor:pointer;background:none;border:none 0; padding:0; margin:0; background:url(../images/buttonNew.png) no-repeat; text-align:center;}
+.dark_82x28{color:#000; background-position:0 -40px; width:82px; height:28px; line-height:28px;}
+.yellow_82x28{color:#fff; background-position:0 0px; width:82px; height:28px; line-height:28px;}
+.yellow_132x43{color:#fff; background-position:0 -75px; width:132px; height:43px; font:18px/43px "微软雅黑";}
+.likeword4{ word-spacing:21px;}
+
+.inputW148{width:148px; height:28px; margin:0; padding:0; border:1px solid #c1c1c1; vertical-align:middle; line-height:28px;}
+.inputW91{width:91px; height:28px; margin:0; padding:0; border:1px solid #c1c1c1; vertical-align:middle; line-height:28px;}
+
+

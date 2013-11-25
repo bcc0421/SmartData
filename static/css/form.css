@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* CSS Document */
+.alertBoxBg{position:fixed; left:0; top:0; z-index:998; height:100%; width:100%; background:#000; opacity:0.5;filter:alpha(opacity=50) }
+.alertBoxMain{ position:fixed; left:50%; top:50%; z-index:999; margin:-70px 0 0 -210px; padding:20px; width:380px; height:60px; background:#fff; border:1px solid #333;font-size:20px; font-weight:bold; }
+.alertBoxMainInfo{ text-align:center; padding:10px 0 0 0;}
+.alertBoxSureBn{ position:absolute; right:20px; bottom:10px; cursor:pointer; width:45px; height:24px;}
+.style1{ color:green;}
+.style2{ color:red;}
+.style3{ color:#F77A00;}
+.a_btn {cursor:pointer;background:none;border:none 0;}
+.a_btn, .icon, .a_btn .txt {display:inline-block;}
+.a_btn_orange_xsl {color:#fff;text-align:center;background:url(../images/pic_elements.png) no-repeat 0 -1408px;font-size:18px;}
+.a_btn_orange_xsl {width:101px;height:28px;line-height:28px;background-position:0 -1607px;font-size:15px;font-family:"微软雅黑";}
