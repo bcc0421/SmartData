@@ -1,7 +1,7 @@
 #coding:utf-8
 import re
-
 import logging
+from captcha.helpers import captcha_image_url
 
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -14,7 +14,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.core import serializers
+from captcha.models import CaptchaStore
 
+from SmartDataApp.forms import UserForm
 from SmartDataApp.models import Picture, ProfileDetail
 
 
@@ -78,6 +80,60 @@ def register(request):
                     else:
                         return redirect(index)
         return redirect(dashboard)
+
+
+@transaction.atomic
+@csrf_exempt
+def new_register(request):
+    mobile = False
+    if request.META['CONTENT_TYPE'] == 'application/json':
+        mobile = True
+    if request.method == u'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            username = form.data.get('username', None)
+            password = form.data.get('password', None)
+            email = form.data.get('username', None)
+            user = User.objects.get_or_create(username=username)[0]
+            user.password = make_password(password, 'md5')
+            user.email = email
+            user.save()
+            phone_number = form.data.get('phone_number', None)
+            profile = ProfileDetail.objects.get_or_create(profile=user)[0]
+            profile.phone_number = phone_number
+            profile.save()
+            logging.info("user %s, userid %s register success" % (username, user.id))
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    auth_login(request, user)
+                    if mobile:
+                        response_data = {'success': True}
+                        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+                    else:
+                        return redirect(dashboard)
+                else:
+                    return redirect(index)
+            else:
+                if mobile:
+                    response_data = {'success': False}
+                    return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': True, 'form': form}
+            response_data.update(csrf(request))
+            return render_to_response('register.html', response_data)
+    else:
+        form = UserForm()
+        response_data = {'success': True, 'form': form}
+        response_data.update(csrf(request))
+        return render_to_response('register.html', response_data)
+
+
+def generate_captcha(request):
+    response_data = {}
+    response_data['cptch_key'] = CaptchaStore.generate_key()
+    response_data['cptch_image'] = captcha_image_url(response_data['cptch_key'])
+    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
 
 
 @transaction.atomic

@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -13,7 +13,7 @@ from SmartDataApp.views import *
 urlpatterns = patterns('',
                        url(r'^$', index),
                        url(r'^index/$', index),
-                       url(r'^register/$', register),
+                       url(r'^register/$', new_register),
                        url(r'^login/$', login),
                        url(r'^logout/$', logout),
                        url(r'^dashboard/$', dashboard),
@@ -23,4 +23,7 @@ urlpatterns = patterns('',
                        url(r'^like/(?P<id>\d+)/$', ajax_like),
                        url(r'^keep/(?P<id>\d+)/$', ajax_keep),
                        url(r'^delete_picture/(?P<id>\d+)/$', ajax_delete_picture),
+                       url(r'^captcha/', include('captcha.urls')),
+                       #url(r'^new_register/', new_register),
+                       url(r'^generate_captcha/', generate_captcha),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

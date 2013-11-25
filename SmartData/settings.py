@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'SmartDataApp',
     'south',
+    'captcha',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -133,6 +134,9 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
 )
+
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
+CAPTCHA_FONT_SIZE = 20
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
