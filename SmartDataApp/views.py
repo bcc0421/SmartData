@@ -19,8 +19,10 @@ from captcha.models import CaptchaStore
 from SmartDataApp.forms import UserForm
 from SmartDataApp.models import Picture, ProfileDetail
 
+
 def cloudlife(request):
     return render_to_response('cloudlife.html')
+
 
 def index(request):
     return render_to_response('index.html', {"hide": True})
