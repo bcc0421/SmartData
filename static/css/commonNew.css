@@ -214,7 +214,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
 .mainNav_box .nowPos {min-width:110px;vertical-align:middle;display:inline-block;color:#CDB8D5;font-size:15px;line-height:38px;padding-left:10px;float:left;}
 .mainNav .addressBox { background:url(../images/nav_tab_bg.png) no-repeat; z-index:10; position: relative;}
 .mainNav .addressBox .el_selectBox {height:38px;padding-right:20px;}
-.mainNav .addressBox .el_selectBox_val { font-family:"微软雅黑";width:90px;height:38px;line-height:38px;padding-right:5px;text-align:right;color:#fff;font-size:15px;}
+.mainNav .addressBox .el_selectBox_val { font-family:"微软雅黑";width:90px;height:38px;line-height:38px;padding-right:5px;text-align:right;color:#AEAEAE;font-size:15px;}
 .mainNav .addressBox .el_selectBox_icon {width:11px;height:9px;background:url(../images/pic_elements.png) no-repeat 0 -30px;}
 .mainNav .addressBox .el_selectBox_list {top:36px;}
 .mainNav .addressBox .el_selectBox_list_item {color:#fff;text-align:right;padding-right:28px;background-color:#552F57;}
@@ -222,7 +222,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
 .mainNav_item {display:inline-block;height:38px;line-height:38px;vertical-align:top; text-align:center; width:103px;padding:0;}
 /*.mainNav_item:hover, .mainNav_item_cur {background:url(../images/bg_repeat_x.png) repeat-x 0 -36px;}  */
 .mainNav_item:hover, .mainNav_item_cur {background:url(../images/nav_hover_bg.png) no-repeat;}
-.mainNav_item .txt {font-size:15px;color:#fff; vertical-align:middle;}
+.mainNav_item .txt {font-size:15px;color:#393939; vertical-align:middle;}
 
 /*
  * name		: main

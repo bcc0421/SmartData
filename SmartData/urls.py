@@ -27,4 +27,6 @@ urlpatterns = patterns('',
                        #url(r'^new_register/', new_register),
                        url(r'^generate_captcha/', generate_captcha),
                        url(r'^cloudlife/$', cloudlife),
+                       url(r'^register_cloud/$', register_cloud),
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
