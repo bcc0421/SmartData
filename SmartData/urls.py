@@ -11,7 +11,7 @@ from SmartDataApp.views import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-                       url(r'^$', index),
+                       url(r'^$', cloudlife),
                        url(r'^index/$', index),
                        url(r'^register/$', new_register),
                        url(r'^login/$', login),
