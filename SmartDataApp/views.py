@@ -24,6 +24,9 @@ def cloudlife(request):
     return render_to_response('cloudlife.html')
 
 
+def register_cloud(request):
+    return render_to_response('user_register.html')
+
 def index(request):
     return render_to_response('index.html', {"hide": True})
 
