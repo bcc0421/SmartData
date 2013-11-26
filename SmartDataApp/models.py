@@ -34,3 +34,13 @@ class ProfileDetail(models.Model):
 
     def __str__(self):
         return self.cell_phone
+
+
+class Complaints(models.Model):
+    content = models.CharField(max_length=250, null=False)
+    author = models.ForeignKey(User)
+    timestamp = models.DateTimeField(default=timezone.now)
+    handler = models.ForeignKey(ProfileDetail)
+    pleased = models.IntegerField(default=5)
+    type = models.CharField(max_length=20)
+
