@@ -244,7 +244,7 @@ _height:23px; _padding-top:7px;}
 
 .block_center ul{width:796px; overflow:hidden; clear:both; _zoom:1;}
 .block_center ul li{width:174px; border:1px solid #dadada; float:left; margin:10px 10px 0 0; color:#686868; padding:5px; background:#f0f0f0;}
-.block_center ul li img{width:163px; height:173px;}
+.block_center ul li img{width:174px; height:173px;}
 .block_center ul li a,.block_center ul li a:hover{color:#000;}
 .block_center ul li a:hover{ text-decoration:underline;}
 .block_center .take_away_info{height:48px; padding-top:3px;}
@@ -270,7 +270,7 @@ _height:23px; _padding-top:7px;}
 .ttHead span{font:32px  "微软雅黑"; margin-right:10px;}
 .Commodity .blockcontainer{border:none;}
 .Commodity .block_right ul{overflow:hidden; clear:both; _zoom:1; width:815px;}
-.Commodity .block_right ul li{padding:5px; float:left; border:1px solid #dadada; margin:0 10px 10px 0;}
+.Commodity .block_right ul li{width:174px; padding:5px; float:left; border:1px solid #dadada; margin:0 10px 10px 0;}
 .Commodity .block_right ul li img{width:174px; height:174px;}
 .Commodity .take_away_info{background:#fff; height:59px;}
 
