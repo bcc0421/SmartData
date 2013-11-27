@@ -2,6 +2,7 @@
 import re
 import logging
 from captcha.helpers import captcha_image_url
+import datetime
 
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -17,7 +18,7 @@ from django.core import serializers
 from captcha.models import CaptchaStore
 
 from SmartDataApp.forms import UserForm
-from SmartDataApp.models import Picture, ProfileDetail
+from SmartDataApp.models import Picture, ProfileDetail,Complaints
 
 
 def register_cloud(request):
@@ -74,6 +75,30 @@ def complain(request):
 
 def index(request):
     return render_to_response('index.html', {"hide": True})
+
+@transaction.atomic
+@csrf_exempt
+def complain_create(request):
+    if request.method=='GET':
+        return redirect(index)
+    elif request.method=='POST':
+        #if request.user!='AnonymousUser':
+            complain_content=request.POST.get('ComplainForm[content]', None)
+            complain_type_id=request.POST.get('ComplainForm[category_id]',None)
+            upload__complain_src = request.FILES.get('upload_complain_img', None)
+            complain_author=request.user
+            complain_time=datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+            complain_list = [u'安全投诉', u'环境投诉', u'投诉员工']
+            complain_str_id = str(complain_type_id)
+            complain_id =int(complain_str_id) - 1
+            complain_type=complain_list[complain_id]
+            if complain_content or complain_type_id :
+                complain=Complaints(author=request.user)
+                complain.content=complain_content
+                complain.timestamp=complain_time
+                complain.type=complain_type
+
+
 
 
 def multi_response(flag, success, info, template):
