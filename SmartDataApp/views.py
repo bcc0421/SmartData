@@ -24,6 +24,50 @@ def register_cloud(request):
     return render_to_response('register.html')
 
 
+def random_captcha():
+    response_data = {}
+    response_data['cptch_key'] = CaptchaStore.generate_key()
+    response_data['cptch_image'] = captcha_image_url(response_data['cptch_key'])
+    return response_data
+
+
+def generate_captcha(request):
+    response_data = random_captcha()
+    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+@csrf_exempt
+def login(request):
+    if request.method != u'POST':
+        response_data = random_captcha()
+        return render_to_response('login.html', response_data)
+    else:
+        captcha_list = CaptchaStore.objects.filter(hashkey=request.POST.get(u'cptch_key', None))
+        if len(captcha_list) == 0:
+            response_data = random_captcha()
+            response_data['captcha_info'] = u'验证码不正确.'
+            return render_to_response('login.html', response_data)
+        result = captcha_list[0].response
+        verify_code = request.POST.get(u'verify_code', None)
+        if result != verify_code:
+            response_data = random_captcha()
+            response_data['captcha_info'] = u'验证码不正确.'
+            return render_to_response('login.html', response_data)
+        username = request.POST.get(u'username', None)
+        password = request.POST.get(u'password', None)
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if user is not None and user.is_active:
+                auth_login(request, user)
+                if request.POST.get(u'remember_me'):
+                    request.session.set_expiry(0)
+                return redirect(index)
+            else:
+                response_data = random_captcha()
+                response_data['password_info'] = u'手机号码、账号或密码错误.'
+                return render_to_response('login.html', response_data)
+
+
 def complain(request):
     return render_to_response('complains.html')
 
@@ -137,13 +181,6 @@ def new_register(request):
         return render_to_response('register_old.html', response_data)
 
 
-def generate_captcha(request):
-    response_data = {}
-    response_data['cptch_key'] = CaptchaStore.generate_key()
-    response_data['cptch_image'] = captcha_image_url(response_data['cptch_key'])
-    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-
-
 @transaction.atomic
 @csrf_exempt
 @login_required
@@ -206,7 +243,7 @@ def profile(request):
 
 
 @csrf_exempt
-def login(request):
+def login_old(request):
     if request.method != 'POST':
         return redirect(index)
     elif request.method == 'POST':
