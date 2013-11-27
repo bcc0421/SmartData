@@ -222,7 +222,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
 .mainNav_item {display:inline-block;height:38px;line-height:38px;vertical-align:top; text-align:center; width:103px;padding:0;}
 /*.mainNav_item:hover, .mainNav_item_cur {background:url(../images/bg_repeat_x.png) repeat-x 0 -36px;}  */
 .mainNav_item:hover, .mainNav_item_cur {background:url(../images/nav_hover_bg.png) no-repeat;}
-.mainNav_item .txt {font-size:15px;color:#393939; vertical-align:middle;}
+.mainNav_item .txt {font-size:15px;color:#FFFFFF; vertical-align:middle;}
 
 /*
  * name		: main

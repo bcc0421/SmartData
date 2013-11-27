@@ -66,10 +66,10 @@
 
     $.fn.uploadReview.settings = {
         ext: '.jpg|.jpeg|.png|.bmp|.gif',
-        className: 'portrait_in_js',
+        className: '',
         target: '',
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 120,
         template: '',
         onChange: null
     };
@@ -125,5 +125,5 @@
 })(jQuery);
 
 $(function () {
-    $('#demo input[type="file"]').uploadReview();
+    $('#pepair-form input[type="file"]').uploadReview();
 });

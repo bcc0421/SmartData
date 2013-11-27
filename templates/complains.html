@@ -1,9 +1,94 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "basecloud.html" %}
+{% block title %}投诉意见{% endblock %}
+{% block css %}
+     <style>
+            <!--
+            .qq-upload-button {
+                left: 0;
+                top: 0;
+                color: #9C9B9B;
+                text-align: center;
+                line-height: 100px;
+                font-weight: bold;
+                position: absolute;
+                cursor: pointer;
+            }
+            -->
+        </style>
+{% endblock %}
+{% block body %}
+    <body class="s_info_lst">
+    <div class="container" id="page">
+        <!-- 主要内容区域 start -->
+        <div class="s_ifs_ix main el_container">
+            <div class="el_blank_h20"></div>
+            <!-- 右侧栏 start -->
+            <div class="el_w_974 fn_right">
+                <!-- vessel start -->
+                <div class="vessel vessel_s1">
+                    <div class="vessel_titBox"><span class="tit">投诉</span></div>
+                    <div class="vessel_conBox">
+                        <!--缴费步骤 start-->
+                        <form enctype="multipart/form-data" id="pepair-form"  method="post">
+                            <div class="um_mn_box">
+                                <table class="table" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td width="80" height="25"><label class="baoxiu radio"></label></td>
+                                        <td width="80"><label class="tousu radio"></label></td>
+                                        <td rowspan="2" align="left"><!--电话 start-->
+                                             <span class="phoneNumBox phone_right" >
+                                                 <span class="phoneNumBox_box">
+                                                   <div class="phoneNumBox_box_tousu">
+                                                        <span>客服电话</span><br/>
+                                                        <span>7x24小时</span>
+                                                   </div>
+                                                    <span class="txt">4008-893-893</span>
+                                                 </span><!--电话 end-->
+                                             </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="baoxiu" colspan="2" height="50">
+                                            <select style="width:130px;" name="ComplainForm[category_id]">
+                                                <option value="1">安全投诉</option>
+                                                <option value="2">环境投诉</option>
+                                                <option value="3">投诉员工</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"><span class="txt txt_1">投诉内容：</span>
+                                            <textarea name="ComplainForm[content]" class="el_inText" style=" margin:10px 0 20px 0;"></textarea></td>
+                                    </tr>
+                                </table>
 
-</body>
-</html>
+                                <div class="tousu_box" id="reviewContent">
+                                    <img style="display: none; width:120px;height:120px;" alt="" src=""
+                                         class="upload_image img-polaroid "></div>
+                                  <span class="file1">
+                                    <input  type="button" value="上传文件" class="btn" onclick="upload_portrait.click()"/><br>
+                                       <input type="file" class=" input" style="display:none" id="upload_portrait" name="upload_portrait"
+                                         target="#reviewContent"/>
+                                  </span>
+                                  <div class="line"></div>
+                                  <span class="last_text_box1">
+                                     <button class="el_btn_orange_xsl el_btn"><span class="txt">提交</span></button>
+                                  </span>
+                           </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- vessel end -->
+            </div>
+            <div class="el_blank_h10 fn_clear"></div>
+            <div class="el_blank_h50 fn_clear"></div>
+        </div>
+        <!-- 主要内容区域 end -->
+    </div>
+    <!-- page -->
+
+{% endblock %}
+{%block  script %}
+<script src="/static/js/jquery.iframe-transport.js"></script>
+<script src="/static/js/jquery.imgreview.js"></script>
+{% endblock  %}
