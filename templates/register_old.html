@@ -1,0 +1,91 @@
+{% extends "base_old.html" %}
+{% block title %}用户注册{% endblock %}
+{% block body_id %}id_body{% endblock %}
+{% block body %}
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {% if username %}
+                    <a class="navbar-brand" href="/dashboard/">亨通物业管理平台</a>
+                {% else %}
+                    <a class="navbar-brand" href="/index/">亨通物业管理平台</a>
+                {% endif %}
+            </div>
+            <div class="navbar-collapse collapse">
+                <form class="navbar-form navbar-right" action="/login/" method="post">
+                    <div class="form-group">
+                        <input type="text" placeholder="用户名" class="form-control" name="username" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="密码" class="form-control" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">登陆</button>
+                    <a class="btn btn-primary" href="/register/">注册</a>
+                </form>
+            </div>
+            <!--/.navbar-collapse -->
+        </div>
+    </div>
+    {% block content %}
+        <div class="container">
+            {% if not success %}
+                <div class="alert alert-danger">
+                    <strong>{{ info }}</strong>
+                </div>
+            {% endif %}
+            <form class="form-signin" method="post" action=".">
+                {% csrf_token %}
+                <h2 class="form-signin-heading">用户注册</h2>
+
+                <div>
+                    {{ form.phone_number.errors }}
+                    {{ form.phone_number }}
+                </div>
+                <div>
+                    {{ form.username.errors }}
+                    {{ form.username }}
+                </div>
+                <div>
+                    {{ form.password.errors }}
+                    {{ form.password }}
+                </div>
+                <div>
+                    {{ form.email.errors }}
+                    {{ form.email }}
+                </div>
+                <div>
+                    {{ form.captcha.errors }}
+                    {{ form.captcha }}
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+            </form>
+        </div> <!-- /container -->
+    {% endblock %}
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        $('.captcha').click(function () {
+            $form = $(this).parents('form');
+            $.getJSON('/generate_captcha/', {}, function (json) {
+                $('#id_captcha_0').attr('value', json['cptch_key'])
+                $('.captcha').attr('src', json['cptch_image'])
+            });
+        })
+
+    </script>
+{% endblock %}
+{% block css %}
+    <style>
+        .captcha {
+            cursor: pointer;
+        }
+    </style>
+
+{% endblock %}

@@ -20,15 +20,13 @@ from SmartDataApp.forms import UserForm
 from SmartDataApp.models import Picture, ProfileDetail
 
 
-def cloudlife(request):
-    return render_to_response('cloudlife.html')
-
-
 def register_cloud(request):
-    return render_to_response('user_register.html')
+    return render_to_response('register.html')
+
 
 def complain(request):
     return render_to_response('complains.html')
+
 
 def index(request):
     return render_to_response('index.html', {"hide": True})
@@ -49,7 +47,7 @@ def register(request):
     if request.method == 'GET':
         response_data = {'success': True}
         response_data.update(csrf(request))
-        return render_to_response('register.html', response_data)
+        return render_to_response('register_old.html', response_data)
     elif request.method == 'POST':
         flag = False
         email, username, password = None, None, None
@@ -67,11 +65,11 @@ def register(request):
             pattern = re.compile('\w{6,15}')
             match = pattern.match(password)
             if not match:
-                return multi_response(flag, False, '密码长度为6-15位数字或字母', 'register.html')
+                return multi_response(flag, False, '密码长度为6-15位数字或字母', 'register_old.html')
             if len(User.objects.filter(username=username)) > 0:
-                return multi_response(flag, False, '该用户名已经存在', 'register.html')
+                return multi_response(flag, False, '该用户名已经存在', 'register_old.html')
             if len(User.objects.filter(email=email)) > 0:
-                return multi_response(flag, False, '该邮箱已经存在', 'register.html')
+                return multi_response(flag, False, '该邮箱已经存在', 'register_old.html')
             user = User.objects.get_or_create(username=username)[0]
             if password:
                 user.password = make_password(password, 'md5')
@@ -131,12 +129,12 @@ def new_register(request):
         else:
             response_data = {'success': True, 'form': form}
             response_data.update(csrf(request))
-            return render_to_response('register.html', response_data)
+            return render_to_response('register_old.html', response_data)
     else:
         form = UserForm()
         response_data = {'success': True, 'form': form}
         response_data.update(csrf(request))
-        return render_to_response('register.html', response_data)
+        return render_to_response('register_old.html', response_data)
 
 
 def generate_captcha(request):
@@ -237,7 +235,7 @@ def login(request):
                 response_data = {'success': False, 'info': '用户不存在'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
-                return render_to_response('index.html', {"hide": False})
+                return render_to_response('index_old.html', {"hide": False})
 
 
 def logout(request):

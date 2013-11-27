@@ -1,91 +1,96 @@
-{% extends "base.html" %}
-{% block title %}用户注册{% endblock %}
-{% block body_id %}id_body{% endblock %}
-{% block body %}
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+{% extends "basecloud.html" %}
 
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                {% if username %}
-                    <a class="navbar-brand" href="/dashboard/">亨通物业管理平台</a>
-                {% else %}
-                    <a class="navbar-brand" href="/index/">亨通物业管理平台</a>
-                {% endif %}
-            </div>
-            <div class="navbar-collapse collapse">
-                <form class="navbar-form navbar-right" action="/login/" method="post">
-                    <div class="form-group">
-                        <input type="text" placeholder="用户名" class="form-control" name="username" required autofocus>
+{% block container %}
+
+    <!-- 主要内容区域 start -->
+    <div class="s_lrf_reg main el_container">
+        <div class="main_inner">
+            <!-- 注册框 start -->
+            <form class="form-horizontal" id="site-form" action="/site/reg" method="post">
+                <div class="lrf_regBox lrf_optBox fn_left">
+                    <div class="titItem">
+                        <i class="icon"></i>
+                        <span class="title">用户注册</span>
                     </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="密码" class="form-control" name="password" required>
+                    <div class="optItem">
+                        <div class="optItem_item">
+                            <label class="el_lab">用户名：</label>
+                            <input class="el_inText" placeholder="请填写手机号/用户名" name="CustomerForm[username]"
+                                   id="CustomerForm_username" type="text"/> <span
+                                class="tip">字母、数字、下划线组成，3位以上</span>
+                        </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">密码：</label>
+                            <input class="el_inText" placeholder="请填写密码" name="CustomerForm[password]"
+                                   id="CustomerForm_password" type="password"/> <span
+                                class="tip">字母、数字组成，6-15位</span>
+                        </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">重复密码：</label>
+                            <input class="el_inText" placeholder="重复密码" name="CustomerForm[repeatPwd]"
+                                   id="CustomerForm_repeatPwd" type="password"/>
+                            <!--   <span class="tip">两次输入的密码不一样，请检查</span>  -->
+                        </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">地址：</label>
+                            <input class="func_address el_inText" value="选择地址">
+                            <input type="hidden" id="province_id"/>
+                            <input type="hidden" id="city_id"/>
+                            <input type="hidden" id="area_id"/>
+                            <input name="CustomerForm[community_id]" id="CustomerForm_community_id" type="hidden"/>
+                            <input name="CustomerForm[build_id]" id="CustomerForm_build_id" type="hidden"/> <input
+                                name="CustomerForm[room]" id="CustomerForm_room" type="hidden"/>
+                            <!--  <span class="tip">地址不能为空</span>  -->
+                        </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">手机号码：</label>
+                            <input class="el_inText el_inText_sl" placeholder="手机号码" name="CustomerForm[mobile]"
+                                   id="CustomerForm_mobile" type="text"/> <input type="button" id="btnSend"
+                                                                                 class="code_by_el_btn el_btn"
+                                                                                 value="获取验证码"/>
+
+                        </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">验证码：</label>
+                            <input class="el_inText" placeholder="验证码" name="CustomerForm[code]"
+                                   id="CustomerForm_code"
+                                   type="text"/></div>
+                        <div class="optItem_item optItem_item_btns">
+                            <button type="submit" class="el_btn_orange_xl el_btn"><span class="txt">立即注册</span>
+                            </button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-success">登陆</button>
-                    <a class="btn btn-primary" href="/register/">注册</a>
-                </form>
+                    <div style="color: red;"></div>
+                </div>
+
+            </form>
+            <!-- 注册框 end -->
+
+            <!-- 注册页面侧栏 start -->
+            <div class="lrf_regSideBox lrf_sideBox fn_right">
+                <dl class="conList">
+                    <dt class="title">怎样成为我们的会员？</dt>
+                    <dd class="con">
+                        <ol class="list">
+                            <li class="list_item">1、注册成为我们会员;</li>
+                            <li class="list_item">2、完善物业资料;</li>
+                            <li class="list_item">3、审核通过;</li>
+                        </ol>
+                    </dd>
+                    <dt class="title">成为我们的会员有什么好处？</dt>
+                    <dd class="con">
+                        <ol class="list">
+                            <li class="list_item">1、方便快捷的物业服务;</li>
+                            <li class="list_item">2、周边优惠信息一网打尽;</li>
+                            <li class="list_item">3、天天特价每天一个惊喜;</li>
+                        </ol>
+                    </dd>
+                </dl>
             </div>
-            <!--/.navbar-collapse -->
+            <!-- 注册页面侧栏 end -->
+            <div class="fn_clear"></div>
+
         </div>
     </div>
-    {% block content %}
-        <div class="container">
-            {% if not success %}
-                <div class="alert alert-danger">
-                    <strong>{{ info }}</strong>
-                </div>
-            {% endif %}
-            <form class="form-signin" method="post" action=".">
-                {% csrf_token %}
-                <h2 class="form-signin-heading">用户注册</h2>
-
-                <div>
-                    {{ form.phone_number.errors }}
-                    {{ form.phone_number }}
-                </div>
-                <div>
-                    {{ form.username.errors }}
-                    {{ form.username }}
-                </div>
-                <div>
-                    {{ form.password.errors }}
-                    {{ form.password }}
-                </div>
-                <div>
-                    {{ form.email.errors }}
-                    {{ form.email }}
-                </div>
-                <div>
-                    {{ form.captcha.errors }}
-                    {{ form.captcha }}
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
-            </form>
-        </div> <!-- /container -->
-    {% endblock %}
-{% endblock %}
-{% block script %}
-    <script type="text/javascript">
-        $('.captcha').click(function () {
-            $form = $(this).parents('form');
-            $.getJSON('/generate_captcha/', {}, function (json) {
-                $('#id_captcha_0').attr('value', json['cptch_key'])
-                $('.captcha').attr('src', json['cptch_image'])
-            });
-        })
-
-    </script>
-{% endblock %}
-{% block css %}
-    <style>
-        .captcha {
-            cursor: pointer;
-        }
-    </style>
 
 {% endblock %}

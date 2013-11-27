@@ -11,7 +11,7 @@ from SmartDataApp.views import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-                       url(r'^$', cloudlife),
+                       url(r'^$', index),
                        url(r'^index/$', index),
                        url(r'^register/$', new_register),
                        url(r'^login/$', login),
@@ -26,7 +26,6 @@ urlpatterns = patterns('',
                        url(r'^captcha/', include('captcha.urls')),
                        #url(r'^new_register/', new_register),
                        url(r'^generate_captcha/', generate_captcha),
-                       url(r'^cloudlife/$', cloudlife),
                        url(r'^register_cloud/$', register_cloud),
                        url(r'^complain/$', complain),
 
