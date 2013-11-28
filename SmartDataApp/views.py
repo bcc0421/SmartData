@@ -2,6 +2,7 @@
 import re
 import logging
 from captcha.helpers import captcha_image_url
+import datetime
 
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -17,7 +18,7 @@ from django.core import serializers
 from captcha.models import CaptchaStore
 
 from SmartDataApp.forms import UserForm
-from SmartDataApp.models import Picture, ProfileDetail
+from SmartDataApp.models import Picture, ProfileDetail, Complaints
 
 
 def register(request):
@@ -70,10 +71,40 @@ def login(request):
 
 def complain(request):
     return render_to_response('complains.html')
+def admin_show_complain(request):
+
+
 
 
 def index(request):
     return render_to_response('index.html', {"hide": True})
+
+
+@transaction.atomic
+@csrf_exempt
+def complain_create(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        complain_content = request.POST.get('content', None)
+        complain_type = request.POST.get('category', None)
+        upload__complain_src = request.FILES.get('upload_complain_img', None)
+        complain_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+        if complain_content or complain_type:
+            return render_to_response('admin_complains.html')
+            complain = Complaints(author=request.user)
+            complain.content = complain_content
+            complain.timestamp = complain_time
+            complain.type = complain_type
+            complain.save()
+            if upload__complain_src:
+                pic = Picture(author=request.user)
+                pic.src = upload__complain_src
+                pic.title = upload__complain_src.name
+                pic.save()
+            return render_to_response('complain_sucess.html')
+        else:
+            return render_to_response('complains.html')
 
 
 def multi_response(flag, success, info, template):
