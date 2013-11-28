@@ -40,7 +40,8 @@ class Complaints(models.Model):
     content = models.CharField(max_length=250, null=False)
     author = models.ForeignKey(User)
     timestamp = models.DateTimeField(default=timezone.now)
-    handler = models.ForeignKey(ProfileDetail)
+    handler = models.ManyToManyField(ProfileDetail, default=None, null=True)
     pleased = models.IntegerField(default=5)
     type = models.CharField(max_length=20)
+
 
