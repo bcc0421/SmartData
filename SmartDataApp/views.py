@@ -20,7 +20,7 @@ from SmartDataApp.forms import UserForm
 from SmartDataApp.models import Picture, ProfileDetail
 
 
-def register_cloud(request):
+def register(request):
     return render_to_response('register.html')
 
 
@@ -87,7 +87,7 @@ def multi_response(flag, success, info, template):
 
 @transaction.atomic
 @csrf_exempt
-def register(request):
+def register_old(request):
     if request.method == 'GET':
         response_data = {'success': True}
         response_data.update(csrf(request))

@@ -13,7 +13,7 @@ from SmartDataApp.views import *
 urlpatterns = patterns('',
                        url(r'^$', index),
                        url(r'^index/$', index),
-                       url(r'^register/$', new_register),
+                       url(r'^register/$', register),
                        url(r'^login/$', login),
                        url(r'^logout/$', logout),
                        url(r'^dashboard/$', dashboard),
@@ -24,9 +24,7 @@ urlpatterns = patterns('',
                        url(r'^keep/(?P<id>\d+)/$', ajax_keep),
                        url(r'^delete_picture/(?P<id>\d+)/$', ajax_delete_picture),
                        url(r'^captcha/', include('captcha.urls')),
-                       #url(r'^new_register/', new_register),
                        url(r'^generate_captcha/', generate_captcha),
-                       url(r'^register_cloud/$', register_cloud),
                        url(r'^complain/$', complain),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
