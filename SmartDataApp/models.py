@@ -43,5 +43,6 @@ class Complaints(models.Model):
     handler = models.ManyToManyField(ProfileDetail, default=None, null=True)
     pleased = models.IntegerField(default=5)
     type = models.CharField(max_length=20)
+    status = models.BooleanField(default=False)
 
 
