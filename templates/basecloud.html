@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <title>亨通物业管理平台</title>
+    <title>{% block title %}{% endblock %}</title>
     <meta name="keywords" content="亨通,物业,管理,平台">
     <meta name="description" content="亨通,物业,管理,平台">
     <link href="/static/css/page.css" rel="stylesheet">
@@ -13,15 +13,9 @@
     <link href="/static/css/commonNew.css" rel="stylesheet">
     <link href="/static/css/baseNew.css" rel="stylesheet">
     <link href="/static/css/indexNew.css" rel="stylesheet">
-
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/colourlife.common.js"></script>
-    <script src="/static/js/colourlife.page.js"></script>
-    <script src="/static/js/colourlife.form.js"></script>
     {% block css %}
 
     {% endblock %}
-
 </head>
 <body class="s_info_lst">
 <!-- 工具栏 start -->
@@ -138,7 +132,7 @@
         {#                </span>#}
         <!-- address end -->
 
-        <a href="#" class="mainNav_item" title="小区首页">
+        <a href="/index/" class="mainNav_item" title="小区首页">
             <span class="txt">小区首页</span>
         </a>
 
@@ -202,8 +196,7 @@
     <span class="item">
         <strong class="title">联系我们</strong>
         <span class="box">
-            <a href="mailto:bcc0421@gmail.com" class="link"
-               title="联系我们">bcc0421@gmail.com</a>
+            <a href="mailto:bcc0421@gmail.com" class="link" title="联系我们">bcc0421@gmail.com</a>
             <em class="el_blank"></em>
             <a class="txt">客服:8888-888-888</a>
             <em class="el_blank"></em>
@@ -252,7 +245,10 @@
 
 </div>
 <!-- 公司链接区域 end -->
-</body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/colourlife.common.js"></script>
+<script src="/static/js/colourlife.page.js"></script>
+<script src="/static/js/colourlife.form.js"></script>
 <script type="text/javascript">
     function goTop() {
         $(window).scroll(function (e) {
@@ -287,4 +283,6 @@
     goTop();//实现回到顶部元素的渐显与渐隐
 </script>
 {% block script %}{% endblock %}
+</body>
+
 </html>

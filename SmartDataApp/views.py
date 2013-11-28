@@ -183,7 +183,7 @@ def new_register(request):
 
 @transaction.atomic
 @csrf_exempt
-@login_required
+@login_required(login_url='/login/')
 def profile(request):
     if request.method == 'GET':
         return render_to_response('profile.html', {
