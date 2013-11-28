@@ -16,9 +16,7 @@
             -->
         </style>
 {% endblock %}
-{% block body %}
-    <body class="s_info_lst">
-    <div class="container" id="page">
+ {% block container %}
         <!-- 主要内容区域 start -->
         <div class="s_ifs_ix main el_container">
             <div class="el_blank_h20"></div>
@@ -29,7 +27,7 @@
                     <div class="vessel_titBox"><span class="tit">投诉</span></div>
                     <div class="vessel_conBox">
                         <!--缴费步骤 start-->
-                        <form enctype="multipart/form-data" id="pepair-form"  action="/complain/create" method="post">
+                        <form enctype="multipart/form-data" id="pepair-form"  action="/complain/create/" method="post">
                             <div class="um_mn_box">
                                 <table class="table" cellpadding="0" cellspacing="0">
                                     <tr>
@@ -49,16 +47,16 @@
                                     </tr>
                                     <tr>
                                         <td class="baoxiu" colspan="2" height="50">
-                                            <select style="width:130px;" name="ComplainForm[category_id]">
-                                                <option value="1">安全投诉</option>
-                                                <option value="2">环境投诉</option>
-                                                <option value="3">投诉员工</option>
+                                            <select style="width:130px;" name="category">
+                                                <option value="安全投诉">安全投诉</option>
+                                                <option value="环境投诉">环境投诉</option>
+                                                <option value="投诉员工">投诉员工</option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="3"><span class="txt txt_1">投诉内容：</span>
-                                            <textarea name="ComplainForm[content]" class="el_inText" style=" margin:10px 0 20px 0;"></textarea></td>
+                                            <textarea name="content" class="el_inText" style=" margin:10px 0 20px 0;"></textarea></td>
                                     </tr>
                                 </table>
 
@@ -83,8 +81,6 @@
             <div class="el_blank_h10 fn_clear"></div>
             <div class="el_blank_h50 fn_clear"></div>
         </div>
-        <!-- 主要内容区域 end -->
-    </div>
     <!-- page -->
 
 {% endblock %}

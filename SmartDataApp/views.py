@@ -79,25 +79,27 @@ def index(request):
 @transaction.atomic
 @csrf_exempt
 def complain_create(request):
-    if request.method=='GET':
+    if request.method != u'POST':
         return redirect(index)
-    elif request.method=='POST':
-        #if request.user!='AnonymousUser':
-            complain_content=request.POST.get('ComplainForm[content]', None)
-            complain_type_id=request.POST.get('ComplainForm[category_id]',None)
-            upload__complain_src = request.FILES.get('upload_complain_img', None)
-            complain_author=request.user
-            complain_time=datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
-            complain_list = [u'安全投诉', u'环境投诉', u'投诉员工']
-            complain_str_id = str(complain_type_id)
-            complain_id =int(complain_str_id) - 1
-            complain_type=complain_list[complain_id]
-            if complain_content or complain_type_id :
-                complain=Complaints(author=request.user)
-                complain.content=complain_content
-                complain.timestamp=complain_time
-                complain.type=complain_type
-
+    else:
+        complain_content=request.POST.get('content', None)
+        complain_type=request.POST.get('category',None)
+        upload__complain_src = request.FILES.get('upload_complain_img', None)
+        complain_time=datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+        if complain_content or complain_type :
+            return render_to_response('complain_sucess.html')
+            complain=Complaints(author=request.user)
+            complain.content=complain_content
+            complain.timestamp=complain_time
+            complain.type=complain_type
+            complain.save()
+            pic = Picture(author=request.user)
+            pic.src = upload__complain_src
+            pic.title = upload__complain_src.name
+            pic.save()
+            return render_to_response('complain_sucess.html')
+        else:
+            return render_to_response('complains.html')
 
 
 
