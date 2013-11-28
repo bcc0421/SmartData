@@ -109,6 +109,10 @@ def login(request):
 
 def complain(request):
     return render_to_response('complains.html')
+def admin_show_complain(request):
+    return render_to_response('complains.html')
+
+
 
 
 def index(request):
