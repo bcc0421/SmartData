@@ -6,7 +6,8 @@
     <div class="s_lrf_reg main el_container">
         <div class="main_inner">
             <!-- 注册框 start -->
-            <form class="form-horizontal" id="site-form" action="/site/reg" method="post">
+            <form class="form-horizontal" id="site-form" action="/register/" method="post">
+                {% csrf_token %}
                 <div class="lrf_regBox lrf_optBox fn_left">
                     <div class="titItem">
                         <i class="icon"></i>
@@ -15,49 +16,45 @@
                     <div class="optItem">
                         <div class="optItem_item">
                             <label class="el_lab">用户名：</label>
-                            <input class="el_inText" placeholder="请填写手机号/用户名" name="CustomerForm[username]"
-                                   id="CustomerForm_username" type="text"/> <span class="tip">字母、数字、下划线组成，3位以上</span>
+                            <input class="el_inText" placeholder="请填写手机号/用户名" name="username"
+                                   id="CustomerForm_username" type="text" required autofocus/>
+                            {% if username_error %}
+                                <span style="color:red;" class="help-inline error">{{ info }}</span>
+                            {% else %}
+                                <span class="tip">字母、数字、下划线组成，3位以上</span>
+                            {% endif %}
                         </div>
                         <div class="optItem_item">
                             <label class="el_lab">密码：</label>
-                            <input class="el_inText" placeholder="请填写密码" name="CustomerForm[password]"
-                                   id="CustomerForm_password" type="password"/> <span class="tip">字母、数字组成，6-15位</span>
+                            <input class="el_inText" placeholder="请填写密码" name="password"
+                                   id="CustomerForm_password" type="password" required/> <span
+                                class="tip">字母、数字组成，6-15位</span>
                         </div>
                         <div class="optItem_item">
                             <label class="el_lab">重复密码：</label>
-                            <input class="el_inText" placeholder="重复密码" name="CustomerForm[repeatPwd]"
-                                   id="CustomerForm_repeatPwd" type="password"/>
-                            <!--   <span class="tip">两次输入的密码不一样，请检查</span>  -->
+                            <input class="el_inText" placeholder="重复密码" name="repeatPwd"
+                                   id="CustomerForm_repeatPwd" type="password" required/>
+                            {% if password_error %}
+                                <span style="color:red;" class="help-inline error">{{ info }}</span>
+                            {% endif %}
                         </div>
                         <div class="optItem_item">
                             <label class="el_lab">地址：</label>
-                            <input class="func_address el_inText" value="选择地址">
-                            <input type="hidden" id="province_id"/>
-                            <input type="hidden" id="city_id"/>
-                            <input type="hidden" id="area_id"/>
-                            <input name="CustomerForm[community_id]" id="CustomerForm_community_id" type="hidden"/>
-                            <input name="CustomerForm[build_id]" id="CustomerForm_build_id" type="hidden"/> <input
-                                name="CustomerForm[room]" id="CustomerForm_room" type="hidden"/>
-                            <!--  <span class="tip">地址不能为空</span>  -->
+                            <input class="el_inText" placeholder="所在小区" name="community" required>
                         </div>
                         <div class="optItem_item">
                             <label class="el_lab">手机号码：</label>
-                            <input class="el_inText el_inText_sl" placeholder="手机号码" name="CustomerForm[mobile]"
-                                   id="CustomerForm_mobile" type="text"/> <input type="button" id="btnSend"
-                                                                                 class="code_by_el_btn el_btn"
-                                                                                 value="获取验证码"/>
+                            <input class="el_inText" placeholder="手机号码" name="mobile"
+                                   id="CustomerForm_mobile" type="text" required/>
+                            {% if mobile_error %}
+                                <span style="color:red;" class="help-inline error">{{ info }}</span>
+                            {% endif %}
                         </div>
-                        <div class="optItem_item">
-                            <label class="el_lab">验证码：</label>
-                            <input class="el_inText" placeholder="验证码" name="CustomerForm[code]"
-                                   id="CustomerForm_code"
-                                   type="text"/></div>
                         <div class="optItem_item optItem_item_btns">
                             <button type="submit" class="el_btn_orange_xl el_btn"><span class="txt">立即注册</span>
                             </button>
                         </div>
                     </div>
-                    <div style="color: red;"></div>
                 </div>
             </form>
             <!-- 注册框 end -->

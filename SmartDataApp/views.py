@@ -1,9 +1,9 @@
 #coding:utf-8
 import re
 import logging
-from captcha.helpers import captcha_image_url
 import datetime
 
+from captcha.helpers import captcha_image_url
 import simplejson
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
@@ -21,8 +21,46 @@ from SmartDataApp.forms import UserForm
 from SmartDataApp.models import Picture, ProfileDetail, Complaints
 
 
+@transaction.atomic
+@csrf_exempt
 def register(request):
-    return render_to_response('register.html')
+    if request.method != 'POST':
+        response_data = {'success': True}
+        response_data.update(csrf(request))
+        return render_to_response('register.html', response_data)
+    else:
+        username = request.POST.get(u'username', None)
+        password = request.POST.get(u'password', None)
+        repeatPwd = request.POST.get(u'repeatPwd', None)
+        mobile = request.POST.get(u'mobile', None)
+        community = request.POST.get(u'community', None)
+        if len(User.objects.filter(username=username)) > 0:
+            response_data = {'username_error': True, 'info': u'用户名已存在'}
+            return render_to_response('register.html', response_data)
+        if password != repeatPwd:
+            response_data = {'password_error': True, 'info': u'两次密码输入不相同'}
+            return render_to_response('register.html', response_data)
+        pattern = re.compile(r'^[a-zA-Z0-9]{6,15}$')
+        if not pattern.match(password):
+            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位'}
+            return render_to_response('register.html', response_data)
+        pattern = re.compile(r'^(1[0-9][0-9])\d{8}$')
+        if not pattern.match(mobile):
+            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码'}
+            return render_to_response('register.html', response_data)
+        user = User(username=username)
+        user.password = make_password(password, 'md5')
+        user.save()
+        profile_detail = ProfileDetail(profile=user)
+        profile_detail.community = community
+        profile_detail.phone_number = mobile
+        #权限
+        profile_detail.save()
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                auth_login(request, user)
+        return redirect(index)
 
 
 def random_captcha():
@@ -71,9 +109,6 @@ def login(request):
 
 def complain(request):
     return render_to_response('complains.html')
-def admin_show_complain(request):
-
-
 
 
 def index(request):
