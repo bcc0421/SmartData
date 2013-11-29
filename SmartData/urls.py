@@ -1,9 +1,8 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from SmartDataApp.controller.admin import register, login, logout
 from SmartDataApp.views import *
-
 
 
 # Uncomment the next two lines to enable the admin:
