@@ -50,6 +50,14 @@
                                 <span style="color:red;" class="help-inline error">{{ info }}</span>
                             {% endif %}
                         </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">权限：</label>
+                            <select class="el_inText" id="is_admin" name="is_admin">
+                                <option value="0">业主</option>
+                                <option value="1">工作人员</option>
+                                <option value="2">管理员</option>
+                            </select>
+                        </div>
                         <div class="optItem_item optItem_item_btns">
                             <button type="submit" class="el_btn_orange_xl el_btn"><span class="txt">立即注册</span>
                             </button>

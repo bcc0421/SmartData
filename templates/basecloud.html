@@ -33,10 +33,15 @@
 
         <!-- right part start -->
         <div class="fn_right">
-            <a href="/login/"
-               class="optLink el_btn">[登录]</a><!-- title="登录" -->
-            <a href="/register/" class="optLink el_btn" class="免费注册">[免费注册]</a>
-                        <span href="#" class="optMore el_btn">
+            {% if user %}
+                <a href="#" class="optLink el_btn">{{ user.username }}</a>
+            {% else %}
+                <a href="/login/" class="optLink el_btn">[登录]</a>
+            {% endif %}
+            {% if user.is_staff %}
+                <a href="/register/" class="optLink el_btn">添加用户</a>
+            {% endif %}
+            <span href="#" class="optMore el_btn">
                     <span class="optMore_item">
                         <span class="txt" title="帮助">帮助</span>
                         <i class="icon"></i>

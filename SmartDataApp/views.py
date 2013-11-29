@@ -16,17 +16,18 @@ from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.core import serializers
 from captcha.models import CaptchaStore
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from SmartDataApp.forms import UserForm
 from SmartDataApp.models import Picture, ProfileDetail, Complaints
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 @transaction.atomic
 @csrf_exempt
+#@login_required
 def register(request):
     if request.method != 'POST':
-        response_data = {'success': True}
+        response_data = {'success': True, 'user': request.user}
         response_data.update(csrf(request))
         return render_to_response('register.html', response_data)
     else:
@@ -35,27 +36,29 @@ def register(request):
         repeatPwd = request.POST.get(u'repeatPwd', None)
         mobile = request.POST.get(u'mobile', None)
         community = request.POST.get(u'community', None)
+        is_admin = request.POST.get(u'is_admin', None)
         if len(User.objects.filter(username=username)) > 0:
-            response_data = {'username_error': True, 'info': u'用户名已存在'}
+            response_data = {'username_error': True, 'info': u'用户名已存在', 'user': request.user}
             return render_to_response('register.html', response_data)
         if password != repeatPwd:
-            response_data = {'password_error': True, 'info': u'两次密码输入不相同'}
+            response_data = {'password_error': True, 'info': u'两次密码输入不相同', 'user': request.user}
             return render_to_response('register.html', response_data)
         pattern = re.compile(r'^[a-zA-Z0-9]{6,15}$')
         if not pattern.match(password):
-            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位'}
+            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位', 'user': request.user}
             return render_to_response('register.html', response_data)
         pattern = re.compile(r'^(1[0-9][0-9])\d{8}$')
         if not pattern.match(mobile):
-            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码'}
+            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码', 'user': request.user}
             return render_to_response('register.html', response_data)
         user = User(username=username)
         user.password = make_password(password, 'md5')
+        if is_admin == u'2':
+            user.is_staff = True
         user.save()
         profile_detail = ProfileDetail(profile=user)
-        profile_detail.community = community
         profile_detail.phone_number = mobile
-        #权限
+        profile_detail.is_admin = True if is_admin == u'1' else False
         profile_detail.save()
         user = authenticate(username=username, password=password)
         if user is not None:
@@ -133,7 +136,10 @@ def admin_show_complain(request):
 
 
 def index(request):
-    return render_to_response('index.html', {"hide": True})
+    if request.user.is_authenticated():
+        return render_to_response('index.html', {'user': request.user})
+    else:
+        return render_to_response('index.html')
 
 
 @transaction.atomic

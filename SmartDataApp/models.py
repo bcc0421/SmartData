@@ -31,6 +31,7 @@ class ProfileDetail(models.Model):
     phone_number = models.CharField(max_length=11, null=True)
     community = models.ForeignKey(Community, null=True)
     pictures = models.ManyToManyField(Picture, null=True)
+    is_admin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.cell_phone
