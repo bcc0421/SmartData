@@ -110,8 +110,10 @@ def login(request):
 
 def complain(request):
     return render_to_response('complains.html')
+
+
 def admin_show_complain(request):
-    complains=Complaints.objects.all()
+    complains = Complaints.objects.all()
     paginator = Paginator(complains, 2)
     page = request.GET.get('page')
     try:
@@ -120,8 +122,8 @@ def admin_show_complain(request):
         complains_list = paginator.page(1)
     except EmptyPage:
         complains_list = paginator.page(paginator.num_pages)
-    return render_to_response('admin_complains.html',{
-        'complains':complains_list
+    return render_to_response('admin_complains.html', {
+        'complains': complains_list
     })
 
 
