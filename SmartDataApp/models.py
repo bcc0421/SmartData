@@ -41,8 +41,9 @@ class Complaints(models.Model):
     author = models.ForeignKey(User)
     timestamp = models.DateTimeField(default=timezone.now)
     handler = models.ManyToManyField(ProfileDetail, default=None, null=True)
-    pleased = models.IntegerField(default=5)
+    pleased = models.IntegerField(default=0)
     type = models.CharField(max_length=20)
     status = models.BooleanField(default=False)
+    src = models.ImageField(upload_to='uploads/%Y/%m/%d', null=True)
 
 

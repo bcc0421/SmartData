@@ -70,6 +70,18 @@
             input.error {
                 border-color: #f00;
             }
+            .complain1,span ,button{
+                font-size: 15px;
+
+            }
+            .complain1 button{
+                border-radius: 0px 0px 0px 0px;
+                width: 80px;
+                height:30px;
+                margin-left: 10px;
+                margin-top: 30px
+
+            }
         </style>
 
         <!-- 主要内容区域 start -->
@@ -79,7 +91,7 @@
             <!-- 左侧 start -->
             <div class="el_w_203 fn_left" style="width:110px">
                 <!-- 服务列表 start -->
-                <div class="sur_ix_serBox" style="width:95px;border: 1px solid #ff0000">
+                <div class="sur_ix_serBox" style="width:95px;">
                     <!-- 元素 start -->
                     <a class="item_s1 item" href="/repair/create">
                         <i class="icon"></i>
@@ -141,8 +153,43 @@
             <!-- 左侧 end -->
 
             <!-- 中部 start -->
-            <div class="el_w_524 fn_left"style="border: 1px solid red ">
+            <div class="el_w_524 fn_left">
+                {% for one_complain in complains %}
+                    <div class="complain1" style="background-color: darkgrey;margin-bottom: 30px;height: 100px" id="{{ one_complain.id }}">
+                        <div style="float: left">
+                            <span>时间：{{ one_complain.timestamp }}</span>/
+                            <span>{{ one_complain.author.username }}</span>/
+                            <span>{{ one_complain.type }}</span>
+                            <p>投诉内容：</p>
+                            <div><span>{{ one_complain.content }}</span></div>
+                        </div>
+                        <div style="float: left;margin-left: 20px">
+                            <img src="/media/{{one_complain.src}}" style="height: 100px;width: 100px">
+                        </div>
+                        <div style="float: left;margin-left: 20px;margin-top:10px">
+                            <div style="background-color: darkgoldenrod;width:80px">满意度：{{one_complain.pleased  }}</div>
+                            {% if one_complain.status %}
+                                <div><button class="btn btn-info ">已受理</button></div>
+                            {% else %}
+                                <div><button class="btn btn-info">未受理</button></div>
+                            {% endif %}
 
+                        </div>
+                     </div>
+                 {% endfor %}
+                 <div class="paginator" style="padding:0 150px;">
+                    <span class="step-links">
+                        {% if complains.has_previous %}
+                            <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
+                        {% endif %}
+                        <span class="current">
+                             当前页： {{ complains.number }}/{{ complains.paginator.num_pages }}.
+                        </span> &nbsp;
+                        {% if complains.has_next %}
+                            <a href="?page={{ complains.next_page_number }}">《下一页》</a>
+                        {% endif %}
+                    </span>
+                 </div>
             </div>
             <!-- 中部 end -->
              <!-- 右侧 start -->
