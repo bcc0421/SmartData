@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from SmartDataApp.controller.admin import register, login, logout
 from SmartDataApp.views import *
-
+from SmartDataApp.controller.complain import *
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -26,6 +26,5 @@ urlpatterns = patterns('',
                        url(r'^generate_captcha/', generate_captcha),
                        url(r'^complain/$', complain),
                        url(r'^complain/create/$', complain_create),
-                       url(r'^admin/complain/$', admin_show_complain),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
