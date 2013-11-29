@@ -23,9 +23,10 @@ from SmartDataApp.models import Picture, ProfileDetail, Complaints
 
 @transaction.atomic
 @csrf_exempt
+@login_required
 def register(request):
     if request.method != 'POST':
-        response_data = {'success': True}
+        response_data = {'success': True, 'user': request.user}
         response_data.update(csrf(request))
         return render_to_response('register.html', response_data)
     else:
@@ -35,18 +36,18 @@ def register(request):
         mobile = request.POST.get(u'mobile', None)
         community = request.POST.get(u'community', None)
         if len(User.objects.filter(username=username)) > 0:
-            response_data = {'username_error': True, 'info': u'用户名已存在'}
+            response_data = {'username_error': True, 'info': u'用户名已存在', 'user': request.user}
             return render_to_response('register.html', response_data)
         if password != repeatPwd:
-            response_data = {'password_error': True, 'info': u'两次密码输入不相同'}
+            response_data = {'password_error': True, 'info': u'两次密码输入不相同', 'user': request.user}
             return render_to_response('register.html', response_data)
         pattern = re.compile(r'^[a-zA-Z0-9]{6,15}$')
         if not pattern.match(password):
-            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位'}
+            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位', 'user': request.user}
             return render_to_response('register.html', response_data)
         pattern = re.compile(r'^(1[0-9][0-9])\d{8}$')
         if not pattern.match(mobile):
-            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码'}
+            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码', 'user': request.user}
             return render_to_response('register.html', response_data)
         user = User(username=username)
         user.password = make_password(password, 'md5')
@@ -112,7 +113,10 @@ def complain(request):
 
 
 def index(request):
-    return render_to_response('index.html', {"hide": True})
+    if request.user.is_authenticated():
+        return render_to_response('index.html', {'user': request.user})
+    else:
+        render_to_response('index.html')
 
 
 @transaction.atomic
