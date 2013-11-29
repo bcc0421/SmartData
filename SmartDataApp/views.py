@@ -19,6 +19,7 @@ from captcha.models import CaptchaStore
 
 from SmartDataApp.forms import UserForm
 from SmartDataApp.models import Picture, ProfileDetail, Complaints
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 @transaction.atomic
@@ -110,9 +111,18 @@ def login(request):
 def complain(request):
     return render_to_response('complains.html')
 def admin_show_complain(request):
-    return render_to_response('complains.html')
-
-
+    complains=Complaints.objects.all()
+    paginator = Paginator(complains, 2)
+    page = request.GET.get('page')
+    try:
+        complains_list = paginator.page(page)
+    except PageNotAnInteger:
+        complains_list = paginator.page(1)
+    except EmptyPage:
+        complains_list = paginator.page(paginator.num_pages)
+    return render_to_response('admin_complains.html',{
+        'complains':complains_list
+    })
 
 
 def index(request):
@@ -130,17 +140,13 @@ def complain_create(request):
         upload__complain_src = request.FILES.get('upload_complain_img', None)
         complain_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
         if complain_content or complain_type:
-            return render_to_response('admin_complains.html')
             complain = Complaints(author=request.user)
             complain.content = complain_content
             complain.timestamp = complain_time
             complain.type = complain_type
-            complain.save()
             if upload__complain_src:
-                pic = Picture(author=request.user)
-                pic.src = upload__complain_src
-                pic.title = upload__complain_src.name
-                pic.save()
+                complain.src = upload__complain_src
+            complain.save()
             return render_to_response('complain_sucess.html')
         else:
             return render_to_response('complains.html')

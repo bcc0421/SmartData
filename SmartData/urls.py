@@ -27,4 +27,8 @@ urlpatterns = patterns('',
                        url(r'^generate_captcha/', generate_captcha),
                        url(r'^complain/$', complain),
                        url(r'^complain/create/$', complain_create),
+                       url(r'^admin/complain/$', admin_show_complain),
+
+
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
