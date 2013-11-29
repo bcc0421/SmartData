@@ -114,17 +114,22 @@ def complain(request):
 
 def admin_show_complain(request):
     complains = Complaints.objects.all()
-    paginator = Paginator(complains, 2)
-    page = request.GET.get('page')
-    try:
-        complains_list = paginator.page(page)
-    except PageNotAnInteger:
-        complains_list = paginator.page(1)
-    except EmptyPage:
-        complains_list = paginator.page(paginator.num_pages)
+    if len(complains) > 0:
+        paginator = Paginator(complains, 2)
+        page = request.GET.get('page')
+        try:
+            complains_list = paginator.page(page)
+        except PageNotAnInteger:
+            complains_list = paginator.page(1)
+        except EmptyPage:
+            complains_list = paginator.page(paginator.num_pages)
+        return render_to_response('admin_complains.html', {
+            'complains': complains_list,
+            'show':True
+        })
     return render_to_response('admin_complains.html', {
-        'complains': complains_list
-    })
+            'show':False
+        })
 
 
 def index(request):

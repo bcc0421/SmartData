@@ -16,8 +16,6 @@
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/colourlife.common.js"></script>
     <script src="/static/js/colourlife.form.js"></script>
-
-
 </head>
 <body class="s_info_lst">
 
@@ -119,28 +117,24 @@
                         <span class="title">停车费</span>
                     </a>
                     <!-- 元素 end -->
-
                     <!-- 元素 start -->
                     <a class="item_s5 item" href="/phoneRecharge">
                         <i class="icon"></i>
                         <span class="title">充值</span>
                     </a>
                     <!-- 元素 end -->
-
                     <!-- 元素 start -->
                     <a class="item_s6 item" href="/educate">
                         <i class="icon"></i>
                         <span class="title">教育</span>
                     </a>
                     <!-- 元素 end -->
-
                     <!-- 元素 start -->
                     <a class="item_s7 item" href="http://caizhijia.p.colourlife.com/">
                         <i class="icon"></i>
                         <span class="title">房屋</span>
                     </a>
                     <!-- 元素 end -->
-
                     <!-- 元素 start -->
                     <a class="item_s8 item" target="_blank" href="/life?type=1">
                         <i class="icon"></i>
@@ -151,55 +145,55 @@
                 <!-- 服务列表 end -->
             </div>
             <!-- 左侧 end -->
-
             <!-- 中部 start -->
             <div class="el_w_524 fn_left">
-                {% for one_complain in complains %}
-                    <div class="complain1" style="background-color: darkgrey;margin-bottom: 30px;height: 100px" id="{{ one_complain.id }}">
-                        <div style="float: left">
-                            <span>时间：{{ one_complain.timestamp }}</span>/
-                            <span>{{ one_complain.author.username }}</span>/
-                            <span>{{ one_complain.type }}</span>
-                            <p>投诉内容：</p>
-                            <div><span>{{ one_complain.content }}</span></div>
-                        </div>
-                        <div style="float: left;margin-left: 20px">
-                            <img src="/media/{{one_complain.src}}" style="height: 100px;width: 100px">
-                        </div>
-                        <div style="float: left;margin-left: 20px;margin-top:10px">
-                            <div style="background-color: darkgoldenrod;width:80px">满意度：{{one_complain.pleased  }}</div>
-                            {% if one_complain.status %}
-                                <div><button class="btn btn-info ">已受理</button></div>
-                            {% else %}
-                                <div><button class="btn btn-info">未受理</button></div>
-                            {% endif %}
+            {% if show %}
+                    {% for one_complain in complains %}
+                        <div class="complain1" style="background-color: darkgrey;margin-bottom: 30px;height: 100px" id="{{ one_complain.id }}">
+                            <div style="float: left">
+                                <span>时间：{{ one_complain.timestamp }}</span>/
+                                <span>{{ one_complain.author.username }}</span>/
+                                <span>{{ one_complain.type }}</span>
+                                <p>投诉内容：</p>
+                                <div><span>{{ one_complain.content }}</span></div>
+                            </div>
+                            <div style="float: left;margin-left: 20px">
+                                <img src="/media/{{one_complain.src}}" style="height: 100px;width: 100px">
+                            </div>
+                            <div style="float: left;margin-left: 20px;margin-top:10px">
+                                <div style="background-color: darkgoldenrod;width:80px">满意度：{{one_complain.pleased  }}</div>
+                                {% if one_complain.status %}
+                                    <div><button class="btn btn-info ">已受理</button></div>
+                                {% else %}
+                                    <div><button class="btn btn-info">未受理</button></div>
+                                {% endif %}
 
-                        </div>
+                            </div>
+                         </div>
+                     {% endfor %}
+                     <div class="paginator" style="padding:0 150px;">
+                        <span class="step-links">
+                            {% if complains.has_previous %}
+                                <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
+                            {% endif %}
+                            <span class="current">
+                                 当前页： {{ complains.number }}/{{ complains.paginator.num_pages }}.
+                            </span> &nbsp;
+                            {% if complains.has_next %}
+                                <a href="?page={{ complains.next_page_number }}">《下一页》</a>
+                            {% endif %}
+                        </span>
                      </div>
-                 {% endfor %}
-                 <div class="paginator" style="padding:0 150px;">
-                    <span class="step-links">
-                        {% if complains.has_previous %}
-                            <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
-                        {% endif %}
-                        <span class="current">
-                             当前页： {{ complains.number }}/{{ complains.paginator.num_pages }}.
-                        </span> &nbsp;
-                        {% if complains.has_next %}
-                            <a href="?page={{ complains.next_page_number }}">《下一页》</a>
-                        {% endif %}
-                    </span>
-                 </div>
+                {% else %}
+                    <div>无投诉</div>
+                {% endif %}
             </div>
             <!-- 中部 end -->
              <!-- 右侧 start -->
             <div class="el_w_237 fn_right" style="border: 1px solid red ">
                 <!-- 右侧焦点图 start -->
-
             </div>
             <!-- 右侧 end -->
-
-
             <div class="el_blank_h10 fn_clear"></div>
 
         </div>
