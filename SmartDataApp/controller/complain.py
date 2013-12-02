@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.contrib.auth.models import User
 from SmartDataApp.models import Complaints
 from SmartDataApp.views import index
 
@@ -18,7 +18,7 @@ def complain(request):
     else:
         complains = Complaints.objects.all()
         if len(complains) > 0:
-            paginator = Paginator(complains, 2)
+            paginator = Paginator(complains, 6)
             page = request.GET.get('page')
             try:
                 complains_list = paginator.page(page)
@@ -36,7 +36,6 @@ def complain(request):
                 'show': False,
                 'user': request.user
             })
-
 
 @transaction.atomic
 @csrf_exempt
@@ -59,3 +58,25 @@ def complain_create(request):
             return render_to_response('complain_sucess.html', {'user': request.user})
         else:
             return render_to_response('complains.html', {'user': request.user})
+
+@transaction.atomic
+@csrf_exempt
+def complain_deal(request):
+    if request.method!=u'POST':
+        return redirect(index)
+    else:
+        complain_array=request.POST.get("selected_complain_string",None)
+        deal_person=request.POST.get("deal_person")
+        if not complain_array and deal_person:
+            for i in range(len(complain_array)):
+                 com_id=int(complain_array[i])
+                 complain = Complaints.objects.get(id=com_id)
+                 complain.status=True
+                 user_obj=User.objects.get(username=deal_person)
+                 if len(user_obj) > 0:
+                    complain.handler=user_obj[0]
+
+
+
+
+

@@ -28,5 +28,5 @@ urlpatterns = patterns('',
                        url(r'^complain/$', complain),
                        url(r'^complain/create/$', complain_create),
                        url(r'^community/$', add_community),
-
+                       url(r'^deal/complain/$', complain_deal),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

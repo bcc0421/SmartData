@@ -1,60 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <title>亨通物业管理平台</title>
-    <meta name="keywords" content="亨通,物业,管理,平台">
-    <meta name="description" content="亨通,物业,管理,平台">
-    <link href="/static/css/page.css" rel="stylesheet">
-    <link href="/static/css/common.css" rel="stylesheet">
-    <link href="/static/css/base.css" rel="stylesheet">
-    <link href="/static/css/form.css" rel="stylesheet">
-    <link href="/static/css/propertyFee.css" rel="stylesheet">
-    <link href="/static/css/commonNew.css" rel="stylesheet">
-    <link href="/static/css/baseNew.css" rel="stylesheet">
-    <link href="/static/css/indexNew.css" rel="stylesheet">
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/colourlife.common.js"></script>
-    <script src="/static/js/colourlife.form.js"></script>
-</head>
-<body class="s_info_lst">
-
-<!-- 主导航栏 start -->
-<div class="mainNav">
-    <div class="mainNav_box el_container">
-        <span class="nowPos">亨通物业管理平台</span>
-        <!-- address start -->
-
-
-        <!-- address end -->
-
-        <a href="#" class="mainNav_item" title="小区首页">
-            <span class="txt">小区首页</span>
-        </a>
-
-        <a href="#" class="mainNav_item" title="物业服务">
-            <span class="txt">物业服务</span>
-        </a>
-
-        <a href="#" class="mainNav_item" title="本地生活">
-            <span class="txt">本地生活</span>
-        </a>
-
-        <a href="#" class="mainNav_item" title="应用">
-            <span class="txt">应用</span>
-        </a>
-
-        <a href="#" class="mainNav_item" title="管理">
-            <span class="txt">管理</span>
-        </a>
-
-    </div>
-</div>
-<!-- 主导航栏 end -->
-<div class="container" id="page">
-
-    <div class="container" id="page">
-        <style>
+{% extends "basecloud.html" %}
+{% block css %}
+            <style>
             .help-inline {
                 display: block;
                 margin-left: 70px;
@@ -72,24 +18,47 @@
                 font-size: 15px;
 
             }
-            .complain1 button{
+            table button{
                 border-radius: 0px 0px 0px 0px;
                 width: 80px;
                 height:30px;
-                margin-left: 10px;
-                margin-top: 30px
 
             }
+            table tr td{
+                border: 1px solid #808080 ;
+
+            }
+            tr:first-child td{
+               text-align: center;
+                padding: 20px 20px;
+
+            }
+            table tr td{
+                padding-left: 20px;
+                padding-right: 20px;
+
+            }
+            tr:first-child{
+                background-color: #26d6ff;
+            }
+            tr:hover {
+                background-color: #26d6ff;
+            }
+
         </style>
 
+{% endblock %}
+{% block container %}
+
+    <div class="container" id="page">
         <!-- 主要内容区域 start -->
-        <div class="s_sur_ix main el_container">
+        <div style="width: 1210px">
             <div class="el_blank_h20"></div>
 
             <!-- 左侧 start -->
-            <div class="el_w_203 fn_left" style="width:110px">
+            <div class="el_w_203 fn_left">
                 <!-- 服务列表 start -->
-                <div class="sur_ix_serBox" style="width:95px;">
+                <div class="sur_ix_serBox">
                     <!-- 元素 start -->
                     <a class="item_s1 item" href="/repair/create">
                         <i class="icon"></i>
@@ -146,32 +115,56 @@
             </div>
             <!-- 左侧 end -->
             <!-- 中部 start -->
-            <div class="el_w_524 fn_left">
-            {% if show %}
-                    {% for one_complain in complains %}
-                        <div class="complain1" style="background-color: darkgrey;margin-bottom: 30px;height: 100px" id="{{ one_complain.id }}">
-                            <div style="float: left">
-                                <span>时间：{{ one_complain.timestamp }}</span>/
-                                <span>{{ one_complain.author.username }}</span>/
-                                <span>{{ one_complain.type }}</span>
-                                <p>投诉内容：</p>
-                                <div><span>{{ one_complain.content }}</span></div>
-                            </div>
-                            <div style="float: left;margin-left: 20px">
-                                <img src="/media/{{one_complain.src}}" style="height: 100px;width: 100px">
-                            </div>
-                            <div style="float: left;margin-left: 20px;margin-top:10px">
-                                <div style="background-color: darkgoldenrod;width:80px">满意度：{{one_complain.pleased  }}</div>
-                                {% if one_complain.status %}
-                                    <div><button class="btn btn-info ">已受理</button></div>
-                                {% else %}
-                                    <div><button class="btn btn-info" onclick="deal_complain(this)" name="{{ one_complain.id }}">未受理</button></div>
-                                {% endif %}
+            <div class="el_w_524 fn_left"style="width: 822px">
 
-                            </div>
-                         </div>
-                     {% endfor %}
-                     <div class="paginator" style="padding:0 150px;">
+            {% if show %}
+                <table >
+                    <tr >
+                        <td>选择</td><td>时间</td><td>投诉人</td><td>内容</td><td>图片证据</td><td>处理状态</td><td>满意度</td><td>处理人</td>
+                    </tr>
+
+                        {% for one_complain in complains %}
+
+                             <tr class="except_one">
+                                  <td ><input type="checkbox" id="{{ one_complain.id }}" name="chk"></td>
+                                  <td>{{ one_complain.timestamp }}</td>
+                                  <td>{{ one_complain.author.username }}</td>
+                                  <td>{{ one_complain.content }}</td>
+                                  <td>
+                                      <a href="#big_image_{{ one_complain.id }}" data-toggle="modal" data-target="#big_image_{{ one_complain.id }}">
+                                          <img src="/media/{{one_complain.src}}" style="height: 50px;width: 50px" >
+                                      </a>
+                                    <div class="modal fade" id="big_image_{{ one_complain.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_{{ one_complain.id }}" aria-hidden="true">
+                                      <div class="modal-dialog">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel_{{ one_complain.id }}">图片详情</h4>
+                                          </div>
+                                          <div class="modal-body">
+                                            <img src="/media/{{one_complain.src}}" >
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {% if one_complain.status %}
+                                            <div>已受理</div>
+                                        {% else %}
+                                            <div>未受理</div>
+                                        {% endif %}
+                                  </td>
+                                   <td>{{one_complain.pleased  }}</td>
+                                   <td></td>
+                            </tr>
+                          {% endfor %}
+                </table>
+
+                     <div class="paginator" style="padding:10px 240px;">
                         <span class="step-links">
                             {% if complains.has_previous %}
                                 <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
@@ -190,35 +183,54 @@
             </div>
             <!-- 中部 end -->
              <!-- 右侧 start -->
-            <div class="el_w_237 fn_right" style="border: 1px solid red ">
+            <div class="el_w_237 fn_right" style="width:172px">
+                <div>
+                    <span>选择处理人：</span>
+                    <select>
+                        <option value="吴斌">吴斌</option>
+                        <option value="王老五的">王老五的</option>
+                        <option value="吴斌">吴斌</option>
+                        <option value="吴斌">吴斌</option>
+                        <option value="吴斌">吴斌</option>
+                        <option value="吴斌">吴斌</option>
+                    </select>
+                    <div  style="margin-top:12px; ">
+                       <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_complain">
+                        授权处理
+                        </button>
+                    </div>
+                </div>
                 <!-- 右侧焦点图 start -->
             </div>
             <!-- 右侧 end -->
             <div class="el_blank_h10 fn_clear"></div>
-
         </div>
 
     </div>
     <!-- page -->
 </div>
+{% endblock %}
+{% block script %}
+   <script type="text/javascript">
+    $(function(){
+     var checked_array = new Array();
+     $('#deal_complain').click(function(){
+         $('input[type="checkbox"][name="chk"]:checked').each(
+                function() {
+                    var id=$(this).attr('id');
+                    checked_array.push(id);
+                }
+            );
+        var deal_person=$('select option:selected').val();
+         $.post('/deal/complain/',
+                 {
+                     'selected_complain_string':checked_array.toString().replace(/,/g, ""),
+                     'deal_person':deal_person
+                 }
+         )
+     });
 
-</body>
-<script type="text/javascript">
-    function deal_complain(obj){
-       var deal_id= $(obj).attr('name');
-        $(obj).text("已受理");
-        $.post("/deal/complain",
-        {"deal_id":deal_id},
-         function(testStatus){
+    })
+   </script>
 
-
-         })
-
-
-
-
-    }
-
-</script>
-
-</html>
+{% endblock %}
