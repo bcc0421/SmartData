@@ -1,0 +1,42 @@
+{% extends "basecloud.html" %}
+{% block title %}添加社区{% endblock %}
+{% block container %}
+
+    <div class="s_lrf_reg main el_container">
+        <div class="main_inner">
+            <form class="form-horizontal" id="site-form" action="/community/" method="post">
+                {% csrf_token %}
+                <div class="lrf_regBox lrf_optBox fn_left">
+                    <div class="titItem">
+                        <i class="icon"></i>
+                        <span class="title">添加社区</span>
+                    </div>
+                    <div class="optItem">
+                        <div class="optItem_item">
+                            <label class="el_lab">社区名称：</label>
+                            <input class="el_inText" placeholder="请填写社区名称" name="name"
+                                   id="CustomerForm_username" type="text" required autofocus/>
+                            {% if name_error %}
+                                <span style="color:red;" class="help-inline error">{{ info }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">社区描述：</label>
+                            <input class="el_inText" placeholder="请填写社区的相关描述" name="description"
+                                   id="CustomerForm_password" type="text" required/>
+                        </div>
+
+                        <div class="optItem_item optItem_item_btns">
+                            <button type="submit" class="el_btn_orange_xl el_btn"><span class="txt">添加</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="fn_clear"></div>
+
+        </div>
+    </div>
+
+{% endblock %}

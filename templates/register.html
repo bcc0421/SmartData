@@ -19,7 +19,7 @@
                             <input class="el_inText" placeholder="请填写手机号/用户名" name="username"
                                    id="CustomerForm_username" type="text" required autofocus/>
                             {% if username_error %}
-                                <span style="color:red;" class="help-inline error">{{ info }}</span>
+                                <span style="color:red;" class="help-inline error tip">{{ info }}</span>
                             {% else %}
                                 <span class="tip">字母、数字、下划线组成，3位以上</span>
                             {% endif %}
@@ -35,19 +35,26 @@
                             <input class="el_inText" placeholder="重复密码" name="repeatPwd"
                                    id="CustomerForm_repeatPwd" type="password" required/>
                             {% if password_error %}
-                                <span style="color:red;" class="help-inline error">{{ info }}</span>
+                                <span style="color:red;" class="help-inline error tip">{{ info }}</span>
                             {% endif %}
                         </div>
                         <div class="optItem_item">
                             <label class="el_lab">地址：</label>
-                            <input class="el_inText" placeholder="所在小区" name="community" required>
+                            <select class="el_inText" id="id_community" name="community">
+                                {% for community in communities %}
+                                    <option value="{{ community.id }}">{{ community.title }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if communities|length == 0 %}
+                                <span style="color:red;" class="help-inline error tip">没有社区可以选择，请联系管理员</span>
+                            {% endif %}
                         </div>
                         <div class="optItem_item">
                             <label class="el_lab">手机号码：</label>
                             <input class="el_inText" placeholder="手机号码" name="mobile"
                                    id="CustomerForm_mobile" type="text" required/>
                             {% if mobile_error %}
-                                <span style="color:red;" class="help-inline error">{{ info }}</span>
+                                <span style="color:red;" class="help-inline error tip">{{ info }}</span>
                             {% endif %}
                         </div>
                         <div class="optItem_item">

@@ -1,7 +1,6 @@
 #coding:utf-8
 import re
 import logging
-import datetime
 
 from captcha.helpers import captcha_image_url
 import simplejson
@@ -16,10 +15,9 @@ from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login
 from django.core import serializers
 from captcha.models import CaptchaStore
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from SmartDataApp.forms import UserForm
-from SmartDataApp.models import Picture, ProfileDetail, Complaints
+from SmartDataApp.models import Picture, ProfileDetail
 
 
 def random_captcha():
@@ -46,7 +44,6 @@ def dashboard(request):
     return render_to_response('dashboard.html', {
         'username': request.user.username
     })
-
 
 
 def multi_response(flag, success, info, template):

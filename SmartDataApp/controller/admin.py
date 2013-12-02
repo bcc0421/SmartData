@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
-from SmartDataApp.models import ProfileDetail
+from SmartDataApp.models import ProfileDetail, Community
 from SmartDataApp.views import index, random_captcha
 
 
@@ -19,7 +19,12 @@ from SmartDataApp.views import index, random_captcha
 #@login_required
 def register(request):
     if request.method != 'POST':
-        response_data = {'success': True, 'user': request.user}
+        communities = Community.objects.all()
+        response_data = {
+            'success': True,
+            'user': request.user,
+            'communities': communities
+        }
         response_data.update(csrf(request))
         return render_to_response('register.html', response_data)
     else:
@@ -27,7 +32,7 @@ def register(request):
         password = request.POST.get(u'password', None)
         repeatPwd = request.POST.get(u'repeatPwd', None)
         mobile = request.POST.get(u'mobile', None)
-        community = request.POST.get(u'community', None)
+        community_id = request.POST.get(u'community', None)
         is_admin = request.POST.get(u'is_admin', None)
         if len(User.objects.filter(username=username)) > 0:
             response_data = {'username_error': True, 'info': u'用户名已存在', 'user': request.user}
@@ -50,6 +55,8 @@ def register(request):
         user.save()
         profile_detail = ProfileDetail(profile=user)
         profile_detail.phone_number = mobile
+        community = Community.objects.get(id=community_id)
+        profile_detail.community = community
         profile_detail.is_admin = True if is_admin == u'1' else False
         profile_detail.save()
         user = authenticate(username=username, password=password)
