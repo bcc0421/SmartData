@@ -9,15 +9,16 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from SmartDataApp.models import Complaints
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail, Community
+from SmartDataApp.models import ProfileDetail
 
-@login_required()
+
+@login_required(login_url='/login/')
 def complain(request):
     if not request.user.is_staff:
         return render_to_response('complains.html', {'user': request.user})
     else:
         complains = Complaints.objects.all()
-        deal_person_list=ProfileDetail.objects.filter(is_admin=True)
+        deal_person_list = ProfileDetail.objects.filter(is_admin=True)
         if len(complains) > 0:
             paginator = Paginator(complains, 6)
             page = request.GET.get('page')
@@ -31,13 +32,14 @@ def complain(request):
                 'complains': complains_list,
                 'show': True,
                 'user': request.user,
-                'deal_person_list':deal_person_list
+                'deal_person_list': deal_person_list
             })
         else:
             return render_to_response('admin_complains.html', {
                 'show': False,
                 'user': request.user
             })
+
 
 @transaction.atomic
 @csrf_exempt
@@ -61,24 +63,25 @@ def complain_create(request):
         else:
             return render_to_response('complains.html', {'user': request.user})
 
+
 @transaction.atomic
 @csrf_exempt
 def complain_deal(request):
-    if request.method!=u'POST':
+    if request.method != u'POST':
         return redirect(index)
     else:
-        complain_array=request.POST.get("selected_complain_string",None)
-        deal_person_id=request.POST.get("deal_person_id",None)
-        if  complain_array and deal_person_id:
+        complain_array = request.POST.get("selected_complain_string", None)
+        deal_person_id = request.POST.get("deal_person_id", None)
+        if complain_array and deal_person_id:
             for i in range(len(complain_array)):
-                 com_id=int(complain_array[i])
-                 complain = Complaints.objects.get(id=com_id)
-                 complain.status=True
-                 user_obj=User.objects.get(id=deal_person_id)
-                 if user_obj:
-                     profile=ProfileDetail.objects.get(profile=user_obj)
-                     complain.handler.add(profile)
-                 complain.save()
+                com_id = int(complain_array[i])
+                complain = Complaints.objects.get(id=com_id)
+                complain.status = True
+                user_obj = User.objects.get(id=deal_person_id)
+                if user_obj:
+                    profile = ProfileDetail.objects.get(profile=user_obj)
+                    complain.handler.add(profile)
+                complain.save()
             
 
 
