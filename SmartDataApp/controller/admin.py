@@ -9,7 +9,6 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-
 from SmartDataApp.models import ProfileDetail, Community
 from SmartDataApp.views import index, random_captcha
 
