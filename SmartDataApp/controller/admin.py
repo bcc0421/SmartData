@@ -1,21 +1,24 @@
 #coding:utf-8
 import re
 from captcha.models import CaptchaStore
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.hashers import make_password
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+import simplejson
 from SmartDataApp.models import ProfileDetail, Community
 from SmartDataApp.views import index, random_captcha
 
 
 @transaction.atomic
 @csrf_exempt
-#@login_required
+@login_required
 def register(request):
     if request.method != 'POST':
         communities = Community.objects.all()
@@ -58,10 +61,10 @@ def register(request):
         profile_detail.community = community
         profile_detail.is_admin = True if is_admin == u'1' else False
         profile_detail.save()
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                auth_login(request, user)
+        #user = authenticate(username=username, password=password)
+        #if user is not None:
+        #    if user.is_active:
+        #        auth_login(request, user)
         return redirect(index)
 
 
@@ -100,3 +103,69 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect(index)
+
+
+def return_error_response():
+    response_data = {'error': 'Just support POST method.'}
+    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+@csrf_exempt
+def api_user_create(request):
+    if request.method != u'POST':
+        return return_error_response()
+    elif request.META['CONTENT_TYPE'] == 'application/json':
+        data = simplejson.loads(request.body)
+        username = data.POST.get(u'username', None)
+        password = data.POST.get(u'password', None)
+        repeatPwd = data.POST.get(u'repeatPwd', None)
+        mobile = data.POST.get(u'mobile', None)
+        community_id = data.POST.get(u'community', None)
+        is_admin = data.POST.get(u'is_admin', None)
+        if len(User.objects.filter(username=username)) > 0:
+            response_data = {'username_error': True, 'info': u'用户名已存在'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        if password != repeatPwd:
+            response_data = {'password_error': True, 'info': u'两次密码输入不相同'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        pattern = re.compile(r'^[a-zA-Z0-9]{6,15}$')
+        if not pattern.match(password):
+            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        pattern = re.compile(r'^(1[0-9][0-9])\d{8}$')
+        if not pattern.match(mobile):
+            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        user = User(username=username)
+        user.password = make_password(password, 'md5')
+        if is_admin == u'2':
+            user.is_staff = True
+        user.save()
+        profile_detail = ProfileDetail(profile=user)
+        profile_detail.phone_number = mobile
+        community = Community.objects.get(id=community_id)
+        profile_detail.community = community
+        profile_detail.is_admin = True if is_admin == u'1' else False
+        profile_detail.save()
+        return HttpResponse(simplejson.dumps({'info': 'register success'}), content_type='application/json')
+
+
+def api_user_update(request):
+    if request.method != u'POST':
+        return return_error_response()
+    elif request.META['CONTENT_TYPE'] == 'application/json':
+        pass
+
+
+def api_user_delete(request):
+    if request.method != u'POST':
+        return return_error_response()
+    elif request.META['CONTENT_TYPE'] == 'application/json':
+        pass
+
+
+def api_user_list(request):
+    if request.method != u'POST':
+        return return_error_response()
+    elif request.META['CONTENT_TYPE'] == 'application/json':
+        pass
