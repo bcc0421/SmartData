@@ -1,51 +1,89 @@
 {% extends "basecloud.html" %}
 {% block css %}
-            <style>
-            .help-inline {
-                display: block;
-                margin-left: 70px;
-                padding-top: 10px;
-            }
+    <style>
+        .help-inline {
+            display: block;
+            margin-left: 70px;
+            padding-top: 10px;
+        }
 
-            .error {
-                color: #f00;
-            }
+        .error {
+            color: #f00;
+        }
 
-            input.error {
-                border-color: #f00;
-            }
-            .complain1,span ,button{
-                font-size: 15px;
+        input.error {
+            border-color: #f00;
+        }
 
-            }
-            table button{
-                border-radius: 0px 0px 0px 0px;
-                width: 80px;
-                height:30px;
+        .complain1, span, button {
+            font-size: 15px;
 
-            }
-            table tr td{
-                border: 1px solid #808080 ;
+        }
 
-            }
-            tr:first-child td{
-               text-align: center;
-                padding: 20px 20px;
+        /*     table button{
+                 border-radius: 0px 0px 0px 0px;
+                 width: 80px;
+                 height:30px;
 
-            }
-            table tr td{
-                padding-left: 20px;
-                padding-right: 20px;
+             }
+             table tr td{
+                 border: 1px solid #808080 ;
 
-            }
-            tr:first-child{
-                background-color: #26d6ff;
-            }
-            tr:hover {
-                background-color: #26d6ff;
-            }
+             }
+             tr:first-child td{
+                text-align: center;
+                 padding: 20px 20px;
 
-        </style>
+             }
+             table tr td{
+                 padding-left: 20px;
+                 padding-right: 20px;
+
+             }
+             tr:first-child{
+                 background-color: #26d6ff;
+             }
+             tr:hover {
+                 background-color: #26d6ff;
+             }*/
+        tr:first-child {
+            background-color: #26d6ff;
+        }
+
+        tr:hover {
+            background-color: #26d6ff;
+        }
+
+        .prev {
+            margin-left: 200px !important;
+        }
+
+        .next {
+            margin-left: 20px !important;
+        }
+
+        .dataTables_wrapper {
+            padding-left: 0px !important;
+        }
+
+        .dataTables_paginate {
+            float: right;
+            margin-top: -20px;
+        }
+
+        .dataTables_paginate li {
+            float: left
+        }
+
+        .dataTables_filter {
+            float: right;
+            margin-top: -25px
+        }
+
+        .container {
+            width: 1260px !important;
+        }
+    </style>
 
 {% endblock %}
 {% block container %}
@@ -115,85 +153,87 @@
             </div>
             <!-- 左侧 end -->
             <!-- 中部 start -->
-            <div class="el_w_524 fn_left"style="width: 822px">
-
-            {% if show %}
-                <table >
-                    <tr >
-                        <td>选择</td><td>时间</td><td>投诉人</td><td>内容</td><td>图片证据</td><td>处理状态</td><td>满意度</td><td>处理人</td>
+            <div style="width: 822px;overflow: auto;float:left">
+                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable"
+                       id="example" aria-describedby="example_info">
+                    <thead>
+                    <tr role="row">
+                        <th>时间</th>
+                        <th>投诉人</th>
+                        <th>内容</th>
+                        <th>图片证据</th>
+                        <th>处理状态</th>
+                        <th>满意度</th>
+                        <th><input type="checkbox" name="checkbox"></th>
                     </tr>
+                    </thead>
+                    <tbody>
 
-                        {% for one_complain in complains %}
+                    {% for one_complain in complains %}
 
-                             <tr class="except_one">
-                                  <td ><input type="checkbox" id="{{ one_complain.id }}" name="chk"></td>
-                                  <td>{{ one_complain.timestamp }}</td>
-                                  <td>{{ one_complain.author.username }}</td>
-                                  <td>{{ one_complain.content }}</td>
-                                  <td>
-                                      <a href="#big_image_{{ one_complain.id }}" data-toggle="modal" data-target="#big_image_{{ one_complain.id }}">
-                                          <img src="/media/{{one_complain.src}}" style="height: 50px;width: 50px" >
-                                      </a>
-                                    <div class="modal fade" id="big_image_{{ one_complain.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_{{ one_complain.id }}" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                        <div class="modal-content">
-                                          <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel_{{ one_complain.id }}">图片详情</h4>
-                                          </div>
-                                          <div class="modal-body">
-                                            <img src="/media/{{one_complain.src}}" >
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                          </div>
+                        <tr class="except_one">
+                            <td>{{ one_complain.timestamp }}</td>
+                            <td>{{ one_complain.author.username }}</td>
+                            <td>{{ one_complain.content }}</td>
+                            <td>
+                                <a href="#big_image_{{ one_complain.id }}" data-toggle="modal"
+                                   data-target="#big_image_{{ one_complain.id }}">
+                                    <img src="/media/{{ one_complain.src }}" style="height: 25px;width: 25px">
+                                </a>
+
+                                <div class="modal fade" id="big_image_{{ one_complain.id }}" tabindex="-1"
+                                     role="dialog" aria-labelledby="myModalLabel_{{ one_complain.id }}"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog" >
+                                        <div class="modal-content"style="width:800px">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel_{{ one_complain.id }}">
+                                                    图片详情</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="/media/{{ one_complain.src }}">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
-                                  </td>
-                                  <td>
-                                    {% if one_complain.status %}
-                                            <div>已受理</div>
-                                        {% else %}
-                                            <div>未受理</div>
-                                        {% endif %}
-                                  </td>
-                                   <td>{{one_complain.pleased  }}</td>
-                                   <td>{{ one_complain.handler.profile.username }}</td>
-                            </tr>
-                          {% endfor %}
+                                </div>
+                            </td>
+                            <td class="deal_status"  id="status_{{ one_complain.id }}">
+                                {% if one_complain.status %}
+                                    <span style="color: green" >已受理</span>
+                                {% else %}
+                                    <span style="color: red">未受理</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ one_complain.pleased }}</td>
+                            {#                            <td>{{ one_complain.handler.profile.username }}</td>#}
+                            <td><input type="checkbox" name="chk" id={{ one_complain.id }}></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
                 </table>
 
-                     <div class="paginator" style="padding:10px 240px;">
-                        <span class="step-links">
-                            {% if complains.has_previous %}
-                                <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
-                            {% endif %}
-                            <span class="current">
-                                 当前页： {{ complains.number }}/{{ complains.paginator.num_pages }}.
-                            </span> &nbsp;
-                            {% if complains.has_next %}
-                                <a href="?page={{ complains.next_page_number }}">《下一页》</a>
-                            {% endif %}
-                        </span>
-                     </div>
-                {% else %}
-                    <div>无投诉</div>
-                {% endif %}
             </div>
             <!-- 中部 end -->
-             <!-- 右侧 start -->
+            <!-- 右侧 start -->
             <div class="el_w_237 fn_right" style="width:172px">
                 <div>
                     <span>选择处理人：</span>
-                    <select>
-                         {% for deal_person in deal_person_list %}
-                                    <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
-                          {% endfor %}
+                    <select id="id_handler">
+                        {% for deal_person in deal_person_list %}
+                            <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
+                        {% endfor %}
                     </select>
-                    <div  style="margin-top:12px; ">
-                       <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_complain">
-                        授权处理
+
+                    <div style="margin-top:12px; ">
+                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_complain">
+                            授权处理
                         </button>
                     </div>
                 </div>
@@ -205,29 +245,57 @@
 
     </div>
     <!-- page -->
-</div>
+    </div>
 {% endblock %}
 {% block script %}
-   <script type="text/javascript">
-    $(function(){
-     var checked_array = new Array();
-     $('#deal_complain').click(function(){
-         $('input[type="checkbox"][name="chk"]:checked').each(
-                function() {
-                    var id=$(this).attr('id');
-                    checked_array.push(id);
-                }
-            );
-        var deal_person_id=$('select option:selected').val();
-         $.post('/deal/complain/',
-                 {
-                     'selected_complain_string':checked_array.toString().replace(/,/g, ""),
-                     'deal_person_id':deal_person_id
-                 }
-         )
-     });
+    <script type="text/javascript">
+        $(function () {
+            var checked_array = new Array();
+            $('#deal_complain').click(function () {
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                        function () {
+                            var id = $(this).attr('id');
+                            checked_array.push(id);
+                        }
+                );
+                var deal_person_id = $('#id_handler').val();
+                $.post('/deal/complain/',
+                        {
+                            'selected_complain_string': checked_array.toString(),
+                            'deal_person_id': deal_person_id
+                        },
+                        function (data) {
+                               if(data.success){
+                                 alert(data.info);
+                                 $('input[type="checkbox"][name="chk"]:checked').each(
+                                        function() {
+                                            var id = $(this).attr('id');
+                                             $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
+                                        }
+                                    );
+                             }
 
-    })
-   </script>
+                        }
+                )
+            });
 
+        })
+        $(document).ready(function () {
+            $('#example').dataTable({
+                "oLanguage": {
+                        "sLengthMenu": "显示 _MENU_每页显示记录",
+                        "sZeroRecords": "对不起没有你要找的记录",
+                        "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
+                        "sInfoEmpty": "显示 0 到 0 总共 0 记录",
+                        "sInfoFiltered": "(从 _MAX_条记录中查找)"
+		}
+            });
+        });
+
+
+    </script>
+
+
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/DT_bootstrap.js"></script>
 {% endblock %}

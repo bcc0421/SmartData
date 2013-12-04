@@ -36,7 +36,7 @@
         <!-- right part start -->
         <div class="fn_right">
             {% if user %}
-                <a href="#" class="optLink el_btn">{{ user.username }}</a>
+                <a href="/own_information/" class="optLink el_btn">{{ user.username }}</a>
                 {% if user.is_staff %}
                     <a href="/register/" class="optLink el_btn">添加用户</a>
                     <a href="/community/" class="optLink el_btn">添加社区</a>
@@ -258,7 +258,6 @@
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/colourlife.common.js"></script>
 <script src="/static/js/bootstrap.js"></script>
-
 <script src="/static/js/colourlife.form.js"></script>
 <script type="text/javascript">
     function goTop() {

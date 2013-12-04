@@ -38,6 +38,10 @@ def index(request):
     else:
         return render_to_response('index.html')
 
+@login_required
+def own_information(request):
+    profile=ProfileDetail.objects.get(profile=request.user)
+    return render_to_response('own_information.html',{'user': request.user ,'profile':profile})
 
 @login_required
 def dashboard(request):
