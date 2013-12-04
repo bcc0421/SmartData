@@ -1,0 +1,87 @@
+{% extends "proprietor_base.html" %}
+{% block title %}我的投诉{% endblock %}
+{% block css %}
+{% endblock %}
+{% block container %}
+    <div class="umMid el_w_495 fn_left">
+	<div class="umConBox">
+		<div class="umConBox_titBox">
+			<span class="title">投诉</span>
+		</div>
+		<div class="umConBox_conBox">
+		</div>
+	</div>
+	<!-- 投诉/保修 end -->
+	<form action="/complain/index" method="get">
+		<!-- 投诉/保修 start -->
+		<!-- umFormBox start -->
+		<div class="umFormBox_s1 umFormBox">
+			<label class="el_lab">筛选：</label>
+			<input id="start_time" type="text" value="" name="start_time" />			<span class="sep"> - </span>
+			<input id="end_time" type="text" value="" name="end_time" />
+			<button class="el_btn_gray_sl el_btn">
+				<span class="txt">筛选</span>
+			</button>
+		</div>
+		<!-- umFormBox end -->
+	</form>
+	<!-- 数据列表 start -->
+    {% if show %}
+        <div class="umDataLstBox">
+
+                 <div class="umDataBox_s1 umDataBox_nbd umDataBox">
+                     {% for complain in complains %}
+                    <div class="records_details">
+                        <div class="proces_state clearfix">
+                            {% if complain.status%}
+                                <span class=" untreated fn_right" style="color: green">处理完成</span>
+                            {% else %}
+                                <span class="status_LEDs untreated fn_right"></span>
+                            {% endif %}
+                            <span class="black_color">[服务态度]</span>
+                            <span class="publish_time">{{ complain.timestamp }} </span>
+                        </div>
+                        <div class="comment">
+                            <p class="comment_txt">{{ complain.content }}</p>
+                            <div class="comment_img clearfix"></div>
+                        </div>
+                    </div>
+                    <!-- 每一条记录 end -->
+                    {% endfor %}
+                </div>
+
+            <!-- umDataBox end -->
+                            <!-- 分页 start -->
+                <div class="paginator" >
+                        <span class="step-links">
+                            {% if complains.has_previous %}
+                                <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
+                            {% endif %}
+                            <span class="current">
+                                 当前页： {{ complains.number }}/{{ complains.paginator.num_pages }}.
+                            </span> &nbsp;
+                            {% if complains.has_next %}
+                                <a href="?page={{ complains.next_page_number }}">《下一页》</a>
+                            {% endif %}
+                        </span>
+                    </div>
+            <div class="pagesBox"></div>
+
+            <!-- 分页 end -->
+        </div>
+    {% else %}
+        <div class="umDataLstBox">
+				<div class="umDataBox_s1 umDataBox">
+			            <div class="umDataBox_receiptBox">
+				            <p class="title">暂无相关记录</p>
+			            </div>
+		        </div>
+				<!-- 分页 start -->
+		        <div class="pagesBox"></div>
+		</div>
+		<!-- 分页 end -->
+    {% endif %}
+	<!-- 数据列表 end -->
+</div>
+<!-- 中部·容器 end -->
+{% endblock %}

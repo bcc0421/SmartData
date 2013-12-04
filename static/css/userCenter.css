@@ -1,0 +1,140 @@
+/*用户中心公共*/
+.userCenter_pay{padding:10px 0;}
+.el_w_207,.el_w_495,.el_w_252{overflow:hidden;}
+.el_w_207{margin-right:10px;}
+.user_person_info{overflow:hidden; clear:both; _zoom:1; padding:10px 3px 10px 10px; margin-bottom:10px; border:1px solid #dadada;}
+.person_img{display:block; width:80px; height:80px; background:#d7d7d7; overflow:hidden; text-indent:-1000px; float:left; margin-right:10px;}
+.person_address{height:45px; overflow:hidden;}
+.myMenu{border:1px solid #dadada; padding:10px 0;}
+.myMenu ul li{padding-left:30px; height:25px; overflow:hidden;}
+.myMenu ul li a{ display:block; width:100%; height:25px; line-height:25px; color:#686868;}
+.myMenu ul li.currt{background:url(../images/myMenu_currt.png) 10px 1px no-repeat;}
+.neighbor{padding:10px; overflow:hidden; border:1px solid #dadada; width:230px; margin-top:10px;}
+.neighbor ul{width:250px;}
+.neighbor ul li{float:left; width:50px; height:50px; background:#d7d7d7; margin:0px 10px 10px 0px;}
+.neighbor h3{border-bottom:1px dashed #dadada; font:18px "宋体"; color:#000; margin-bottom:10px;}
+.neighbor h3 a{float:right; color:#686868; font-size:12px;}
+.advertisement{margin-top:10px;}
+
+.tags_top{height:30px; *overflow:hidden}
+.tags_top span{display:inline-block; text-align:center; width:104px; height:29px; line-height:29px; color:#686868; border:1px solid #dadada; border-bottom:none; background:#fff; vertical-align:top; margin-left:10px; cursor:pointer;}
+.tags_top span.currenTag{position:relative; overflow:hidden; top:0px; height:30px; line-height:30px; color:#000;}
+.paging{overflow:hidden; clear:both; _zoom:1;}
+.paging_right a{color:#686868; margin-left:10px;}
+.paging_right a:hover{color:#ff7e00;}
+.status_LEDs{display:inline-block;overflow:hidden; height:24px; background:url(../images/status.png) no-repeat; margin-top:7px;}
+.untreated{width:78px;}
+.processing{width:78px; background-position:0 -30px;}
+.processing_completed{width:89px; background-position:0 -60px;}
+.processing_over{width:66px; background-position:0 -90px;}
+.have_order{width:78px; background-position:0 -120px;}
+.refuse_order{width:89px; background-position:0 -150px;}
+.serviced{width:78px; background-position:0 -180px;}
+.obligation{width:78px; background-position:0 -210px;}
+.deal_falls{width:89px; background-position:0 -240px;}
+.deal_succeeds{width:89px; background-position:0 -270px;}
+.cancel_order{width:98px; background-position:0 -300px;}
+.money_back{width:66px; background-position:0 -330px;}
+.have_been_pay{width:78px; background-position:0 -360px;}
+
+
+
+
+/*用户中心-我的缴费*/
+.ord_history_content{border-top:1px solid #dadada; padding:10px 0;}
+
+.filtrate{padding:20px 20px 20px 10px; border:1px solid #dadada; word-spacing:-6px; margin-bottom:10px;}
+.likeword4{ word-spacing:21px;}
+.during_left,.condition{width:225px; float:left;}
+.during_right,.filtrate_check_btn{float:right; width:215px;}
+
+.newbtn {cursor:pointer;background:none;border:none 0; padding:0; margin:0; background:url(../images/buttonNew.png) no-repeat; text-align:center;}
+.dark_82x28{color:#000; background-position:0 -40px; width:82px; height:28px; line-height:28px;}
+.yellow_82x28{color:#fff; background-position:0 0px; width:82px; height:28px; line-height:28px;}
+.condition p{margin-top:10px;}
+.filtrate_check_btn p{margin:20px 0;}
+.flte_btn{text-align:right; overflow:hidden; clear:both; _zoom:1;}
+.filtrate_check_btn p *{ vertical-align:middle;}
+.filtrate_check_btn p label{margin:0 20px 0 3px;}
+
+
+table.payment_table{border:1px solid #dadada; vertical-align:middle; width:100%; color:#686868; margin-bottom:10px;}
+table.payment_table th{height:104px; border:1px solid #dadada;}
+table.payment_table td{height:39px; border:1px solid #dadada;}
+.pay_table_th{height:100%; background:#eef7ff; padding:5px 0; overflow:hidden;}
+.pay_btn2{text-align:right; padding-top:10px;}
+.pay_table_th p{text-align:left; color:#686868; font-weight:lighter;}
+.pay_state{float:right; display:inline-block; height:25px; margin:0 10px 0 0; color:#686868;}
+.list_number{margin-left:10px;}
+.pay_table_th h4{color:#d93535; height:60px; line-height:60px; font-size:18px; font-weight:normal;}
+.owner_info{padding-left:10px;}
+.owner_info span{display:inline-block; margin-right:10px;}
+.receipt .owner_name{width:100px;}
+.receipt .owner_area{width:180px;}
+.owner_info span.due_time{margin:0;}
+.sub_table{margin:10px 20px; text-align:center;}
+.sub_table td p{height:39px; line-height:39px;}
+table.payment_table .sub_table th{height:39px; font:12px "宋体"; color:#000;}
+.receipt .flte_btn .newbtn{margin:0 20px 10px 0;}
+a.receipt_details,a.deductions_details{color:#686868;}
+a.receipt_details:hover,a.deductions_details:hover{color:#ff7e00;}
+
+.tag2 .dark_82x28{margin:35px 10px 0px 0px}
+.tag3 .dark_82x28{margin:20px 10px 0px 0px}
+
+
+
+/*切换小区弹出框*/
+.pop_box{width:715px; overflow:hidden; position:absolute; display:none; z-index:100; background:#fff;}
+.hs_top,.hs_bottom{height:15px;}
+.hs_top{background:url(../images/pop_top.png) no-repeat;}
+.hs_bottom{background:url(../images/pop_bottom.png) no-repeat;}
+.hs_middle{background:url(../images/pop_middle.png) repeat;}
+.hs_content{padding:0 8px; overflow:hidden;}
+.hs_content h3{height:35px; overflow:hidden; border-bottom:1px solid #dadada; background:#f2f2f2; font:18px/35px "宋体"; color:#000; text-indent:10px;}
+.order_details{padding:20px;}
+.owner_name{width:100px;}
+.owner_area{width:305px;}
+.order_details table.payment_table th,.order_details table.payment_table td{ text-indent:10px;}
+
+.choose_address{padding:0 15px;}
+.choose_address dt{font-size:18px; color:#000; border-bottom:1px dotted #dadada; margin:20px 0; padding-bottom:5px;}
+.choose_address dd ul li{margin-bottom:10px;}
+.choose_address dd ul li *{ vertical-align:middle;}
+.next_step{padding:20px 0;}
+
+/*用户中心-投诉报修*/
+.user_repairs_content{border-top:1px solid #dadada; padding:10px 0;}
+.user_repairs_content .filtrate{padding:20px;}
+.user_repairs_content .filtrate_cndtion{border-bottom:1px dotted #7d7d7d; margin-bottom:20px;}
+.to{margin:0 10px; vertical-align:middle;}
+.filtrate_content{padding:10px 0 20px;}
+.complaint_chk,.repairs_chk{margin-left:25px;}
+.user_repairs_content .flte_btn{ text-align:left;}
+.cmplt_reprs_records_content{margin-top:5px;}
+.comment_img img{float:left; margin-right:10px; width:80px; height:80px;}
+.records_details{border:1px solid #dadada; border-bottom:none; margin-bottom:10px;}
+.proces_state,.comment,.processing_time,.finish_time,.process_result,.service_item{border-bottom:1px solid #dadada; padding:0 10px;}
+.proces_state,.processing_time,.finish_time,.process_result,.service_item{height:39px; line-height:39px;}
+.comment{padding:10px;}
+.comment_txt{min-height:55px; height:auto!important; _height:55px;}
+.grade{padding:10px 0 10px 10px; word-spacing:-4px; border-bottom:1px solid #dadada}
+.star{display:inline-block; height:19px; vertical-align:middle; margin-right:1px;}
+.star_txt{margin-left:5px;}
+.noscrollTextarea{width:450px; border:1px solid #dadada; margin:10px 0 10px 10px;}
+.noscrollTextarea textarea{width:100%; height:100px;}
+.comit_btn{text-align:right; padding-right:20px;}
+.user_repairs_content .tag2 .dark_82x28{margin:0;}
+.starResult{display:inline-block; height:19px; vertical-align:middle; width:95px; background:url(../images/star_off.png) repeat-x; margin-right:20px; }
+.starResult span{display:inline-block; height:19px; overflow:hidden; background:url(../images/star_on.png) repeat-x;}
+.grade .comment_txt{margin-top:10px;}
+.starResult_txt{ display:inline-block; vertical-align:middle; height:19px; line-height:19px;}
+.proce_over_time{float:right; margin-right:10px; color:#9c9b9b; word-spacing:10px;}
+.publish_time{color:#9c9b9b; margin-left:10px;}
+.comit_btn .newbtn{margin-left:10px;}
+
+.user_complaint .tags_top{height:40px; background:url(../images/bg_repeat_x.png) repeat-x scroll 0 -226px transparent; border:1px solid #dadada; height:40px; line-height:40px; padding-left:10px; border-bottom:none;}
+
+
+
+

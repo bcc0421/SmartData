@@ -1,0 +1,116 @@
+{% extends "proprietor_base.html" %}
+{% block title %}个人中心{% endblock %}
+{% block css %}
+{% endblock %}
+{% block container %}
+    <div class="umMid el_w_495 fn_left">
+                <!-- 我的资料 start -->
+                <div class="umConBox">
+                	<div class="umConBox_titBox">
+                    	<span class="title">我的资料</span>
+                    </div>
+                    <div class="umConBox_conBox">
+                    	<!-- 表格 start -->
+                    	<div class="um_mp_box">
+                        	<table class="table" cellpadding="0" cellspacing="0">
+                            	<tr>
+                                	<th>姓&nbsp;&nbsp;&nbsp;&nbsp;名：</th>
+                                    <td>{{ user.username }}</td>
+                                </tr>
+                                <tr>
+                                	<th>小&nbsp;&nbsp;&nbsp;&nbsp;区：</th>
+                                    <td>聚福花园</td>
+                                </tr>
+                                <tr>
+                                	<th>楼&nbsp;&nbsp;&nbsp;&nbsp;栋：</th>
+                                    <td>8栋A</td>
+                                </tr>
+                                <tr>
+                                	<th>门&nbsp;牌&nbsp;号：</th>
+                                    <td>101</td>
+                                </tr>
+                                <tr>
+                                	<th>电子邮箱：</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                	<th>联系电话：</th>
+                                    <td>{{ profile.phone_number }}</td>
+                                </tr>
+                                <tr>
+                                	<th>详细地址：</th>
+                                    <td>广东省深圳市罗湖区聚福花园8栋A101 </td>
+                                </tr>
+                            </table>
+                            <div class="btns">
+                            	<a class="el_btn_gray_xssl el_btn" href="#"><span class="txt">修改个人信息</span></a>
+                                <a class="el_btn_gray_xssl el_btn" href="#"><span class="txt">修改密码</span></a>
+                            </div>
+                        </div>
+                        <!-- 表格 end -->
+                    </div>
+                </div>
+                <!-- 我的资料 end -->
+
+                <!-- 我的物业 start -->
+                <div class="umConBox">
+                	<div class="umConBox_titBox">
+                    	<span class="title">我的物业</span>
+                        <span class="title" style="float: right;padding-right: 15px;">
+                            <a href="/propertyAddress">更多</a>
+                        </span>
+                    </div>
+                    <div class="umConBox_conBox">
+                    	<!-- 表格 start -->
+                    	<div class="dataTableBox_s4">
+                        	<table class="dataTable_s4" cellpadding="0" cellspacing="0">
+                            	<thead>
+                                	<tr>
+                                    	<th>ID</th>
+                                        <th>姓名</th>
+                                        <th>物业信息</th>
+                                        <th width="170px">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4">没有数据</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 表格 end -->
+                    </div>
+                </div>                <!-- 我的物业 end -->
+
+                <!-- 我的停车卡 start -->
+                <div class="umConBox">
+                	<div class="umConBox_titBox">
+                    	<span class="title">我的停车卡</span>
+                        <span class="title" style="float: right;padding-right: 15px;"><a href="/parkingAddress">更多</a></span>
+                    </div>
+                    <div class="umConBox_conBox">
+                    	<!-- 表格 start -->
+                    	<div class="dataTableBox_s4">
+                        	<table class="dataTable_s4" cellpadding="0" cellspacing="0">
+                            	<thead>
+                                	<tr>
+                                    	<th>ID</th>
+                                        <th>车牌号</th>
+                                        <th>物业信息</th>
+                                        <th width="170px">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   <tr>
+                                        <td colspan="4">没有数据</td>
+                                   </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- 表格 end -->
+                    </div>
+                </div>
+            </div>
+{% endblock %}
