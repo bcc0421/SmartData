@@ -14,7 +14,7 @@ from SmartDataApp.models import ProfileDetail
 
 
 @csrf_exempt
-@login_required()
+@login_required(login_url='/login/')
 def complain(request):
         if not request.user.is_staff:
             return render_to_response('complains.html', {'user': request.user})
@@ -33,9 +33,6 @@ def complain(request):
                     'show': False,
                     'user': request.user
                 })
-
-
-
 
 @transaction.atomic
 @csrf_exempt
