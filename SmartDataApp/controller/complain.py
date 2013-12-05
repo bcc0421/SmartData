@@ -83,6 +83,7 @@ def complain_deal(request):
 @csrf_exempt
 def own_complain(request):
     complains=Complaints.objects.filter(author=request.user)
+    profile=ProfileDetail.objects.get(profile=request.user)
     if len(complains) > 0:
         paginator = Paginator(complains, 5)
         page = request.GET.get('page')
@@ -94,9 +95,11 @@ def own_complain(request):
             complains_list = paginator.page(paginator.num_pages)
         return render_to_response('own_complain.html', {
                         'complains':complains_list,
+                        'user':request.user,
+                        'profile':profile ,
                         'show': True
                     })
-    return render_to_response('own_complain.html',{ 'show': False})
+    return render_to_response('own_complain.html',{ 'show': False ,'user':request.user,'profile':profile })
 
 
 

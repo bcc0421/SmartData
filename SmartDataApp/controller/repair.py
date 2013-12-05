@@ -86,6 +86,7 @@ def repair_deal(request):
 @csrf_exempt
 def own_repair(request):
     repairs=Repair.objects.filter(author=request.user)
+    profile=ProfileDetail.objects.get(profile=request.user)
     if len(repairs) > 0:
         paginator = Paginator(repairs, 5)
         page = request.GET.get('page')
@@ -97,6 +98,8 @@ def own_repair(request):
             repairs_list = paginator.page(paginator.num_pages)
         return render_to_response('own_repair.html', {
                         'repairs':repairs_list,
+                        'user':request.user,
+                        'profile':profile ,
                         'show': True
                     })
-    return render_to_response('own_repair.html',{ 'show': False})
+    return render_to_response('own_repair.html',{ 'show': False ,'user':request.user,'profile':profile })
