@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from SmartDataApp.controller.admin import register, login, logout
 from SmartDataApp.views import *
+from SmartDataApp.controller.repair import *
 from SmartDataApp.controller.complain import *
 from SmartDataApp.controller.community import *
 
@@ -26,10 +27,15 @@ urlpatterns = patterns('',
                        url(r'^captcha/', include('captcha.urls')),
                        url(r'^generate_captcha/', generate_captcha),
                        url(r'^complain/$', complain),
+                       url(r'^repair/$', repair),
                        url(r'^complain/create/$', complain_create),
+                       url(r'^repair/create/$', repair_create),
                        url(r'^community/$', add_community),
                        url(r'^deal/complain/$', complain_deal),
+                       url(r'^deal/repair/$', repair_deal),
                        url(r'^own_information/$', own_information),
+                       url(r'^own_repair/$', own_repair),
                        url(r'^own/complain/$', own_complain),
+
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

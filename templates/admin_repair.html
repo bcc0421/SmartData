@@ -15,7 +15,7 @@
             border-color: #f00;
         }
 
-        .complain1, span, button {
+        .repair1, span, button {
             font-size: 15px;
 
         }
@@ -154,7 +154,7 @@
             <!-- 左侧 end -->
             <!-- 中部 start -->
             <div class="vessel vessel_s1" style="margin-bottom: 10px">
-                <div class="vessel_titBox"><span class="tit">投诉管理</span></div>
+                <div class="vessel_titBox"><span class="tit">报修管理</span></div>
             </div>
             <div style="width: 822px;overflow: auto;float:left">
 
@@ -173,31 +173,31 @@
                     </thead>
                     <tbody>
 
-                    {% for one_complain in complains %}
+                    {% for one_repair in repairs %}
 
                         <tr class="except_one">
-                            <td>{{ one_complain.timestamp }}</td>
-                            <td>{{ one_complain.author.username }}</td>
-                            <td>{{ one_complain.content }}</td>
+                            <td>{{ one_repair.timestamp }}</td>
+                            <td>{{ one_repair.author.username }}</td>
+                            <td>{{ one_repair.content }}</td>
                             <td>
-                                <a href="#big_image_{{ one_complain.id }}" data-toggle="modal"
-                                   data-target="#big_image_{{ one_complain.id }}">
-                                    <img src="/media/{{ one_complain.src }}" style="height: 25px;width: 25px">
+                                <a href="#big_image_{{ one_repair.id }}" data-toggle="modal"
+                                   data-target="#big_image_{{ one_repair.id }}">
+                                    <img src="/media/{{ one_repair.src }}" style="height: 25px;width: 25px">
                                 </a>
 
-                                <div class="modal fade" id="big_image_{{ one_complain.id }}" tabindex="-1"
-                                     role="dialog" aria-labelledby="myModalLabel_{{ one_complain.id }}"
+                                <div class="modal fade" id="big_image_{{ one_repair.id }}" tabindex="-1"
+                                     role="dialog" aria-labelledby="myModalLabel_{{ one_repair.id }}"
                                      aria-hidden="true">
                                     <div class="modal-dialog" >
                                         <div class="modal-content"style="width:800px">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal"
                                                         aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel_{{ one_complain.id }}">
+                                                <h4 class="modal-title" id="myModalLabel_{{ one_repair.id }}">
                                                     图片详情</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <img src="/media/{{ one_complain.src }}">
+                                                <img src="/media/{{ one_repair.src }}">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -208,15 +208,16 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="deal_status"  id="status_{{ one_complain.id }}">
-                                {% if one_complain.status %}
+                            <td class="deal_status"  id="status_{{ one_repair.id }}">
+                                {% if one_repair.status %}
                                     <span style="color: green" >已受理</span>
                                 {% else %}
                                     <span style="color: red">未受理</span>
                                 {% endif %}
                             </td>
-                            <td>{{ one_complain.pleased }}</td>
-                            <td><input type="checkbox" name="chk" id={{ one_complain.id }}></td>
+                            <td>{{ one_repair.pleased }}</td>
+                            {#                            <td>{{ one_repair.handler.profile.username }}</td>#}
+                            <td><input type="checkbox" name="chk" id={{ one_repair.id }}></td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -236,7 +237,7 @@
                     </select>
 
                     <div style="margin-top:12px; ">
-                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_complain">
+                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_repair">
                             授权处理
                         </button>
                     </div>
@@ -256,7 +257,7 @@
     <script type="text/javascript">
         $(function () {
             var checked_array = new Array();
-            $('#deal_complain').click(function () {
+            $('#deal_repair').click(function () {
                 $('input[type="checkbox"][name="chk"]:checked').each(
                         function () {
                             var id = $(this).attr('id');
@@ -264,29 +265,28 @@
                         }
                 );
                 var deal_person_id = $('#id_handler').val();
-                if(checked_array.length>0)
+                if (checked_array.length>0)
                 {
-                      $.post('/deal/complain/',
-                        {
-                            'selected_complain_string': checked_array.toString(),
-                            'deal_person_id': deal_person_id
-                        },
-                            function (data) {
-                                   if(data.success){
-                                     alert(data.info);
-                                     $('input[type="checkbox"][name="chk"]:checked').each(
-                                            function() {
-                                                var id = $(this).attr('id');
-                                                 $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
-                                            }
-                                        );
-                                 }
+                           $.post('/deal/repair/',
+                                {
+                                    'selected_repair_string': checked_array.toString(),
+                                    'deal_person_id': deal_person_id
+                                },
+                                function (data) {
+                                       if(data.success){
+                                         alert(data.info);
+                                         $('input[type="checkbox"][name="chk"]:checked').each(
+                                                function() {
+                                                    var id = $(this).attr('id');
+                                                     $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
+                                                }
+                                            );
+                                     }
 
-                            }
-                         )
-
-                }else
-                {
+                                }
+                            )
+                 }
+                else{
                     alert("请选择处理数据");
                 }
 
@@ -308,7 +308,6 @@
 
 
     </script>
-
     <script src="/static/js/jquery.dataTables.min.js"></script>
     <script src="/static/js/DT_bootstrap.js"></script>
 {% endblock %}
