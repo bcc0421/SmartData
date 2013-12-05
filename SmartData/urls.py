@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from SmartDataApp.controller.admin import register, login, logout, api_user_list, api_user_create, api_user_login, api_user_update, api_user_change_password, api_user_logout
 from SmartDataApp.views import *
+from SmartDataApp.controller.repair import *
 from SmartDataApp.controller.complain import *
 from SmartDataApp.controller.community import *
 
@@ -26,10 +27,14 @@ urlpatterns = patterns('',
                        url(r'^captcha/', include('captcha.urls')),
                        url(r'^generate_captcha/', generate_captcha),
                        url(r'^complain/$', complain),
+                       url(r'^repair/$', repair),
                        url(r'^complain/create/$', complain_create),
+                       url(r'^repair/create/$', repair_create),
                        url(r'^community/$', add_community),
                        url(r'^deal/complain/$', complain_deal),
+                       url(r'^deal/repair/$', repair_deal),
                        url(r'^own_information/$', own_information),
+                       url(r'^own_repair/$', own_repair),
                        url(r'^own/complain/$', own_complain),
                        url(r'^api/user/list/$', api_user_list),
                        url(r'^api/user/create/$', api_user_create),
@@ -37,6 +42,7 @@ urlpatterns = patterns('',
                        url(r'^api/user/update/$', api_user_update),
                        url(r'^api/user/change_password/$', api_user_change_password),
                        url(r'^api/user/logout/$', api_user_logout),
+
 
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

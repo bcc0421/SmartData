@@ -1,18 +1,18 @@
 {% extends "proprietor_base.html" %}
-{% block title %}我的投诉{% endblock %}
+{% block title %}我的报修{% endblock %}
 {% block css %}
 {% endblock %}
 {% block container %}
     <div class="umMid el_w_495 fn_left">
 	<div class="umConBox">
 		<div class="umConBox_titBox">
-			<span class="title">投诉</span>
+			<span class="title">报修</span>
 		</div>
 		<div class="umConBox_conBox">
 		</div>
 	</div>
 	<!-- 投诉/保修 end -->
-	<form action="/complain/index" method="get">
+	<form action="/repair/index" method="get">
 		<!-- 投诉/保修 start -->
 		<!-- umFormBox start -->
 		<div class="umFormBox_s1 umFormBox">
@@ -30,19 +30,19 @@
         <div class="umDataLstBox">
 
                  <div class="umDataBox_s1 umDataBox_nbd umDataBox">
-                     {% for complain in complains %}
+                     {% for repair in repairs %}
                     <div class="records_details">
                         <div class="proces_state clearfix">
-                            {% if complain.status%}
+                            {% if repair.status%}
                                 <span class=" untreated fn_right" style="color: green">处理完成</span>
                             {% else %}
                                 <span class="status_LEDs untreated fn_right"></span>
                             {% endif %}
                             <span class="black_color">[服务态度]</span>
-                            <span class="publish_time">{{ complain.timestamp }} </span>
+                            <span class="publish_time">{{ repair.timestamp }} </span>
                         </div>
                         <div class="comment">
-                            <p class="comment_txt">{{ complain.content }}</p>
+                            <p class="comment_txt">{{ repair.content }}</p>
                             <div class="comment_img clearfix"></div>
                         </div>
                     </div>
@@ -54,14 +54,14 @@
                             <!-- 分页 start -->
                 <div class="paginator" >
                         <span class="step-links">
-                            {% if complains.has_previous %}
-                                <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
+                            {% if repairs.has_previous %}
+                                <a href="?page={{ repairs.previous_page_number }}">《上一页》</a> &nbsp;
                             {% endif %}
                             <span class="current">
-                                 当前页： {{ complains.number }}/{{ complains.paginator.num_pages }}.
+                                 当前页： {{ repairs.number }}/{{ repairs.paginator.num_pages }}.
                             </span> &nbsp;
-                            {% if complains.has_next %}
-                                <a href="?page={{ complains.next_page_number }}">《下一页》</a>
+                            {% if repairs.has_next %}
+                                <a href="?page={{ repairs.next_page_number }}">《下一页》</a>
                             {% endif %}
                         </span>
                     </div>
