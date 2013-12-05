@@ -37,6 +37,7 @@ def repair(request):
 
 @transaction.atomic
 @csrf_exempt
+@login_required(login_url='/login/')
 def  repair_create(request):
     if request.method != u'POST':
         return redirect(index)
