@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.conf.urls.static import static
-from SmartDataApp.controller.admin import register, login, logout, api_user_list
+from SmartDataApp.controller.admin import register, login, logout, api_user_list, api_user_create, api_user_login, api_user_update, api_user_change_password, api_user_logout
 from SmartDataApp.views import *
 from SmartDataApp.controller.complain import *
 from SmartDataApp.controller.community import *
@@ -32,6 +32,11 @@ urlpatterns = patterns('',
                        url(r'^own_information/$', own_information),
                        url(r'^own/complain/$', own_complain),
                        url(r'^api/user/list/$', api_user_list),
+                       url(r'^api/user/create/$', api_user_create),
+                       url(r'^api/user/login/$', api_user_login),
+                       url(r'^api/user/update/$', api_user_update),
+                       url(r'^api/user/change_password/$', api_user_change_password),
+                       url(r'^api/user/logout/$', api_user_logout),
 
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

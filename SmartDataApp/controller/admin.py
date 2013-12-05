@@ -131,6 +131,10 @@ def return_error_response():
     return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
 
 
+def return_404_response():
+    return HttpResponse('', content_type='application/json', status=404)
+
+
 @csrf_exempt
 @login_required
 @transaction.atomic
@@ -181,7 +185,9 @@ def api_user_create(request):
         profile_detail.address = address
         profile_detail.is_admin = True if is_admin == u'1' else False
         profile_detail.save()
-        return HttpResponse(simplejson.dumps({'info': 'register success'}), content_type='application/json')
+        return HttpResponse(simplejson.dumps({'info': 'create user successful'}), content_type='application/json')
+    else:
+        return return_404_response()
 
 
 @csrf_exempt
@@ -195,9 +201,11 @@ def api_user_login(request):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             auth_login(request, user)
-            return HttpResponse(simplejson.dumps({'info': 'login success'}), content_type='application/json')
+            return HttpResponse(simplejson.dumps({'info': 'login successful'}), content_type='application/json')
         else:
             return HttpResponse(simplejson.dumps({'info': 'login failed'}), content_type='application/json')
+    else:
+        return return_404_response()
 
 
 @csrf_exempt
@@ -232,8 +240,10 @@ def api_user_update(request):
         profile_detail.gate_card = gate_card
         profile_detail.address = address
         profile_detail.save()
-        return HttpResponse(simplejson.dumps({'info': 'update profile detail success'}),
+        return HttpResponse(simplejson.dumps({'info': 'update profile detail successful'}),
                             content_type='application/json')
+    else:
+        return return_404_response()
 
 
 @csrf_exempt
@@ -244,9 +254,10 @@ def api_user_change_password(request):
         return return_error_response()
     elif request.META['CONTENT_TYPE'] == 'application/json':
         data = simplejson.loads(request.body)
-        user = request.user
+        username = data.POST.get(u'username', None)
         old_password = data.POST.get(u'old_password', None)
         new_password = data.POST.get(u'new_password', None)
+        user = User.objects.get(username=username)
         if check_password(old_password, user.password):
             pattern = re.compile('\w{6,15}')
             match = pattern.match(new_password)
@@ -256,8 +267,11 @@ def api_user_change_password(request):
             else:
                 user.password = new_password
                 user.save()
+                return HttpResponse(simplejson.dumps({'error': False, 'info': u'密码更新成功'}))
         else:
             return HttpResponse(simplejson.dumps({'error': True, 'info': u'旧密码不正确'}), content_type='application/json')
+    else:
+        return return_404_response()
 
 
 @transaction.atomic
@@ -278,12 +292,13 @@ def api_user_list(request):
     elif request.META['CONTENT_TYPE'] == 'application/json':
         user = request.user
         if not user.is_staff:
-            pass
+            return HttpResponse(simplejson.dumps({'error':True,'info':u'仅限管理员访问'}), content_type='application/json')
         else:
             profile_detail_list = ProfileDetail.objects.all()
             response_data = list()
             for profile_detail in profile_detail_list:
                 data = {
+                    'id': profile_detail.profile.id,
                     'username': profile_detail.profile.username,
                     'phone_number': profile_detail.phone_number,
                     'email': profile_detail.profile.email,
@@ -294,6 +309,11 @@ def api_user_list(request):
                 }
                 response_data.append(data)
             return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        return return_404_response()
 
 
+def api_user_logout(request):
+    auth_logout(request)
+    return HttpResponse(simplejson.dumps({'info':u'成功登出'}), content_type='application/json')
 
