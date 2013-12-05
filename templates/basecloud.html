@@ -157,10 +157,11 @@
         <a href="#" class="mainNav_item" title="应用">
             <span class="txt">应用</span>
         </a>
-
-        <a href="#" class="mainNav_item" title="管理">
-            <span class="txt">管理</span>
-        </a>
+        {% if user.if_staff %}
+            <a href="#" class="mainNav_item" title="管理">
+                <span class="txt">管理</span>
+            </a>
+        {% endif %}
 
     </div>
 </div>
