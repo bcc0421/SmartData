@@ -31,7 +31,10 @@ class ProfileDetail(models.Model):
     avatar = models.ImageField(upload_to='avatar/%Y/%m/%d')
     phone_number = models.CharField(max_length=11, null=True)
     community = models.ForeignKey(Community, null=True)
-    pictures = models.ManyToManyField(Picture, null=True)
+    #pictures = models.ManyToManyField(Picture, null=True)
+    floor = models.CharField(max_length=20, null=True)
+    gate_card = models.CharField(max_length=20, null=True)
+    address = models.CharField(max_length=100, null=True)
     is_admin = models.BooleanField(default=False)
 
     def __str__(self):
