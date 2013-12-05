@@ -185,6 +185,22 @@ def api_user_create(request):
 
 
 @csrf_exempt
+def api_user_login(request):
+    if request.method != u'POST':
+        return return_error_response()
+    elif request.META['CONTENT_TYPE'] == 'application/json':
+        data = simplejson.loads(request.body)
+        username = data.POST.get(u'username', None)
+        password = data.POST.get(u'password', None)
+        user = authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            auth_login(request, user)
+            return HttpResponse(simplejson.dumps({'info': 'login success'}), content_type='application/json')
+        else:
+            return HttpResponse(simplejson.dumps({'info': 'login failed'}), content_type='application/json')
+
+
+@csrf_exempt
 @login_required
 @transaction.atomic
 def api_user_update(request):
