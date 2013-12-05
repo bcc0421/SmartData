@@ -19,6 +19,7 @@
             font-size: 15px;
 
         }
+
         /*     table button{
                  border-radius: 0px 0px 0px 0px;
                  width: 80px;
@@ -188,8 +189,8 @@
                                 <div class="modal fade" id="big_image_{{ one_complain.id }}" tabindex="-1"
                                      role="dialog" aria-labelledby="myModalLabel_{{ one_complain.id }}"
                                      aria-hidden="true">
-                                    <div class="modal-dialog" >
-                                        <div class="modal-content"style="width:800px">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content" style="width:800px">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal"
                                                         aria-hidden="true">&times;</button>
@@ -208,9 +209,9 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="deal_status"  id="status_{{ one_complain.id }}">
+                            <td class="deal_status" id="status_{{ one_complain.id }}">
                                 {% if one_complain.status %}
-                                    <span style="color: green" >已受理</span>
+                                    <span style="color: green">已受理</span>
                                 {% else %}
                                     <span style="color: red">未受理</span>
                                 {% endif %}
@@ -264,29 +265,27 @@
                         }
                 );
                 var deal_person_id = $('#id_handler').val();
-                if(checked_array.length>0)
-                {
-                      $.post('/deal/complain/',
-                        {
-                            'selected_complain_string': checked_array.toString(),
-                            'deal_person_id': deal_person_id
-                        },
+                if (checked_array.length > 0) {
+                    $.post('/deal/complain/',
+                            {
+                                'selected_complain_string': checked_array.toString(),
+                                'deal_person_id': deal_person_id
+                            },
                             function (data) {
-                                   if(data.success){
-                                     alert(data.info);
-                                     $('input[type="checkbox"][name="chk"]:checked').each(
-                                            function() {
+                                if (data.success) {
+                                    alert(data.info);
+                                    $('input[type="checkbox"][name="chk"]:checked').each(
+                                            function () {
                                                 var id = $(this).attr('id');
-                                                 $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
+                                                $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
                                             }
-                                        );
-                                 }
+                                    );
+                                }
 
                             }
-                         )
+                    )
 
-                }else
-                {
+                } else {
                     alert("请选择处理数据");
                 }
 
@@ -297,12 +296,13 @@
         $(document).ready(function () {
             $('#example').dataTable({
                 "oLanguage": {
-                        "sLengthMenu": "显示 _MENU_每页显示记录",
-                        "sZeroRecords": "对不起没有你要找的记录",
-                        "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
-                        "sInfoEmpty": "显示 0 到 0 总共 0 记录",
-                        "sInfoFiltered": "(从 _MAX_条记录中查找)"
-		}
+                    "sLengthMenu": "显示 _MENU_每页显示记录",
+                    "sZeroRecords": "对不起没有你要找的记录",
+                    "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
+                    "sInfoEmpty": "显示 0 到 0 总共 0 记录",
+                    "sInfoFiltered": "(从 _MAX_条记录中查找)",
+                    "sSearch": "搜索:"
+                }
             });
         });
 
