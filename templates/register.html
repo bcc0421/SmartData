@@ -11,13 +11,13 @@
                 <div class="lrf_regBox lrf_optBox fn_left">
                     <div class="titItem">
                         <i class="icon"></i>
-                        <span class="title">用户注册</span>
+                        <span class="title">添加用户</span>
                     </div>
                     <div class="optItem">
                         <div class="optItem_item">
-                            <label class="el_lab">用户名：</label>
+                            <label class="el_lab">用 户 名：</label>
                             <input class="el_inText" placeholder="请填写手机号/用户名" name="username"
-                                   id="CustomerForm_username" type="text" required autofocus/>
+                                   id="id_username" type="text" required autofocus/>
                             {% if username_error %}
                                 <span style="color:red;" class="help-inline error tip">{{ info }}</span>
                             {% else %}
@@ -25,21 +25,21 @@
                             {% endif %}
                         </div>
                         <div class="optItem_item">
-                            <label class="el_lab">密码：</label>
+                            <label class="el_lab">密　　码：</label>
                             <input class="el_inText" placeholder="请填写密码" name="password"
-                                   id="CustomerForm_password" type="password" required/> <span
+                                   id="id_password" type="password" required/> <span
                                 class="tip">字母、数字组成，6-15位</span>
                         </div>
                         <div class="optItem_item">
                             <label class="el_lab">重复密码：</label>
                             <input class="el_inText" placeholder="重复密码" name="repeatPwd"
-                                   id="CustomerForm_repeatPwd" type="password" required/>
+                                   id="id_repeatPwd" type="password" required/>
                             {% if password_error %}
                                 <span style="color:red;" class="help-inline error tip">{{ info }}</span>
                             {% endif %}
                         </div>
                         <div class="optItem_item">
-                            <label class="el_lab">地址：</label>
+                            <label class="el_lab">地　　址：</label>
                             <select class="el_inText" id="id_community" name="community">
                                 {% for community in communities %}
                                     <option value="{{ community.id }}">{{ community.title }}</option>
@@ -50,19 +50,42 @@
                             {% endif %}
                         </div>
                         <div class="optItem_item">
+                            <label class="el_lab">楼　　栋：</label>
+                            <input class="el_inText" placeholder="请填写楼栋号" name="floor"
+                                   id="id_floor" type="text" required/>
+                        </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">门 牌 号：</label>
+                            <input class="el_inText" placeholder="请填写门牌号" name="gate_card"
+                                   id="id_gate_card" type="text" required/>
+                        </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">详细地址：</label>
+                            <input class="el_inText" placeholder="请填写详细地址" name="address"
+                                   id="id_address" type="text" required/>
+                        </div>
+                        <div class="optItem_item">
                             <label class="el_lab">手机号码：</label>
                             <input class="el_inText" placeholder="手机号码" name="mobile"
-                                   id="CustomerForm_mobile" type="text" required/>
+                                   id="id_mobile" type="text" required/>
                             {% if mobile_error %}
                                 <span style="color:red;" class="help-inline error tip">{{ info }}</span>
                             {% endif %}
                         </div>
                         <div class="optItem_item">
-                            <label class="el_lab">权限：</label>
+                            <label class="el_lab">电子邮箱：</label>
+                            <input class="el_inText" placeholder="请填写电子邮箱地址" name="email"
+                                   id="id_email" type="email" required/>
+                            {% if email_error %}
+                                <span style="color:red;" class="help-inline error tip">{{ info }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="optItem_item">
+                            <label class="el_lab">权　　限：</label>
                             <select class="el_inText" id="is_admin" name="is_admin">
-                                <option value="0">业主</option>
+                                <option value="0">业　　主</option>
                                 <option value="1">工作人员</option>
-                                <option value="2">管理员</option>
+                                <option value="2">管 理 员</option>
                             </select>
                         </div>
                         <div class="optItem_item optItem_item_btns">

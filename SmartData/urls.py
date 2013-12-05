@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.conf.urls.static import static
-from SmartDataApp.controller.admin import register, login, logout
+from SmartDataApp.controller.admin import register, login, logout, api_user_list
 from SmartDataApp.views import *
 from SmartDataApp.controller.complain import *
 from SmartDataApp.controller.community import *
@@ -31,5 +31,7 @@ urlpatterns = patterns('',
                        url(r'^deal/complain/$', complain_deal),
                        url(r'^own_information/$', own_information),
                        url(r'^own/complain/$', own_complain),
+                       url(r'^api/user/list/$', api_user_list),
+
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
