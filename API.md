@@ -190,7 +190,7 @@
 #### Error
 	{
 		'error':True,
-		'info':u'仅限管理员访问'
+		'info':'仅限管理员访问'
 	}
 
 ### 5. Logout
@@ -206,5 +206,5 @@
 
 #### Success
 	{
-		'info':u'成功登出'
+		'info':'成功登出'
 	}
