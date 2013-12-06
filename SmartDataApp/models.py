@@ -42,7 +42,7 @@ class ProfileDetail(models.Model):
 
 
 class Complaints(models.Model):
-    content = models.CharField(max_length=250, null=False)
+    content = models.CharField(max_length=250, null=True, blank=True, default='')
     author = models.ForeignKey(User)
     timestamp = models.DateTimeField(default=timezone.now)
     handler = models.ManyToManyField(ProfileDetail, default=None, null=True)
@@ -50,19 +50,22 @@ class Complaints(models.Model):
     type = models.CharField(max_length=20)
     status = models.BooleanField(default=False)
     src = models.ImageField(upload_to='uploads/%Y/%m/%d', null=True)
+    pleased_reason = models.CharField(max_length=250, null=True)
 
     def __str__(self):
         return self.content
 
 
 class Repair(models.Model):
-    content =models.CharField(max_length=250 ,null=False)
-    author=models.ForeignKey(User)
+    content = models.CharField(max_length=250, null=True, blank=True, default='')
+    author = models.ForeignKey(User)
     timestamp = models.DateTimeField(default=timezone.now)
     handler = models.ManyToManyField(ProfileDetail, default=None, null=True)
     pleased = models.IntegerField(default=0)
     type = models.CharField(max_length=20)
     status = models.BooleanField(default=False)
     src = models.ImageField(upload_to='uploads/%Y/%m/%d', null=True)
+    pleased_reason = models.CharField(max_length=250, null=True)
+
     def __str__(self):
         return self.content

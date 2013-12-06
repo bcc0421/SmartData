@@ -112,7 +112,7 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_active:
                 auth_login(request, user)
-                if request.POST.get(u'remember_me'):
+                if not request.POST.get(u'remember_me',None):
                     request.session.set_expiry(0)
                 return redirect(index)
             else:
