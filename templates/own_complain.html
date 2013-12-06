@@ -1,16 +1,40 @@
 {% extends "proprietor_base.html" %}
 {% block title %}我的投诉{% endblock %}
 {% block css %}
+    <style>
+       .modal-body ul li{
+           float: left;
+           padding-left: 43px;
+
+       }
+        .rate-standard{
+            margin-left: 144px;
+        }
+        .rate-standard span {
+            padding-left: 25px;
+        }
+        .pleased{
+            margin-left: 35px;
+            width:100px;
+            padding-left: 25px;
+             margin-top: -18px;
+            float:left;
+        }
+    .sr-shop-rating{
+        float:left;
+        margin-top: -20px;
+    }
+    </style>
 {% endblock %}
 {% block container %}
     <div class="umMid el_w_495 fn_left">
-	<div class="umConBox">
-		<div class="umConBox_titBox">
-			<span class="title">投诉</span>
-		</div>
-		<div class="umConBox_conBox">
-		</div>
-	</div>
+        <div class="umConBox">
+            <div class="umConBox_titBox">
+                <span class="title">投诉</span>
+            </div>
+            <div class="umConBox_conBox">
+            </div>
+        </div>
 	<!-- 投诉/保修 end -->
 	<form action="/complain/index" method="get">
 		<!-- 投诉/保修 start -->
@@ -40,6 +64,65 @@
                             {% endif %}
                             <span class="black_color">[服务态度]</span>
                             <span class="publish_time">{{ complain.timestamp }} </span>
+                            {% if complain.status%}
+                                <button class="btn"  data-toggle="modal"
+                                       data-target="#response_{{complain.id  }}">满意反馈</button>
+                            {% endif %}
+
+                                <div class="modal fade" id="response_{{complain.id  }}" tabindex="-1"
+                                     role="dialog" aria-labelledby="myModalLabel_{{ complain.id }}"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content" >
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel_{{ complain.id }}">
+                                                    服务满意度反馈</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h3>您对商家的服务评价</h3>
+                                                    <span class="rate-standard-border rate-standard-show leftoffset">
+
+                                                        <div class="rate-standard">
+                                                            <span>失望</span>
+                                                            <span>不满</span>
+                                                            <span>一般</span>
+                                                            <span>满意</span>
+                                                            <span>惊喜</span>
+                                                        </div>
+
+                                                    </span>
+                                                    <div class="pleased">
+                                                        <span class="sr-title sr-big-title">
+                                                            <span class="text">服务态度：</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="sr-shop-rating " id="radio_{{ complain.id }}">
+                                                        <ul class="sr-rating-level">
+                                                            <li><input value="1" name="radiobutton" type="radio"></li>
+                                                            <li><input value="2" name="radiobutton"  type="radio"></li>
+                                                            <li><input value="3" name="radiobutton" type="radio"></li>
+                                                            <li><input value="4" name="radiobutton" type="radio"></li>
+                                                            <li><input value="5" name="radiobutton" type="radio"></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div style="margin-top: 50px">
+                                                        <textarea id="textarea_{{ complain.id }}" style="line-height: normal;width:550px;height: 100px" placeholder="你可以对此次服务做出综合性的评论...."></textarea>
+                                                                    <button style="width: 90px;border-radius: 0px 0px 0px 0px;margin-left: 35px;margin-top:32px;"
+                                                                    class="btn"
+                                                                    onclick="submit_response_data(this)"
+                                                                     name="{{ complain.id }}">提交</button>
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
                         <div class="comment">
                             <p class="comment_txt">{{ complain.content }}</p>
@@ -84,4 +167,31 @@
 	<!-- 数据列表 end -->
 </div>
 <!-- 中部·容器 end -->
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        function submit_response_data(obj){
+            var get_id=$(obj).attr("name");
+            var response_content=$("#textarea_" + get_id).val();
+            var selected_radio=$('#radio_' + get_id + ' input[type="radio"]:checked').val();
+            if(selected_radio){
+                $.post('/complain/response/',
+                        {
+                            complain_id:get_id,
+                            response_content:response_content,
+                            selected_radio:selected_radio
+                        },
+                        function(data){
+                            if(data.success){
+                                 alert(data.info);
+                                window.location.href = "/own/complain/";
+                            }
+                        }
+                )
+            }else{
+                alert("请选择满意度");
+            }
+
+        }
+    </script>
 {% endblock %}

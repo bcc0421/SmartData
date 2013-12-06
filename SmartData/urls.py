@@ -42,6 +42,8 @@ urlpatterns = patterns('',
                        url(r'^api/user/update/$', api_user_update),
                        url(r'^api/user/change_password/$', api_user_change_password),
                        url(r'^api/user/logout/$', api_user_logout),
+                       url(r'^complain/response/$', complain_response),
+                       url(r'^repair/response/$', repair_response),
 
 
 

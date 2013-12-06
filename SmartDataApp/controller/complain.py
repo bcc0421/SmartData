@@ -102,6 +102,28 @@ def own_complain(request):
     return render_to_response('own_complain.html',{ 'show': False ,'user':request.user,'profile':profile })
 
 
+@transaction.atomic
+@csrf_exempt
+@login_required
+def complain_response(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        complain_id = request.POST.get("complain_id", None)
+        response_content = request.POST.get("response_content", None)
+        selected_pleased = request.POST.get("selected_radio", None)
+        profile=ProfileDetail.objects.get(profile=request.user)
+        complain=Complaints.objects.get(id=complain_id)
+        if complain:
+            complain.pleased_reason=response_content
+            complain.pleased=selected_pleased
+            complain.save()
+            response_data = {'success': True, 'info': '评论成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            return render_to_response('own_complain.html',{ 'show': True ,'user':request.user,'profile':profile })
+
+
 
 
 

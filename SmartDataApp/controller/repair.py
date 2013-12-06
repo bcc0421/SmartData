@@ -103,3 +103,25 @@ def own_repair(request):
                         'show': True
                     })
     return render_to_response('own_repair.html',{ 'show': False ,'user':request.user,'profile':profile })
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required
+def repair_response(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        repair_id = request.POST.get("repair_id", None)
+        response_content = request.POST.get("response_content", None)
+        selected_pleased = request.POST.get("selected_radio", None)
+        profile=ProfileDetail.objects.get(profile=request.user)
+        repair=Repair.objects.get(id=repair_id)
+        if repair:
+            repair.pleased_reason=response_content
+            repair.pleased=selected_pleased
+            repair.save()
+            response_data = {'success': True, 'info': '评论成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            return render_to_response('own_repair.html',{ 'show': True ,'user':request.user,'profile':profile })
