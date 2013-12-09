@@ -45,6 +45,8 @@ urlpatterns = patterns('',
                        url(r'^api/user/logout/$', api_user_logout),
                        url(r'^complain/response/$', complain_response),
                        url(r'^repair/response/$', repair_response),
+                       url(r'^api/complain/response/$', api_complain_response),
+                       url(r'^api/own/complain/$', api_own_complain),
 
 
 

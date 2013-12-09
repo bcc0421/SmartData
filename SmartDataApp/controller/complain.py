@@ -151,8 +151,60 @@ def api_complain_create(request):
             complain.save()
             return HttpResponse(simplejson.dumps({'error': False, 'info': u'投诉创建成功'}),content_type='application/json')
         else:
-            return HttpResponse(simplejson.dumps({'error': True, 'info': u'请选择投诉类型或填写投诉内容'}),
+            return HttpResponse(simplejson.dumps({'error': True, 'info': u'投诉创建失败'}),
                                     content_type='application/json')
 
+@transaction.atomic
+@csrf_exempt
+@login_required
+def api_complain_response(request):
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        complain_id = data.get("complain_id", None)
+        response_content = data.get("response_content", None)
+        selected_pleased = data.get("selected_radio", None)
+        complain=Complaints.objects.get(id=complain_id)
+        if complain and selected_pleased:
+            complain.pleased_reason=response_content
+            complain.pleased=selected_pleased
+            complain.save()
+            response_data = {'success': True, 'info': '反馈成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        else:
+            response_data = {'success': False, 'info': '反馈失败！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        return return_404_response()
 
-
+@transaction.atomic
+@csrf_exempt
+@login_required
+def api_own_complain(request):
+    complains = Complaints.objects.filter(author=request.user)
+    if len(complains) > 0:
+        paginator = Paginator(complains, 5)
+        page_count = paginator.count
+        page = request.GET.get('page')
+        try:
+            complains_list = paginator.page(page).object_list
+        except PageNotAnInteger:
+            complains_list = paginator.page(1)
+        except EmptyPage:
+            complains_list = paginator.page(paginator.num_pages)
+        complain_list = list()
+        for complain_detail in complains_list:
+                data = {
+                    'id': complain_detail.id,
+                    'complain_author': complain_detail.author.username,
+                    'content': complain_detail.content,
+                    'type': complain_detail.type,
+                    'deal_status': complain_detail.status,
+                    'pleased': complain_detail.pleased,
+                    'src': complain_detail.src.name,
+                    'time': str(complain_detail.timestamp)
+                }
+                complain_list.append(data)
+        response_data = {'complain_list': complain_list, 'page_count': page_count}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')

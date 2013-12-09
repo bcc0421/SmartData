@@ -208,3 +208,94 @@
 	{
 		'info':'成功登出'
 	}
+
+### 6.user complain create(用户需要登录 header头部需放入sessionid)
+
+#### URL : /api/complain/create/
+
+#### Method : POST
+Content-Type: multipart/form-data;
+content 和category (必须有一个给值)
+
+    {
+        'content': '投诉内容',
+        'category': '投诉类型',    目前为（安全投诉，环境投诉，员工投诉）中三选一
+        'upload_complain_img':'filename'
+    }
+
+### Result:
+
+#### Success
+    {
+        'error': False,
+        'info': u'投诉创建成功'
+    }
+
+#### Error
+    {
+        'error': True,
+        'info': u'投诉创建失败'
+
+    }
+
+### 7.user complain response(用户需要登录 header头部需放入sessionid)
+
+#### URL : /api/complain/response/
+
+#### Method : POST
+
+    {
+        'complain_id': '投诉id号',
+        'response_content': '反馈内容',
+        'selected_pleased':'满意度'（1,2,3,4,5）5个数字选一个
+    }
+
+### Result:
+
+#### Success
+
+    {'success': True, 'info': '反馈成功！'}
+
+#### Error
+
+    {'success': False, 'info': '反馈失败！'}
+
+
+### 8.user own complain(用户需要登录 header头部需放入sessionid)
+
+#### URL : /api/own/complain/?page=页数
+
+#### Method : GET
+
+### Result:
+
+#### Success（每页返回五条记录）
+        {
+            page_count:（总页数）
+            complain_list:
+                [
+
+                        {
+                            content: "sgsdfgsdfgdfsgsdf"
+                            src: "uploads/2013/12/09/2_18.jpg"
+                            deal_status: false
+                            time: "2013-12-09 05:01:59+00:00"
+                            type: "安全投诉"
+                            id: 23
+                            complain_author: "cainiao"
+                            pleased: 0
+                        }
+
+                        {
+                            content: "123F"
+                            src: "uploads/2013/12/09/2_21.jpg"
+                            deal_status: false
+                            time: "2013-12-09 05:01:04+00:00"
+                            type: "安全投诉"
+                            id: 24
+                            complain_author: "cainiao"
+                            pleased: 0
+                        }
+
+                ]
+        }
