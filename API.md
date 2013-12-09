@@ -193,7 +193,7 @@
 		'info':'仅限管理员访问'
 	}
 
-### 5. Logout
+### 6. Logout
 
 #### URL : /api/user/logout/
 
@@ -209,7 +209,8 @@
 		'info':'成功登出'
 	}
 
-### 6.user complain create(用户需要登录 header头部需放入sessionid)
+
+### 7. User complain create(用户需要登录)
 
 #### URL : /api/complain/create/
 
@@ -238,7 +239,7 @@ content 和category (必须有一个给值)
 
     }
 
-### 7.user complain response(用户需要登录 header头部需放入sessionid)
+### 8. User complain response(用户需要登录)
 
 #### URL : /api/complain/response/
 
@@ -261,9 +262,9 @@ content 和category (必须有一个给值)
     {'success': False, 'info': '反馈失败！'}
 
 
-### 8.user own complain(用户需要登录 header头部需放入sessionid)
+### 9. User own complain(用户需要登录)
 
-#### URL : /api/own/complain/?page=页数
+#### URL : /api/own/complain/?page=页数 (page 可选, 默认为1)
 
 #### Method : GET
 
