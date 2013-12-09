@@ -12,6 +12,12 @@ from SmartDataApp.models import Complaints
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail
 
+def return_error_response():
+    response_data = {'error': 'Just support POST method.'}
+    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+def return_404_response():
+    return HttpResponse('', content_type='application/json', status=404)
 
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -124,7 +130,29 @@ def complain_response(request):
             return render_to_response('own_complain.html',{ 'show': True ,'user':request.user,'profile':profile })
 
 
-
+@transaction.atomic
+@csrf_exempt
+@login_required
+def api_complain_create(request):
+    if request.method != u'POST':
+        return return_error_response()
+    else:
+        complain_content = request.POST.get('content', None)
+        complain_type = request.POST.get('category', None)
+        upload__complain_src = request.FILES.get('upload_complain_img', None)
+        complain_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+        if complain_content or complain_type:
+            complain = Complaints(author=request.user)
+            complain.content = complain_content
+            complain.timestamp = complain_time
+            complain.type = complain_type
+            if upload__complain_src:
+                complain.src = upload__complain_src
+            complain.save()
+            return HttpResponse(simplejson.dumps({'error': False, 'info': u'投诉创建成功'}),content_type='application/json')
+        else:
+            return HttpResponse(simplejson.dumps({'error': True, 'info': u'请选择投诉类型或填写投诉内容'}),
+                                    content_type='application/json')
 
 
 

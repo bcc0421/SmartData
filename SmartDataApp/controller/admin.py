@@ -194,10 +194,10 @@ def api_user_create(request):
 def api_user_login(request):
     if request.method != u'POST':
         return return_error_response()
-    elif request.META['CONTENT_TYPE'] == 'application/json':
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
-        username = data.POST.get(u'username', None)
-        password = data.POST.get(u'password', None)
+        username = data.get(u'username', None)
+        password = data.get(u'password', None)
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             auth_login(request, user)
@@ -214,15 +214,15 @@ def api_user_login(request):
 def api_user_update(request):
     if request.method != u'POST':
         return return_error_response()
-    elif request.META['CONTENT_TYPE'] == 'application/json':
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
-        username = data.POST.get(u'username', None)
-        mobile = data.POST.get(u'mobile', None)
-        email = data.POST.get(u'email', None)
-        community_id = data.POST.get(u'community', None)
-        floor = data.POST.get(u'floor', None)
-        gate_card = data.POST.get(u'gate_card', None)
-        address = data.POST.get(u'address', None)
+        username = data.get(u'username', None)
+        mobile = data.get(u'mobile', None)
+        email = data.get(u'email', None)
+        community_id = data.get(u'community', None)
+        floor = data.get(u'floor', None)
+        gate_card = data.get(u'gate_card', None)
+        address = data.get(u'address', None)
         pattern = re.compile(r'^(1[0-9][0-9])\d{8}$')
         if not pattern.match(mobile):
             response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码'}
@@ -252,11 +252,11 @@ def api_user_update(request):
 def api_user_change_password(request):
     if request.method != u'POST':
         return return_error_response()
-    elif request.META['CONTENT_TYPE'] == 'application/json':
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
-        username = data.POST.get(u'username', None)
-        old_password = data.POST.get(u'old_password', None)
-        new_password = data.POST.get(u'new_password', None)
+        username = data.get(u'username', None)
+        old_password = data.get(u'old_password', None)
+        new_password = data.get(u'new_password', None)
         user = User.objects.get(username=username)
         if check_password(old_password, user.password):
             pattern = re.compile('\w{6,15}')
@@ -280,7 +280,7 @@ def api_user_change_password(request):
 def api_user_delete(request):
     if request.method != u'POST':
         return return_error_response()
-    elif request.META['CONTENT_TYPE'] == 'application/json':
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         pass
 
 
@@ -289,7 +289,7 @@ def api_user_delete(request):
 def api_user_list(request):
     if request.method != u'POST':
         return return_error_response()
-    elif request.META['CONTENT_TYPE'] == 'application/json':
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         user = request.user
         if not user.is_staff:
             return HttpResponse(simplejson.dumps({'error':True,'info':u'仅限管理员访问'}), content_type='application/json')
