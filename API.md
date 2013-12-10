@@ -300,3 +300,94 @@ content 和category (必须有一个给值)
 
                 ]
         }
+
+### 8. User repair create(用户需要登录)
+
+#### URL : /api/repair/create/
+
+#### Method : POST
+Content-Type: multipart/form-data;
+content 和category (必须有一个给值)
+
+    {
+        'content': '投诉内容',
+        'category': '投诉类型',    目前为（安全投诉，环境投诉，员工投诉）中三选一
+        'upload_repair_img':'filename'
+    }
+
+### Result:
+
+#### Success
+    {
+        'error': False,
+        'info': u'报修创建成功'
+    }
+
+#### Error
+    {
+        'error': True,
+        'info': u'报修创建失败'
+
+    }
+
+### 8. User repair response(用户需要登录)
+
+#### URL : /api/repair/response/
+
+#### Method : POST
+
+    {
+        'repair_id': '投诉id号',
+        'response_content': '反馈内容',
+        'selected_pleased':'满意度'（1,2,3,4,5）5个数字选一个
+    }
+
+### Result:
+
+#### Success
+
+    {'success': True, 'info': '反馈成功！'}
+
+#### Error
+
+    {'success': False, 'info': '反馈失败！'}
+
+
+### 9. User own repair(用户需要登录)
+
+#### URL : /api/own/repair/?page=页数 (page 可选, 默认为1)
+
+#### Method : GET
+
+### Result:
+
+#### Success（每页返回五条记录）
+        {
+            page_count:（总页数）
+            repair_list:
+                [
+
+                        {
+                            content: "123"
+                            src: ""
+                            deal_status: true
+                            time: "2013-12-05 06:02:18+00:00"
+                            type: "弱电"
+                            id: 3
+                            repair_author: "菜菜"
+                            pleased: 1
+                        }
+
+                        {
+                            content: "十大发生的"
+                            src: "uploads/2013/12/05/qq.jpg"
+                            deal_status: true
+                            time: "2013-12-05 05:01:17+00:00"
+                            type: "电梯"
+                            id: 1
+                            repair_author: "菜菜"
+                            pleased: 3
+                        }
+
+                ]
+        }

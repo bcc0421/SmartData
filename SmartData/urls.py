@@ -46,7 +46,10 @@ urlpatterns = patterns('',
                        url(r'^complain/response/$', complain_response),
                        url(r'^repair/response/$', repair_response),
                        url(r'^api/complain/response/$', api_complain_response),
+                       url(r'^api/repair/response/$', api_repair_response),
                        url(r'^api/own/complain/$', api_own_complain),
+                       url(r'^api/own/repair/$', api_own_repair),
+                       url(r'^api/repair/create/$', api_repair_create),
 
 
 

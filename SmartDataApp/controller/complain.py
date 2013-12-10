@@ -164,7 +164,7 @@ def api_complain_response(request):
         data = simplejson.loads(request.body)
         complain_id = data.get("complain_id", None)
         response_content = data.get("response_content", None)
-        selected_pleased = data.get("selected_radio", None)
+        selected_pleased = data.get("selected_pleased", None)
         complain=Complaints.objects.get(id=complain_id)
         if complain and selected_pleased:
             complain.pleased_reason=response_content
@@ -185,7 +185,7 @@ def api_own_complain(request):
     complains = Complaints.objects.filter(author=request.user)
     if len(complains) > 0:
         paginator = Paginator(complains, 5)
-        page_count = paginator.count
+        page_count = paginator.num_pages
         page = request.GET.get('page')
         try:
             complains_list = paginator.page(page).object_list
