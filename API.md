@@ -301,7 +301,7 @@ content 和category (必须有一个给值)
                 ]
         }
 
-### 8. User repair create(用户需要登录)
+### 10. User repair create(用户需要登录)
 
 #### URL : /api/repair/create/
 
@@ -330,7 +330,7 @@ content 和category (必须有一个给值)
 
     }
 
-### 8. User repair response(用户需要登录)
+### 11. User repair response(用户需要登录)
 
 #### URL : /api/repair/response/
 
@@ -353,7 +353,7 @@ content 和category (必须有一个给值)
     {'success': False, 'info': '反馈失败！'}
 
 
-### 9. User own repair(用户需要登录)
+### 12. User own repair(用户需要登录)
 
 #### URL : /api/own/repair/?page=页数 (page 可选, 默认为1)
 
