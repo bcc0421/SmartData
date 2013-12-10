@@ -1,0 +1,174 @@
+{% extends "proprietor_base.html" %}
+{% block title %}个人中心{% endblock %}
+{% block css %}
+   <style>
+        .um_mp_box .table th
+        {
+            text-align: left;
+            font-weight: normal;
+            width: 88px;
+        }
+
+   </style>
+
+
+{% endblock %}
+{% block container %}
+    <div class="umMid el_w_495 fn_left">
+
+        <!-- 修改我的资料 start -->
+        <div>
+                  <div class="umConBox" >
+                        <div class="umConBox_titBox">
+                            <span class="title">修改我的资料</span>
+                        </div>
+                        <div class="umConBox_conBox">
+                            <form id="yw0" action="/profile/update/" method="post">                        <!-- 表格 start -->
+                                <div class="um_mp_box" style="position:relative;">
+                                    <div class="address-select address-input" style="padding: 1px 5px;">>
+
+                                    </div>
+                                    <table class="table" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <th>姓&nbsp;&nbsp;&nbsp;&nbsp;名：</th>
+                                            <td>
+                                                <input class="el_inText" name="new_name" id="new_name" type="text"
+                                                       maxlength="64" value="{{ user.username }}"/> <span class="error tip"></span>
+                                             {% if username_error %}
+                                            <span style="color:red;" class="help-inline error tip">{{ info }}</span>
+                                            {% else %}
+                                                <span class="tip">字母、数字、下划线组成，3位以上</span>
+                                            {% endif %}
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>小&nbsp;&nbsp;&nbsp;&nbsp;区：</th>
+                                            <td>
+                                                <div class="optItem_item">
+                                                    <select class="el_inText" id="id_community" name="community">
+                                                        {% for community in communities %}
+                                                            <option value="{{ community.id }}">{{ community.title }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    {% if communities|length == 0 %}
+                                                        <span style="color:red;" class="help-inline error tip">没有社区可以选择，请联系管理员</span>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>楼&nbsp;&nbsp;&nbsp;&nbsp;栋：</th>
+                                            <td>
+                                                <input class="el_inText" name="new_building" id="new_building" type="text"
+                                                       maxlength="64" value="{{ profile.floor }}"/> <span class="error tip"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>门&nbsp;牌&nbsp;号：</th>
+                                            <td>
+
+                                                <input class="el_inText" name="new_room" id="new_room" type="text"
+                                                       maxlength="32" value="{{ profile.gate_card }}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th>详细地址：</th>
+                                            <td>
+                                                <input class="el_inText" name="new_address" id="new_address" type="text"
+                                                       maxlength="64" value="{{ profile.address }}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>电子邮箱：</th>
+                                            <td><input class="el_inText" name="new_email" id="new_email" type="text"
+                                                       maxlength="25" value="{{ user.email }}"/>
+                                               {% if email_error %}
+                                                    <span style="color:red;" class="help-inline error tip">{{ info }}</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>联系电话：</th>
+                                            <td><input class="el_inText"  name="new_mobile"
+                                                       id="new_mobile" type="text" maxlength="15" value="{{ profile.phone_number }}"/>
+                                             {% if mobile_error %}
+                                                <span style="color:red;" class="help-inline error tip">{{ info }}</span>
+                                            {% endif %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="btns btns_s1">
+                                        <button class="el_btn_gray_xssl el_btn" value="" type="submit"><span class="txt">修改</span></button>
+                                    </div>
+                                 </div>
+                            </form>
+                        </div>
+                        <!-- 表格 end -->
+                </div>
+
+        </div>
+
+    <!-- 修改我的资料 end -->
+
+    <!-- 我的物业 start -->
+    <div class="umConBox">
+        <div class="umConBox_titBox">
+            <span class="title">我的物业</span>
+                        <span class="title" style="float: right;padding-right: 15px;">
+                            <a href="/propertyAddress">更多</a>
+                        </span>
+        </div>
+        <div class="umConBox_conBox">
+            <!-- 表格 start -->
+            <div class="dataTableBox_s4">
+                <table class="dataTable_s4" cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>物业信息</th>
+                        <th width="170px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="4">没有数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 表格 end -->
+        </div>
+    </div>                <!-- 我的物业 end -->
+
+    <!-- 我的停车卡 start -->
+    <div class="umConBox">
+        <div class="umConBox_titBox">
+            <span class="title">我的停车卡</span>
+            <span class="title" style="float: right;padding-right: 15px;"><a href="/parkingAddress">更多</a></span>
+        </div>
+        <div class="umConBox_conBox">
+            <!-- 表格 start -->
+            <div class="dataTableBox_s4">
+                <table class="dataTable_s4" cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>车牌号</th>
+                        <th>物业信息</th>
+                        <th width="170px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="4">没有数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- 表格 end -->
+        </div>
+    </div>
+    </div>
+{% endblock %}

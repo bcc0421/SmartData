@@ -265,7 +265,7 @@ def api_user_change_password(request):
                 return HttpResponse(simplejson.dumps({'error': True, 'info': u'密码长度为6-15位数字或字母'}),
                                     content_type='application/json')
             else:
-                user.password = new_password
+                user.password = make_password(new_password, 'md5')
                 user.save()
                 return HttpResponse(simplejson.dumps({'error': False, 'info': u'密码更新成功'}))
         else:

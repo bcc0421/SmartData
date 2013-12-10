@@ -17,7 +17,7 @@ from django.core import serializers
 from captcha.models import CaptchaStore
 
 from SmartDataApp.forms import UserForm
-from SmartDataApp.models import Picture, ProfileDetail
+from SmartDataApp.models import Picture, ProfileDetail, Community
 
 
 def random_captcha():
@@ -41,8 +41,9 @@ def index(request):
 @login_required
 def own_information(request):
     profile=ProfileDetail.objects.get(profile=request.user)
+    #communities = Community.objects.all()
     if profile :
-        return render_to_response('own_information.html',{'user': request.user ,'profile':profile})
+        return render_to_response('own_information.html',{'user': request.user ,'profile':profile,})
     else :
          return render_to_response('index.html')
 

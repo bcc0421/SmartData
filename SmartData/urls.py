@@ -6,6 +6,7 @@ from SmartDataApp.views import *
 from SmartDataApp.controller.repair import *
 from SmartDataApp.controller.complain import *
 from SmartDataApp.controller.community import *
+from SmartDataApp.controller.user_profile import *
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -50,6 +51,10 @@ urlpatterns = patterns('',
                        url(r'^api/own/complain/$', api_own_complain),
                        url(r'^api/own/repair/$', api_own_repair),
                        url(r'^api/repair/create/$', api_repair_create),
+                       url(r'^profile/update/$', profile_update),
+                       url(r'^update/own/profile/$', update_own_profile),
+                       url(r'^update/own/password/$', update_own_password),
+                       url(r'^update/password/$', update_password),
 
 
 

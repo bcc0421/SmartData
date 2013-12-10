@@ -132,7 +132,7 @@ def complain_response(request):
 
 @transaction.atomic
 @csrf_exempt
-@login_required
+#@login_required
 def api_complain_create(request):
     if request.method != u'POST':
         return return_error_response()
