@@ -118,8 +118,8 @@ def complain_response(request):
         complain_id = request.POST.get("complain_id", None)
         response_content = request.POST.get("response_content", None)
         selected_pleased = request.POST.get("selected_radio", None)
-        profile=ProfileDetail.objects.get(profile=request.user)
-        complain=Complaints.objects.get(id=complain_id)
+        profile = ProfileDetail.objects.get(profile=request.user)
+        complain = Complaints.objects.get(id=complain_id)
         if complain:
             complain.pleased_reason=response_content
             complain.pleased=selected_pleased
