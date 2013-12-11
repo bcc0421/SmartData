@@ -22,9 +22,8 @@ def return_404_response():
 @csrf_exempt
 @login_required(login_url='/login/')
 def complain(request):
-        if not request.user.is_staff:
-            return render_to_response('complains.html', {'user': request.user})
-        else:
+        profile = ProfileDetail.objects.get(profile=request.user)
+        if request.user.is_staff:
             complains = Complaints.objects.all()
             deal_person_list = ProfileDetail.objects.filter(is_admin=True)
             if len(complains) > 0:
@@ -32,13 +31,34 @@ def complain(request):
                     'complains': list(complains),
                     'show': True,
                     'user': request.user,
-                    'deal_person_list':deal_person_list
+                    'deal_person_list': deal_person_list,
+                    'is_admin': False
                 })
             else:
                 return render_to_response('admin_complains.html', {
                     'show': False,
-                    'user': request.user
+                    'user': request.user,
+                    'deal_person_list': deal_person_list,
+                    'is_admin': False
                 })
+        elif profile.is_admin:
+            complains = Complaints.objects.filter(handler = profile)
+            if len(complains) > 0:
+                return render_to_response('admin_complains.html', {
+                    'complains': list(complains),
+                    'show': True,
+                    'user': request.user,
+                    'is_admin': True
+                })
+            else:
+                return render_to_response('admin_complains.html', {
+                    'show': False,
+                    'user': request.user,
+                    'is_admin': True
+                })
+        else:
+            return render_to_response('complains.html', {'user': request.user})
+
 
 @transaction.atomic
 @csrf_exempt
@@ -54,6 +74,7 @@ def complain_create(request):
             complain = Complaints(author=request.user)
             complain.content = complain_content
             complain.timestamp = complain_time
+            complain.status = 2
             complain.type = complain_type
             if upload__complain_src:
                 complain.src = upload__complain_src
@@ -76,7 +97,7 @@ def complain_deal(request):
             for i in range(len(list_complain_)):
                 com_id = int(list_complain_[i])
                 complain = Complaints.objects.get(id=com_id)
-                complain.status = True
+                complain.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
                     profile = ProfileDetail.objects.get(profile=user_obj)

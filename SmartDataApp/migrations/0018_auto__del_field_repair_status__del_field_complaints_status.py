@@ -8,20 +8,24 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Deleting field 'Repair.status'
+        db.delete_column(u'SmartDataApp_repair', 'status')
 
-        # Changing field 'Repair.status'
-        db.alter_column(u'SmartDataApp_repair', 'status', self.gf('django.db.models.fields.IntegerField')())
+        # Deleting field 'Complaints.status'
+        db.delete_column(u'SmartDataApp_complaints', 'status')
 
-        # Changing field 'Complaints.status'
-        db.alter_column(u'SmartDataApp_complaints', 'status', self.gf('django.db.models.fields.IntegerField')())
 
     def backwards(self, orm):
+        # Adding field 'Repair.status'
+        db.add_column(u'SmartDataApp_repair', 'status',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      keep_default=False)
 
-        # Changing field 'Repair.status'
-        db.alter_column(u'SmartDataApp_repair', 'status', self.gf('django.db.models.fields.BooleanField')())
+        # Adding field 'Complaints.status'
+        db.add_column(u'SmartDataApp_complaints', 'status',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      keep_default=False)
 
-        # Changing field 'Complaints.status'
-        db.alter_column(u'SmartDataApp_complaints', 'status', self.gf('django.db.models.fields.BooleanField')())
 
     models = {
         u'SmartDataApp.community': {
@@ -39,7 +43,6 @@ class Migration(SchemaMigration):
             'pleased': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'pleased_reason': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True'}),
             'src': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True'}),
-            'status': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'type': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
@@ -73,10 +76,9 @@ class Migration(SchemaMigration):
             'content': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '250', 'null': 'True', 'blank': 'True'}),
             'handler': ('django.db.models.fields.related.ManyToManyField', [], {'default': 'None', 'to': u"orm['SmartDataApp.ProfileDetail']", 'null': 'True', 'symmetrical': 'False'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'pleased': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
+            'pleased': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'pleased_reason': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True'}),
             'src': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True'}),
-            'status': ('django.db.models.fields.IntegerField', [], {'default': 'False'}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'type': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
