@@ -279,7 +279,7 @@ content 和category (必须有一个给值)
                         {
                             content: "sgsdfgsdfgdfsgsdf"
                             src: "uploads/2013/12/09/2_18.jpg"
-                            deal_status: false
+                            deal_status: 1 (1,2,3  1代表未处理，2代表处理中...，3代表处理完成)
                             time: "2013-12-09 05:01:59+00:00"
                             type: "安全投诉"
                             id: 23
@@ -290,7 +290,7 @@ content 和category (必须有一个给值)
                         {
                             content: "123F"
                             src: "uploads/2013/12/09/2_21.jpg"
-                            deal_status: false
+                            deal_status: 1 (1,2,3  1代表未处理，2代表处理中...，3代表处理完成)
                             time: "2013-12-09 05:01:04+00:00"
                             type: "安全投诉"
                             id: 24
@@ -370,7 +370,7 @@ content 和category (必须有一个给值)
                         {
                             content: "123"
                             src: ""
-                            deal_status: true
+                            deal_status: 1(1,2,3  1代表未处理，2代表处理中...，3代表处理完成)
                             time: "2013-12-05 06:02:18+00:00"
                             type: "弱电"
                             id: 3
@@ -381,7 +381,7 @@ content 和category (必须有一个给值)
                         {
                             content: "十大发生的"
                             src: "uploads/2013/12/05/qq.jpg"
-                            deal_status: true
+                            deal_status: 1 (1,2,3  1代表未处理，2代表处理中...，3代表处理完成)
                             time: "2013-12-05 05:01:17+00:00"
                             type: "电梯"
                             id: 1
