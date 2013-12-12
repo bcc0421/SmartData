@@ -61,18 +61,21 @@
                      {% for repair in repairs %}
                     <div class="records_details">
                         <div class="proces_state clearfix">
-                            {% if repair.status%}
+                            {% ifequal repair.status 1 %}
+                                 <span class="status_LEDs untreated fn_right"></span>
+                            {% endifequal %}
+                            {% ifequal repair.status 2 %}
+                                 <span class=" untreated fn_right" style="color: deepskyblue">处理中...</span>
+                            {% endifequal %}
+                            {% ifequal repair.status 3 %}
                                 <span class=" untreated fn_right" style="color: green">处理完成</span>
-                            {% else %}
-                                <span class="status_LEDs untreated fn_right"></span>
-                            {% endif %}
+                            {% endifequal %}
                             <span class="black_color">[服务态度]</span>
                             <span class="publish_time">{{ repair.timestamp }} </span>
-                            {% if repair.status%}
+                            {% ifequal repair.status 3 %}
                                 <button class="btn"  data-toggle="modal"
                                        data-target="#response_{{repair.id  }}">满意反馈</button>
-                            {% endif %}
-
+                            {% endifequal %}
                                <div class="modal fade" id="response_{{repair.id  }}" tabindex="-1"
                                      role="dialog" aria-labelledby="myModalLabel_{{ repair.id }}"
                                      aria-hidden="true">

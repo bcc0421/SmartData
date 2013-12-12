@@ -167,6 +167,9 @@
                         <th>内容</th>
                         <th>图片证据</th>
                         <th>处理状态</th>
+                        {% if not is_admin %}
+                            <th>处理人</th>
+                        {% endif %}
                         <th>满意度</th>
                         <th><input type="checkbox" name="checkbox"></th>
                     </tr>
@@ -177,7 +180,7 @@
 
                         <tr class="except_one">
                             <td>{{ one_repair.timestamp }}</td>
-                            <td>{{ one_repair.author.username }}</td>
+                            <td>{{ one_repair.author}}</td>
                             <td>{{ one_repair.content }}</td>
                             <td>
                                 <a href="#big_image_{{ one_repair.id }}" data-toggle="modal"
@@ -209,12 +212,19 @@
                                 </div>
                             </td>
                             <td class="deal_status"  id="status_{{ one_repair.id }}">
-                                {% if one_repair.status %}
-                                    <span style="color: green" >已受理</span>
-                                {% else %}
+                                {% ifequal one_repair.status 1 %}
                                     <span style="color: red">未受理</span>
-                                {% endif %}
+                                {% endifequal %}
+                                {% ifequal one_repair.status 2 %}
+                                    <span style="color: deepskyblue">处理中</span>
+                                {% endifequal %}
+                                {% ifequal one_repair.status 3 %}
+                                    <span style="color: green">处理完成</span>
+                                {% endifequal %}
                             </td>
+                            {% if not is_admin %}
+                                <td>{{ one_repair.handler.username }}</td>
+                            {% endif %}
                             <td>{{ one_repair.pleased }}</td>
                             {#                            <td>{{ one_repair.handler.profile.username }}</td>#}
                             <td><input type="checkbox" name="chk" id={{ one_repair.id }}></td>
@@ -227,22 +237,30 @@
             <!-- 中部 end -->
             <!-- 右侧 start -->
             <div class="el_w_237 fn_right" style="width:172px">
-                <div>
-                    <span>选择处理人：</span>
+                {% if not is_admin %}
+                    <div>
+                        <span>选择处理人：</span>
 
-                    <select id="id_handler">
-                        {% for deal_person in deal_person_list %}
-                            <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
-                        {% endfor %}
-                    </select>
+                        <select id="id_handler">
+                            {% for deal_person in deal_person_list %}
+                                <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
+                            {% endfor %}
+                        </select>
 
-                    <div style="margin-top:12px; ">
-                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_repair">
-                            授权处理
+                        <div style="margin-top:12px; ">
+                            <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_repair">
+                                授权处理
+                            </button>
+                        </div>
+                    </div>
+                <!-- 右侧焦点图 start -->
+                {% else %}
+                     <div style="margin-top:0px;">
+                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="update_repair_status">
+                           完成
                         </button>
                     </div>
-                </div>
-                <!-- 右侧焦点图 start -->
+                {% endif %}
             </div>
             <!-- 右侧 end -->
             <div class="el_blank_h10 fn_clear"></div>
@@ -256,8 +274,8 @@
 {% block script %}
     <script type="text/javascript">
         $(function () {
-            var checked_array = new Array();
             $('#deal_repair').click(function () {
+                var checked_array = new Array();
                 $('input[type="checkbox"][name="chk"]:checked').each(
                         function () {
                             var id = $(this).attr('id');
@@ -278,7 +296,7 @@
                                          $('input[type="checkbox"][name="chk"]:checked').each(
                                                 function() {
                                                     var id = $(this).attr('id');
-                                                     $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
+                                                     $("#status_" + id + "").html("<span style='color:deepskyblue' >处理中</span>");
                                                 }
                                             );
                                      }
@@ -292,6 +310,40 @@
 
             });
 
+            $('#update_repair_status').click(function () {
+                var checked_array = new Array();
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                        function () {
+                            var id = $(this).attr('id');
+                            checked_array.push(id);
+                        }
+                );
+                var deal_person_id = $('#id_handler').val();
+                if (checked_array.length>0)
+                {
+                           $.post('/complete/repair/',
+                                {
+                                    'selected_repair_string': checked_array.toString()
+                                },
+                                function (data) {
+                                       if(data.success){
+                                         alert(data.info);
+                                         $('input[type="checkbox"][name="chk"]:checked').each(
+                                                function() {
+                                                    var id = $(this).attr('id');
+                                                     $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
+                                                }
+                                            );
+                                     }
+
+                                }
+                            )
+                 }
+                else{
+                    alert("请选择处理数据");
+                }
+
+            });
         })
 
         $(document).ready(function () {

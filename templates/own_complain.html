@@ -57,18 +57,21 @@
                      {% for complain in complains %}
                     <div class="records_details">
                         <div class="proces_state clearfix">
-                            {% if complain.status%}
+                            {% ifequal complain.status 1 %}
+                                 <span class="status_LEDs untreated fn_right"></span>
+                            {% endifequal %}
+                            {% ifequal complain.status 2 %}
+                                 <span class=" untreated fn_right" style="color: deepskyblue">处理中...</span>
+                            {% endifequal %}
+                            {% ifequal complain.status 3 %}
                                 <span class=" untreated fn_right" style="color: green">处理完成</span>
-                            {% else %}
-                                <span class="status_LEDs untreated fn_right"></span>
-                            {% endif %}
+                            {% endifequal %}
                             <span class="black_color">[服务态度]</span>
                             <span class="publish_time">{{ complain.timestamp }} </span>
-                            {% if complain.status%}
+                            {% ifequal complain.status 3 %}
                                 <button class="btn"  data-toggle="modal"
                                        data-target="#response_{{complain.id  }}">满意反馈</button>
-                            {% endif %}
-
+                            {% endifequal %}
                                 <div class="modal fade" id="response_{{complain.id  }}" tabindex="-1"
                                      role="dialog" aria-labelledby="myModalLabel_{{ complain.id }}"
                                      aria-hidden="true">

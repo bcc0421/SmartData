@@ -42,7 +42,7 @@ def complain(request):
                     'is_admin': False
                 })
         elif profile.is_admin:
-            complains = Complaints.objects.filter(handler = profile)
+            complains = Complaints.objects.filter(handler = request.user)
             if len(complains) > 0:
                 return render_to_response('admin_complains.html', {
                     'complains': list(complains),
@@ -71,10 +71,11 @@ def complain_create(request):
         upload__complain_src = request.FILES.get('upload_complain_img', None)
         complain_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
         if complain_content or complain_type:
-            complain = Complaints(author=request.user)
+            complain = Complaints()
             complain.content = complain_content
             complain.timestamp = complain_time
-            complain.status = 2
+            complain.status = 1
+            complain.author = request.user.username
             complain.type = complain_type
             if upload__complain_src:
                 complain.src = upload__complain_src
@@ -100,11 +101,30 @@ def complain_deal(request):
                 complain.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
-                    profile = ProfileDetail.objects.get(profile=user_obj)
-                    complain.handler.add(profile)
+                    complain.handler = user_obj
                 complain.save()
             response_data = {'success': True, 'info': '授权成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+@transaction.atomic
+@csrf_exempt
+def complain_complete(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        complain_array = request.POST.get("selected_complain_string", None)
+        if complain_array :
+            list_complain_ = str(complain_array).split(",")
+            for i in range(len(list_complain_)):
+                com_id = int(list_complain_[i])
+                complain = Complaints.objects.get(id=com_id)
+                complain.status = 3
+                complain.save()
+            response_data = {'success': True, 'info': '提交成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
 
 @transaction.atomic
 @csrf_exempt

@@ -38,14 +38,14 @@ class ProfileDetail(models.Model):
     is_admin = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.cell_phone
+        return self.phone_number
 
 
 class Complaints(models.Model):
     content = models.CharField(max_length=1000, null=True, blank=True, default='')
-    author = models.ForeignKey(User)
+    author = models.CharField(blank=True, null=True, max_length=250, default='')
     timestamp = models.DateTimeField(default=timezone.now)
-    handler = models.ManyToManyField(ProfileDetail, default=None, null=True)
+    handler = models.ForeignKey(User, null=True)
     pleased = models.IntegerField(default=0)
     type = models.CharField(max_length=200)
     status = models.IntegerField(default=1)
@@ -58,9 +58,9 @@ class Complaints(models.Model):
 
 class Repair(models.Model):
     content = models.CharField(max_length=250, null=True, blank=True, default='')
-    author = models.ForeignKey(User)
+    author = models.CharField(blank=True, null=True, max_length=250, default='')
     timestamp = models.DateTimeField(default=timezone.now)
-    handler = models.ManyToManyField(ProfileDetail, default=None, null=True)
+    handler = models.ForeignKey(User, null=True)
     pleased = models.IntegerField(default=0)
     type = models.CharField(max_length=200)
     status = models.IntegerField(default=1)
