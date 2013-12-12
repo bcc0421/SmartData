@@ -78,6 +78,8 @@ class Express(models.Model):
     type = models.CharField(max_length=200)
     status = models.BooleanField(default=False)
     handler = models.ForeignKey(User, null=True)
+    pleased_reason = models.CharField(max_length=250, null=True)
+    pleased = models.IntegerField(default=0)
 
     def __str__(self):
         return self.type
