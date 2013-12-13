@@ -74,7 +74,7 @@ class Repair(models.Model):
 class Express(models.Model):
     author = models.ForeignKey(ProfileDetail, null=True)
     arrive_time = models.DateTimeField(default=timezone.now)
-    get_time = models.DateTimeField(default=timezone.now)
+    get_time = models.DateTimeField(null=True)
     type = models.CharField(max_length=200)
     status = models.BooleanField(default=False)
     handler = models.ForeignKey(User, null=True)

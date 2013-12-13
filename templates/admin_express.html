@@ -250,7 +250,7 @@
 
                                     </div>
                                     <div style="margin-top:10px " >
-                                        <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right">
+                                        <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="decide_add()">
                                             <span>确认</span>
                                         </button>
                                     </div>
@@ -268,7 +268,6 @@
             <!-- 右侧 end -->
             <div class="el_blank_h10 fn_clear"></div>
         </div>
-
     </div>
     <!-- page -->
     </div>
@@ -278,10 +277,11 @@
     <script type="text/javascript">
         function find_user(obj)
             {
-                  var community_id=$("#community_select").val();
-                  var building_num=$('input[name="building"]').val();
-                  var room_num=$('input[name="room"]').val();
-                $.post('/find/user/',
+                 var community_id=$("#community_select").val();
+                 var building_num=$('input[name="building"]').val();
+                 var room_num=$('input[name="room"]').val();
+
+                 $.post('/find/user/',
                         {
                             'community_id': community_id,
                             'building_num': building_num,
@@ -300,8 +300,29 @@
                             }
                         }
                 )
+            }
 
+        function decide_add()
+            {
+                var community_id=$("#community_select").val();
+                var building_num=$('input[name="building"]').val();
+                var room_num=$('input[name="room"]').val();
 
+                $.post('/add/user_express/',
+                        {
+                            'community_id': community_id,
+                            'building_num': building_num,
+                            'room_num': room_num
+                        },
+                        function(data){
+                             if(data.success){
+                                $("#show_find").html("<span>添加成功</span>");
+                                $("#show_find_result").show();
+
+                            }
+
+                        }
+                )
             }
 
         $(document).ready(function () {
