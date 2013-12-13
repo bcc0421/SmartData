@@ -171,37 +171,34 @@
                         <th>取件时间</th>
                         <th>取件方式</th>
                         <th>处理状态</th>
-                        {% if not is_admin %}
-                            <th>处理人</th>
-                        {% endif %}
+                        <th>处理人</th>
                         <th>满意度</th>
                         <th><input type="checkbox" name="checkbox"></th>
                     </tr>
                     </thead>
                     <tbody>
 
-                    {% for one_repair in repairs %}
+                    {% for express in expresses %}
 
                         <tr class="except_one">
-                            <td>{{ one_repair.timestamp }}</td>
-                            <td>{{ one_repair.author }}</td>
-                            <td>{{ one_repair.content }}</td>
-                            <td class="deal_status" id="status_{{ one_repair.id }}">
-                                {% ifequal one_repair.status 1 %}
-                                    <span style="color: red">未受理</span>
-                                {% endifequal %}
-                                {% ifequal one_repair.status 2 %}
-                                    <span style="color: deepskyblue">处理中</span>
-                                {% endifequal %}
-                                {% ifequal one_repair.status 3 %}
-                                    <span style="color: green">处理完成</span>
-                                {% endifequal %}
+                            <td>
+                                <span>{{ express.author.community.title }}</span>小区，
+                                <span>{{ express.author.floor }}</span>幢，
+                                <span>{{ express.author.gate_card }}</span>房间，户主：
+                                <span>{{ express.author.profile.username}}</span></td>
+                            <td>{{express.arrive_time }}</td>
+                            <td>{{ express.get_time }}</td>
+                            <td>{{ express.type }}</td>
+                            <td class="deal_status" id="status_{{ express.id }}">
+                                {%if express.status %}
+                                    <span style="color: green">已签收</span>
+                                {% else %}
+                                    <span style="color: red">未签收</span>
+                                {% endif %}
                             </td>
-                            {% if not is_admin %}
-                                <td>{{ one_repair.handler.username }}</td>
-                            {% endif %}
-                            <td>{{ one_repair.pleased }}</td>
-                            <td><input type="checkbox" name="chk" id={{ one_repair.id }}></td>
+                            <td>{{ express.handler.username}}</td>
+                            <td>{{ express.pleased }}</td>
+                            <td><input type="checkbox" name="chk" id={{ express.id }}></td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -214,6 +211,16 @@
                 <div style="margin-top:0px;">
                     <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" data-target="#update_repair_status">
                         增加
+                    </button>
+                </div>
+                 <div style="margin-top:5px;">
+                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="delete_user_express()">
+                        删除
+                    </button>
+                </div>
+                <div style="margin-top:5px;">
+                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="user_get_express()">
+                        完成
                     </button>
                 </div>
                 <div class="modal fade" id="update_repair_status" tabindex="-1"
@@ -238,7 +245,7 @@
                                 </div>
                                 <div style="margin-top:10px "><span>输入楼栋号</span>：<input type="text" name="building"></div>
                                 <div style="margin-top:10px "><span>输入房间号</span>：<input type="text" name="room">
-                                    <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="find_user(this)">
+                                    <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="find_user_express(this)">
                                         查找
                                     </button>
                                 </div>
@@ -250,7 +257,7 @@
 
                                     </div>
                                     <div style="margin-top:10px " >
-                                        <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="decide_add()">
+                                        <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="decide_add_express()">
                                             <span>确认</span>
                                         </button>
                                     </div>
@@ -275,13 +282,13 @@
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
-        function find_user(obj)
+        function find_user_express(obj)
             {
                  var community_id=$("#community_select").val();
                  var building_num=$('input[name="building"]').val();
                  var room_num=$('input[name="room"]').val();
 
-                 $.post('/find/user/',
+                 $.post('/find/user_express/',
                         {
                             'community_id': community_id,
                             'building_num': building_num,
@@ -292,7 +299,6 @@
                                 $("#show_find").html("<span>"+data.community_name+"小区</span> <span>"+data.building_num+"幢</span> <span>"+data.room_num+"室</span>");
                                 $("#no_result").hide();
                                 $("#show_find_result").show();
-
                             }
                             else{
                                 $("#show_find_result").hide();
@@ -302,7 +308,7 @@
                 )
             }
 
-        function decide_add()
+        function decide_add_express()
             {
                 var community_id=$("#community_select").val();
                 var building_num=$('input[name="building"]').val();
@@ -324,6 +330,63 @@
                         }
                 )
             }
+
+        function delete_user_express(){
+                var checked_array = new Array();
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                        function () {
+                            var id = $(this).attr('id');
+                            checked_array.push(id);
+                        }
+                );
+                if (checked_array.length > 0) {
+                    $.post('/delete/user_express/',
+                            {
+                                'selected_express_string': checked_array.toString()
+                            },
+                            function (data) {
+                                  if(data.success){
+                                        alert(data.info);
+                                        window.location.href = "/express/";
+                                  }
+                            }
+                    )
+                } else {
+                    alert("请选择处理数据");
+                }
+        }
+
+        function user_get_express(){
+                var checked_array = new Array();
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                        function () {
+                            var id = $(this).attr('id');
+                            checked_array.push(id);
+                        }
+                );
+                if (checked_array.length > 0) {
+                    $.post('/user/get_express/',
+                            {
+                                'selected_express_string': checked_array.toString()
+                            },
+                            function (data) {
+                                if (data.success) {
+                                    $('input[type="checkbox"][name="chk"]:checked').each(
+                                            function () {
+                                                var id = $(this).attr('id');
+                                                $("#status_" + id + "").html("<span style='color: green' >已签收</span>");
+                                            }
+                                    );
+                                }
+                            }
+                    )
+                } else {
+                    alert("请选择处理数据");
+                }
+
+
+
+        }
 
         $(document).ready(function () {
             $('#example').dataTable({
