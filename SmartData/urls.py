@@ -60,6 +60,7 @@ urlpatterns = patterns('',
                        url(r'^update/own/password/$', update_own_password),
                        url(r'^update/password/$', update_password),
                        url(r'^find/user/$', find_user),
+                       url(r'^add/user_express/$', add_user_express),
 
 
 

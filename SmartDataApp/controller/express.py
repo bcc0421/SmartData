@@ -10,7 +10,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from SmartDataApp.models import Complaints
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail,Community
+from SmartDataApp.models import ProfileDetail, Community, Express
 
 
 
@@ -51,11 +51,11 @@ def express(request):
 @csrf_exempt
 @login_required(login_url='/login/')
 def find_user(request):
-       if request.method != u'POST':
+        if request.method != u'POST':
             communities = Community.objects.all()
             if len(communities) > 0:
                 return render_to_response('admin_express.html', {'user': request.user, 'communities': communities})
-       else:
+        else:
             community_id = request.POST.get(u'community_id', None)
             building_num = request.POST.get(u'building_num', None)
             room_num = request.POST.get(u'room_num', None)
@@ -67,4 +67,29 @@ def find_user(request):
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
                 response_data = {'success': False, 'info': '没有此用户！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def add_user_express(request):
+        if request.method != u'POST':
+            communities = Community.objects.all()
+            if len(communities) > 0:
+                return render_to_response('admin_express.html', {'user': request.user, 'communities': communities})
+        else:
+            community_id = request.POST.get(u'community_id', None)
+            building_num = request.POST.get(u'building_num', None)
+            room_num = request.POST.get(u'room_num', None)
+            community = Community.objects.get(id=community_id)
+            profile = ProfileDetail.objects.filter(community=community ,floor=building_num ,gate_card=room_num)[0]
+            if profile:
+                express = Express(author=profile)
+                express.handler = request.user
+                express.arrive_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+                express.save()
+                response_data = {'success': True, 'info': '添加成功！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            else:
+                response_data = {'success': False, 'info': '添加失败！'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
