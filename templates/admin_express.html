@@ -19,6 +19,7 @@
             font-size: 15px;
 
         }
+
         /*     table button{
                  border-radius: 0px 0px 0px 0px;
                  width: 80px;
@@ -137,9 +138,9 @@
                     </a>
                     <!-- 元素 end -->
                     <!-- 元素 start -->
-                    <a class="item_s7 item" href="#">
+                    <a class="item_s7 item" href="/express/">
                         <i class="icon"></i>
-                        <span class="title">房屋</span>
+                        <span class="title">快递</span>
                     </a>
                     <!-- 元素 end -->
                     <!-- 元素 start -->
@@ -147,6 +148,9 @@
                         <i class="icon"></i>
                         <span class="title">餐饮</span>
                     </a>
+
+
+
                     <!-- 元素 end -->
                 </div>
                 <!-- 服务列表 end -->
@@ -154,7 +158,7 @@
             <!-- 左侧 end -->
             <!-- 中部 start -->
             <div class="vessel vessel_s1" style="margin-bottom: 10px">
-                <div class="vessel_titBox"><span class="tit">报修管理</span></div>
+                <div class="vessel_titBox"><span class="tit">快件管理</span></div>
             </div>
             <div style="width: 822px;overflow: auto;float:left">
 
@@ -162,9 +166,10 @@
                        id="example" aria-describedby="example_info">
                     <thead>
                     <tr role="row">
-                        <th>时间</th>
-                        <th>投诉人</th>
-                        <th>内容</th>
+                        <th>收件人</th>
+                        <th>到达时间</th>
+                        <th>取件时间</th>
+                        <th>取件方式</th>
                         <th>处理状态</th>
                         {% if not is_admin %}
                             <th>处理人</th>
@@ -179,9 +184,9 @@
 
                         <tr class="except_one">
                             <td>{{ one_repair.timestamp }}</td>
-                            <td>{{ one_repair.author}}</td>
+                            <td>{{ one_repair.author }}</td>
                             <td>{{ one_repair.content }}</td>
-                            <td class="deal_status"  id="status_{{ one_repair.id }}">
+                            <td class="deal_status" id="status_{{ one_repair.id }}">
                                 {% ifequal one_repair.status 1 %}
                                     <span style="color: red">未受理</span>
                                 {% endifequal %}
@@ -196,7 +201,6 @@
                                 <td>{{ one_repair.handler.username }}</td>
                             {% endif %}
                             <td>{{ one_repair.pleased }}</td>
-                            {#                            <td>{{ one_repair.handler.profile.username }}</td>#}
                             <td><input type="checkbox" name="chk" id={{ one_repair.id }}></td>
                         </tr>
                     {% endfor %}
@@ -207,11 +211,59 @@
             <!-- 中部 end -->
             <!-- 右侧 start -->
             <div class="el_w_237 fn_right" style="width:172px">
-                     <div style="margin-top:0px;">
-                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="update_repair_status">
-                            增加
-                        </button>
+                <div style="margin-top:0px;">
+                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" data-target="#update_repair_status">
+                        增加
+                    </button>
+                </div>
+                <div class="modal fade" id="update_repair_status" tabindex="-1"
+                     role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content" >
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    增加快递记录</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div id="community" style="margin-left:10px ">
+                                    <span>选择小区：</span>
+                                    <select id="community_select">
+                                        {% for community in communities %}
+                                            <option value="{{ community.id }}">{{ community.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div style="margin-top:10px "><span>输入楼栋号</span>：<input type="text" name="building"></div>
+                                <div style="margin-top:10px "><span>输入房间号</span>：<input type="text" name="room">
+                                    <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="find_user(this)">
+                                        查找
+                                    </button>
+                                </div>
+                                <div id="no_result" class="alert alert-warning" style="margin-top:20px ;display: none">
+                                    <span>没有此用户</span>
+                                    <span class="glyphicon glyphicon-minus-sign"></span></div>
+                                <div  id="show_find_result"style="display: none">
+                                    <div id="show_find" class="alert alert-success" style="margin-top: 20px">
+
+                                    </div>
+                                    <div style="margin-top:10px " >
+                                        <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right">
+                                            <span>确认</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
                     </div>
+                </div>
             </div>
             <!-- 右侧 end -->
             <div class="el_blank_h10 fn_clear"></div>
@@ -224,89 +276,44 @@
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
-        $(function () {
-            $('#deal_repair').click(function () {
-                var checked_array = new Array();
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
+        function find_user(obj)
+            {
+                  var community_id=$("#community_select").val();
+                  var building_num=$('input[name="building"]').val();
+                  var room_num=$('input[name="room"]').val();
+                $.post('/find/user/',
+                        {
+                            'community_id': community_id,
+                            'building_num': building_num,
+                            'room_num': room_num
+                        },
+                        function(data){
+                            if(data.success){
+                                $("#show_find").html("<span>"+data.community_name+"小区</span> <span>"+data.building_num+"幢</span> <span>"+data.room_num+"室</span>");
+                                $("#no_result").hide();
+                                $("#show_find_result").show();
+
+                            }
+                            else{
+                                $("#show_find_result").hide();
+                                $("#no_result").show();
+                            }
                         }
-                );
-                var deal_person_id = $('#id_handler').val();
-                if (checked_array.length>0)
-                {
-                           $.post('/deal/repair/',
-                                {
-                                    'selected_repair_string': checked_array.toString(),
-                                    'deal_person_id': deal_person_id
-                                },
-                                function (data) {
-                                       if(data.success){
-                                         alert(data.info);
-                                         $('input[type="checkbox"][name="chk"]:checked').each(
-                                                function() {
-                                                    var id = $(this).attr('id');
-                                                     $("#status_" + id + "").html("<span style='color:deepskyblue' >处理中</span>");
-                                                }
-                                            );
-                                     }
+                )
 
-                                }
-                            )
-                 }
-                else{
-                    alert("请选择处理数据");
-                }
 
-            });
-
-            $('#update_repair_status').click(function () {
-                var checked_array = new Array();
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-                        }
-                );
-                var deal_person_id = $('#id_handler').val();
-                if (checked_array.length>0)
-                {
-                           $.post('/complete/repair/',
-                                {
-                                    'selected_repair_string': checked_array.toString()
-                                },
-                                function (data) {
-                                       if(data.success){
-                                         alert(data.info);
-                                         $('input[type="checkbox"][name="chk"]:checked').each(
-                                                function() {
-                                                    var id = $(this).attr('id');
-                                                     $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
-                                                }
-                                            );
-                                     }
-
-                                }
-                            )
-                 }
-                else{
-                    alert("请选择处理数据");
-                }
-
-            });
-        })
+            }
 
         $(document).ready(function () {
             $('#example').dataTable({
                 "oLanguage": {
-                        "sLengthMenu": "显示 _MENU_每页显示记录",
-                        "sZeroRecords": "对不起没有你要找的记录",
-                        "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
-                        "sInfoEmpty": "显示 0 到 0 总共 0 记录",
-                        "sInfoFiltered": "(从 _MAX_条记录中查找)",
-                        "sSearch": "搜索:"
-		}
+                    "sLengthMenu": "显示 _MENU_每页显示记录",
+                    "sZeroRecords": "对不起没有你要找的记录",
+                    "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
+                    "sInfoEmpty": "显示 0 到 0 总共 0 记录",
+                    "sInfoFiltered": "(从 _MAX_条记录中查找)",
+                    "sSearch": "搜索:"
+                }
             });
         });
 

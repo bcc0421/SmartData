@@ -7,6 +7,7 @@ from SmartDataApp.controller.repair import *
 from SmartDataApp.controller.complain import *
 from SmartDataApp.controller.community import *
 from SmartDataApp.controller.user_profile import *
+from SmartDataApp.controller.express import *
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -28,6 +29,7 @@ urlpatterns = patterns('',
                        url(r'^captcha/', include('captcha.urls')),
                        url(r'^generate_captcha/', generate_captcha),
                        url(r'^complain/$', complain),
+                       url(r'^express/$', express),
                        url(r'^repair/$', repair),
                        url(r'^complain/create/$', complain_create),
                        url(r'^repair/create/$', repair_create),
@@ -57,6 +59,7 @@ urlpatterns = patterns('',
                        url(r'^update/own/profile/$', update_own_profile),
                        url(r'^update/own/password/$', update_own_password),
                        url(r'^update/password/$', update_password),
+                       url(r'^find/user/$', find_user),
 
 
 
