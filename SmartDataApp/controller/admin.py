@@ -1,16 +1,19 @@
 #coding:utf-8
 import re
+
 from captcha.models import CaptchaStore
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
-from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 import simplejson
+from django.contrib.sessions.models import Session
+from django.contrib.auth.models import User
+
 from SmartDataApp.models import ProfileDetail, Community
 from SmartDataApp.views import index, random_captcha
 
@@ -112,7 +115,7 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_active:
                 auth_login(request, user)
-                if not request.POST.get(u'remember_me',None):
+                if not request.POST.get(u'remember_me', None):
                     request.session.set_expiry(0)
                 return redirect(index)
             else:
@@ -136,9 +139,16 @@ def return_404_response():
 
 
 @csrf_exempt
-@login_required
 @transaction.atomic
 def api_user_create(request):
+    try:
+        session = Session.objects.get(session_key=request.session.session_key)
+        uid = session.get_decoded().get('_auth_user_id')
+        user = User.objects.get(pk=uid)
+        request.user = user
+    except:
+        return_404_response()
+
     if request.method != u'POST':
         return return_error_response()
     elif request.META['CONTENT_TYPE'] == 'application/json':
@@ -209,9 +219,16 @@ def api_user_login(request):
 
 
 @csrf_exempt
-@login_required
 @transaction.atomic
 def api_user_update(request):
+    try:
+        session = Session.objects.get(session_key=request.session.session_key)
+        uid = session.get_decoded().get('_auth_user_id')
+        user = User.objects.get(pk=uid)
+        request.user = user
+    except:
+        return_404_response()
+
     if request.method != u'POST':
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
@@ -247,9 +264,16 @@ def api_user_update(request):
 
 
 @csrf_exempt
-@login_required
 @transaction.atomic
 def api_user_change_password(request):
+    try:
+        session = Session.objects.get(session_key=request.session.session_key)
+        uid = session.get_decoded().get('_auth_user_id')
+        user = User.objects.get(pk=uid)
+        request.user = user
+    except:
+        return_404_response()
+
     if request.method != u'POST':
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
@@ -275,24 +299,38 @@ def api_user_change_password(request):
 
 
 @transaction.atomic
-@login_required
 @csrf_exempt
 def api_user_delete(request):
+    try:
+        session = Session.objects.get(session_key=request.session.session_key)
+        uid = session.get_decoded().get('_auth_user_id')
+        user = User.objects.get(pk=uid)
+        request.user = user
+    except:
+        return_404_response()
+
     if request.method != u'POST':
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         pass
 
 
-@login_required
 @csrf_exempt
 def api_user_list(request):
+    try:
+        session = Session.objects.get(session_key=request.session.session_key)
+        uid = session.get_decoded().get('_auth_user_id')
+        user = User.objects.get(pk=uid)
+        request.user = user
+    except:
+        return_404_response()
+
     if request.method != u'POST':
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         user = request.user
         if not user.is_staff:
-            return HttpResponse(simplejson.dumps({'error':True,'info':u'仅限管理员访问'}), content_type='application/json')
+            return HttpResponse(simplejson.dumps({'error': True, 'info': u'仅限管理员访问'}), content_type='application/json')
         else:
             profile_detail_list = ProfileDetail.objects.all()
             response_data = list()
@@ -315,5 +353,5 @@ def api_user_list(request):
 
 def api_user_logout(request):
     auth_logout(request)
-    return HttpResponse(simplejson.dumps({'info':u'成功登出'}), content_type='application/json')
+    return HttpResponse(simplejson.dumps({'info': u'成功登出'}), content_type='application/json')
 
