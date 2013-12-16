@@ -52,6 +52,7 @@ urlpatterns = patterns('',
                        url(r'^repair/response/$', repair_response),
                        url(r'^api/complain/response/$', api_complain_response),
                        url(r'^api/repair/response/$', api_repair_response),
+                       url(r'^api/get/user/express/$', api_get_user_express),
                        url(r'^api/own/complain/$', api_own_complain),
                        url(r'^api/own/repair/$', api_own_repair),
                        url(r'^api/repair/create/$', api_repair_create),
@@ -63,6 +64,9 @@ urlpatterns = patterns('',
                        url(r'^add/user_express/$', add_user_express),
                        url(r'^delete/user_express/$', delete_user_express),
                        url(r'^user/get_express/$', user_get_express),
+                       url(r'^userself/get_express/$', user_self_get_express),
+                       url(r'^express/response/$',express_response),
+                       url(r'^api/express/response/$',express_response),
 
 
 

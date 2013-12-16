@@ -391,3 +391,56 @@ content 和category (必须有一个给值)
 
                 ]
         }
+
+
+
+### 13. User own express(用户需要登录)
+
+#### URL : /api/get/user/express/?page=页数 (page 可选, 默认为1)
+
+#### Method : GET
+
+### Result:
+
+#### Success（每页返回五条记录）
+        {
+            page_count:（总页数）
+            express_list:
+                [
+
+                        {
+                            arrive_time: "2013-12-16 01:09:36+00:00"（快件到达时间）
+                            deal_status: false (false:未领取，true:领取)
+                            pleased: 0
+                            express_author: "user3"
+                            get_time: "None"（快件领取时间）
+                            get_express_type: ""
+                            id: 13
+                        }
+
+
+                ]
+        }
+
+
+### 14. User express response(用户需要登录)
+
+#### URL : /api/express/response/
+
+#### Method : POST
+
+    {
+        'express_id': '快递id号',
+        'response_content': '反馈内容',
+        'selected_pleased':'满意度'（1,2,3,4,5）5个数字选一个
+    }
+
+### Result:
+
+#### Success
+
+    {'success': True, 'info': '反馈成功！'}
+
+#### Error
+
+    {'success': False, 'info': '反馈失败！'}

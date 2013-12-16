@@ -138,17 +138,20 @@ def return_404_response():
     return HttpResponse('', content_type='application/json', status=404)
 
 
-@csrf_exempt
-@transaction.atomic
-def api_user_create(request):
+def convert_session_id_to_user(request):
     try:
-        session = Session.objects.get(session_key=request.session.session_key)
+        session = Session.objects.get(session_key=request.META['HTTP_SESSIONID'])
         uid = session.get_decoded().get('_auth_user_id')
         user = User.objects.get(pk=uid)
         request.user = user
     except:
         return_404_response()
 
+
+@csrf_exempt
+@transaction.atomic
+def api_user_create(request):
+    convert_session_id_to_user(request)
     if request.method != u'POST':
         return return_error_response()
     elif request.META['CONTENT_TYPE'] == 'application/json':
@@ -221,13 +224,7 @@ def api_user_login(request):
 @csrf_exempt
 @transaction.atomic
 def api_user_update(request):
-    try:
-        session = Session.objects.get(session_key=request.session.session_key)
-        uid = session.get_decoded().get('_auth_user_id')
-        user = User.objects.get(pk=uid)
-        request.user = user
-    except:
-        return_404_response()
+    convert_session_id_to_user(request)
 
     if request.method != u'POST':
         return return_error_response()
@@ -266,13 +263,7 @@ def api_user_update(request):
 @csrf_exempt
 @transaction.atomic
 def api_user_change_password(request):
-    try:
-        session = Session.objects.get(session_key=request.session.session_key)
-        uid = session.get_decoded().get('_auth_user_id')
-        user = User.objects.get(pk=uid)
-        request.user = user
-    except:
-        return_404_response()
+    convert_session_id_to_user(request)
 
     if request.method != u'POST':
         return return_error_response()
@@ -301,13 +292,7 @@ def api_user_change_password(request):
 @transaction.atomic
 @csrf_exempt
 def api_user_delete(request):
-    try:
-        session = Session.objects.get(session_key=request.session.session_key)
-        uid = session.get_decoded().get('_auth_user_id')
-        user = User.objects.get(pk=uid)
-        request.user = user
-    except:
-        return_404_response()
+    convert_session_id_to_user(request)
 
     if request.method != u'POST':
         return return_error_response()
@@ -317,13 +302,7 @@ def api_user_delete(request):
 
 @csrf_exempt
 def api_user_list(request):
-    try:
-        session = Session.objects.get(session_key=request.session.session_key)
-        uid = session.get_decoded().get('_auth_user_id')
-        user = User.objects.get(pk=uid)
-        request.user = user
-    except:
-        return_404_response()
+    convert_session_id_to_user(request)
 
     if request.method != u'POST':
         return return_error_response()

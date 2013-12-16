@@ -19,33 +19,30 @@
             font-size: 15px;
 
         }
+       .modal-body ul li{
+           float: left;
+           padding-left: 43px;
+           padding-top: 20px;
 
-        /*     table button{
-                 border-radius: 0px 0px 0px 0px;
-                 width: 80px;
-                 height:30px;
+       }
+        .rate-standard{
+            margin-left: 144px;
+        }
+        .rate-standard span {
+            padding-left: 25px;
+        }
+        .pleased{
+            margin-left: 35px;
+            width:100px;
+            padding-left: 25px;
+             margin-top: -18px;
+            float:left;
+        }
+        .sr-shop-rating{
+            float:left;
+            margin-top: -20px;
+        }
 
-             }
-             table tr td{
-                 border: 1px solid #808080 ;
-
-             }
-             tr:first-child td{
-                text-align: center;
-                 padding: 20px 20px;
-
-             }
-             table tr td{
-                 padding-left: 20px;
-                 padding-right: 20px;
-
-             }
-             tr:first-child{
-                 background-color: #26d6ff;
-             }
-             tr:hover {
-                 background-color: #26d6ff;
-             }*/
         tr:first-child {
             background-color: #26d6ff;
         }
@@ -148,9 +145,6 @@
                         <i class="icon"></i>
                         <span class="title">餐饮</span>
                     </a>
-
-
-
                     <!-- 元素 end -->
                 </div>
                 <!-- 服务列表 end -->
@@ -170,9 +164,13 @@
                         <th>到达时间</th>
                         <th>取件时间</th>
                         <th>取件方式</th>
-                        <th>处理状态</th>
-                        <th>处理人</th>
-                        <th>满意度</th>
+                        <th>取件状态</th>
+                        {% if is_admin %}
+                            <th>处理人</th>
+                        {% endif %}
+                        {% if is_admin %}
+                            <th>满意度</th>
+                        {% endif %}
                         <th><input type="checkbox" name="checkbox"></th>
                     </tr>
                     </thead>
@@ -188,7 +186,7 @@
                                 <span>{{ express.author.profile.username}}</span></td>
                             <td>{{express.arrive_time }}</td>
                             <td>{{ express.get_time }}</td>
-                            <td>{{ express.type }}</td>
+                            <td id="type_{{ express.id }}">{{ express.type }}</td>
                             <td class="deal_status" id="status_{{ express.id }}">
                                 {%if express.status %}
                                     <span style="color: green">已签收</span>
@@ -196,8 +194,12 @@
                                     <span style="color: red">未签收</span>
                                 {% endif %}
                             </td>
-                            <td>{{ express.handler.username}}</td>
-                            <td>{{ express.pleased }}</td>
+                            {% if is_admin %}
+                                <td>{{ express.handler.username}}</td>
+                            {% endif %}
+                            {% if is_admin %}
+                                <td>{{ express.pleased }}</td>
+                            {% endif %}
                             <td><input type="checkbox" name="chk" id={{ express.id }}></td>
                         </tr>
                     {% endfor %}
@@ -208,21 +210,94 @@
             <!-- 中部 end -->
             <!-- 右侧 start -->
             <div class="el_w_237 fn_right" style="width:172px">
-                <div style="margin-top:0px;">
-                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" data-target="#update_repair_status">
-                        增加
-                    </button>
-                </div>
-                 <div style="margin-top:5px;">
-                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="delete_user_express()">
-                        删除
-                    </button>
-                </div>
-                <div style="margin-top:5px;">
-                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="user_get_express()">
-                        完成
-                    </button>
-                </div>
+                    {% if is_admin %}
+                        <div style="margin-top:0px;">
+                            <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" data-target="#update_repair_status">
+                                增加
+                            </button>
+                        </div>
+                         <div style="margin-top:5px;">
+                            <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="delete_user_express()">
+                                删除
+                            </button>
+                        </div>
+                        <div style="margin-top:5px;">
+                            <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="user_get_express()">
+                                完成
+                            </button>
+                        </div>
+                    {% else %}
+                       <div>
+                        <span>领取方式：</span>
+                        <select id="select_express_type">
+                            <option value="自己领取">自己领取</option>
+                            <option value="物业派送">物业派送</option>
+                        </select>
+                        <div style="margin-top:12px; ">
+                            <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="get_my_express" onclick="get_my_express()">
+                               <span> 领取</span>
+                            </button>
+                             <button class="btn btn-primary" data-toggle="modal" style="border-radius: 0px 0px 0px 0px;" data-target="#express_response" >
+                               <span> 满意度反馈</span>
+                            </button>
+                            <div class="modal fade" id="express_response" tabindex="-1"
+                                     role="dialog" aria-labelledby="ModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content" >
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="ModalLabel">
+                                                    服务满意度反馈</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h3>您对商家的服务评价</h3>
+                                                    <span class="rate-standard-border rate-standard-show leftoffset">
+
+                                                        <div class="rate-standard">
+                                                            <span>失望</span>
+                                                            <span>不满</span>
+                                                            <span>一般</span>
+                                                            <span>满意</span>
+                                                            <span>惊喜</span>
+                                                        </div>
+
+                                                    </span>
+                                                    <div class="pleased">
+                                                        <span class="sr-title sr-big-title">
+                                                            <span class="text">服务态度：</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="sr-shop-rating " id="radio">
+                                                        <ul class="sr-rating-level">
+                                                            <li><input value="1" name="radiobutton" type="radio"></li>
+                                                            <li><input value="2" name="radiobutton"  type="radio"></li>
+                                                            <li><input value="3" name="radiobutton" type="radio"></li>
+                                                            <li><input value="4" name="radiobutton" type="radio"></li>
+                                                            <li><input value="5" name="radiobutton" type="radio"></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div style="margin-top: 50px">
+                                                        <textarea id="textarea" style="line-height: normal;width:550px;height: 100px" placeholder="你可以对此次服务做出综合性的评论...."></textarea>
+                                                                    <button style="width: 90px;border-radius: 0px 0px 0px 0px;margin-left: 35px;margin-top:32px;"
+                                                                    class="btn"
+                                                                    onclick="submit_express_data(this)">提交</button>
+
+                                                    </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="modal fade" id="update_repair_status" tabindex="-1"
                      role="dialog" aria-labelledby="myModalLabel"
                      aria-hidden="true">
@@ -384,7 +459,70 @@
                     alert("请选择处理数据");
                 }
 
+        }
 
+         function get_my_express(){
+                var checked_array = new Array();
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                        function () {
+                            var id = $(this).attr('id');
+                            checked_array.push(id);
+                        }
+                );
+                var get_express_type = $('#select_express_type').val();
+                if (checked_array.length > 0) {
+                    $.post('/userself/get_express/',
+                            {
+                                'selected_express_string': checked_array.toString(),
+                                'get_express_type': get_express_type
+                            },
+                            function (data) {
+                                if (data.success) {
+                                    alert(data.info);
+                                    $('input[type="checkbox"][name="chk"]:checked').each(
+                                            function () {
+                                                var id = $(this).attr('id');
+                                                $("#type_" + id + "").html("<span style='color: green' >"+data.express_type+"</span>");
+                                            }
+                                    );
+                                }
+                                else{
+                                    alert(data.info);
+                                }
+                            }
+                    )
+                } else {
+                    alert("请选择处理数据");
+                }
+         }
+
+        function submit_express_data(obj){
+            var response_content=$("#textarea").val();
+            var selected_radio=$('input[type="radio"]:checked').val();
+            var checked_array = new Array();
+            $('input[type="checkbox"][name="chk"]:checked').each(
+                        function () {
+                            var id = $(this).attr('id');
+                            checked_array.push(id);
+                        }
+                );
+            if(selected_radio && checked_array.length > 0){
+                $.post('/express/response/',
+                        {
+                            'selected_express_string': checked_array.toString(),
+                            response_content:response_content,
+                            selected_radio:selected_radio
+                        },
+                        function(data){
+                            if(data.success){
+                                 alert(data.info);
+                                window.location.href = "/express/";
+                            }
+                        }
+                )
+            }else{
+                alert("请选择评价快件和满意度");
+            }
 
         }
 
