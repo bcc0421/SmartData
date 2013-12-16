@@ -21,10 +21,6 @@ def express(request):
     communities = Community.objects.all()
     if request.user.is_staff or profile.is_admin:
         expresses = Express.objects.all()
-        for expresses_detail in expresses:
-            expresses_detail.arrive_time = expresses_detail.arrive_time.strftime("%Y-%m-%d %H:%I:%S")
-            if expresses_detail.get_time:
-                expresses_detail.get_time = expresses_detail.get_time.strftime("%Y-%m-%d %H:%I:%S")
         if communities and express:
             return render_to_response('admin_express.html',
                                       {'user': request.user, 'communities': communities, 'expresses': expresses, 'is_admin': True})
@@ -36,10 +32,6 @@ def express(request):
             })
     else:
         expresses = Express.objects.filter(author=profile)
-        for expresses_detail in expresses:
-            expresses_detail.arrive_time = expresses_detail.arrive_time.strftime("%Y-%m-%d %H:%I:%S")
-            if expresses_detail.get_time:
-                expresses_detail.get_time = expresses_detail.get_time.strftime("%Y-%m-%d %H:%I:%S")
         return render_to_response('admin_express.html', {'user': request.user, 'expresses': expresses, 'is_admin': False})
 
 
@@ -84,7 +76,7 @@ def add_user_express(request):
         if profile:
             express = Express(author=profile)
             express.handler = request.user
-            express.arrive_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+            express.arrive_time = datetime.datetime.now()
             express.save()
             response_data = {'success': True, 'info': '添加成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
@@ -123,7 +115,7 @@ def user_get_express(request):
             express_id = int(list_express[i])
             express = Express.objects.get(id=express_id)
             express.status = True
-            express.get_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+            express.get_time = datetime.datetime.now()
             express.save()
         response_data = {'success': True, 'info': '操作成功！'}
         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")

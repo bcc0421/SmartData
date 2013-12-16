@@ -180,7 +180,7 @@
                     {% for one_repair in repairs %}
 
                         <tr class="except_one">
-                            <td>{{ one_repair.timestamp }}</td>
+                            <td>{{ one_repair.timestamp| date:"Y-m-d H:i:s" }}</td>
                             <td>{{ one_repair.author}}</td>
                             <td>{{ one_repair.content }}</td>
                             <td>

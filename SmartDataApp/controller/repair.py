@@ -32,8 +32,6 @@ def repair(request):
         deal_person_list = ProfileDetail.objects.filter(is_admin=True)
 
         if len(repairs) > 0:
-            for repair_detail in repairs:
-                    repair_detail.timestamp = repair_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
             return render_to_response('admin_repair.html', {
                 'repairs': list(repairs),
                 'show': True,
@@ -52,8 +50,6 @@ def repair(request):
     elif profile.is_admin:
         repairs = Repair.objects.filter(handler=request.user)
         if len(repairs) > 0:
-            for repair_detail in repairs:
-                    repair_detail.timestamp = repair_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
             return render_to_response('admin_repair.html', {
                 'repairs': list(repairs),
                 'show': True,
@@ -80,7 +76,7 @@ def repair_create(request):
         repair_content = request.POST.get('content', None)
         repair_type = request.POST.get('category', None)
         upload_repair_src = request.FILES.get('upload_repair_img', None)
-        repair_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+        repair_time = datetime.datetime.now()
         if repair_content or repair_type:
             repair = Repair()
             repair.content = repair_content
@@ -144,8 +140,6 @@ def own_repair(request):
     repairs = Repair.objects.filter(author=request.user.username)
     profile = ProfileDetail.objects.get(profile=request.user)
     if len(repairs) > 0:
-        for repair_detail in repairs:
-            repair_detail.timestamp = repair_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
         paginator = Paginator(repairs, 5)
         page = request.GET.get('page')
         try:
@@ -195,7 +189,7 @@ def api_repair_create(request):
         repair_content = request.POST.get('content', None)
         repair_type = request.POST.get('category', None)
         upload__repair_src = request.FILES.get('upload_repair_img', None)
-        repair_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+        repair_time = datetime.datetime.now()
         if repair_content or repair_type:
             repair = Repair(author=request.user.username)
             repair.content = repair_content
@@ -241,8 +235,6 @@ def api_own_repair(request):
     convert_session_id_to_user(request)
     repairs = Repair.objects.filter(author=request.user.username)
     if len(repairs) > 0:
-        for repair_detail in repairs:
-            repair_detail.timestamp = repair_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
         paginator = Paginator(repairs, 5)
         page_count = paginator.num_pages
         page = request.GET.get('page')

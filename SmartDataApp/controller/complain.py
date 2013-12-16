@@ -1,5 +1,6 @@
 #coding:utf-8
 import datetime
+from django.utils.timezone import utc
 from django.http import HttpResponse
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -28,8 +29,6 @@ def complain(request):
             complains = Complaints.objects.all()
             deal_person_list = ProfileDetail.objects.filter(is_admin=True)
             if len(complains) > 0:
-                for complain_detail in complains:
-                    complain_detail.timestamp = complain_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
                 return render_to_response('admin_complains.html', {
                     'complains': list(complains),
                     'show': True,
@@ -47,8 +46,6 @@ def complain(request):
         elif profile.is_admin:
             complains = Complaints.objects.filter(handler = request.user)
             if len(complains) > 0:
-                for complain_detail in complains:
-                    complain_detail.timestamp = complain_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
                 return render_to_response('admin_complains.html', {
                     'complains': list(complains),
                     'show': True,
@@ -74,7 +71,7 @@ def complain_create(request):
         complain_content = request.POST.get('content', None)
         complain_type = request.POST.get('category', None)
         upload__complain_src = request.FILES.get('upload_complain_img', None)
-        complain_time = datetime.datetime.now()
+        complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
         if complain_content or complain_type:
             complain = Complaints()
             complain.content = complain_content
@@ -137,8 +134,6 @@ def own_complain(request):
     complains = Complaints.objects.filter(author=request.user.username)
     profile = ProfileDetail.objects.get(profile=request.user)
     if len(complains) > 0:
-        for complain_detail in complains:
-            complain_detail.timestamp = complain_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
         paginator = Paginator(complains, 5)
         page = request.GET.get('page')
         try:
@@ -188,7 +183,7 @@ def api_complain_create(request):
         complain_content = request.POST.get('content', None)
         complain_type = request.POST.get('category', None)
         upload__complain_src = request.FILES.get('upload_complain_img', None)
-        complain_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+        complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
         if complain_content or complain_type:
             complain = Complaints(author=request.user.username)
             complain.content = complain_content

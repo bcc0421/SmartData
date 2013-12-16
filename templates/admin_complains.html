@@ -181,7 +181,7 @@
                     {% for one_complain in complains %}
 
                         <tr class="except_one">
-                            <td>{{ one_complain.timestamp }}</td>
+                            <td>{{ one_complain.timestamp| date:"Y-m-d H:i:s" }}</td>
                             <td>{{ one_complain.author }}</td>
                             <td>{{ one_complain.content }}</td>
                             <td>
