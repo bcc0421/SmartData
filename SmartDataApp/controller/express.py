@@ -21,6 +21,10 @@ def express(request):
     communities = Community.objects.all()
     if request.user.is_staff or profile.is_admin:
         expresses = Express.objects.all()
+        for expresses_detail in expresses:
+            expresses_detail.arrive_time = expresses_detail.arrive_time.strftime("%Y-%m-%d %H:%I:%S")
+            if expresses_detail.get_time:
+                expresses_detail.get_time = expresses_detail.get_time.strftime("%Y-%m-%d %H:%I:%S")
         if communities and express:
             return render_to_response('admin_express.html',
                                       {'user': request.user, 'communities': communities, 'expresses': expresses, 'is_admin': True})
@@ -32,6 +36,10 @@ def express(request):
             })
     else:
         expresses = Express.objects.filter(author=profile)
+        for expresses_detail in expresses:
+            expresses_detail.arrive_time = expresses_detail.arrive_time.strftime("%Y-%m-%d %H:%I:%S")
+            if expresses_detail.get_time:
+                expresses_detail.get_time = expresses_detail.get_time.strftime("%Y-%m-%d %H:%I:%S")
         return render_to_response('admin_express.html', {'user': request.user, 'expresses': expresses, 'is_admin': False})
 
 

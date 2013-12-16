@@ -28,6 +28,8 @@ def complain(request):
             complains = Complaints.objects.all()
             deal_person_list = ProfileDetail.objects.filter(is_admin=True)
             if len(complains) > 0:
+                for complain_detail in complains:
+                    complain_detail.timestamp = complain_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
                 return render_to_response('admin_complains.html', {
                     'complains': list(complains),
                     'show': True,
@@ -45,6 +47,8 @@ def complain(request):
         elif profile.is_admin:
             complains = Complaints.objects.filter(handler = request.user)
             if len(complains) > 0:
+                for complain_detail in complains:
+                    complain_detail.timestamp = complain_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
                 return render_to_response('admin_complains.html', {
                     'complains': list(complains),
                     'show': True,
@@ -70,7 +74,7 @@ def complain_create(request):
         complain_content = request.POST.get('content', None)
         complain_type = request.POST.get('category', None)
         upload__complain_src = request.FILES.get('upload_complain_img', None)
-        complain_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+        complain_time = datetime.datetime.now()
         if complain_content or complain_type:
             complain = Complaints()
             complain.content = complain_content
@@ -133,6 +137,8 @@ def own_complain(request):
     complains = Complaints.objects.filter(author=request.user.username)
     profile = ProfileDetail.objects.get(profile=request.user)
     if len(complains) > 0:
+        for complain_detail in complains:
+            complain_detail.timestamp = complain_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
         paginator = Paginator(complains, 5)
         page = request.GET.get('page')
         try:
@@ -226,6 +232,8 @@ def api_own_complain(request):
     convert_session_id_to_user(request)
     complains = Complaints.objects.filter(author=request.user.username)
     if len(complains) > 0:
+        for complain_detail in complains:
+            complain_detail.timestamp = complain_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
         paginator = Paginator(complains, 5)
         page_count = paginator.num_pages
         page = request.GET.get('page')
