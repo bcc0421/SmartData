@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
+from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.models import Complaints
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail
@@ -129,8 +130,8 @@ def complain_complete(request):
 @transaction.atomic
 @csrf_exempt
 def own_complain(request):
-    complains=Complaints.objects.filter(author=request.user)
-    profile=ProfileDetail.objects.get(profile=request.user)
+    complains = Complaints.objects.filter(author=request.user.username)
+    profile = ProfileDetail.objects.get(profile=request.user)
     if len(complains) > 0:
         paginator = Paginator(complains, 5)
         page = request.GET.get('page')
@@ -173,8 +174,8 @@ def complain_response(request):
 
 @transaction.atomic
 @csrf_exempt
-#@login_required
 def api_complain_create(request):
+    convert_session_id_to_user(request)
     if request.method != u'POST':
         return return_error_response()
     else:
@@ -183,22 +184,22 @@ def api_complain_create(request):
         upload__complain_src = request.FILES.get('upload_complain_img', None)
         complain_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
         if complain_content or complain_type:
-            complain = Complaints(author=request.user)
+            complain = Complaints(author=request.user.username)
             complain.content = complain_content
             complain.timestamp = complain_time
             complain.type = complain_type
             if upload__complain_src:
                 complain.src = upload__complain_src
             complain.save()
-            return HttpResponse(simplejson.dumps({'error': False, 'info': u'投诉创建成功'}),content_type='application/json')
+            return HttpResponse(simplejson.dumps({'error': False, 'info': u'投诉创建成功'}), content_type='application/json')
         else:
-            return HttpResponse(simplejson.dumps({'error': True, 'info': u'投诉创建失败'}),
-                                    content_type='application/json')
+            return HttpResponse(simplejson.dumps({'error': True, 'info': u'投诉创建失败'}), content_type='application/json')
+
 
 @transaction.atomic
 @csrf_exempt
-@login_required
 def api_complain_response(request):
+    convert_session_id_to_user(request)
     if request.method != u'POST':
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
@@ -206,10 +207,10 @@ def api_complain_response(request):
         complain_id = data.get("complain_id", None)
         response_content = data.get("response_content", None)
         selected_pleased = data.get("selected_pleased", None)
-        complain=Complaints.objects.get(id=complain_id)
+        complain = Complaints.objects.get(id=complain_id)
         if complain and selected_pleased:
-            complain.pleased_reason=response_content
-            complain.pleased=selected_pleased
+            complain.pleased_reason = response_content
+            complain.pleased = selected_pleased
             complain.save()
             response_data = {'success': True, 'info': '反馈成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
@@ -221,9 +222,9 @@ def api_complain_response(request):
 
 @transaction.atomic
 @csrf_exempt
-@login_required
 def api_own_complain(request):
-    complains = Complaints.objects.filter(author=request.user)
+    convert_session_id_to_user(request)
+    complains = Complaints.objects.filter(author=request.user.username)
     if len(complains) > 0:
         paginator = Paginator(complains, 5)
         page_count = paginator.num_pages
@@ -238,7 +239,7 @@ def api_own_complain(request):
         for complain_detail in complains_list:
                 data = {
                     'id': complain_detail.id,
-                    'complain_author': complain_detail.author.username,
+                    'complain_author': complain_detail.author,
                     'content': complain_detail.content,
                     'type': complain_detail.type,
                     'deal_status': complain_detail.status,

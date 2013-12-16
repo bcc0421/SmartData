@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
+from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.models import Repair
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail
@@ -115,6 +116,7 @@ def repair_deal(request):
 
 @transaction.atomic
 @csrf_exempt
+@login_required
 def complete_repair(request):
     if request.method != u'POST':
         return redirect(index)
@@ -133,8 +135,9 @@ def complete_repair(request):
 
 @transaction.atomic
 @csrf_exempt
+@login_required
 def own_repair(request):
-    repairs = Repair.objects.filter(author=request.user)
+    repairs = Repair.objects.filter(author=request.user.username)
     profile = ProfileDetail.objects.get(profile=request.user)
     if len(repairs) > 0:
         paginator = Paginator(repairs, 5)
@@ -178,8 +181,8 @@ def repair_response(request):
 
 @transaction.atomic
 @csrf_exempt
-@login_required
 def api_repair_create(request):
+    convert_session_id_to_user(request)
     if request.method != u'POST':
         return return_error_response()
     else:
@@ -188,7 +191,7 @@ def api_repair_create(request):
         upload__repair_src = request.FILES.get('upload_repair_img', None)
         repair_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
         if repair_content or repair_type:
-            repair = Repair(author=request.user)
+            repair = Repair(author=request.user.username)
             repair.content = repair_content
             repair.timestamp = repair_time
             repair.type = repair_type
@@ -203,8 +206,8 @@ def api_repair_create(request):
 
 @transaction.atomic
 @csrf_exempt
-@login_required
 def api_repair_response(request):
+    convert_session_id_to_user(request)
     if request.method != u'POST':
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
@@ -228,9 +231,9 @@ def api_repair_response(request):
 
 @transaction.atomic
 @csrf_exempt
-@login_required
 def api_own_repair(request):
-    repairs = Repair.objects.filter(author=request.user)
+    convert_session_id_to_user(request)
+    repairs = Repair.objects.filter(author=request.user.username)
     if len(repairs) > 0:
         paginator = Paginator(repairs, 5)
         page_count = paginator.num_pages
@@ -245,7 +248,7 @@ def api_own_repair(request):
         for repair_detail in repairs_list:
             data = {
                 'id': repair_detail.id,
-                'repair_author': repair_detail.author.username,
+                'repair_author': repair_detail.author,
                 'content': repair_detail.content,
                 'type': repair_detail.type,
                 'deal_status': repair_detail.status,
