@@ -76,7 +76,7 @@ def repair_create(request):
         repair_content = request.POST.get('content', None)
         repair_type = request.POST.get('category', None)
         upload_repair_src = request.FILES.get('upload_repair_img', None)
-        repair_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+        repair_time = datetime.datetime.now()
         if repair_content or repair_type:
             repair = Repair()
             repair.content = repair_content
@@ -189,7 +189,7 @@ def api_repair_create(request):
         repair_content = request.POST.get('content', None)
         repair_type = request.POST.get('category', None)
         upload__repair_src = request.FILES.get('upload_repair_img', None)
-        repair_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+        repair_time = datetime.datetime.now()
         if repair_content or repair_type:
             repair = Repair(author=request.user.username)
             repair.content = repair_content

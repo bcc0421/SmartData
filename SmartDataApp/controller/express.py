@@ -76,7 +76,7 @@ def add_user_express(request):
         if profile:
             express = Express(author=profile)
             express.handler = request.user
-            express.arrive_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+            express.arrive_time = datetime.datetime.now()
             express.save()
             response_data = {'success': True, 'info': '添加成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
@@ -115,7 +115,7 @@ def user_get_express(request):
             express_id = int(list_express[i])
             express = Express.objects.get(id=express_id)
             express.status = True
-            express.get_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%I:%S")
+            express.get_time = datetime.datetime.now()
             express.save()
         response_data = {'success': True, 'info': '操作成功！'}
         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")

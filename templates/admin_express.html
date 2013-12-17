@@ -184,8 +184,8 @@
                                 <span>{{ express.author.floor }}</span>幢，
                                 <span>{{ express.author.gate_card }}</span>房间，户主：
                                 <span>{{ express.author.profile.username}}</span></td>
-                            <td>{{express.arrive_time }}</td>
-                            <td>{{ express.get_time }}</td>
+                            <td>{{express.arrive_time| date:"Y-m-d H:i:s"  }}</td>
+                            <td>{{ express.get_time | date:"Y-m-d H:i:s"  }}</td>
                             <td id="type_{{ express.id }}">{{ express.type }}</td>
                             <td class="deal_status" id="status_{{ express.id }}">
                                 {%if express.status %}
