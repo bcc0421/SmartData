@@ -20,7 +20,7 @@ def express(request):
     profile = ProfileDetail.objects.get(profile=request.user)
     communities = Community.objects.all()
     if request.user.is_staff or profile.is_admin:
-        expresses = Express.objects.all()
+        expresses = Express.objects.all().order_by('-arrive_time')
         if communities and express:
             return render_to_response('admin_express.html',
                                       {'user': request.user, 'communities': communities, 'expresses': expresses, 'is_admin': True})
@@ -31,7 +31,7 @@ def express(request):
                 'is_admin': False
             })
     else:
-        expresses = Express.objects.filter(author=profile)
+        expresses = Express.objects.filter(author=profile).order_by('-arrive_time')
         return render_to_response('admin_express.html', {'user': request.user, 'expresses': expresses, 'is_admin': False})
 
 
@@ -224,3 +224,26 @@ def api_express_response(request):
             return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
         return return_404_response()
+
+
+@transaction.atomic
+@csrf_exempt
+def api_user_obtain_express(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    else:
+        express_id = request.POST.get("express_id", None)
+        express_type = request.POST.get("express_type", None)
+        allowable_get_express_time = request.POST.get("allowable_get_express_time", None)
+        express = Express.objects.get(id=express_id)
+        if express:
+            express.allowable_get_express_time = allowable_get_express_time
+            express.type = express_type
+            express.save()
+            response_data = {'success': True, 'info': '提交成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            return return_404_response()
+
+

@@ -10,7 +10,7 @@ from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user
-from SmartDataApp.models import Complaints
+from SmartDataApp.models import Complaints ,Repair
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail
 
@@ -26,7 +26,7 @@ def return_404_response():
 def complain(request):
         profile = ProfileDetail.objects.get(profile=request.user)
         if request.user.is_staff:
-            complains = Complaints.objects.all()
+            complains = Complaints.objects.all().order_by('-timestamp')
             deal_person_list = ProfileDetail.objects.filter(is_admin=True)
             if len(complains) > 0:
                 return render_to_response('admin_complains.html', {
@@ -44,7 +44,7 @@ def complain(request):
                     'is_admin': False
                 })
         elif profile.is_admin:
-            complains = Complaints.objects.filter(handler = request.user)
+            complains = Complaints.objects.filter(handler = request.user).order_by('-timestamp')
             if len(complains) > 0:
                 return render_to_response('admin_complains.html', {
                     'complains': list(complains),
@@ -173,6 +173,33 @@ def complain_response(request):
             return render_to_response('own_complain.html',{ 'show': True ,'user':request.user,'profile':profile })
 
 
+
+
+@csrf_exempt
+def show_image_detail(request,id):
+    if request.method != u'GET':
+        return redirect(index)
+    else:
+        type = request.GET.get("type",None)
+        if type == 'complain':
+            complain = Complaints.objects.get(id=id)
+            if complain:
+                    return render_to_response('complain_img_detail.html', {
+                        'complain': complain
+                    })
+            else:
+                 return return_404_response()
+        elif type == 'repair':
+             repair = Repair.objects.get(id=id)
+             if repair:
+                    return render_to_response('repair_img_detail.html', {
+                        'repair': repair
+                    })
+             else:
+                 return return_404_response()
+
+
+
 @transaction.atomic
 @csrf_exempt
 def api_complain_create(request):
@@ -253,3 +280,6 @@ def api_own_complain(request):
                 complain_list.append(data)
         response_data = {'complain_list': complain_list, 'page_count': page_count}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+

@@ -70,7 +70,18 @@
 
 #### Success
 	{
-		'info': 'login successful'
+        info: "login successful"
+        is_admin: true
+	}
+
+    {
+        info: "login successful"
+        is_worker: true
+	}
+
+    {
+        info: "login successful"
+        is_inhabitant: true
 	}
 
 #### Error
@@ -119,16 +130,17 @@
 #### Method : POST
 
     {
-		'username': '用户名'
         'old_password': '旧密码',
         'new_password': '新密码',
+        'repeat_password': '新密码',
     }
 
 ### Result:
 
 #### Success
 	{
-		'info': 'update profile detail successful'
+	    'error': False,
+		'info': '密码更新成功''
 	}
 
 #### Error
@@ -140,6 +152,11 @@
 	{
 		'error': True, 
 		'info': '旧密码不正确'
+	}
+
+	{
+		'error': True,
+		'info': '两次密码不一致'
 	}
 
 ### 5. User list （需要管理员登录才能访问）
@@ -444,3 +461,21 @@ content 和category (必须有一个给值)
 #### Error
 
     {'success': False, 'info': '反馈失败！'}
+
+
+
+### 15. User obtain express(用户需要登录)
+
+#### URL : /api/user/obtain/express/
+
+#### Method : POST
+
+        {
+            'express_id': '快递id号',
+            'express_type': '取件方式',
+            'allowable_get_express_time':'取件时间',
+        }
+
+#### Success
+
+        {'success': True, 'info': '提交成功！'}

@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.conf.urls.static import static
-from SmartDataApp.controller.admin import register, login, logout, api_user_list, api_user_create, api_user_login, api_user_update, api_user_change_password, api_user_logout
+from SmartDataApp.controller.admin import *
 from SmartDataApp.views import *
 from SmartDataApp.controller.repair import *
 from SmartDataApp.controller.complain import *
@@ -25,6 +25,7 @@ urlpatterns = patterns('',
                        url(r'^upload_image/$', ajax_upload_image),
                        url(r'^like/(?P<id>\d+)/$', ajax_like),
                        url(r'^keep/(?P<id>\d+)/$', ajax_keep),
+                       url(r'^show/image_detail/(?P<id>\d+)/$', show_image_detail),
                        url(r'^delete_picture/(?P<id>\d+)/$', ajax_delete_picture),
                        url(r'^captcha/', include('captcha.urls')),
                        url(r'^generate_captcha/', generate_captcha),
@@ -67,6 +68,7 @@ urlpatterns = patterns('',
                        url(r'^userself/get_express/$', user_self_get_express),
                        url(r'^express/response/$',express_response),
                        url(r'^api/express/response/$',express_response),
+                       url(r'^api/user/obtain/express/$',api_user_obtain_express),
 
 
 

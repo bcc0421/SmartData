@@ -165,8 +165,8 @@
                     <tr role="row">
                         <th>时间</th>
                         <th>投诉人</th>
-                        <th>内容</th>
-                        <th>图片证据</th>
+                        <th>类型</th>
+                        <th>图片</th>
                         <th>处理状态</th>
                         {% if not is_admin %}
                             <th>处理人</th>
@@ -182,35 +182,15 @@
                         <tr class="except_one">
                             <td>{{ one_repair.timestamp| date:"Y-m-d H:i:s" }}</td>
                             <td>{{ one_repair.author}}</td>
-                            <td>{{ one_repair.content }}</td>
+                            <td>{{ one_repair.type}}</td>
                             <td>
-                                <a href="#big_image_{{ one_repair.id }}" data-toggle="modal"
-                                   data-target="#big_image_{{ one_repair.id }}">
-                                    <img src="/media/{{ one_repair.src }}" style="height: 25px;width: 25px">
-                                </a>
-
-                                <div class="modal fade" id="big_image_{{ one_repair.id }}" tabindex="-1"
-                                     role="dialog" aria-labelledby="myModalLabel_{{ one_repair.id }}"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" >
-                                        <div class="modal-content"style="width:800px">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel_{{ one_repair.id }}">
-                                                    图片详情</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <img src="/media/{{ one_repair.src }}">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                    Close
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% if one_repair.src  %}
+                                    <a href="/show/image_detail/{{ one_repair.id }}/?type=repair"target="_blank">
+                                        <img src="/media/{{ one_repair.src }}" style="height: 25px;width: 25px">
+                                    </a>
+                                {% else %}
+                                    <span>无图片</span>
+                                {% endif %}
                             </td>
                             <td class="deal_status"  id="status_{{ one_repair.id }}">
                                 {% ifequal one_repair.status 1 %}
@@ -241,13 +221,13 @@
                 {% if not is_admin %}
                     <div>
                         <span>选择处理人：</span>
-
-                        <select id="id_handler">
-                            {% for deal_person in deal_person_list %}
-                                <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
-                            {% endfor %}
-                        </select>
-
+                        <div>
+                            <select id="id_handler">
+                                {% for deal_person in deal_person_list %}
+                                    <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <div style="margin-top:12px; ">
                             <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_repair">
                                 授权处理

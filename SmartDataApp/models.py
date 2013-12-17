@@ -80,6 +80,7 @@ class Express(models.Model):
     handler = models.ForeignKey(User, null=True)
     pleased_reason = models.CharField(max_length=250, null=True)
     pleased = models.IntegerField(default=0)
+    allowable_get_express_time = models.CharField(max_length=200, default='')
 
     def __str__(self):
         return self.type

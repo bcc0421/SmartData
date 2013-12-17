@@ -14,6 +14,11 @@
                 cursor: pointer;
             }
             -->
+     .type{
+         float: left;
+         margin-left: 10px;
+
+     }
         </style>
 {% endblock %}
  {% block container %}
@@ -32,7 +37,7 @@
                                 <table class="table" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td width="80" height="25"><label class="baoxiu radio"></label></td>
-                                        <td width="80"><label class="tousu radio"></label></td>
+                                        <td width="580"><label class="tousu radio"></label></td>
                                         <td rowspan="2" align="left"><!--电话 start-->
                                              <span class="phoneNumBox phone_right" >
                                                  <span class="phoneNumBox_box">
@@ -46,15 +51,33 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="baoxiu" colspan="2" height="50">
-                                            <span>报修类型</span>：
-                                            <select style="width:130px;" name="category">
-                                                <option value="强电">强电</option>
-                                                <option value="弱电">弱电</option>
-                                                <option value="电梯">电梯</option>
-                                                <option value="空调">空调</option>
-                                                <option value="其他">其他</option>
-                                            </select>
+                                        <td class="baoxiu" colspan="2" >
+                                            <div id="select_repair_type" style="float: left">
+                                                <span>报修类别</span>：
+                                                <select style="width:130px;" name="category"id="select_type" onchange="select_type_repair()">
+                                                    <option value="个人报修"  >个人报修</option>
+                                                    <option value="公共报修">公共报修</option>
+                                                </select>
+                                            </div>
+                                            <div id="select_person_type"  class="type">
+                                                <span>报修项目</span>：
+                                                <select style="width:130px;" name="category" id="select_person">
+                                                    <option value="强电">空调：500</option>
+                                                    <option value="弱电">家具:100</option>
+                                                    <option value="电梯">灯具：1000</option>
+                                                    <option value="空调">电视:2000</option>
+                                                    <option value="空调">电脑:300</option>
+                                                </select>
+                                            </div>
+                                            <div id="select_public_type" class="type" style="display:none;" >
+                                                <span>报修项目</span>：
+                                                <select style="width:130px;" name="category" id="select_public">
+                                                    <option value="强电">强电</option>
+                                                    <option value="弱电">弱电</option>
+                                                    <option value="电梯">电梯</option>
+                                                    <option value="空调">空调</option>
+                                                </select>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -85,9 +108,24 @@
             <div class="el_blank_h50 fn_clear"></div>
         </div>
     <!-- page -->
-
 {% endblock %}
 {%block  script %}
 <script src="/static/js/jquery.iframe-transport.js"></script>
 <script src="/static/js/jquery.imgreview.js"></script>
+<script type="text/javascript">
+    function select_type_repair(){
+        var objS = document.getElementById("select_type");
+        if (objS.selectedIndex == 0){
+            $("#select_person_type").show();
+            $("#select_public_type").hide();
+        }
+        if(objS.selectedIndex == 1){
+            $("#select_person_type").hide();
+            $("#select_public_type").show();
+        }
+
+
+    }
+
+</script>
 {% endblock  %}

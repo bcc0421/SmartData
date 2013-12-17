@@ -1,0 +1,24 @@
+{% extends "basecloud.html" %}
+{% block title %}图片详情{% endblock %}
+{% block css %}
+    <style>
+
+    .container_inner {
+         margin: 15px auto;
+    }
+
+    .container{
+            width: 970px; !important
+    }
+
+    </style>
+{% endblock %}
+{% block container %}
+    <div class="container_inner" >
+        <img  src="/media/{{ complain.src }}"/>
+        <div><span>投诉内容：</span></div>
+        <div >
+            <span style="background-color: #808080">{{ complain.content}}</span>
+        </div>
+    </div>
+{% endblock %}
