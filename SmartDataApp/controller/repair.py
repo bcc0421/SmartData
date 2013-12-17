@@ -28,7 +28,7 @@ def return_404_response():
 def repair(request):
     profile = ProfileDetail.objects.get(profile=request.user)
     if request.user.is_staff:
-        repairs = Repair.objects.all()
+        repairs = Repair.objects.all().order_by('-timestamp')
         deal_person_list = ProfileDetail.objects.filter(is_admin=True)
 
         if len(repairs) > 0:
@@ -48,7 +48,7 @@ def repair(request):
             })
 
     elif profile.is_admin:
-        repairs = Repair.objects.filter(handler=request.user)
+        repairs = Repair.objects.filter(handler=request.user).order_by('-timestamp')
         if len(repairs) > 0:
             return render_to_response('admin_repair.html', {
                 'repairs': list(repairs),

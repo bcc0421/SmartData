@@ -214,7 +214,16 @@ def api_user_login(request):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             auth_login(request, user)
-            return HttpResponse(simplejson.dumps({'info': 'login successful'}), content_type='application/json')
+            profile = ProfileDetail.objects.get(profile=user)
+            if user.is_staff:
+                response_data = {'is_admin': True,'info': 'login successful'}
+                return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
+            elif profile.is_admin:
+                response_data = {'is_worker': True,'info': 'login successful'}
+                return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
+            else:
+                response_data = {'is_inhabitant': True,'info': 'login successful'}
+                return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
         else:
             return HttpResponse(simplejson.dumps({'info': 'login failed'}), content_type='application/json')
     else:
@@ -264,29 +273,34 @@ def api_user_update(request):
 @transaction.atomic
 def api_user_change_password(request):
     convert_session_id_to_user(request)
-
     if request.method != u'POST':
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
-        username = data.get(u'username', None)
         old_password = data.get(u'old_password', None)
         new_password = data.get(u'new_password', None)
-        user = User.objects.get(username=username)
+        repeat_password = data.get(u'repeat_password', None)
+        user = request.user
+        if new_password != repeat_password:
+            response_data = {'error': True, 'info': u'两次密码不一致'}
+            return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
         if check_password(old_password, user.password):
             pattern = re.compile('\w{6,15}')
             match = pattern.match(new_password)
             if not match:
-                return HttpResponse(simplejson.dumps({'error': True, 'info': u'密码长度为6-15位数字或字母'}),
-                                    content_type='application/json')
+                response_data = {'error': True, 'info': u'密码长度为6-15位数字或字母'}
+                return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
             else:
                 user.password = make_password(new_password, 'md5')
                 user.save()
-                return HttpResponse(simplejson.dumps({'error': False, 'info': u'密码更新成功'}))
+                return HttpResponse(simplejson.dumps({'error': False, 'info': u'密码更新成功'}),content_type = 'application/json')
         else:
-            return HttpResponse(simplejson.dumps({'error': True, 'info': u'旧密码不正确'}), content_type='application/json')
+            response_data = {'error': True, 'info': u'旧密码不正确'}
+            return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
     else:
         return return_404_response()
+
+
 
 
 @transaction.atomic
@@ -333,4 +347,6 @@ def api_user_list(request):
 def api_user_logout(request):
     auth_logout(request)
     return HttpResponse(simplejson.dumps({'info': u'成功登出'}), content_type='application/json')
+
+
 
