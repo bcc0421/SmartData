@@ -66,6 +66,8 @@ class Repair(models.Model):
     status = models.IntegerField(default=1)
     src = models.ImageField(upload_to='uploads/%Y/%m/%d', null=True)
     pleased_reason = models.CharField(max_length=250, null=True)
+    repair_item = models.CharField(max_length=200, default='')
+    price = models.IntegerField(default=0)
 
     def __str__(self):
         return self.content
@@ -81,6 +83,15 @@ class Express(models.Model):
     pleased_reason = models.CharField(max_length=250, null=True)
     pleased = models.IntegerField(default=0)
     allowable_get_express_time = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return self.type
+
+
+class Repair_item(models.Model):
+    item = models.CharField(max_length=200)
+    type = models.CharField(max_length=200)
+    price = models.IntegerField(default=0)
 
     def __str__(self):
         return self.type
