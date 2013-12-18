@@ -282,4 +282,48 @@ def api_own_complain(request):
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
 
 
+@transaction.atomic
+@csrf_exempt
+def api_complain_deal(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        complain_array = data .get("complains_id_string", None)
+        deal_person_id = data .get("deal_person_id", None)
+        if complain_array and deal_person_id:
+            list_complain_ = str(complain_array).split(",")
+            for i in range(len(list_complain_)):
+                com_id = int(list_complain_[i])
+                complain = Complaints.objects.get(id=com_id)
+                complain.status = 2
+                user_obj = User.objects.get(id=deal_person_id)
+                if user_obj:
+                    complain.handler = user_obj
+                complain.save()
+            response_data = {'success': True, 'info': u'授权成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False, 'info': u'请选择要处理的投诉'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
+
+@transaction.atomic
+@csrf_exempt
+def api_complain_complete(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        complain_array = data .get("selected_complain_string", None)
+        if complain_array :
+            list_complain_ = str(complain_array).split(",")
+            for i in range(len(list_complain_)):
+                com_id = int(list_complain_[i])
+                complain = Complaints.objects.get(id=com_id)
+                complain.status = 3
+                complain.save()
+            response_data = {'success': True, 'info': '提交成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")

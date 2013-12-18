@@ -256,6 +256,8 @@ content 和category (必须有一个给值)
 
     }
 
+
+
 ### 8. User complain response(用户需要登录)
 
 #### URL : /api/complain/response/
@@ -279,7 +281,49 @@ content 和category (必须有一个给值)
     {'success': False, 'info': '反馈失败！'}
 
 
-### 9. User own complain(用户需要登录)
+
+### 9. User complain deal(用户需要登录)
+
+#### URL : /api/complain/deal/
+
+#### Method : POST
+
+    {
+        'complains_id_string': '要处理的投诉id号',（多个投诉id 拼接成字符串以逗号隔开 "1,2,32,45"）
+        'deal_person_id': '指派的处理人的id',
+    }
+### Result:
+
+#### Success
+
+         {'success': True, 'info': '授权成功！'}
+
+#### Error
+
+        {'success': False, 'info': u'请选择要处理的投诉'}
+
+
+
+### 10. User complain complete(用户需要登录)
+
+#### URL : /api/complain/complete/
+
+#### Method : POST
+
+    {
+        'complains_id_string': '要处理的投诉id号',（多个投诉id 拼接成字符串以逗号隔开 "1,2,32,45"）
+
+    }
+### Result:
+
+#### Success
+
+         {'success': True, 'info': '提交成功！'}
+
+
+
+
+### 11. User own complain(用户需要登录)
 
 #### URL : /api/own/complain/?page=页数 (page 可选, 默认为1)
 
@@ -318,7 +362,7 @@ content 和category (必须有一个给值)
                 ]
         }
 
-### 10. User repair create(用户需要登录)
+### 12. User repair create(用户需要登录)
 
 #### URL : /api/repair/create/
 
@@ -347,7 +391,9 @@ content 和category (必须有一个给值)
 
     }
 
-### 11. User repair response(用户需要登录)
+
+
+### 13. User repair response(用户需要登录)
 
 #### URL : /api/repair/response/
 
@@ -370,7 +416,7 @@ content 和category (必须有一个给值)
     {'success': False, 'info': '反馈失败！'}
 
 
-### 12. User own repair(用户需要登录)
+### 14. User own repair(用户需要登录)
 
 #### URL : /api/own/repair/?page=页数 (page 可选, 默认为1)
 
@@ -411,7 +457,7 @@ content 和category (必须有一个给值)
 
 
 
-### 13. User own express(用户需要登录)
+### 15. User own express(用户需要登录)
 
 #### URL : /api/get/user/express/?page=页数 (page 可选, 默认为1)
 
@@ -440,7 +486,7 @@ content 和category (必须有一个给值)
         }
 
 
-### 14. User express response(用户需要登录)
+### 16. User express response(用户需要登录)
 
 #### URL : /api/express/response/
 
@@ -464,7 +510,7 @@ content 和category (必须有一个给值)
 
 
 
-### 15. User obtain express(用户需要登录)
+### 17. User obtain express(用户需要登录)
 
 #### URL : /api/user/obtain/express/
 
@@ -479,3 +525,115 @@ content 和category (必须有一个给值)
 #### Success
 
         {'success': True, 'info': '提交成功！'}
+
+
+
+### 18. Find inhabitant(用户需要登录)
+
+#### URL : /api/find/inhabitant/
+
+#### Method : POST
+
+        {
+            'community_id': '小区的id',
+            'building_num': '楼栋号',
+            'room_num':'房间号',
+        }
+
+#### Success
+
+        {'success': True, 'community_name': '香格里拉', 'building_num': 14, 'room_num': 101}
+
+#### Error
+
+        {'success': False, 'info': '没有此用户！'}
+
+
+### 19. Delete express(用户需要登录)
+
+#### URL : /api/express/delete/
+
+#### Method : POST
+
+         {
+                'express_id_string': '要删除的快件id号',（多个快件id 拼接成字符串以逗号隔开 "1,2,32,45"）
+         }
+
+#### Success
+
+        {'success': True, 'info': '删除成功！'}
+
+
+### 20. Add express record(用户需要登录)
+
+#### URL : /api/add/express/record/
+
+#### Method : POST
+
+        #### Method : POST
+
+        {
+            'community_id': '小区的id',
+            'building_num': '楼栋号',
+            'room_num':'房间号',
+        }
+
+#### Success
+
+        {'success': True, 'info': '添加成功！'}
+
+#### Error
+
+        {'success': False, 'info': '添加失败！'}
+
+
+### 21. Get communities(用户需要登录)
+
+#### URL : /api/get/community/
+
+#### Method : GET
+
+#### Success
+
+        {
+            community_list:
+                [
+                     {
+                        community_description: "adfasdf"
+                        id: 1
+                        community_title: "sdfasdfasdf"
+                     }
+                ],
+
+                [
+                     {
+                      community_description: "就是个小区"
+                       id: 2
+                       community_title: "香格里拉"
+                     }
+                ],
+
+                [
+                     {
+                        community_description: "赖长青"
+                        id: 3
+                        community_title: "红楼"
+                     }
+                ]
+            }
+        }
+
+
+### 22. Express complete(用户需要登录)
+
+#### URL : /api/express/complete/
+
+#### Method :  POST
+
+         {
+                'express_id_string': '完成的快件id号',（多个快件id 拼接成字符串以逗号隔开 "1,2,32,45"）
+         }
+
+#### Success
+
+        {'success': True, 'info': '完成领取！'}

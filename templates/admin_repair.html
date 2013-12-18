@@ -258,32 +258,32 @@
             $('#deal_repair').click(function () {
                 var checked_array = new Array();
                 $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-                        }
+                    function () {
+                        var id = $(this).attr('id');
+                        checked_array.push(id);
+                    }
                 );
                 var deal_person_id = $('#id_handler').val();
                 if (checked_array.length>0)
                 {
-                           $.post('/deal/repair/',
-                                {
-                                    'selected_repair_string': checked_array.toString(),
-                                    'deal_person_id': deal_person_id
-                                },
-                                function (data) {
-                                       if(data.success){
-                                         alert(data.info);
-                                         $('input[type="checkbox"][name="chk"]:checked').each(
-                                                function() {
-                                                    var id = $(this).attr('id');
-                                                     $("#status_" + id + "").html("<span style='color:deepskyblue' >处理中</span>");
-                                                }
-                                            );
-                                     }
+                   $.post('/deal/repair/',
+                        {
+                            'selected_repair_string': checked_array.toString(),
+                            'deal_person_id': deal_person_id
+                        },
+                        function (data) {
+                               if(data.success){
+                                 alert(data.info);
+                                 $('input[type="checkbox"][name="chk"]:checked').each(
+                                        function() {
+                                            var id = $(this).attr('id');
+                                             $("#status_" + id + "").html("<span style='color:deepskyblue' >处理中</span>");
+                                        }
+                                    );
+                             }
 
-                                }
-                            )
+                        }
+                    )
                  }
                 else{
                     alert("请选择处理数据");
@@ -302,23 +302,23 @@
                 var deal_person_id = $('#id_handler').val();
                 if (checked_array.length>0)
                 {
-                           $.post('/complete/repair/',
-                                {
-                                    'selected_repair_string': checked_array.toString()
-                                },
-                                function (data) {
-                                       if(data.success){
-                                         alert(data.info);
-                                         $('input[type="checkbox"][name="chk"]:checked').each(
-                                                function() {
-                                                    var id = $(this).attr('id');
-                                                     $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
-                                                }
-                                            );
-                                     }
+                   $.post('/complete/repair/',
+                        {
+                            'selected_repair_string': checked_array.toString()
+                        },
+                        function (data) {
+                               if(data.success){
+                                 alert(data.info);
+                                 $('input[type="checkbox"][name="chk"]:checked').each(
+                                        function() {
+                                            var id = $(this).attr('id');
+                                             $("#status_" + id + "").html("<span style='color: green' >已受理</span>");
+                                        }
+                                    );
+                             }
 
-                                }
-                            )
+                        }
+                    )
                  }
                 else{
                     alert("请选择处理数据");

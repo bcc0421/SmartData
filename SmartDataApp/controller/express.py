@@ -247,3 +247,87 @@ def api_user_obtain_express(request):
             return return_404_response()
 
 
+@transaction.atomic
+@csrf_exempt
+def api_add_express_record(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        community_id = data.get(u'community_id', None)
+        building_num = data.get(u'building_num', None)
+        room_num = data.get(u'room_num', None)
+        community = Community.objects.get(id=community_id)
+        profile = ProfileDetail.objects.filter(community=community, floor=building_num, gate_card=room_num)[0]
+        if profile:
+            express = Express(author=profile)
+            express.handler = request.user
+            express.arrive_time = datetime.datetime.now()
+            express.save()
+            response_data = {'success': True, 'info': '添加成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False, 'info': '添加失败！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+@transaction.atomic
+@csrf_exempt
+def api_find_inhabitant(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        community_id = data.get(u'community_id', None)
+        building_num = data.get(u'building_num', None)
+        room_num = data.get(u'room_num', None)
+        community = Community.objects.get(id=community_id)
+        profile = ProfileDetail.objects.filter(community=community, floor=building_num, gate_card=room_num)
+        if profile:
+            community_name = community.title
+            response_data = {'success': True, 'community_name': community_name, 'building_num': building_num,
+                             'room_num': room_num}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False, 'info': '没有此用户！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+@transaction.atomic
+@csrf_exempt
+def api_express_delete(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        express_array = data.get("express_id_string", None)
+        if express_array:
+            list_express = str(express_array).split(",")
+            for i in range(len(list_express)):
+                express_id = int(list_express[i])
+                Express.objects.get(id=express_id).delete()
+            response_data = {'success': True, 'info': '删除成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+@transaction.atomic
+@csrf_exempt
+def api_express_complete(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        express_array = data.get("express_id_string", None)
+        list_express = str(express_array).split(",")
+        for i in range(len(list_express)):
+            express_id = int(list_express[i])
+            express = Express.objects.get(id=express_id)
+            express.status = True
+            express.get_time = datetime.datetime.now()
+            express.save()
+        response_data = {'success': True, 'info': '完成领取！'}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")

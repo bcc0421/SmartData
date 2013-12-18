@@ -69,6 +69,12 @@ urlpatterns = patterns('',
                        url(r'^express/response/$',express_response),
                        url(r'^api/express/response/$',express_response),
                        url(r'^api/user/obtain/express/$',api_user_obtain_express),
+                       url(r'^api/complain/deal/$',api_complain_deal),
+                       url(r'^api/add/express/record/$',api_add_express_record),
+                       url(r'^api/find/inhabitant/$',api_find_inhabitant),
+                       url(r'^api/express/delete/$',api_express_delete),
+                       url(r'^api/get/community/$',api_get_community),
+                       url(r'^api/express/complete/$',api_express_complete),
 
 
 

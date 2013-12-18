@@ -1,7 +1,10 @@
 #coding:utf-8
 from django.db import transaction
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
+import simplejson
+from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.models import Community
 from SmartDataApp.views import index
 
@@ -35,3 +38,19 @@ def update_community(request):
 def delete_community(request):
     pass
 
+
+@transaction.atomic
+@csrf_exempt
+def api_get_community(request):
+    convert_session_id_to_user(request)
+    communities = Community.objects.all()
+    community_list = list()
+    for community_detail in communities:
+                data = {
+                    'id': community_detail.id,
+                    'community_title': community_detail.title,
+                    'community_description':community_detail.description
+                }
+                community_list.append(data)
+    response_data = {'community_list': community_list}
+    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
