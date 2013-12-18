@@ -484,6 +484,9 @@ content 和category (必须有一个给值)
 
                 ]
         }
+#### Error
+
+   {'success': False, 'info': '没有快递！'}
 
 
 ### 16. User express response(用户需要登录)

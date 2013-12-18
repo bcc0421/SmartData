@@ -219,7 +219,7 @@ def api_user_login(request):
                 response_data = {'is_admin': True,'info': 'login successful'}
                 return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
             elif profile.is_admin:
-                response_data = {'is_worker': True,'info': 'login successful'}
+                response_data = {'is_worker': True ,'info': 'login successful'}
                 return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
             else:
                 response_data = {'is_inhabitant': True,'info': 'login successful'}

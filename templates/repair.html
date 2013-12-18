@@ -62,20 +62,17 @@
                                             <div id="select_person_type"  class="type">
                                                 <span>报修项目</span>：
                                                 <select style="width:130px;" name="category" id="select_person">
-                                                    <option value="强电">空调：500</option>
-                                                    <option value="弱电">家具:100</option>
-                                                    <option value="电梯">灯具：1000</option>
-                                                    <option value="空调">电视:2000</option>
-                                                    <option value="空调">电脑:300</option>
+                                                    {% for item in item_person_list %}
+                                                        <option id="{{ item.item_id }}" value="{{ item.item_name }}">{{ item.item_name }}：{{ item.item_price }}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                             <div id="select_public_type" class="type" style="display:none;" >
                                                 <span>报修项目</span>：
                                                 <select style="width:130px;" name="category" id="select_public">
-                                                    <option value="强电">强电</option>
-                                                    <option value="弱电">弱电</option>
-                                                    <option value="电梯">电梯</option>
-                                                    <option value="空调">空调</option>
+                                                   {% for item in item_public_list %}
+                                                        <option id="{{ item.item_id }}" value="{{ item.item_name }}">{{ item.item_name }}：{{ item.item_price }}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </td>

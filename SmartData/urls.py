@@ -8,6 +8,7 @@ from SmartDataApp.controller.complain import *
 from SmartDataApp.controller.community import *
 from SmartDataApp.controller.user_profile import *
 from SmartDataApp.controller.express import *
+from SmartDataApp.controller.repair_item import *
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -75,6 +76,9 @@ urlpatterns = patterns('',
                        url(r'^api/express/delete/$',api_express_delete),
                        url(r'^api/get/community/$',api_get_community),
                        url(r'^api/express/complete/$',api_express_complete),
+                       url(r'^manage/repair/item/$',repair_item),
+                       url(r'^add/repair_item/$',add_repair_item),
+                       url(r'^delete/repair_item/$',delete_repair_item),
 
 
 

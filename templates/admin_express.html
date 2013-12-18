@@ -327,7 +327,8 @@
                                 </div>
                                 <div id="no_result" class="alert alert-warning" style="margin-top:20px ;display: none">
                                     <span>没有此用户</span>
-                                    <span class="glyphicon glyphicon-minus-sign"></span></div>
+                                    <span class="glyphicon glyphicon-minus-sign"></span>
+                                </div>
                                 <div  id="show_find_result"style="display: none">
                                     <div id="show_find" class="alert alert-success" style="margin-top: 20px">
 
@@ -471,6 +472,7 @@
                         }
                 );
                 var get_express_type = $('#select_express_type').val();
+                alert(get_express_type);
                 if (checked_array.length > 0) {
                     $.post('/userself/get_express/',
                             {

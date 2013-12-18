@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.models import Repair
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail
+from SmartDataApp.models import ProfileDetail,Repair_item
 
 
 def return_error_response():
@@ -63,7 +63,27 @@ def repair(request):
                 'is_admin': True
             })
     else:
-        return render_to_response('repair.html', {'user': request.user})
+        items = Repair_item.objects.all()
+        item_person_list = list()
+        item_public_list = list()
+        for item in items:
+            if item.type == u'个人报修':
+                data = {
+                    'item_id': item.id,
+                    'item_type': item.type,
+                    'item_price': item.price,
+                    'item_name': item.item,
+                }
+                item_person_list.append(data)
+            else:
+                data = {
+                    'item_id': item.id,
+                    'item_type': item.type,
+                    'item_price': item.price,
+                    'item_name': item.item,
+                }
+                item_public_list.append(data)
+        return render_to_response('repair.html', {'user': request.user, 'item_person_list':item_person_list, 'item_public_list':item_public_list})
 
 
 @transaction.atomic

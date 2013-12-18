@@ -143,6 +143,7 @@ def user_self_get_express(request):
                 express_id = int(list_express[i])
                 express = Express.objects.get(id=express_id)
                 express.type = express_type
+                express.save()
             response_data = {'success': True, 'info': '提交成功！', 'express_type':express_type}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
@@ -199,6 +200,9 @@ def api_get_user_express(request):
                 express_list.append(data)
         response_data = {'express_list': express_list, 'page_count': page_count}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False, 'info': '没有快递！'}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
 
 
 @transaction.atomic
@@ -232,10 +236,11 @@ def api_user_obtain_express(request):
     convert_session_id_to_user(request)
     if request.method != u'POST':
         return return_error_response()
-    else:
-        express_id = request.POST.get("express_id", None)
-        express_type = request.POST.get("express_type", None)
-        allowable_get_express_time = request.POST.get("allowable_get_express_time", None)
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        express_id = data .get("express_id", None)
+        express_type = data .get("express_type", None)
+        allowable_get_express_time = data .get("allowable_get_express_time", None)
         express = Express.objects.get(id=express_id)
         if express:
             express.allowable_get_express_time = allowable_get_express_time
