@@ -254,8 +254,6 @@ def api_own_complain(request):
     convert_session_id_to_user(request)
     complains = Complaints.objects.filter(author=request.user.username)
     if len(complains) > 0:
-        for complain_detail in complains:
-            complain_detail.timestamp = complain_detail.timestamp.strftime("%Y-%m-%d %H:%I:%S")
         paginator = Paginator(complains, 5)
         page_count = paginator.num_pages
         page = request.GET.get('page')
@@ -317,7 +315,7 @@ def api_complain_complete(request):
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
-        complain_array = data .get("selected_complain_string", None)
+        complain_array = data .get("complains_id_string", None)
         if complain_array :
             list_complain_ = str(complain_array).split(",")
             for i in range(len(list_complain_)):

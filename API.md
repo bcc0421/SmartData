@@ -267,7 +267,7 @@ content 和category (必须有一个给值)
     {
         'complain_id': '投诉id号',
         'response_content': '反馈内容',
-        'selected_pleased':'满意度'（1,2,3,4,5）5个数字选一个
+        'selected_pleased':'满意度'（1,2,3,4,5）5个数字选一个(默认是0)
     }
 
 ### Result:
@@ -368,11 +368,11 @@ content 和category (必须有一个给值)
 
 #### Method : POST
 Content-Type: multipart/form-data;
-content 和category (必须有一个给值)
+content 和 repair_item_id (必须有一个给值)
 
     {
         'content': '投诉内容',
-        'category': '投诉类型',    目前为（安全投诉，环境投诉，员工投诉）中三选一
+        'repair_item_id': '报修项目id号',
         'upload_repair_img':'filename'
     }
 
@@ -402,7 +402,7 @@ content 和category (必须有一个给值)
     {
         'repair_id': '投诉id号',
         'response_content': '反馈内容',
-        'selected_pleased':'满意度'（1,2,3,4,5）5个数字选一个
+        'selected_pleased':'满意度'（1,2,3,4,5）5个数字选一个(默认是0)
     }
 
 ### Result:
@@ -457,7 +457,49 @@ content 和category (必须有一个给值)
 
 
 
-### 15. User own express(用户需要登录)
+### 15. User repair deal(用户需要登录)
+
+#### URL : /api/repair/deal/
+
+#### Method : POST
+
+    {
+        'repair_id_string': '要处理的报修id号',（多个投诉id 拼接成字符串以逗号隔开 "1,2,32,45"）
+        'deal_person_id': '指派的处理人的id',
+    }
+### Result:
+
+#### Success
+
+         {'success': True, 'info': '授权成功！'}
+
+#### Error
+
+        {'success': False, 'info': u'请选择要处理的报修'}
+
+
+
+### 16. User repair complete(用户需要登录)
+
+#### URL : /api/repair/complete/
+
+#### Method : POST
+
+    {
+        'repair_id_string': '要处理的投诉id号',（多个投诉id 拼接成字符串以逗号隔开 "1,2,32,45"）
+
+    }
+### Result:
+
+#### Success
+
+         {'success': True, 'info': '提交成功！'}
+
+
+
+
+
+### 17. User own express(用户需要登录)
 
 #### URL : /api/get/user/express/?page=页数 (page 可选, 默认为1)
 
@@ -489,7 +531,7 @@ content 和category (必须有一个给值)
    {'success': False, 'info': '没有快递！'}
 
 
-### 16. User express response(用户需要登录)
+### 18. User express response(用户需要登录)
 
 #### URL : /api/express/response/
 
@@ -498,7 +540,7 @@ content 和category (必须有一个给值)
     {
         'express_id': '快递id号',
         'response_content': '反馈内容',
-        'selected_pleased':'满意度'（1,2,3,4,5）5个数字选一个
+        'selected_pleased':'满意度'（1,2,3,4,5）5个数字选一个(默认是0)
     }
 
 ### Result:
@@ -513,7 +555,7 @@ content 和category (必须有一个给值)
 
 
 
-### 17. User obtain express(用户需要登录)
+### 19. User obtain express(用户需要登录)
 
 #### URL : /api/user/obtain/express/
 
@@ -531,7 +573,7 @@ content 和category (必须有一个给值)
 
 
 
-### 18. Find inhabitant(用户需要登录)
+### 20. Find inhabitant(用户需要登录)
 
 #### URL : /api/find/inhabitant/
 
@@ -552,7 +594,7 @@ content 和category (必须有一个给值)
         {'success': False, 'info': '没有此用户！'}
 
 
-### 19. Delete express(用户需要登录)
+### 21. Delete express(用户需要登录)
 
 #### URL : /api/express/delete/
 
@@ -567,7 +609,7 @@ content 和category (必须有一个给值)
         {'success': True, 'info': '删除成功！'}
 
 
-### 20. Add express record(用户需要登录)
+### 22. Add express record(用户需要登录)
 
 #### URL : /api/add/express/record/
 
@@ -590,7 +632,7 @@ content 和category (必须有一个给值)
         {'success': False, 'info': '添加失败！'}
 
 
-### 21. Get communities(用户需要登录)
+### 23. Get communities(用户需要登录)
 
 #### URL : /api/get/community/
 
@@ -627,7 +669,7 @@ content 和category (必须有一个给值)
         }
 
 
-### 22. Express complete(用户需要登录)
+### 24. Express complete(用户需要登录)
 
 #### URL : /api/express/complete/
 
@@ -640,3 +682,81 @@ content 和category (必须有一个给值)
 #### Success
 
         {'success': True, 'info': '完成领取！'}
+
+
+
+### 25. Get repair item(用户需要登录)
+
+#### URL : /api/get/repair/item/
+
+#### Method :  GET
+
+#### Success（每页返回五条记录）
+        {
+            page_count:（总页数）
+            items_list:
+                [
+
+                        {
+                            item_id: 2
+                            item_type: "个人报修"
+                            item_price: 123
+                            item_name: "空调2"
+                        }
+
+                        {
+                            item_id: 3
+                            item_type: "公共报修"
+                            item_price: 10000
+                            item_name: "亭子"
+                        }
+
+                ]
+             success: true
+        }
+
+#### Error
+
+       {'success': False, 'info':'没有报修项目'}
+
+
+### 26. Add repair item record(用户需要登录)
+
+#### URL : /api/add/repair/item/record/
+
+#### Method : POST
+
+        #### Method : POST
+
+        {
+            'item_type': '报修类型（个人报修，公共报修）',
+            'item_name': '项目名称',
+            'repair_item_price':'价格',
+        }
+
+#### Success
+
+        {'success': True}
+
+#### Error
+
+        {'success': False}
+
+
+### 27. Delete repair item(用户需要登录)
+
+#### URL : /api/repair/item/delete/
+
+#### Method : POST
+
+         {
+                'repair_item_id_string': '要删除报修项目id号',（多个id 拼接成字符串以逗号隔开 "1,2,32,45"）
+         }
+
+#### Success
+
+        {'success': True, 'info': '删除成功！'}
+
+#### Error
+
+        {'success': False, 'info': '删除失败！'}

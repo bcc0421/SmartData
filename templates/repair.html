@@ -61,17 +61,17 @@
                                             </div>
                                             <div id="select_person_type"  class="type">
                                                 <span>报修项目</span>：
-                                                <select style="width:130px;" name="category" id="select_person">
+                                                <select style="width:130px;" name="category_person" id="select_person">
                                                     {% for item in item_person_list %}
-                                                        <option id="{{ item.item_id }}" value="{{ item.item_name }}">{{ item.item_name }}：{{ item.item_price }}</option>
+                                                        <option id="{{ item.item_id }}" value="{{ item.item_id }}">{{ item.item_name }}：{{ item.item_price }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
                                             <div id="select_public_type" class="type" style="display:none;" >
                                                 <span>报修项目</span>：
-                                                <select style="width:130px;" name="category" id="select_public">
+                                                <select style="width:130px;" name="category_public" id="select_public">
                                                    {% for item in item_public_list %}
-                                                        <option id="{{ item.item_id }}" value="{{ item.item_name }}">{{ item.item_name }}：{{ item.item_price }}</option>
+                                                        <option id="{{ item.item_id }}" value="{{ item.item_id }}">{{ item.item_name }}：{{ item.item_price }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -120,8 +120,6 @@
             $("#select_person_type").hide();
             $("#select_public_type").show();
         }
-
-
     }
 
 </script>

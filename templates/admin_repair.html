@@ -164,8 +164,10 @@
                     <thead>
                     <tr role="row">
                         <th>时间</th>
-                        <th>投诉人</th>
+                        <th>报修人</th>
                         <th>类型</th>
+                        <th>报修项目</th>
+                        <th>价格（元）</th>
                         <th>图片</th>
                         <th>处理状态</th>
                         {% if not is_admin %}
@@ -183,6 +185,8 @@
                             <td>{{ one_repair.timestamp| date:"Y-m-d H:i:s" }}</td>
                             <td>{{ one_repair.author}}</td>
                             <td>{{ one_repair.type}}</td>
+                            <td>{{ one_repair.repair_iteam}}</td>
+                            <td>{{ one_repair.price}}</td>
                             <td>
                                 {% if one_repair.src  %}
                                     <a href="/show/image_detail/{{ one_repair.id }}/?type=repair"target="_blank">

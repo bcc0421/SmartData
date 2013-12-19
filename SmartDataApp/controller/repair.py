@@ -93,10 +93,18 @@ def repair_create(request):
     if request.method != u'POST':
         return redirect(index)
     else:
+        category_id = None
         repair_content = request.POST.get('content', None)
         repair_type = request.POST.get('category', None)
+        category_person_id = request.POST.get('category_person', None)
+        category_public_id = request.POST.get('category_public', None)
         upload_repair_src = request.FILES.get('upload_repair_img', None)
         repair_time = datetime.datetime.now()
+        if repair_type == u'个人报修':
+            category_id = category_person_id
+        else:
+            category_id = category_public_id
+        item = Repair_item.objects.get(id=category_id)
         if repair_content or repair_type:
             repair = Repair()
             repair.content = repair_content
@@ -104,6 +112,8 @@ def repair_create(request):
             repair.status = 1
             repair.author=request.user.username
             repair.type = repair_type
+            repair.repair_item = item.item
+            repair.price = item.price
             if upload_repair_src:
                 repair.src = upload_repair_src
             repair.save()
@@ -207,14 +217,17 @@ def api_repair_create(request):
         return return_error_response()
     else:
         repair_content = request.POST.get('content', None)
-        repair_type = request.POST.get('category', None)
+        repair_item_id = request.POST.get('repair_item_id', None)
         upload__repair_src = request.FILES.get('upload_repair_img', None)
+        item = Repair_item.objects.get(id=repair_item_id)
         repair_time = datetime.datetime.now()
-        if repair_content or repair_type:
+        if repair_content or repair_item_id:
             repair = Repair(author=request.user.username)
             repair.content = repair_content
             repair.timestamp = repair_time
-            repair.type = repair_type
+            repair.type = item.type
+            repair.price = item.price
+            repair.repair_item = item.item
             if upload__repair_src:
                 repair.src = upload__repair_src
             repair.save()
@@ -279,3 +292,53 @@ def api_own_repair(request):
             repair_list.append(data)
         response_data = {'repair_list': repair_list, 'page_count': page_count}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+
+@transaction.atomic
+@csrf_exempt
+def api_repair_deal(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        repair_array = data .get("repair_id_string", None)
+        deal_person_id = data .get("deal_person_id", None)
+        if repair_array and deal_person_id:
+            list_repair = str(repair_array).split(",")
+            for i in range(len(list_repair)):
+                rep_id = int(list_repair[i])
+                repair =Repair.objects.get(id=rep_id)
+                repair.status = 2
+                user_obj = User.objects.get(id=deal_person_id)
+                if user_obj:
+                    repair.handler = user_obj
+                repair.save()
+            response_data = {'success': True, 'info': u'授权成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False, 'info': u'请选择要处理的报修'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+@transaction.atomic
+@csrf_exempt
+def api_repair_complete(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        repair_array = data .get("repair_id_string", None)
+        if repair_array :
+            list_repair = str(repair_array).split(",")
+            for i in range(len(list_repair)):
+                rep_id = int(list_repair[i])
+                repair =Repair.objects.get(id=rep_id)
+                repair.status = 3
+                repair.save()
+            response_data = {'success': True, 'info': '提交成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
