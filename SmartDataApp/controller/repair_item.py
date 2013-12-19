@@ -22,10 +22,12 @@ def repair_item(request):
     if len(items) > 0:
         return render_to_response('manage_repair_item.html', {
             'items':items,
+            'user': request.user,
             'is_show':True
         })
     else:
          return render_to_response('manage_repair_item.html', {
+             'user': request.user,
             'is_show':False
         })
 
