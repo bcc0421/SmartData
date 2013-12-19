@@ -44,13 +44,17 @@ def delete_community(request):
 def api_get_community(request):
     convert_session_id_to_user(request)
     communities = Community.objects.all()
-    community_list = list()
-    for community_detail in communities:
-                data = {
-                    'id': community_detail.id,
-                    'community_title': community_detail.title,
-                    'community_description':community_detail.description
-                }
-                community_list.append(data)
-    response_data = {'community_list': community_list}
-    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    if communities:
+        community_list = list()
+        for community_detail in communities:
+                    data = {
+                        'id': community_detail.id,
+                        'community_title': community_detail.title,
+                        'community_description':community_detail.description
+                    }
+                    community_list.append(data)
+        response_data = {'community_list': community_list,'success':True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success':False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')

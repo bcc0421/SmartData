@@ -358,9 +358,12 @@ content 和category (必须有一个给值)
                             complain_author: "cainiao"
                             pleased: 0
                         }
-
+                success:true
                 ]
         }
+#### Error
+
+    {'success':false}
 
 ### 12. User repair create(用户需要登录)
 
@@ -451,9 +454,12 @@ content 和 repair_item_id (必须有一个给值)
                             repair_author: "菜菜"
                             pleased: 3
                         }
-
+                success:true
                 ]
         }
+#### Error
+
+    {'success':false}
 
 
 
@@ -641,6 +647,7 @@ content 和 repair_item_id (必须有一个给值)
 #### Success
 
         {
+            success:true
             community_list:
                 [
                      {
@@ -667,6 +674,9 @@ content 和 repair_item_id (必须有一个给值)
                 ]
             }
         }
+#### Error
+
+    {'success':false}
 
 
 ### 24. Express complete(用户需要登录)

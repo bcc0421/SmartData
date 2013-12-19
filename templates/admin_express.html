@@ -162,6 +162,9 @@
                     <thead>
                     <tr role="row">
                         <th>收件人</th>
+                        {% if is_admin %}
+                            <th>允许时间</th>
+                        {% endif %}
                         <th>到达时间</th>
                         <th>取件时间</th>
                         <th>取件方式</th>
@@ -184,7 +187,11 @@
                                 <span>{{ express.author.community.title }}</span>小区，
                                 <span>{{ express.author.floor }}</span>幢，
                                 <span>{{ express.author.gate_card }}</span>房间，户主：
-                                <span>{{ express.author.profile.username}}</span></td>
+                                <span>{{ express.author.profile.username}}</span>
+                            </td>
+                            {% if is_admin %}
+                                <td>{{ express.allowable_get_express_time}}</td>
+                            {% endif %}
                             <td>{{express.arrive_time| date:"Y-m-d H:i:s"  }}</td>
                             <td>{{ express.get_time | date:"Y-m-d H:i:s"  }}</td>
                             <td id="type_{{ express.id }}">{{ express.type }}</td>
@@ -229,11 +236,21 @@
                         </div>
                     {% else %}
                        <div>
-                        <span>领取方式：</span>
-                        <select id="select_express_type">
-                            <option value="自己领取">自己领取</option>
-                            <option value="物业派送">物业派送</option>
-                        </select>
+                            <span>领取方式：</span>
+                            <select id="select_express_type">
+                                <option value="自己领取">自己领取</option>
+                                <option value="物业派送">物业派送</option>
+                            </select>
+
+                           <div style="margin-top: 10px">
+                                <select id="select_express_time">
+                                    <option value="header">领取时间：</option>
+                                    <option value="早上9：00-12:00">早上9：00-12:00</option>
+                                    <option value="下午14：00-18:00">下午14：00-18:00</option>
+                                    <option value="晚上19：00-22:00">晚上19：00-22:00</option>
+                                </select>
+                           </div>
+
                         <div style="margin-top:12px; ">
                             <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="get_my_express" onclick="get_my_express()">
                                <span> 领取</span>
@@ -451,7 +468,8 @@
                                     $('input[type="checkbox"][name="chk"]:checked').each(
                                             function () {
                                                 var id = $(this).attr('id');
-                                                $("#status_" + id + "").html("<span style='color: green' >已签收</span>");
+                                                window.location.reload();
+                                                //$("#status_" + id + "").html("<span style='color: green' >已签收</span>");
                                             }
                                     );
                                 }
@@ -472,12 +490,14 @@
                         }
                 );
                 var get_express_type = $('#select_express_type').val();
-                alert(get_express_type);
+                var get_express_time = $('#select_express_time').val();
+
                 if (checked_array.length > 0) {
                     $.post('/userself/get_express/',
                             {
                                 'selected_express_string': checked_array.toString(),
-                                'get_express_type': get_express_type
+                                'get_express_type': get_express_type,
+                                'get_express_time': get_express_time
                             },
                             function (data) {
                                 if (data.success) {

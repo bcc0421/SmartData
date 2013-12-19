@@ -290,7 +290,10 @@ def api_own_repair(request):
                 'time': str(repair_detail.timestamp)
             }
             repair_list.append(data)
-        response_data = {'repair_list': repair_list, 'page_count': page_count}
+        response_data = {'repair_list': repair_list, 'page_count': page_count,'success': True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
 
 

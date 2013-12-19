@@ -276,7 +276,10 @@ def api_own_complain(request):
                     'time': str(complain_detail.timestamp)
                 }
                 complain_list.append(data)
-        response_data = {'complain_list': complain_list, 'page_count': page_count}
+        response_data = {'complain_list': complain_list, 'page_count': page_count, 'success':True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
 
 

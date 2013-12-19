@@ -131,6 +131,7 @@ def user_self_get_express(request):
     else:
         express_array = request.POST.get("selected_express_string", None)
         express_type = request.POST.get("get_express_type", None)
+        get_express_time = request.POST.get("get_express_time", None)
         if express_array:
             list_express = str(express_array).split(",")
             for i in range(len(list_express)):
@@ -143,6 +144,8 @@ def user_self_get_express(request):
                 express_id = int(list_express[i])
                 express = Express.objects.get(id=express_id)
                 express.type = express_type
+                if get_express_time != u'header':
+                    express.allowable_get_express_time = get_express_time
                 express.save()
             response_data = {'success': True, 'info': '提交成功！', 'express_type':express_type}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
@@ -198,7 +201,7 @@ def api_get_user_express(request):
                     'get_time': str(express_detail.get_time)
                 }
                 express_list.append(data)
-        response_data = {'express_list': express_list, 'page_count': page_count}
+        response_data = {'express_list': express_list, 'page_count': page_count, 'success': True}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
         response_data = {'success': False, 'info': '没有快递！'}
