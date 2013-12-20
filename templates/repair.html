@@ -61,7 +61,7 @@
                                             </div>
                                             <div id="select_person_type"  class="type">
                                                 <span>报修项目</span>：
-                                                <select style="width:130px;" name="category_person" id="select_person">
+                                                <select style="width:180px;" name="category_person" id="select_person">
                                                     {% for item in item_person_list %}
                                                         <option id="{{ item.item_id }}" value="{{ item.item_id }}">{{ item.item_name }}：{{ item.item_price }}</option>
                                                     {% endfor %}
