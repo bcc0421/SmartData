@@ -105,3 +105,12 @@ class Housekeeping(models.Model):
     remarks = models.CharField(max_length=250, null=True)
     def __str__(self):
         return self.content
+
+
+class Housekeeping_items(models.Model):
+    item =  models.CharField(max_length=250, null=True)
+    content = models.CharField(max_length=250, null=True)
+    price = models.IntegerField(default=0, null=True)
+    remarks = models.CharField(max_length=250, null=True)
+    def __str__(self):
+        return self.content
