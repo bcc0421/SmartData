@@ -211,8 +211,12 @@
                                 <td>{{ one_repair.handler.username }}</td>
                             {% endif %}
                             <td>{{ one_repair.pleased }}</td>
-                            {#                            <td>{{ one_repair.handler.profile.username }}</td>#}
-                            <td><input type="checkbox" name="chk" id={{ one_repair.id }}></td>
+                            {% ifequal one_repair.status 1 %}
+                                <td><input type="checkbox" name="chk" id={{ one_repair.id }}></td>
+                            {% else %}
+                                <td>授权</td>
+                            {% endifequal %}
+
                         </tr>
                     {% endfor %}
                     </tbody>
