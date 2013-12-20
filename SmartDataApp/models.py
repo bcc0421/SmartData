@@ -95,3 +95,13 @@ class Repair_item(models.Model):
 
     def __str__(self):
         return self.type
+
+
+class Housekeeping(models.Model):
+    author = models.ForeignKey(ProfileDetail, null=True)
+    item =  models.CharField(max_length=250, null=True)
+    content = models.CharField(max_length=250, null=True)
+    price = models.IntegerField(default=0, null=True)
+    remarks = models.CharField(max_length=250, null=True)
+    def __str__(self):
+        return self.content

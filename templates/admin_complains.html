@@ -209,7 +209,25 @@
                                 <td>{{one_complain.handler.username  }}</td>
                             {% endif %}
                             <td>{{ one_complain.pleased }}</td>
-                            <td><input type="checkbox" name="chk" id={{ one_complain.id }}></td>
+                            {% ifequal one_complain.status 1 %}
+                                <td><input type="checkbox" name="chk" id={{ one_complain.id }}></td>
+                            {% else %}
+                                {% if  is_admin %}
+                                    {% ifequal one_complain.status 2 %}
+                                        <td><input type="checkbox" name="chk" id={{ one_complain.id }}></td>
+                                    {% else %}
+                                        <td><span style="color: green">完成</span></td>
+                                    {% endifequal %}
+                                {% else %}
+                                    <td>
+                                        {% ifequal one_complain.status 2 %}
+                                            <span style="color: deepskyblue">授权</span>
+                                        {% else %}
+                                            <span style="color: green">授权</span>
+                                        {% endifequal %}
+                                    </td>
+                                {% endif %}
+                            {% endifequal %}
                         </tr>
                     {% endfor %}
                     </tbody>
