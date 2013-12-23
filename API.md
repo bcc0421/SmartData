@@ -71,17 +71,17 @@
 #### Success
 	{
         info: "login successful"
-        is_admin: true
+        identity: 'admin',
 	}
 
     {
         info: "login successful"
-        is_worker: true
+        identity: 'worker',
 	}
 
     {
         info: "login successful"
-        is_inhabitant: true
+        identity: 'inhabitant',
 	}
 
 #### Error

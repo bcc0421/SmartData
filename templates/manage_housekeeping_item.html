@@ -1,5 +1,5 @@
 {% extends "basecloud.html" %}
-{% block title %}快递管理{% endblock %}
+{% block title %}家政管理{% endblock %}
 {% block css %}
     <style>
         .help-inline {
@@ -90,16 +90,17 @@
             <!-- 中部 start -->
             <div style="width: 822px;overflow: auto;float:left">
                 <div class="vessel vessel_s1" style="margin-bottom: 10px">
-                    <div class="vessel_titBox"><span class="tit">报修项目管理</span></div>
+                    <div class="vessel_titBox"><span class="tit">家政服务管理</span></div>
                 </div>
                 {% if is_show %}
                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable"
                            id="repair_item_table" aria-describedby="example_info">
                         <thead>
                         <tr role="row">
-                            <th>维修类型</th>
-                            <th>维修项目</th>
-                            <th>维修价格（元/次）</th>
+                            <th>项目</th>
+                            <th>内容</th>
+                            <th>费用描述</th>
+                            <th>备注</th>
                             <th><input type="checkbox" name="checkbox"></th>
                         </tr>
                         </thead>
@@ -109,10 +110,11 @@
 
                             <tr class="except_one">
                                 <td>
-                                    <span>{{ item.type }}</span>
+                                    <span>{{ item.item }}</span>
                                 </td>
-                                <td>{{ item.item }}</td>
-                                <td>{{ item.price  }}</td>
+                                <td>{{ item.content }}</td>
+                                <td>{{ item.price_description}}</td>
+                                <td>{{ item.remarks}}</td>
                                 <td><input type="checkbox" name="chk" id={{ item.id }}></td>
                             </tr>
                         {% endfor %}
@@ -135,16 +137,16 @@
             <!-- 右侧 start -->
             <div class="el_w_237 fn_right" style="width:172px">
                 <div style="margin-top:0px;">
-                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" data-target="#add_repair_item">
+                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" data-target="#add_housekeeping_item">
                         增加
                     </button>
                 </div>
                  <div style="margin-top:5px;">
-                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="delete_repair_item()">
+                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="delete_housekeeping_item()">
                         删除
                     </button>
                 </div>
-                <div class="modal fade" id="add_repair_item" tabindex="-1"
+                <div class="modal fade" id="add_housekeeping_item" tabindex="-1"
                      role="dialog" aria-labelledby="myModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">
@@ -156,17 +158,20 @@
                                     增加项目记录</h4>
                             </div>
                             <div class="modal-body">
-                                <div id="repair_select_div" style="margin-left:-2px ">
-                                    <span>选择类别：</span>
-                                    <select id="repair_item_select">
-                                        <option value="个人报修">个人报修</option>
-                                        <option value="公共报修">公共报修</option>
-                                    </select>
+
+                                <div style="margin-top:10px "><span>项目</span>：<input type="text" name="input_item"></div>
+                                <div style="margin-top:10px "><span>费用</span>：<input type="text" name="input_price"></div>
+                                <div style="margin-top: 10px">
+                                    <span class="txt txt_1">内容：</span>
+                                    <textarea name="content"  style=" margin:10px 0 10px 0;width: 500px;"></textarea>
                                 </div>
-                                <div style="margin-top:10px "><span>输入项目</span>：<input type="text" name="input_item"></div>
-                                <div style="margin-top:10px "><span>输入价格</span>：<input type="text" name="input_price">&nbsp;元</div>
+                                 <div>
+                                    <span class="txt txt_1">备注：</span>
+                                    <textarea name="remarks"  style=" margin:10px 0 20px 0;width: 500px;"></textarea>
+
+                                </div>
                                 <div style="margin-top:10px " >
-                                    <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="add_repair_item()">
+                                    <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="add_housekeeping_item()">
                                         <span>增加</span>
                                     </button>
                                 </div>
@@ -189,17 +194,19 @@
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
-        function add_repair_item()
+        function add_housekeeping_item()
             {
-                var item_type=$("#repair_item_select").val();
-                var item_name=$('input[name="input_item"]').val();
-                var repair_item_price=$('input[name="input_price"]').val();
-               if(item_type && item_name && repair_item_price ){
-                    $.post('/add/repair_item/',
+                var housekeeping_item_name=$('input[name="input_item"]').val();
+                var housekeeping_price_description=$('input[name="input_price"]').val();
+                var housekeeping_content=$('textarea[name="content"]').val();
+                var housekeeping_remarks=$('textarea[name="remarks"]').val();
+               if(housekeeping_price_description && housekeeping_item_name && housekeeping_content && housekeeping_remarks ){
+                    $.post('/add/housekeeping_item/',
                             {
-                                'item_type': item_type,
-                                'item_name': item_name,
-                                'repair_item_price': repair_item_price
+                                'housekeeping_price_description': housekeeping_price_description,
+                                'housekeeping_item_name': housekeeping_item_name,
+                                'housekeeping_content': housekeeping_content,
+                                'housekeeping_remarks': housekeeping_remarks
                             },
                             function(data){
                                  if(data.success){
@@ -219,7 +226,7 @@
 
             }
 
-        function delete_repair_item(){
+        function delete_housekeeping_item(){
                 var checked_array = new Array();
                 $('input[type="checkbox"][name="chk"]:checked').each(
                         function () {
@@ -228,115 +235,20 @@
                         }
                 );
                 if (checked_array.length > 0) {
-                    $.post('/delete/repair_item/',
+                    $.post('/delete/housekeeping_item/',
                             {
                                 'selected_item_string': checked_array.toString()
                             },
                             function (data) {
                                   if(data.success){
                                         alert(data.info);
-                                        window.location.href = "/manage/repair/item/";
+                                        window.location.href = "/manage/housekeeping/item/";
                                   }
                             }
                     )
                 } else {
                     alert("请选择处理数据");
                 }
-        }
-
-        function user_get_express(){
-                var checked_array = new Array();
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-                        }
-                );
-                if (checked_array.length > 0) {
-                    $.post('/user/get_express/',
-                            {
-                                'selected_express_string': checked_array.toString()
-                            },
-                            function (data) {
-                                if (data.success) {
-                                    $('input[type="checkbox"][name="chk"]:checked').each(
-                                            function () {
-                                                var id = $(this).attr('id');
-                                                $("#status_" + id + "").html("<span style='color: green' >已签收</span>");
-                                            }
-                                    );
-                                }
-                            }
-                    )
-                } else {
-                    alert("请选择处理数据");
-                }
-
-        }
-
-         function get_my_express(){
-                var checked_array = new Array();
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-                        }
-                );
-                var get_express_type = $('#select_express_type').val();
-                if (checked_array.length > 0) {
-                    $.post('/userself/get_express/',
-                            {
-                                'selected_express_string': checked_array.toString(),
-                                'get_express_type': get_express_type
-                            },
-                            function (data) {
-                                if (data.success) {
-                                    alert(data.info);
-                                    $('input[type="checkbox"][name="chk"]:checked').each(
-                                            function () {
-                                                var id = $(this).attr('id');
-                                                $("#type_" + id + "").html("<span style='color: green' >"+data.express_type+"</span>");
-                                            }
-                                    );
-                                }
-                                else{
-                                    alert(data.info);
-                                }
-                            }
-                    )
-                } else {
-                    alert("请选择处理数据");
-                }
-         }
-
-        function submit_express_data(obj){
-            var response_content=$("#textarea").val();
-            var selected_radio=$('input[type="radio"]:checked').val();
-            var checked_array = new Array();
-            $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-                        }
-                );
-            if(selected_radio && checked_array.length > 0){
-                $.post('/express/response/',
-                        {
-                            'selected_express_string': checked_array.toString(),
-                            response_content:response_content,
-                            selected_radio:selected_radio
-                        },
-                        function(data){
-                            if(data.success){
-                                 alert(data.info);
-                                window.location.href = "/express/";
-                            }
-                        }
-                )
-            }else{
-                alert("请选择评价快件和满意度");
-            }
-
         }
 
         $(document).ready(function () {

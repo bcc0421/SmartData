@@ -67,7 +67,7 @@
                                 <span class=" untreated fn_right" style="color: green">处理完成</span>
                             {% endifequal %}
                             <span class="black_color">[服务态度]</span>
-                            <span class="publish_time">{{ complain.timestamp }} </span>
+                            <span class="publish_time">{{ complain.timestamp | date:"Y-m-d H:i:s"}} </span>
                             {% ifequal complain.status 3 %}
                                 <button class="btn"  data-toggle="modal"
                                        data-target="#response_{{complain.id  }}">满意反馈</button>

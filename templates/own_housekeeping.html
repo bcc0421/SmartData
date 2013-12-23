@@ -1,7 +1,7 @@
 {% extends "proprietor_base.html" %}
-{% block title %}我的报修{% endblock %}
+{% block title %}我的家政{% endblock %}
 {% block css %}
-        <style>
+    <style>
        .modal-body ul li{
            float: left;
            padding-left: 43px;
@@ -11,10 +11,6 @@
             margin-left: 144px;
         }
         .rate-standard span {
-
-
-
-
             padding-left: 25px;
         }
         .pleased{
@@ -32,15 +28,15 @@
 {% endblock %}
 {% block container %}
     <div class="umMid el_w_495 fn_left">
-	<div class="umConBox">
-		<div class="umConBox_titBox">
-			<span class="title">报修</span>
-		</div>
-		<div class="umConBox_conBox">
-		</div>
-	</div>
+        <div class="umConBox">
+            <div class="umConBox_titBox">
+                <span class="title">家政</span>
+            </div>
+            <div class="umConBox_conBox">
+            </div>
+        </div>
 	<!-- 投诉/保修 end -->
-	<form action="/repair/index" method="get">
+	<form action="/complain/index" method="get">
 		<!-- 投诉/保修 start -->
 		<!-- umFormBox start -->
 		<div class="umFormBox_s1 umFormBox">
@@ -58,33 +54,33 @@
         <div class="umDataLstBox">
 
                  <div class="umDataBox_s1 umDataBox_nbd umDataBox">
-                     {% for repair in repairs %}
+                     {% for housekeeping in housekeeping_list %}
                     <div class="records_details">
                         <div class="proces_state clearfix">
-                            {% ifequal repair.status 1 %}
+                            {% ifequal housekeeping.status 1 %}
                                  <span class="status_LEDs untreated fn_right"></span>
                             {% endifequal %}
-                            {% ifequal repair.status 2 %}
+                            {% ifequal housekeeping.status 2 %}
                                  <span class=" untreated fn_right" style="color: deepskyblue">处理中...</span>
                             {% endifequal %}
-                            {% ifequal repair.status 3 %}
+                            {% ifequal housekeeping.status 3 %}
                                 <span class=" untreated fn_right" style="color: green">处理完成</span>
                             {% endifequal %}
-                            <span class="black_color">[服务态度]</span>
-                            <span class="publish_time">{{ repair.timestamp | date:"Y-m-d H:i:s"}} </span>
-                            {% ifequal repair.status 3 %}
+                            <span class="black_color">[服务内容]</span>
+                            <span class="publish_time">{{ housekeeping.time | date:"Y-m-d H:i:s"}} </span>
+                            {% ifequal housekeeping.status 3 %}
                                 <button class="btn"  data-toggle="modal"
-                                       data-target="#response_{{repair.id  }}">满意反馈</button>
+                                       data-target="#response_{{housekeeping.id  }}">满意反馈</button>
                             {% endifequal %}
-                               <div class="modal fade" id="response_{{repair.id  }}" tabindex="-1"
-                                     role="dialog" aria-labelledby="myModalLabel_{{ repair.id }}"
+                                <div class="modal fade" id="response_{{housekeeping.id  }}" tabindex="-1"
+                                     role="dialog" aria-labelledby="myModalLabel_{{ housekeeping.id }}"
                                      aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content" >
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal"
                                                         aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel_{{ repair.id }}">
+                                                <h4 class="modal-title" id="myModalLabel_{{ housekeeping.id }}">
                                                     服务满意度反馈</h4>
                                             </div>
                                             <div class="modal-body">
@@ -98,13 +94,14 @@
                                                             <span>满意</span>
                                                             <span>惊喜</span>
                                                         </div>
+
                                                     </span>
                                                     <div class="pleased">
                                                         <span class="sr-title sr-big-title">
                                                             <span class="text">服务态度：</span>
                                                         </span>
                                                     </div>
-                                                    <div class="sr-shop-rating " id="radio_{{ repair.id }}">
+                                                    <div class="sr-shop-rating " id="radio_{{ housekeeping.id }}">
                                                         <ul class="sr-rating-level">
                                                             <li><input value="1" name="radiobutton" type="radio"></li>
                                                             <li><input value="2" name="radiobutton"  type="radio"></li>
@@ -114,11 +111,11 @@
                                                         </ul>
                                                     </div>
                                                     <div style="margin-top: 50px">
-                                                        <textarea id="textarea_{{ repair.id }}" style="line-height: normal;width:550px;height: 100px" placeholder="你可以对此次服务做出综合性的评论...."></textarea>
+                                                        <textarea id="textarea_{{ housekeeping.id }}" style="line-height: normal;width:550px;height: 100px" placeholder="你可以对此次服务做出综合性的评论...."></textarea>
                                                                     <button style="width: 90px;border-radius: 0px 0px 0px 0px;margin-left: 35px;margin-top:32px;"
                                                                     class="btn"
                                                                     onclick="submit_response_data(this)"
-                                                                     name="{{ repair.id }}">提交</button>
+                                                                     name="{{ housekeeping.id }}">提交</button>
                                                     </div>
                                             </div>
                                             <div class="modal-footer">
@@ -129,10 +126,9 @@
                                         </div>
                                     </div>
                                 </div>
-
                         </div>
                         <div class="comment">
-                            <p class="comment_txt">{{ repair.content }}</p>
+                            <p class="comment_txt">{{ housekeeping.housekeeping_item.item }}&nbsp;&nbsp;{{ housekeeping.housekeeping_item.content }}&nbsp;&nbsp;{{housekeeping.housekeeping_item.price_description }}</p>
                             <div class="comment_img clearfix"></div>
                         </div>
                     </div>
@@ -144,14 +140,14 @@
                             <!-- 分页 start -->
                 <div class="paginator" >
                         <span class="step-links">
-                            {% if repairs.has_previous %}
-                                <a href="?page={{ repairs.previous_page_number }}">《上一页》</a> &nbsp;
+                            {% if complains.has_previous %}
+                                <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
                             {% endif %}
                             <span class="current">
-                                 当前页： {{ repairs.number }}/{{ repairs.paginator.num_pages }}.
+                                 当前页： {{ complains.number }}/{{ complains.paginator.num_pages }}.
                             </span> &nbsp;
-                            {% if repairs.has_next %}
-                                <a href="?page={{ repairs.next_page_number }}">《下一页》</a>
+                            {% if complains.has_next %}
+                                <a href="?page={{ complains.next_page_number }}">《下一页》</a>
                             {% endif %}
                         </span>
                     </div>
@@ -182,16 +178,16 @@
             var response_content=$("#textarea_" + get_id).val();
             var selected_radio=$('#radio_' + get_id + ' input[type="radio"]:checked').val();
             if(selected_radio){
-                $.post('/repair/response/',
+                $.post('/housekeeping/response/',
                         {
-                            repair_id:get_id,
+                            housekeeping_id:get_id,
                             response_content:response_content,
                             selected_radio:selected_radio
                         },
                         function(data){
                             if(data.success){
                                  alert(data.info);
-                                window.location.href = "/own_repair/";
+                                window.location.href = "/own/housekeeping/";
                             }
                         }
                 )

@@ -216,13 +216,13 @@ def api_user_login(request):
             auth_login(request, user)
             profile = ProfileDetail.objects.get(profile=user)
             if user.is_staff:
-                response_data = {'is_admin': True,'info': 'login successful'}
+                response_data = {'identity': 'admin', 'info': 'login successful'}
                 return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
             elif profile.is_admin:
-                response_data = {'is_worker': True ,'info': 'login successful'}
+                response_data = {'identity': 'worker','info': 'login successful'}
                 return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
             else:
-                response_data = {'is_inhabitant': True,'info': 'login successful'}
+                response_data = {'identity': 'resident','info': 'login successful'}
                 return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
         else:
             return HttpResponse(simplejson.dumps({'info': 'login failed'}), content_type='application/json')

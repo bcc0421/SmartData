@@ -9,6 +9,7 @@ from SmartDataApp.controller.community import *
 from SmartDataApp.controller.user_profile import *
 from SmartDataApp.controller.express import *
 from SmartDataApp.controller.repair_item import *
+from SmartDataApp.controller.housekeeping import *
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -84,6 +85,15 @@ urlpatterns = patterns('',
                        url(r'^api/get/repair/item/$',api_get_repair_item),
                        url(r'^api/add/repair/item/record/$',api_add_repair_item_record),
                        url(r'^api/repair/item/delete/$',api_repair_item_delete),
+                       url(r'^housekeeping/$',housekeeping),
+                       url(r'^manage/housekeeping/item/$',manage_housekeeping_item),
+                       url(r'^add/housekeeping_item/$',add_housekeeping_item),
+                       url(r'^submit/housekeeping/$',submit_housekeeping),
+                       url(r'^delete/housekeeping_item/$',delete_housekeeping_item),
+                       url(r'^deal/housekeeping/$',deal_housekeeping),
+                       url(r'^complete/housekeeping/$',housekeeping_complete),
+                       url(r'^own/housekeeping/$',own_housekeeping),
+                       url(r'^housekeeping/response/$',housekeeping_response),
 
 
 

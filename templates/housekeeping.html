@@ -1,0 +1,178 @@
+{% extends "basecloud.html" %}
+{% block title %}家政服务{% endblock %}
+{% block css %}
+    <style>
+        .help-inline {
+            display: block;
+            margin-left: 70px;
+            padding-top: 10px;
+        }
+
+        .error {
+            color: #f00;
+        }
+
+        input.error {
+            border-color: #f00;
+        }
+
+        .complain1, span, button {
+            font-size: 15px;
+
+        }
+
+        tr:first-child {
+            background-color: #A674B0;
+        }
+
+        tr:hover {
+            background-color: #A674B0;
+        }
+
+        .prev {
+            margin-left: 200px !important;
+        }
+
+        .next {
+            margin-left: 20px !important;
+        }
+
+        .dataTables_wrapper {
+            padding-left: 0px !important;
+        }
+
+        .dataTables_paginate {
+            float: right;
+            margin-top: -20px;
+        }
+
+        .dataTables_paginate li {
+            float: left
+        }
+
+        .dataTables_filter {
+            float: right;
+            margin-top: -25px
+        }
+
+        .container {
+            width: 1260px !important;
+        }
+
+    </style>
+
+{% endblock %}
+{% block right_container %}
+            <!-- 中部 start -->
+
+            <div style="width: 822px;overflow: auto;float:left">
+                <div class="vessel vessel_s1" style="margin-bottom: 10px">
+                    <div class="vessel_titBox"><span class="tit">家政服务</span></div>
+                </div>
+                {% if is_show %}
+                    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable"
+                           id="repair_item_table" aria-describedby="example_info">
+                        <thead>
+                        <tr role="row">
+                            <th>项目</th>
+                            <th>内容</th>
+                            <th>费用描述</th>
+                            <th>备注</th>
+                            <th><input type="checkbox" name="checkbox"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for item in housekeeping_items    %}
+
+                            <tr class="except_one">
+                                <td>
+                                    <span>{{ item.item }}</span>
+                                </td>
+                                <td>{{ item.content }}</td>
+                                <td>{{ item.price_description}}</td>
+                                <td>{{ item.remarks}}</td>
+                                <td><input type="checkbox" name="chk" id={{ item.id }}></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="umDataLstBox">
+                            <div class="umDataBox_s1 umDataBox">
+                                    <div class="umDataBox_receiptBox">
+                                        <p class="title">暂无相关记录</p>
+                                    </div>
+                            </div>
+                            <!-- 分页 start -->
+                            <div class="pagesBox"></div>
+                    </div>
+                    <!-- 分页 end -->
+                {% endif %}
+
+            </div>
+            <!-- 中部 end -->
+            <!-- 右侧 start -->
+            <div class="el_w_237 fn_right" style="width:172px">
+
+                    <div style="margin-top:0px;">
+                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="submit_housekeeping">
+                           提交
+                        </button>
+                    </div>
+            </div>
+            <!-- 右侧 end -->
+            <div class="el_blank_h10 fn_clear"></div>
+        </div>
+    <!-- page -->
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        $(function () {
+            $('#submit_housekeeping').click(function () {
+                var checked_array = new Array();
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                        function () {
+                            var id = $(this).attr('id');
+                            checked_array.push(id);
+                        }
+                );
+                if (checked_array.length > 0) {
+                    $.post('/submit/housekeeping/',
+                            {
+                                'housekeeping_item_string': checked_array.toString()
+                            },
+                            function (data) {
+                                if (data.success) {
+                                    alert(data.info);
+                                }
+                            }
+                    )
+                } else {
+                    alert("请选择处理数据");
+                }
+            });
+
+
+        });
+
+        $(document).ready(function () {
+            $('#example').dataTable({
+                "oLanguage": {
+                    "sLengthMenu": "显示 _MENU_每页显示记录",
+                    "sZeroRecords": "对不起没有你要找的记录",
+                    "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
+                    "sInfoEmpty": "显示 0 到 0 总共 0 记录",
+                    "sInfoFiltered": "(从 _MAX_条记录中查找)",
+                    "sSearch": "搜索:"
+                }
+            });
+        });
+
+
+    </script>
+
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/DT_bootstrap.js"></script>
+{% endblock %}
