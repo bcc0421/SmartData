@@ -81,7 +81,7 @@
 
     {
         info: "login successful"
-        identity: 'inhabitant',
+        identity: 'resident',
 	}
 
 #### Error
