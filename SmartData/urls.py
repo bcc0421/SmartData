@@ -94,6 +94,9 @@ urlpatterns = patterns('',
                        url(r'^complete/housekeeping/$',housekeeping_complete),
                        url(r'^own/housekeeping/$',own_housekeeping),
                        url(r'^housekeeping/response/$',housekeeping_response),
+                       url(r'^api/get/worker/list/$',api_get_worker_list),
+                       url(r'^modify/housekeeping_item/$',modify_housekeeping_item),
+                       url(r'^modify/repair_item/$',modify_repair_item),
 
 
 

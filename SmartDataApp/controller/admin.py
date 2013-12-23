@@ -349,4 +349,20 @@ def api_user_logout(request):
     return HttpResponse(simplejson.dumps({'info': u'成功登出'}), content_type='application/json')
 
 
-
+@csrf_exempt
+def api_get_worker_list(request):
+    convert_session_id_to_user(request)
+    deal_person_list = ProfileDetail.objects.filter(is_admin=True)
+    if deal_person_list:
+        worker_list = list()
+        for profile_detail in deal_person_list:
+            data = {
+                'id': profile_detail.profile.id,
+                'username': profile_detail.profile.username,
+                'phone_number': profile_detail.phone_number,
+            }
+            worker_list.append(data)
+        response_data = {'worker_list': worker_list,'success': True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        return HttpResponse(simplejson.dumps({'success': False}), content_type='application/json')

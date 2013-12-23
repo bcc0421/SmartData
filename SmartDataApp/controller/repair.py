@@ -217,19 +217,22 @@ def api_repair_create(request):
         return return_error_response()
     else:
         repair_content = request.POST.get('content', None)
-        repair_item_id = request.POST.get('repair_item_id', None)
-        upload__repair_src = request.FILES.get('upload_repair_img', None)
-        item = Repair_item.objects.get(id=repair_item_id)
+        repair_type = request.POST.get('category', None)
+        category_item_id = request.POST.get('category_item_id', None)
+        upload_repair_src = request.FILES.get('upload_repair_img', None)
         repair_time = datetime.datetime.now()
-        if repair_content or repair_item_id:
-            repair = Repair(author=request.user.username)
+        item = Repair_item.objects.get(id=category_item_id)
+        if repair_type:
+            repair = Repair()
             repair.content = repair_content
             repair.timestamp = repair_time
-            repair.type = item.type
-            repair.price = item.price
+            repair.status = 1
+            repair.author = request.user.username
+            repair.type = repair_type
             repair.repair_item = item.item
-            if upload__repair_src:
-                repair.src = upload__repair_src
+            repair.price = item.price
+            if upload_repair_src:
+                repair.src = upload_repair_src
             repair.save()
             return HttpResponse(simplejson.dumps({'error': False, 'info': u'报修创建成功'}), content_type='application/json')
         else:

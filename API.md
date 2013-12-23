@@ -371,11 +371,12 @@ content 和category (必须有一个给值)
 
 #### Method : POST
 Content-Type: multipart/form-data;
-content 和 repair_item_id (必须有一个给值)
+category 和 category_item_id 必填
 
     {
         'content': '投诉内容',
-        'repair_item_id': '报修项目id号',
+        'category': '报修项目类型',（个人报修，公共报修） 二选一
+        'category_item_id': '报修项目id号',
         'upload_repair_img':'filename'
     }
 
@@ -770,3 +771,36 @@ content 和 repair_item_id (必须有一个给值)
 #### Error
 
         {'success': False, 'info': '删除失败！'}
+
+
+### 28. Get worker list(用户需要登录)
+
+#### URL : /api/get/worker/list/
+
+#### Method : GET
+
+#### Success
+
+         {
+            worker_list:
+                [
+
+                        {
+                           username: "worker"
+                           phone_number: "15862396507"
+                           id: 4
+                        }
+
+                        {
+                            username: "worker1"
+                            phone_number: "15862396507"
+                            id: 5
+                        }
+
+                ]
+             success: true
+        }
+
+#### Error
+
+        {'success': False}

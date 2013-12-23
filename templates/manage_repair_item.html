@@ -1,5 +1,5 @@
 {% extends "basecloud.html" %}
-{% block title %}快递管理{% endblock %}
+{% block title %}报修项目管理{% endblock %}
 {% block css %}
     <style>
         .help-inline {
@@ -100,7 +100,8 @@
                             <th>维修类型</th>
                             <th>维修项目</th>
                             <th>维修价格（元/次）</th>
-                            <th><input type="checkbox" name="checkbox"></th>
+                            <th>修改</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -113,6 +114,11 @@
                                 </td>
                                 <td>{{ item.item }}</td>
                                 <td>{{ item.price  }}</td>
+                                <td>
+                                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="modify_item({{ item.id }})">
+                                       修改
+                                    </button>
+                                </td>
                                 <td><input type="checkbox" name="chk" id={{ item.id }}></td>
                             </tr>
                         {% endfor %}
@@ -135,7 +141,7 @@
             <!-- 右侧 start -->
             <div class="el_w_237 fn_right" style="width:172px">
                 <div style="margin-top:0px;">
-                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" data-target="#add_repair_item">
+                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;"onclick="add()">
                         增加
                     </button>
                 </div>
@@ -153,7 +159,7 @@
                                 <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 <h4 class="modal-title" id="myModalLabel">
-                                    增加项目记录</h4>
+                                    项目记录管理</h4>
                             </div>
                             <div class="modal-body">
                                 <div id="repair_select_div" style="margin-left:-2px ">
@@ -166,7 +172,10 @@
                                 <div style="margin-top:10px "><span>输入项目</span>：<input type="text" name="input_item"></div>
                                 <div style="margin-top:10px "><span>输入价格</span>：<input type="text" name="input_price">&nbsp;元</div>
                                 <div style="margin-top:10px " >
-                                    <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="add_repair_item()">
+                                    <button class="btn btn-primary modify"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="modify_repair_item(this)">
+                                        <span>修改</span>
+                                    </button>
+                                    <button class="btn btn-primary add_item"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="add_repair_item()">
                                         <span>增加</span>
                                     </button>
                                 </div>
@@ -218,6 +227,49 @@
                 }
 
             }
+        function add(){
+           $('.add_item').show();
+            $('.modify').hide();
+           $('#add_repair_item').modal('show');
+        }
+        function modify_item(id){
+             $('.add_item').hide();
+            $('.modify').show();
+            $('.modify').attr('name',id);
+            $('#add_repair_item').modal('show');
+        }
+
+        function modify_repair_item(obj){
+            var modify_item_id= $('.modify').attr('name');
+            var item_type=$("#repair_item_select").val();
+            var item_name=$('input[name="input_item"]').val();
+            var repair_item_price=$('input[name="input_price"]').val();
+               if(item_type || item_name || repair_item_price ){
+                    $.post('/modify/repair_item/',
+                            {
+                                'modify_item_id':modify_item_id,
+                                'item_type': item_type,
+                                'item_name': item_name,
+                                'repair_item_price': repair_item_price
+                            },
+                            function(data){
+                                 if(data.success){
+                                  $("#add_result").html("<span>修改成功</span>");
+                                   $("#add_result").show();
+                                }else{
+                                   $("#add_result").html("<span>没有修改数据</span><span class='glyphicon glyphicon-minus-sign'></span>");
+                                   $("#add_result").show();
+                                 }
+
+                            }
+                    )
+
+                }else{
+                    alert("请填入修改信息");
+                }
+
+        }
+
 
         function delete_repair_item(){
                 var checked_array = new Array();

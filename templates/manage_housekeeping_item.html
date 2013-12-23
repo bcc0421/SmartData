@@ -101,7 +101,8 @@
                             <th>内容</th>
                             <th>费用描述</th>
                             <th>备注</th>
-                            <th><input type="checkbox" name="checkbox"></th>
+                            <th>修改</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -115,6 +116,11 @@
                                 <td>{{ item.content }}</td>
                                 <td>{{ item.price_description}}</td>
                                 <td>{{ item.remarks}}</td>
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" onclick="modify({{ item.id }})">
+                                        修改
+                                    </button>
+                                </td>
                                 <td><input type="checkbox" name="chk" id={{ item.id }}></td>
                             </tr>
                         {% endfor %}
@@ -137,7 +143,7 @@
             <!-- 右侧 start -->
             <div class="el_w_237 fn_right" style="width:172px">
                 <div style="margin-top:0px;">
-                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" data-target="#add_housekeeping_item">
+                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" onclick="add_item()">
                         增加
                     </button>
                 </div>
@@ -153,9 +159,9 @@
                         <div class="modal-content" >
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal"
-                                        aria-hidden="true">&times;</button>
+                                        aria-hidden="true"></button>
                                 <h4 class="modal-title" id="myModalLabel">
-                                    增加项目记录</h4>
+                                    项目记录管理</h4>
                             </div>
                             <div class="modal-body">
 
@@ -171,17 +177,21 @@
 
                                 </div>
                                 <div style="margin-top:10px " >
-                                    <button class="btn btn-primary"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="add_housekeeping_item()">
+                                    <button class="btn btn-primary modify"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="modify_housekeeping_item(this)">
+                                        <span>修改</span>
+                                    </button>
+                                    <button class="btn btn-primary add_item"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="add_housekeeping_item()">
                                         <span>增加</span>
                                     </button>
+
                                 </div>
                                 <div id="add_result" class="alert alert-warning" style="margin-top:50px ;display: none">
 
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    Close
+                                <button type="button" class="btn btn-default"  onclick="refresh()">
+                                    关闭
                                 </button>
                             </div>
                         </div>
@@ -216,7 +226,6 @@
                                    $("#add_result").html("<span>添加失败</span><span class='glyphicon glyphicon-minus-sign'></span>");
                                    $("#add_result").show();
                                  }
-
                             }
                     )
 
@@ -249,6 +258,55 @@
                 } else {
                     alert("请选择处理数据");
                 }
+        }
+        function refresh(){
+             window.location.reload();
+        }
+        function add_item(){
+            $('.add_item').show();
+            $('.modify').hide();
+             $('#add_housekeeping_item').modal('show');
+        }
+
+        function modify(id){
+            $('.add_item').hide();
+            $('.modify').show();
+            $('.modify').attr('name',id);
+            $('#add_housekeeping_item').modal('show');
+
+        }
+
+        function modify_housekeeping_item(obj){
+            var modify_item_id= $('.modify').attr('name');
+            var housekeeping_item_name=$('input[name="input_item"]').val();
+            var housekeeping_price_description=$('input[name="input_price"]').val();
+            var housekeeping_content=$('textarea[name="content"]').val();
+            var housekeeping_remarks=$('textarea[name="remarks"]').val();
+               if(housekeeping_price_description || housekeeping_item_name || housekeeping_content || housekeeping_remarks ){
+                    $.post('/modify/housekeeping_item/',
+                            {
+                                'modify_item_id':modify_item_id,
+                                'modify_price_description': housekeeping_price_description,
+                                'modify_item_name': housekeeping_item_name,
+                                'modify_content': housekeeping_content,
+                                'modify_remarks': housekeeping_remarks
+                            },
+                            function(data){
+                                 if(data.success){
+                                  $("#add_result").html("<span>修改成功</span>");
+                                   $("#add_result").show();
+                                }else{
+                                   $("#add_result").html("<span>没有修改数据</span><span class='glyphicon glyphicon-minus-sign'></span>");
+                                   $("#add_result").show();
+                                 }
+                            }
+                    )
+
+                }else{
+                    alert("请填入修改信息");
+                }
+
+
         }
 
         $(document).ready(function () {

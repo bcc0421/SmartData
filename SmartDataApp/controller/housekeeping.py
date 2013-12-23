@@ -235,3 +235,34 @@ def housekeeping_response(request):
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
             return render_to_response('own_housekeeping.html',{ 'show': True ,'user':request.user,'profile':profile })
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def modify_housekeeping_item(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        modify_item_id = request.POST.get('modify_item_id', None)
+        housekeeping_price_description = request.POST.get('modify_price_description', None)
+        housekeeping_item_name = request.POST.get('modify_item_name', None)
+        housekeeping_content = request.POST.get('modify_content', None)
+        housekeeping_remarks = request.POST.get('modify_remarks', None)
+        item = Housekeeping_items.objects.get(id=modify_item_id)
+        if housekeeping_price_description or housekeeping_item_name or housekeeping_content or housekeeping_remarks:
+            if housekeeping_price_description:
+                item.price_description = housekeeping_price_description
+            if housekeeping_item_name:
+                item.item = housekeeping_item_name
+            if housekeeping_content:
+                item.content = housekeeping_content
+            if housekeeping_remarks:
+                item.remarks = housekeeping_remarks
+            item.save()
+            response_data = {'success': True}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+

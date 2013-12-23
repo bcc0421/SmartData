@@ -74,6 +74,34 @@ def delete_repair_item(request):
 
 
 
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def modify_repair_item(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        modify_item_id = request.POST.get('modify_item_id', None)
+        item_type = request.POST.get('item_type', None)
+        item_name = request.POST.get('item_name', None)
+        repair_item_price = request.POST.get('repair_item_price', None)
+        item = Repair_item.objects.get(id=modify_item_id)
+        if item_type or item_name or repair_item_price:
+            if repair_item_price:
+                item.price = repair_item_price
+            if item_name:
+                item.item = item_name
+            if item_type:
+                item.type = item_type
+            item.save()
+            response_data = {'success': True}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
 @transaction.atomic
 @csrf_exempt
 def api_get_repair_item(request):
