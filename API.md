@@ -773,7 +773,52 @@ category 和 category_item_id 必填
         {'success': False, 'info': '删除失败！'}
 
 
-### 28. Get worker list(用户需要登录)
+
+### 28. Get all repair list(用户需要登录)
+
+#### URL :/api/show/all_repair/
+
+#### Method : GET
+
+#### Success
+        {
+           repair_list:
+                [
+
+                        {
+                            content: "阿萨德"
+                            src: ""
+                            handler: "None"
+                            deal_status: 1
+                            time: "2013-12-25 05:37:57.746000+00:00"
+                            type: "个人报修"
+                            id: 41
+                            repair_author: "sfi123"
+                            pleased: 0
+                        }
+
+                        {
+                            content: "dfasd"
+                            src: "uploads/2013/12/25/a044ad345982b2b7a1f9f0cd33adcbef76099b51.jpg"
+                            handler: "worker1"
+                            deal_status: 2
+                            time: "2013-12-25 01:49:10.760000+00:00"
+                            type: "个人报修"
+                            id: 38
+                            repair_author: "user3"
+                            pleased: 0
+                        }
+
+                ]
+             success: true
+        }
+
+
+#### Error
+
+        {'success': False}
+
+### 29. Get worker list(用户需要登录)
 
 #### URL : /api/get/worker/list/
 
@@ -800,6 +845,7 @@ category 和 category_item_id 必填
                 ]
              success: true
         }
+
 
 #### Error
 
