@@ -137,18 +137,23 @@
 <div class="mainNav">
     <div class="mainNav_box el_container">
         <span class="nowPos">亨通物业管理平台</span>
-
-        <!-- address start -->
-        {#                <span class="addressBox">#}
-        {#                    <span class="el_selectBox">#}
-        {#                        <span class="el_selectBox_valBox el_selectBox_valBox_bg">#}
-        {#                            <input type="text" class="el_selectBox_val" value="切换小区" disabled="disabled">#}
-        {#                            <i class="el_selectBox_icon"></i>#}
-        {#                        </span>#}
-        {#                    </span>#}
-        {#                </span>#}
-        <!-- address end -->
-
+        <div class="btn-group" style="margin-left:10px">
+          <button type="button" id='change_name' class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown">
+              {% if change_community == 1 %}
+                    {{ community.title }}
+              {% elif change_community == 2%}
+                     {{ profile.community.title }}
+              {% else %}
+                      切换小区
+              {% endif %}
+              <span class="caret"></span>
+          </button>
+            <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel"     >
+                {% for community in communities %}
+                    <li  id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
         <a href="/index/" class="mainNav_item" title="小区首页">
             <span class="txt">小区首页</span>
         </a>
@@ -300,6 +305,7 @@
         $(this).css("background", "url(../static/img/onbacktop.png) no-repeat 0px 0px");
     });
     goTop();//实现回到顶部元素的渐显与渐隐
+
 </script>
 {% block script %}
 {% endblock %}

@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
 import simplejson
-from SmartDataApp.controller.admin import convert_session_id_to_user
+import web
+from SmartDataApp.controller.admin import convert_session_id_to_user, return_error_response
 from SmartDataApp.models import Community
 from SmartDataApp.views import index
 
@@ -37,6 +38,18 @@ def update_community(request):
 
 def delete_community(request):
     pass
+
+@csrf_exempt
+def enter_community(request, id):
+    community = Community.objects.get(id=id)
+    communities = Community.objects.all()
+    request.session['community_id'] = id
+    return render_to_response('index.html', {
+                    'community': community,
+                    'communities': communities,
+                    'change_community': 1,
+                    'user': request.user,
+                })
 
 
 @transaction.atomic

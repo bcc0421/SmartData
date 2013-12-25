@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail, Housekeeping, Housekeeping_items
+from SmartDataApp.models import ProfileDetail, Housekeeping, Housekeeping_items,Community
 
 def return_error_response():
     response_data = {'error': 'Just support POST method.'}
@@ -24,14 +24,26 @@ def return_404_response():
 @login_required(login_url='/login/')
 def housekeeping(request):
         profile = ProfileDetail.objects.get(profile=request.user)
+        community_id = request.session.get('community_id', profile.community.id)
+        one_community = Community.objects.get(id=community_id)
+        status = None
+        if community_id == profile.community.id:
+            status = 2
+        else:
+            status = 1
+        communities = Community.objects.all()
         if request.user.is_staff:
-            housekeeping = Housekeeping.objects.all()
-            deal_person_list = ProfileDetail.objects.filter(is_admin=True)
+            housekeeping = Housekeeping.objects.filter(community=one_community).order_by('-time')
+            deal_person_list = ProfileDetail.objects.filter(is_admin=True, community=one_community)
             if len(housekeeping) > 0:
                 return render_to_response('admin_housekeeping.html', {
                     'housekeeping': list(housekeeping),
                     'show': True,
                     'user': request.user,
+                    'community': one_community,
+                    'change_community': status,
+                    'profile': profile,
+                    'communities': communities,
                     'deal_person_list': deal_person_list,
                     'is_admin': True
                 })
@@ -39,6 +51,10 @@ def housekeeping(request):
                 return render_to_response('admin_housekeeping.html', {
                     'show': False,
                     'user': request.user,
+                    'community': one_community,
+                    'change_community': status,
+                    'communities': communities,
+                    'profile': profile,
                     'deal_person_list': deal_person_list
                 })
         elif profile.is_admin:
@@ -47,12 +63,20 @@ def housekeeping(request):
                 return render_to_response('admin_housekeeping.html', {
                     'housekeeping': list(housekeeping),
                     'show': True,
+                    'community': one_community,
+                    'change_community': status,
+                    'profile': profile,
+                    'communities': communities,
                     'user': request.user,
                     'is_admin': False
                 })
             else:
                 return render_to_response('admin_housekeeping.html', {
                     'show': False,
+                    'community': one_community,
+                    'change_community': status,
+                    'profile': profile,
+                    'communities': communities,
                     'user': request.user,
                     'is_admin': False
 
@@ -60,9 +84,9 @@ def housekeeping(request):
         else:
             housekeeping_items = Housekeeping_items.objects.all()
             if housekeeping_items:
-                return render_to_response('housekeeping.html', {'user': request.user, 'housekeeping_items': housekeeping_items, 'is_show': True})
+                return render_to_response('housekeeping.html', {'user': request.user, 'communities': communities, 'housekeeping_items': housekeeping_items, 'is_show': True, 'change_community': status,  'community': one_community, 'profile': profile})
             else:
-                return render_to_response('housekeeping.html', {'user': request.user, 'is_show':False})
+                return render_to_response('housekeeping.html', {'user': request.user, 'communities': communities, 'is_show':False, 'community': one_community, 'change_community': status, 'profile': profile})
 
 @transaction.atomic
 @csrf_exempt
@@ -122,6 +146,7 @@ def submit_housekeeping(request):
             housekeeping = Housekeeping()
             housekeeping.author = profile
             housekeeping.status = 1
+            housekeeping.community = profile.community
             housekeeping.time = datetime.datetime.utcnow().replace(tzinfo=utc)
             housekeeping.housekeeping_item = housekeeping_item
             housekeeping.save()

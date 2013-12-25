@@ -48,7 +48,7 @@ def repair(request):
             })
 
     elif profile.is_admin:
-        repairs = Repair.objects.filter(handler=request.user).order_by('-timestamp')
+        repairs = Repair.objects.filter(handler=request.user).order_by('timestamp')
         if len(repairs) > 0:
             return render_to_response('admin_repair.html', {
                 'repairs': list(repairs),
@@ -167,7 +167,7 @@ def complete_repair(request):
 @csrf_exempt
 @login_required
 def own_repair(request):
-    repairs = Repair.objects.filter(author=request.user.username)
+    repairs = Repair.objects.filter(author=request.user.username).order_by('-timestamp')
     profile = ProfileDetail.objects.get(profile=request.user)
     if len(repairs) > 0:
         paginator = Paginator(repairs, 5)
@@ -269,9 +269,9 @@ def api_repair_response(request):
 @csrf_exempt
 def api_own_repair(request):
     convert_session_id_to_user(request)
-    repairs = Repair.objects.filter(author=request.user.username)
+    repairs = Repair.objects.filter(author=request.user.username).order_by('-timestamp')
     if len(repairs) > 0:
-        paginator = Paginator(repairs, 5)
+        paginator = Paginator(repairs, 20)
         page_count = paginator.num_pages
         page = request.GET.get('page')
         try:
@@ -348,3 +348,37 @@ def api_repair_complete(request):
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
+@transaction.atomic
+@csrf_exempt
+def api_show_all_repair(request):
+    convert_session_id_to_user(request)
+    repairs = Repair.objects.all().order_by('-timestamp')
+    if len(repairs) > 0:
+        paginator = Paginator(repairs, 20)
+        page_count = paginator.num_pages
+        page = request.GET.get('page')
+        try:
+            repairs_list = paginator.page(page).object_list
+        except PageNotAnInteger:
+            repairs_list = paginator.page(1)
+        except EmptyPage:
+            repairs_list = paginator.page(paginator.num_pages)
+        repair_list = list()
+        for repair_detail in repairs_list:
+            data = {
+                'id': repair_detail.id,
+                'repair_author': repair_detail.author,
+                'content': repair_detail.content,
+                'type': repair_detail.type,
+                'deal_status': repair_detail.status,
+                'pleased': repair_detail.pleased,
+                'src': repair_detail.src.name,
+                'time': str(repair_detail.timestamp),
+                'handler': str(repair_detail.handler)
+            }
+            repair_list.append(data)
+        response_data = {'repair_list': repair_list, 'page_count': page_count,'success': True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')

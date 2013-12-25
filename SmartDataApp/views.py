@@ -33,15 +33,17 @@ def generate_captcha(request):
 
 
 def index(request):
+    communities = Community.objects.all()
+
     if request.user.is_authenticated():
-        return render_to_response('index.html', {'user': request.user})
+        profile = ProfileDetail.objects.get(profile=request.user)
+        return render_to_response('index.html', {'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
     else:
-        return render_to_response('index.html')
+        return render_to_response('index.html', {'communities': communities})
 
 @login_required
 def own_information(request):
     profile=ProfileDetail.objects.get(profile=request.user)
-    #communities = Community.objects.all()
     if profile :
         return render_to_response('own_information.html',{'user': request.user ,'profile':profile,})
     else :

@@ -43,6 +43,7 @@ def register(request):
         response_data.update(csrf(request))
         return render_to_response('register.html', response_data)
     else:
+        communities = Community.objects.all()
         username = request.POST.get(u'username', None)
         password = request.POST.get(u'password', None)
         repeatPwd = request.POST.get(u'repeatPwd', None)
@@ -54,21 +55,21 @@ def register(request):
         gate_card = request.POST.get(u'gate_card', None)
         address = request.POST.get(u'address', None)
         if len(User.objects.filter(username=username)) > 0:
-            response_data = {'username_error': True, 'info': u'用户名已存在', 'user': request.user}
+            response_data = {'username_error': True, 'info': u'用户名已存在', 'user': request.user, 'communities': communities}
             return render_to_response('register.html', response_data)
         if password != repeatPwd:
-            response_data = {'password_error': True, 'info': u'两次密码输入不相同', 'user': request.user}
+            response_data = {'password_error': True, 'info': u'两次密码输入不相同', 'user': request.user, 'communities': communities}
             return render_to_response('register.html', response_data)
         pattern = re.compile(r'^[a-zA-Z0-9]{6,15}$')
         if not pattern.match(password):
-            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位', 'user': request.user}
+            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位', 'user': request.user, 'communities': communities}
             return render_to_response('register.html', response_data)
         pattern = re.compile(r'^(1[0-9][0-9])\d{8}$')
         if not pattern.match(mobile):
-            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码', 'user': request.user}
+            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码', 'user': request.user, 'communities': communities}
             return render_to_response('register.html', response_data)
         if not validateEmail(email):
-            response_data = {'email_error': True, 'info': u'请输入正确的邮箱地址', 'user': request.user}
+            response_data = {'email_error': True, 'info': u'请输入正确的邮箱地址', 'user': request.user, 'communities': communities}
             return render_to_response('register.html', response_data)
         user = User(username=username)
         user.email = email
@@ -85,10 +86,6 @@ def register(request):
         profile_detail.address = address
         profile_detail.is_admin = True if is_admin == u'1' else False
         profile_detail.save()
-        #user = authenticate(username=username, password=password)
-        #if user is not None:
-        #    if user.is_active:
-        #        auth_login(request, user)
         return redirect(index)
 
 
@@ -99,14 +96,17 @@ def login(request):
         return render_to_response('login.html', response_data)
     else:
         captcha_list = CaptchaStore.objects.filter(hashkey=request.POST.get(u'cptch_key', None))
+        communities = Community.objects.all()
         if len(captcha_list) == 0:
             response_data = random_captcha()
+            response_data['communities'] = communities
             response_data['captcha_info'] = u'验证码不正确.'
             return render_to_response('login.html', response_data)
         result = captcha_list[0].response
         verify_code = request.POST.get(u'verify_code', None)
         if result != verify_code:
             response_data = random_captcha()
+            response_data['communities'] = communities
             response_data['captcha_info'] = u'验证码不正确.'
             return render_to_response('login.html', response_data)
         username = request.POST.get(u'username', None)
@@ -120,6 +120,7 @@ def login(request):
                 return redirect(index)
             else:
                 response_data = random_captcha()
+                response_data['communities'] = communities
                 response_data['password_info'] = u'手机号码、账号或密码错误.'
                 return render_to_response('login.html', response_data)
 
