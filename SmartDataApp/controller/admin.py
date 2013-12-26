@@ -353,7 +353,13 @@ def api_user_logout(request):
 @csrf_exempt
 def api_get_worker_list(request):
     convert_session_id_to_user(request)
-    deal_person_list = ProfileDetail.objects.filter(is_admin=True)
+    community_id = request.GET.get("community_id", None)
+    if community_id:
+        community = Community.objects.get(id=community_id)
+    else:
+        response_data = {'info': '没有传入小区id', 'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    deal_person_list = ProfileDetail.objects.filter(is_admin=True, community=community)
     if deal_person_list:
         worker_list = list()
         for profile_detail in deal_person_list:

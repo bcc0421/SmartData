@@ -99,6 +99,8 @@ urlpatterns = patterns('',
                        url(r'^api/get/worker/list/$',api_get_worker_list),
                        url(r'^modify/housekeeping_item/$',modify_housekeeping_item),
                        url(r'^modify/repair_item/$',modify_repair_item),
+                       url(r'^api/show/all_complains/$',api_show_all_complains),
+                       url(r'^api/show/all_express/$',api_show_all_express),
 
 
 

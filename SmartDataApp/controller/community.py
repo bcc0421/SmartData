@@ -44,13 +44,15 @@ def enter_community(request, id):
     community = Community.objects.get(id=id)
     communities = Community.objects.all()
     request.session['community_id'] = id
-    return render_to_response('index.html', {
-                    'community': community,
-                    'communities': communities,
-                    'change_community': 1,
-                    'user': request.user,
-                })
-
+    if request.user.is_authenticated():
+        return render_to_response('index.html', {
+                        'community': community,
+                        'communities': communities,
+                        'change_community': 1,
+                        'user': request.user,
+                    })
+    else:
+        return render_to_response('index.html', {'communities': communities,'change_community': 1, 'community': community})
 
 @transaction.atomic
 @csrf_exempt

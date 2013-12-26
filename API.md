@@ -365,7 +365,55 @@ content 和category (必须有一个给值)
 
     {'success':false}
 
-### 12. User repair create(用户需要登录)
+
+### 12. Get all complains list(用户需要登录)
+
+#### URL :/api/show/all_complains/?page=页数&community_id=(小区id号)
+
+#### Method : GET
+
+#### Success
+        {
+           complains_list:
+                [
+
+                        {
+                            content: "投诉内容"
+                            src: "uploads/2013/12/26/a044ad345982b2b7a1f9f0cd33adcbef76099b51.jpg"
+                            handler: "None"
+                            deal_status: 1
+                            time: "2013-12-26 01:50:06.514000+00:00"
+                            type: "环境投诉"
+                            id: 34
+                            complain_author: "user2"
+                            pleased: 0
+                        }
+
+                        {
+                           content: "撒打算"
+                            src: ""
+                            handler: "worker1"
+                            deal_status: 2
+                            time: "2013-12-26 01:41:49.604000+00:00"
+                            type: "安全投诉"
+                            id: 33
+                            complain_author: "sfi1234"
+                            pleased: 0
+                        }
+
+                ]
+             page_count: 1 页数
+             success: true
+        }
+
+
+#### Error
+
+        {'success': False}
+
+
+
+### 13. User repair create(用户需要登录)
 
 #### URL : /api/repair/create/
 
@@ -397,7 +445,7 @@ category 和 category_item_id 必填
 
 
 
-### 13. User repair response(用户需要登录)
+### 14. User repair response(用户需要登录)
 
 #### URL : /api/repair/response/
 
@@ -420,7 +468,7 @@ category 和 category_item_id 必填
     {'success': False, 'info': '反馈失败！'}
 
 
-### 14. User own repair(用户需要登录)
+### 15. User own repair(用户需要登录)
 
 #### URL : /api/own/repair/?page=页数 (page 可选, 默认为1)
 
@@ -464,7 +512,7 @@ category 和 category_item_id 必填
 
 
 
-### 15. User repair deal(用户需要登录)
+### 16. User repair deal(用户需要登录)
 
 #### URL : /api/repair/deal/
 
@@ -486,7 +534,7 @@ category 和 category_item_id 必填
 
 
 
-### 16. User repair complete(用户需要登录)
+### 17. User repair complete(用户需要登录)
 
 #### URL : /api/repair/complete/
 
@@ -506,7 +554,7 @@ category 和 category_item_id 必填
 
 
 
-### 17. User own express(用户需要登录)
+### 18. User own express(用户需要登录)
 
 #### URL : /api/get/user/express/?page=页数 (page 可选, 默认为1)
 
@@ -514,7 +562,7 @@ category 和 category_item_id 必填
 
 ### Result:
 
-#### Success（每页返回五条记录）
+#### Success（每页返回20条记录）
         {
             page_count:（总页数）
             express_list:
@@ -538,7 +586,40 @@ category 和 category_item_id 必填
    {'success': False, 'info': '没有快递！'}
 
 
-### 18. User express response(用户需要登录)
+### 19. Get all express(用户需要登录)
+
+#### URL : /api/show/all_express/?page=页数&community_id=小区id号 (page 可选, 默认为1)
+
+#### Method : GET
+
+### Result:
+
+#### Success（每页返回20条记录）
+        {
+            page_count:（总页数）
+            express_list:
+                [
+
+                        {
+                            arrive_time: "2013-12-16 01:09:36+00:00"（快件到达时间）
+                            deal_status: false (false:未领取，true:领取)
+                            pleased: 0
+                            express_author: "user3"
+                            get_time: "None"（快件领取时间）
+                            get_express_type: ""
+                            id: 13
+                        }
+
+                success: true
+                ]
+        }
+#### Error
+
+   {'success': False, 'info': '没有快递！'}
+
+
+
+### 20. User express response(用户需要登录)
 
 #### URL : /api/express/response/
 
@@ -562,7 +643,7 @@ category 和 category_item_id 必填
 
 
 
-### 19. User obtain express(用户需要登录)
+### 21. User obtain express(用户需要登录)
 
 #### URL : /api/user/obtain/express/
 
@@ -580,7 +661,7 @@ category 和 category_item_id 必填
 
 
 
-### 20. Find inhabitant(用户需要登录)
+### 22. Find inhabitant(用户需要登录)
 
 #### URL : /api/find/inhabitant/
 
@@ -601,7 +682,7 @@ category 和 category_item_id 必填
         {'success': False, 'info': '没有此用户！'}
 
 
-### 21. Delete express(用户需要登录)
+### 23. Delete express(用户需要登录)
 
 #### URL : /api/express/delete/
 
@@ -616,7 +697,7 @@ category 和 category_item_id 必填
         {'success': True, 'info': '删除成功！'}
 
 
-### 22. Add express record(用户需要登录)
+### 24. Add express record(用户需要登录)
 
 #### URL : /api/add/express/record/
 
@@ -639,7 +720,7 @@ category 和 category_item_id 必填
         {'success': False, 'info': '添加失败！'}
 
 
-### 23. Get communities(用户需要登录)
+### 25. Get communities(用户需要登录)
 
 #### URL : /api/get/community/
 
@@ -680,7 +761,7 @@ category 和 category_item_id 必填
     {'success':false}
 
 
-### 24. Express complete(用户需要登录)
+### 26. Express complete(用户需要登录)
 
 #### URL : /api/express/complete/
 
@@ -696,7 +777,7 @@ category 和 category_item_id 必填
 
 
 
-### 25. Get repair item(用户需要登录)
+### 27. Get repair item(用户需要登录)
 
 #### URL : /api/get/repair/item/
 
@@ -731,7 +812,7 @@ category 和 category_item_id 必填
        {'success': False, 'info':'没有报修项目'}
 
 
-### 26. Add repair item record(用户需要登录)
+### 28. Add repair item record(用户需要登录)
 
 #### URL : /api/add/repair/item/record/
 
@@ -754,7 +835,7 @@ category 和 category_item_id 必填
         {'success': False}
 
 
-### 27. Delete repair item(用户需要登录)
+### 29. Delete repair item(用户需要登录)
 
 #### URL : /api/repair/item/delete/
 
@@ -774,7 +855,7 @@ category 和 category_item_id 必填
 
 
 
-### 28. Get all repair list(用户需要登录)
+### 30. Get all repair list(用户需要登录)
 
 #### URL :/api/show/all_repair/
 
@@ -818,9 +899,9 @@ category 和 category_item_id 必填
 
         {'success': False}
 
-### 29. Get worker list(用户需要登录)
+### 31. Get worker list(用户需要登录)
 
-#### URL : /api/get/worker/list/
+#### URL : /api/get/worker/list/?community_id=(小区id号)
 
 #### Method : GET
 

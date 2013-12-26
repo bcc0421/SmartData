@@ -18,21 +18,31 @@ from SmartDataApp.models import ProfileDetail, Community, Express
 @login_required(login_url='/login/')
 def express(request):
     profile = ProfileDetail.objects.get(profile=request.user)
+    community_id = request.session.get('community_id', profile.community.id)
+    one_community = Community.objects.get(id=community_id)
     communities = Community.objects.all()
+    status = None
+    if community_id == profile.community.id:
+        status = 2
+    else:
+        status = 1
     if request.user.is_staff or profile.is_admin:
-        expresses = Express.objects.all().order_by('-arrive_time')
+        expresses = Express.objects.filter(community=one_community).order_by('-arrive_time')
         if communities and express:
             return render_to_response('admin_express.html',
-                                      {'user': request.user, 'communities': communities, 'expresses': expresses, 'is_admin': True})
+                                      {'user': request.user, 'communities': communities, 'expresses': expresses, 'is_admin': True, 'community': one_community,'change_community': status})
         else:
             return render_to_response('admin_express.html', {
                 'show': False,
                 'user': request.user,
-                'is_admin': False
+                'is_admin': False,
+                'community': one_community,
+                'communities': communities,
+                'change_community': status
             })
     else:
         expresses = Express.objects.filter(author=profile).order_by('-arrive_time')
-        return render_to_response('admin_express.html', {'user': request.user, 'expresses': expresses, 'is_admin': False})
+        return render_to_response('admin_express.html', {'user': request.user, 'expresses': expresses,'communities': communities, 'is_admin': False, 'community': one_community,'change_community': status})
 
 
 @transaction.atomic
@@ -77,6 +87,7 @@ def add_user_express(request):
             express = Express(author=profile)
             express.handler = request.user
             express.arrive_time = datetime.datetime.now()
+            express.community = community
             express.save()
             response_data = {'success': True, 'info': '添加成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
@@ -178,9 +189,50 @@ def express_response(request):
 @csrf_exempt
 def api_get_user_express(request):
     convert_session_id_to_user(request)
-    expresses = Express.objects.all()
+    expresses = Express.objects.filter(author=request.user)
     if len(expresses) > 0:
-        paginator = Paginator(expresses, 5)
+        paginator = Paginator(expresses, 20)
+        page_count = paginator.num_pages
+        page = request.GET.get('page')
+        try:
+            expresses_list = paginator.page(page).object_list
+        except PageNotAnInteger:
+            expresses_list = paginator.page(1)
+        except EmptyPage:
+            expresses_list = paginator.page(paginator.num_pages)
+        express_list = list()
+        for express_detail in expresses_list:
+                data = {
+                    'id': express_detail.id,
+                    'express_author': express_detail.author.profile.username,
+                    'get_express_type': express_detail.type,
+                    'deal_status': express_detail.status,
+                    'pleased': express_detail.pleased,
+                    'arrive_time': str(express_detail.arrive_time),
+                    'get_time': str(express_detail.get_time)
+                }
+                express_list.append(data)
+        response_data = {'express_list': express_list, 'page_count': page_count, 'success': True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False, 'info': '没有快递！'}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+
+
+@csrf_exempt
+def api_show_all_express(request):
+    convert_session_id_to_user(request)
+    community_id = request.GET.get("community_id", None)
+    if community_id:
+        one_community = Community.objects.get(id=community_id)
+    else:
+        response_data = {'info': '没有传入小区id', 'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    expresses = Express.objects.filter(community=one_community).order_by('-arrive_time')
+    if len(expresses) > 0:
+        paginator = Paginator(expresses, 20)
         page_count = paginator.num_pages
         page = request.GET.get('page')
         try:
@@ -272,6 +324,7 @@ def api_add_express_record(request):
             express = Express(author=profile)
             express.handler = request.user
             express.arrive_time = datetime.datetime.now()
+            express.community = community
             express.save()
             response_data = {'success': True, 'info': '添加成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")

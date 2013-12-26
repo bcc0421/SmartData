@@ -238,11 +238,13 @@ def api_complain_create(request):
         complain_type = request.POST.get('category', None)
         upload__complain_src = request.FILES.get('upload_complain_img', None)
         complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
+        profile = ProfileDetail.objects.get(profile=request.user)
         if complain_content or complain_type:
             complain = Complaints(author=request.user.username)
             complain.content = complain_content
             complain.timestamp = complain_time
             complain.type = complain_type
+            complain.community = profile.community
             if upload__complain_src:
                 complain.src = upload__complain_src
             complain.save()
@@ -356,3 +358,46 @@ def api_complain_complete(request):
                 complain.save()
             response_data = {'success': True, 'info': '提交成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+
+@transaction.atomic
+@csrf_exempt
+def api_show_all_complains(request):
+    convert_session_id_to_user(request)
+    community_id = request.GET.get("community_id", None)
+    if community_id:
+        community = Community.objects.get(id=community_id)
+    else:
+        response_data = {'info': '没有传入小区id', 'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    complains = Complaints.objects.filter(community=community).order_by('-timestamp')
+    if len(complains) > 0:
+        paginator = Paginator(complains, 20)
+        page_count = paginator.num_pages
+        page = request.GET.get('page')
+        try:
+            complains_list = paginator.page(page).object_list
+        except PageNotAnInteger:
+            complains_list = paginator.page(1)
+        except EmptyPage:
+            complains_list = paginator.page(paginator.num_pages)
+        complain_list = list()
+        for complain_detail in complains_list:
+            data = {
+                'id': complain_detail.id,
+                'complain_author': complain_detail.author,
+                'content': complain_detail.content,
+                'type': complain_detail.type,
+                'deal_status': complain_detail.status,
+                'pleased': complain_detail.pleased,
+                'src': complain_detail.src.name,
+                'time': str(complain_detail.timestamp),
+                'handler': str(complain_detail.handler)
+            }
+            complain_list.append(data)
+        response_data = {'complains_list': complain_list, 'page_count': page_count,'success': True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False,'info': '该小区没有投诉'}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
