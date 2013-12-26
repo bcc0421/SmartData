@@ -38,7 +38,7 @@ def complain(request):
     communities = Community.objects.all()
     if request.user.is_staff:
         complains = Complaints.objects.filter(community=one_community).order_by('-timestamp')
-        deal_person_list = ProfileDetail.objects.filter(is_admin=True,community=one_community)
+        deal_person_list = ProfileDetail.objects.filter(is_admin=True, community=one_community)
         if len(complains) > 0:
             return render_to_response('admin_complains.html', {
                 'complains': list(complains),

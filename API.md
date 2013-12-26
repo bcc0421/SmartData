@@ -857,7 +857,7 @@ category 和 category_item_id 必填
 
 ### 30. Get all repair list(用户需要登录)
 
-#### URL :/api/show/all_repair/
+#### URL :/api/show/all_repair/?page=页数community_id=小区id号
 
 #### Method : GET
 
@@ -925,6 +925,7 @@ category 和 category_item_id 必填
 
                 ]
              success: true
+             page_count:（总页数）
         }
 
 
