@@ -1152,7 +1152,7 @@ category 和 category_item_id 必填
 
                         {
                             item_id: 4
-                            item_detail.remarks: "小于20小时每月，两小时起步。"
+                            item_remarks: "小于20小时每月，两小时起步。"
                             item_content: "一般性家庭保洁"
                             price_description: "40元/小时"
                             item_name: "钟点工"

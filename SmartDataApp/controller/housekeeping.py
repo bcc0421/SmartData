@@ -491,7 +491,7 @@ def api_get_housekeeping_item(request):
         for item_detail in items:
                     data = {
                         'item_id': item_detail.id,
-                        'item_detail.remarks': item_detail.remarks,
+                        'item_remarks': item_detail.remarks,
                         'item_name':item_detail.item,
                         'price_description':item_detail.price_description,
                         'item_content':item_detail.content,
