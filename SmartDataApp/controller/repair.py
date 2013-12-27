@@ -239,6 +239,9 @@ def repair_response(request):
             repair.save()
             response_data = {'success': True, 'info': '评论成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+
         else:
             return render_to_response('own_repair.html', {'show': True, 'user': request.user, 'profile': profile})
 

@@ -818,7 +818,6 @@ category 和 category_item_id 必填
 
 #### Method : POST
 
-        #### Method : POST
 
         {
             'item_type': '报修类型（个人报修，公共报修）',
@@ -928,6 +927,305 @@ category 和 category_item_id 必填
              page_count:（总页数）
         }
 
+
+#### Error
+
+        {'success': False}
+
+
+
+### 32. Modify repair item(用户需要登录)
+
+#### URL : /api/api/modify/repair_item/
+
+#### Method : POST（四个参数可以任意给一个）
+
+     {
+            'modify_item_id': '报修项目id',
+            'item_type': '项目类型',（个人报修，公共报修）
+            'item_name':'项目名称',
+            'repair_item_price':'价格（必须为数字）',
+     }
+
+#### Success
+
+         {'success': True}
+
+#### Error
+
+        {'success': False}
+
+
+### 33 User submit housekeeping(用户需要登录)
+
+#### URL : /api/user/submit_housekeeping/
+
+#### Method : POST
+
+     {
+            'housekeeping_item_string': '家政项目id（多个项目 以字符串形式发送 如： 1,3,4）',
+
+     }
+
+#### Success
+
+         {'success': True, 'info': '提交成功！'}
+
+
+### 34 User submit response(用户需要登录)
+
+#### URL : /api/housekeeping/response/
+
+#### Method : POST
+
+     {
+            'housekeeping_id': '家政项目id',
+            'response_content': 内容',
+            'selected_pleased': '满意度（ 1,2,3,4,5）',
+
+     }
+
+#### Success
+
+         {'success': True, 'info': '反馈成功！'}
+
+
+#### Error
+
+        {'success': False, 'info': '反馈失败！'}
+
+
+### 35 User get own housekeeping(用户需要登录)
+
+#### URL : /api/own/housekeeping/
+
+#### Method : GET
+
+#### Success
+
+         {
+            house_keep_list:
+                [
+
+                        {
+                            content: "一般性家庭保洁"
+                            housekeeping_status: 2
+                            handler: "worker9"
+                            item: "钟点工"
+                            remarks: "小于20小时每月，两小时起步。"
+                            price_description: "40元/小时"
+                            time: "2013-12-25 08:54:32.425000+00:00"
+                            id: 8
+                            housekeeping_author: "sfi12345"
+                            pleased: 0
+                        }
+
+                        {
+                            content: "一般性家庭保洁"
+                            housekeeping_status: 2
+                            handler: "worker9"
+                            item: "钟点工"
+                            remarks: "小于20小时每月，两小时起步。"
+                            price_description: "40元/小时"
+                            time: "2013-12-25 08:32:11.428000+00:00"
+                            id: 7
+                            housekeeping_author: "user3"
+                            pleased: 0
+                        }
+
+                ]
+             success: true
+             page_count:（总页数）
+        }
+
+#### Error
+
+        {'success': False}
+
+
+### 36 Deal housekeeping(用户需要登录)
+
+#### URL : /api/housekeeping/deal/
+
+#### Method : POST
+
+     {
+            'housekeeping_id_string': ''家政项目id（多个项目 以字符串形式发送 如： 1,3,4）'
+            'deal_person_id': 处理人id',
+
+     }
+
+#### Success
+
+         {'success': True, 'info': u'授权成功！'}
+
+
+#### Error
+
+        {'success': False}
+
+
+### 37 Housekeeping complete(用户需要登录)
+
+#### URL : /api/housekeeping/complete/
+
+#### Method : POST
+
+     {
+            'housekeeping_id_string': ''家政项目id（多个项目 以字符串形式发送 如： 1,3,4）'
+
+     }
+
+#### Success
+
+        {'success': True, 'info': '提交成功！'}
+
+
+
+### 38 Show all housekeeping(用户需要登录)
+
+#### URL : /api/show/all_housekeeping/?community_id=小区id&page=页数
+
+#### Method : GET
+
+#### Success
+
+         {
+            house_keep_list:
+                [
+
+                        {
+                            content: "一般性家庭保洁"
+                            housekeeping_status: 2
+                            handler: "worker9"
+                            item: "钟点工"
+                            remarks: "小于20小时每月，两小时起步。"
+                            price_description: "40元/小时"
+                            time: "2013-12-25 08:54:32.425000+00:00"
+                            id: 8
+                            housekeeping_author: "sfi12345"
+                            pleased: 0
+                        }
+
+                        {
+                            content: "一般性家庭保洁"
+                            housekeeping_status: 2
+                            handler: "worker9"
+                            item: "钟点工"
+                            remarks: "小于20小时每月，两小时起步。"
+                            price_description: "40元/小时"
+                            time: "2013-12-25 08:32:11.428000+00:00"
+                            id: 7
+                            housekeeping_author: "user3"
+                            pleased: 0
+                        }
+
+                ]
+             success: true
+             page_count:（总页数）
+        }
+
+#### Error
+
+        {'success': False}
+
+
+### 39. Get housekeeping item(用户需要登录)
+
+#### URL : /api/get/housekeeping_item/
+
+#### Method :  GET
+
+#### Success（每页返回五条记录）
+        {
+            page_count:（总页数）
+            items_list:
+                [
+
+                        {
+                            item_id: 3
+                            item_detail.remarks: "大于20小时每月，两小时起步。"
+                            item_content: "一般性家庭保洁"
+                            price_description: "30元/小时"
+                            item_name: "钟点工"
+                        }
+
+                        {
+                            item_id: 4
+                            item_detail.remarks: "小于20小时每月，两小时起步。"
+                            item_content: "一般性家庭保洁"
+                            price_description: "40元/小时"
+                            item_name: "钟点工"
+                        }
+
+                ]
+             success: true
+        }
+
+#### Error
+
+       {'success': False, 'info':'没有家政项目'}
+
+
+### 40. Add housekeeping item (用户需要登录)
+
+#### URL : /api/add/housekeeping_item/
+
+#### Method : POST
+
+
+        {
+            'housekeeping_price_description': '价格描述',
+            'housekeeping_item_name': '项目名称',
+            'housekeeping_content':'内容',
+            'housekeeping_remarks':'备注',
+        }
+
+#### Success
+
+        {'success': True}
+
+#### Error
+
+        {'success': False}
+
+
+### 41. Delete housekeeping item(用户需要登录)
+
+#### URL : /api/delete/housekeeping_item/
+
+#### Method : POST
+
+         {
+                'selected_item_string': '要删除家政项目id号',（多个id 拼接成字符串以逗号隔开 "1,2,32,45"）
+         }
+
+#### Success
+
+        {'success': True, 'info': '删除成功！'}
+
+#### Error
+
+        {'success': False, 'info': '删除失败！'}
+
+
+### 42. Modify housekeeping item(用户需要登录)
+
+#### URL : /api/modify/housekeeping_item/
+
+#### Method : POST（四个参数可以任意给一个）
+
+     {
+            'modify_item_id': '家政项目id',
+            'modify_price_description': 价格描述',
+            'modify_item_name': '项目名称'
+            'modify_content':'内容',
+            'modify_remarks':'备注',
+     }
+
+#### Success
+
+         {'success': True}
 
 #### Error
 

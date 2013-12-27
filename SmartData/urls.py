@@ -101,6 +101,17 @@ urlpatterns = patterns('',
                        url(r'^modify/repair_item/$',modify_repair_item),
                        url(r'^api/show/all_complains/$',api_show_all_complains),
                        url(r'^api/show/all_express/$',api_show_all_express),
+                       url(r'^api/own/housekeeping/$',api_own_housekeeping),
+                       url(r'^api/user/submit_housekeeping/$',api__user_submit_housekeeping),
+                       url(r'^api/housekeeping/response/$',api_housekeeping_response),
+                       url(r'^api/housekeeping/deal/$',api_housekeeping_deal),
+                       url(r'^api/housekeeping/complete/$',api_housekeeping_complete),
+                       url(r'^api/show/all_housekeeping/$',api_show_all_housekeeping),
+                       url(r'^api/get/housekeeping_item/$',api_get_housekeeping_item),
+                       url(r'^api/add/housekeeping_item/$',api_add_housekeeping_item),
+                       url(r'^api/delete/housekeeping_item/$',api_housekeeping_item_delete),
+                       url(r'^api/modify/housekeeping_item/$',api_modify_housekeeping_item),
+                       url(r'^api/modify/repair_item/$',api_modify_repair_item),
 
 
 

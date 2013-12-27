@@ -40,6 +40,7 @@
         <!-- left part end -->
 
         <!-- right part start -->
+
         <div class="fn_right">
             {% if user %}
                 <a href="/own_information/" class="optLink el_btn">{{ user.username }}</a>
@@ -68,6 +69,15 @@
                         </div>
                     </span>
                 </span>
+        </div>
+        <div class="fn_right"style="margin-right: 10px;margin-top: 2px">
+            {% if user %}
+                <span class=" glyphicon glyphicon-volume-up "></span>
+                <a  id="show_detail" role="button" data-toggle="dropdown" href="#"><span style="margin-top: 122px"><font color="#a52a2a">10</font></span></a>
+                <ul  style="left: inherit" class="dropdown-menu" role="menu" aria-labelledby="show_detail">
+                    <li ><a tabindex="-1" href="http://twitter.com/fat">Action</a></li>
+                </ul>
+            {% endif %}
         </div>
         <!-- right part end -->
 
