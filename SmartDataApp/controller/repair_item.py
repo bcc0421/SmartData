@@ -1,5 +1,4 @@
 #coding:utf-8
-import datetime
 from django.http import HttpResponse
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -7,11 +6,9 @@ from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user, return_error_response
-from SmartDataApp.models import Repair
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail,Repair_item
+from SmartDataApp.models import Repair_item
 
 
 @transaction.atomic
@@ -21,16 +18,15 @@ def repair_item(request):
     items = Repair_item.objects.all()
     if len(items) > 0:
         return render_to_response('manage_repair_item.html', {
-            'items':items,
+            'items': items,
             'user': request.user,
-            'is_show':True
+            'is_show': True
         })
     else:
-         return render_to_response('manage_repair_item.html', {
-             'user': request.user,
-            'is_show':False
+        return render_to_response('manage_repair_item.html', {
+            'user': request.user,
+            'is_show': False
         })
-
 
 
 @transaction.atomic
@@ -71,8 +67,6 @@ def delete_repair_item(request):
                 Repair_item.objects.get(id=item_id).delete()
             response_data = {'success': True, 'info': '删除成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-
-
 
 
 @transaction.atomic
@@ -119,19 +113,18 @@ def api_get_repair_item(request):
             items = paginator.page(paginator.num_pages)
         items_list = list()
         for item_detail in items:
-                    data = {
-                        'item_id': item_detail.id,
-                        'item_type': item_detail.type,
-                        'item_name':item_detail.item,
-                        'item_price':item_detail.price,
-                    }
-                    items_list.append(data)
-        response_data = {'success': True, 'items_list': items_list,'page_count': page_count }
+            data = {
+                'item_id': item_detail.id,
+                'item_type': item_detail.type,
+                'item_name': item_detail.item,
+                'item_price': item_detail.price,
+            }
+            items_list.append(data)
+        response_data = {'success': True, 'items_list': items_list, 'page_count': page_count}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
-        response_data = {'success': False, 'info':'没有报修项目'}
+        response_data = {'success': False, 'info': '没有报修项目'}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-
 
 
 @transaction.atomic
@@ -203,5 +196,5 @@ def api_modify_repair_item(request):
             response_data = {'success': True}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
-            response_data = {'success': False,'info':'没有修改信息'}
+            response_data = {'success': False, 'info': '没有修改信息'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
