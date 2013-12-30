@@ -20,27 +20,32 @@
             font-size: 15px;
 
         }
-       .modal-body ul li{
-           float: left;
-           padding-left: 43px;
-           padding-top: 20px;
 
-       }
-        .rate-standard{
+        .modal-body ul li {
+            float: left;
+            padding-left: 43px;
+            padding-top: 20px;
+
+        }
+
+        .rate-standard {
             margin-left: 144px;
         }
+
         .rate-standard span {
             padding-left: 25px;
         }
-        .pleased{
+
+        .pleased {
             margin-left: 35px;
-            width:100px;
+            width: 100px;
             padding-left: 25px;
-             margin-top: -18px;
-            float:left;
+            margin-top: -18px;
+            float: left;
         }
-        .sr-shop-rating{
-            float:left;
+
+        .sr-shop-rating {
+            float: left;
             margin-top: -20px;
         }
 
@@ -86,323 +91,328 @@
 
 {% endblock %}
 {% block right_container %}
-        <!-- 主要内容区域 start -->
-            <!-- 中部 start -->
-            <div style="width: 822px;overflow: auto;float:left">
-                <div class="vessel vessel_s1" style="margin-bottom: 10px">
-                    <div class="vessel_titBox"><span class="tit">报修项目管理</span></div>
-                </div>
-                {% if is_show %}
-                    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable"
-                           id="repair_item_table" aria-describedby="example_info">
-                        <thead>
-                        <tr role="row">
-                            <th>维修类型</th>
-                            <th>维修项目</th>
-                            <th>维修价格（元/次）</th>
-                            <th>修改</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
+    <!-- 主要内容区域 start -->
+    <!-- 中部 start -->
+    <div style="width: 822px;overflow: auto;float:left">
+        <div class="vessel vessel_s1" style="margin-bottom: 10px">
+            <div class="vessel_titBox"><span class="tit">报修项目管理</span></div>
+        </div>
+        {% if is_show %}
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable"
+                   id="repair_item_table" aria-describedby="example_info">
+                <thead>
+                <tr role="row">
+                    <th>维修类型</th>
+                    <th>维修项目</th>
+                    <th>维修价格（元/次）</th>
+                    <th>修改</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
 
-                        {% for item in items %}
+                {% for item in items %}
 
-                            <tr class="except_one">
-                                <td>
-                                    <span>{{ item.type }}</span>
-                                </td>
-                                <td>{{ item.item }}</td>
-                                <td>{{ item.price  }}</td>
-                                <td>
-                                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="modify_item({{ item.id }})">
-                                       修改
-                                    </button>
-                                </td>
-                                <td><input type="checkbox" name="chk" id={{ item.id }}></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <div class="umDataLstBox">
-                            <div class="umDataBox_s1 umDataBox">
-                                    <div class="umDataBox_receiptBox">
-                                        <p class="title">暂无相关记录</p>
-                                    </div>
-                            </div>
-                            <!-- 分页 start -->
-                            <div class="pagesBox"></div>
+                    <tr class="except_one">
+                        <td>
+                            <span>{{ item.type }}</span>
+                        </td>
+                        <td>{{ item.item }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>
+                            <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;"
+                                    onclick="modify_item({{ item.id }})">
+                                修改
+                            </button>
+                        </td>
+                        <td><input type="checkbox" name="chk" id={{ item.id }}></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="umDataLstBox">
+                <div class="umDataBox_s1 umDataBox">
+                    <div class="umDataBox_receiptBox">
+                        <p class="title">暂无相关记录</p>
                     </div>
-                    <!-- 分页 end -->
-                {% endif %}
+                </div>
+                <!-- 分页 start -->
+                <div class="pagesBox"></div>
             </div>
-            <!-- 中部 end -->
-            <!-- 右侧 start -->
-            <div class="el_w_237 fn_right" style="width:172px">
-                <div style="margin-top:0px;">
-                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;"onclick="add()">
-                        增加
-                    </button>
-                </div>
-                 <div style="margin-top:5px;">
-                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="delete_repair_item()">
-                        删除
-                    </button>
-                </div>
-                <div class="modal fade" id="add_repair_item" tabindex="-1"
-                     role="dialog" aria-labelledby="myModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content" >
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"
-                                        aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="myModalLabel">
-                                    项目记录管理</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div id="repair_select_div" style="margin-left:-2px ">
-                                    <span>选择类别：</span>
-                                    <select id="repair_item_select">
-                                        <option value="个人报修">个人报修</option>
-                                        <option value="公共报修">公共报修</option>
-                                    </select>
-                                </div>
-                                <div style="margin-top:10px "><span>输入项目</span>：<input type="text" name="input_item"></div>
-                                <div style="margin-top:10px "><span>输入价格</span>：<input type="text" name="input_price">&nbsp;元</div>
-                                <div style="margin-top:10px " >
-                                    <button class="btn btn-primary modify"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="modify_repair_item(this)">
-                                        <span>修改</span>
-                                    </button>
-                                    <button class="btn btn-primary add_item"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="add_repair_item()">
-                                        <span>增加</span>
-                                    </button>
-                                </div>
-                                <div id="add_result" class="alert alert-warning" style="margin-top:50px ;display: none">
+            <!-- 分页 end -->
+        {% endif %}
+    </div>
+    <!-- 中部 end -->
+    <!-- 右侧 start -->
+    <div class="el_w_237 fn_right" style="width:172px">
+        <div style="margin-top:0px;">
+            <button class="btn btn-primary" data-toggle="modal" style="border-radius: 0px 0px 0px 0px;" onclick="add()">
+                增加
+            </button>
+        </div>
+        <div style="margin-top:5px;">
+            <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="delete_repair_item()">
+                删除
+            </button>
+        </div>
+        <div class="modal fade" id="add_repair_item" tabindex="-1"
+             role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            项目记录管理</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="repair_select_div" style="margin-left:-2px ">
+                            <span>选择类别：</span>
+                            <select id="repair_item_select">
+                                <option value="个人报修">个人报修</option>
+                                <option value="公共报修">公共报修</option>
+                            </select>
+                        </div>
+                        <div style="margin-top:10px "><span>输入项目</span>：<input type="text" name="input_item"></div>
+                        <div style="margin-top:10px "><span>输入价格</span>：<input type="text" name="input_price">&nbsp;元
+                        </div>
+                        <div style="margin-top:10px ">
+                            <button class="btn btn-primary modify"
+                                    style="border-radius: 0px 0px 0px 0px;height:30px;float: right"
+                                    onclick="modify_repair_item(this)">
+                                <span>修改</span>
+                            </button>
+                            <button class="btn btn-primary add_item"
+                                    style="border-radius: 0px 0px 0px 0px;height:30px;float: right"
+                                    onclick="add_repair_item()">
+                                <span>增加</span>
+                            </button>
+                        </div>
+                        <div id="add_result" class="alert alert-warning" style="margin-top:50px ;display: none">
 
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    Close
-                                </button>
-                            </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
-            <!-- 右侧 end -->
-            <div class="el_blank_h10 fn_clear"></div>
+        </div>
+    </div>
+    <!-- 右侧 end -->
+    <div class="el_blank_h10 fn_clear"></div>
 
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
-        function add_repair_item()
-            {
-                var item_type=$("#repair_item_select").val();
-                var item_name=$('input[name="input_item"]').val();
-                var repair_item_price=$('input[name="input_price"]').val();
-               if(item_type && item_name && repair_item_price ){
-                    $.post('/add/repair_item/',
-                            {
-                                'item_type': item_type,
-                                'item_name': item_name,
-                                'repair_item_price': repair_item_price
-                            },
-                            function(data){
-                                 if(data.success){
-                                  $("#add_result").html("<span>添加成功</span>");
-                                   $("#add_result").show();
-                                }else{
-                                   $("#add_result").html("<span>添加失败</span><span class='glyphicon glyphicon-minus-sign'></span>");
-                                   $("#add_result").show();
-                                 }
+    function add_repair_item() {
+        var item_type = $("#repair_item_select").val();
+        var item_name = $('input[name="input_item"]').val();
+        var repair_item_price = $('input[name="input_price"]').val();
+        if (item_type && item_name && repair_item_price) {
+            $.post('/add/repair_item/',
+                    {
+                        'item_type': item_type,
+                        'item_name': item_name,
+                        'repair_item_price': repair_item_price
+                    },
+                    function (data) {
+                        if (data.success) {
+                            $("#add_result").html("<span>添加成功</span>");
+                            $("#add_result").show();
+                        } else {
+                            $("#add_result").html("<span>添加失败</span><span class='glyphicon glyphicon-minus-sign'></span>");
+                            $("#add_result").show();
+                        }
 
-                            }
-                    )
+                    }
+            )
 
-                }else{
-                    alert("请填入项目信息");
+        } else {
+            alert("请填入项目信息");
+        }
+
+    }
+    function add() {
+        $('.add_item').show();
+        $('.modify').hide();
+        $('#add_repair_item').modal('show');
+    }
+    function modify_item(id) {
+        $('.add_item').hide();
+        $('.modify').show();
+        $('.modify').attr('name', id);
+        $('#add_repair_item').modal('show');
+    }
+
+    function modify_repair_item(obj) {
+        var modify_item_id = $('.modify').attr('name');
+        var item_type = $("#repair_item_select").val();
+        var item_name = $('input[name="input_item"]').val();
+        var repair_item_price = $('input[name="input_price"]').val();
+        if (item_type || item_name || repair_item_price) {
+            $.post('/modify/repair_item/',
+                    {
+                        'modify_item_id': modify_item_id,
+                        'item_type': item_type,
+                        'item_name': item_name,
+                        'repair_item_price': repair_item_price
+                    },
+                    function (data) {
+                        if (data.success) {
+                            $("#add_result").html("<span>修改成功</span>");
+                            $("#add_result").show();
+                        } else {
+                            $("#add_result").html("<span>没有修改数据</span><span class='glyphicon glyphicon-minus-sign'></span>");
+                            $("#add_result").show();
+                        }
+
+                    }
+            )
+
+        } else {
+            alert("请填入修改信息");
+        }
+
+    }
+
+
+    function delete_repair_item() {
+        var checked_array = new Array();
+        $('input[type="checkbox"][name="chk"]:checked').each(
+                function () {
+                    var id = $(this).attr('id');
+                    checked_array.push(id);
                 }
+        );
+        if (checked_array.length > 0) {
+            $.post('/delete/repair_item/',
+                    {
+                        'selected_item_string': checked_array.toString()
+                    },
+                    function (data) {
+                        if (data.success) {
+                            alert(data.info);
+                            window.location.href = "/manage/repair/item/";
+                        }
+                    }
+            )
+        } else {
+            alert("请选择处理数据");
+        }
+    }
 
+    function user_get_express() {
+        var checked_array = new Array();
+        $('input[type="checkbox"][name="chk"]:checked').each(
+                function () {
+                    var id = $(this).attr('id');
+                    checked_array.push(id);
+                }
+        );
+        if (checked_array.length > 0) {
+            $.post('/user/get_express/',
+                    {
+                        'selected_express_string': checked_array.toString()
+                    },
+                    function (data) {
+                        if (data.success) {
+                            $('input[type="checkbox"][name="chk"]:checked').each(
+                                    function () {
+                                        var id = $(this).attr('id');
+                                        $("#status_" + id + "").html("<span style='color: green' >已签收</span>");
+                                    }
+                            );
+                        }
+                    }
+            )
+        } else {
+            alert("请选择处理数据");
+        }
+
+    }
+
+    function get_my_express() {
+        var checked_array = new Array();
+        $('input[type="checkbox"][name="chk"]:checked').each(
+                function () {
+                    var id = $(this).attr('id');
+                    checked_array.push(id);
+                }
+        );
+        var get_express_type = $('#select_express_type').val();
+        if (checked_array.length > 0) {
+            $.post('/userself/get_express/',
+                    {
+                        'selected_express_string': checked_array.toString(),
+                        'get_express_type': get_express_type
+                    },
+                    function (data) {
+                        if (data.success) {
+                            alert(data.info);
+                            $('input[type="checkbox"][name="chk"]:checked').each(
+                                    function () {
+                                        var id = $(this).attr('id');
+                                        $("#type_" + id + "").html("<span style='color: green' >" + data.express_type + "</span>");
+                                    }
+                            );
+                        }
+                        else {
+                            alert(data.info);
+                        }
+                    }
+            )
+        } else {
+            alert("请选择处理数据");
+        }
+    }
+
+    function submit_express_data(obj) {
+        var response_content = $("#textarea").val();
+        var selected_radio = $('input[type="radio"]:checked').val();
+        var checked_array = new Array();
+        $('input[type="checkbox"][name="chk"]:checked').each(
+                function () {
+                    var id = $(this).attr('id');
+                    checked_array.push(id);
+                }
+        );
+        if (selected_radio && checked_array.length > 0) {
+            $.post('/express/response/',
+                    {
+                        'selected_express_string': checked_array.toString(),
+                        response_content: response_content,
+                        selected_radio: selected_radio
+                    },
+                    function (data) {
+                        if (data.success) {
+                            alert(data.info);
+                            window.location.href = "/express/";
+                        }
+                    }
+            )
+        } else {
+            alert("请选择评价快件和满意度");
+        }
+
+    }
+
+    $(document).ready(function () {
+        $('#repair_item_table').dataTable({
+            "oLanguage": {
+                "sLengthMenu": "显示 _MENU_每页显示记录",
+                "sZeroRecords": "对不起没有你要找的记录",
+                "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
+                "sInfoEmpty": "显示 0 到 0 总共 0 记录",
+                "sInfoFiltered": "(从 _MAX_条记录中查找)",
+                "sSearch": "搜索:"
             }
-        function add(){
-           $('.add_item').show();
-            $('.modify').hide();
-           $('#add_repair_item').modal('show');
-        }
-        function modify_item(id){
-             $('.add_item').hide();
-            $('.modify').show();
-            $('.modify').attr('name',id);
-            $('#add_repair_item').modal('show');
-        }
-
-        function modify_repair_item(obj){
-            var modify_item_id= $('.modify').attr('name');
-            var item_type=$("#repair_item_select").val();
-            var item_name=$('input[name="input_item"]').val();
-            var repair_item_price=$('input[name="input_price"]').val();
-               if(item_type || item_name || repair_item_price ){
-                    $.post('/modify/repair_item/',
-                            {
-                                'modify_item_id':modify_item_id,
-                                'item_type': item_type,
-                                'item_name': item_name,
-                                'repair_item_price': repair_item_price
-                            },
-                            function(data){
-                                 if(data.success){
-                                  $("#add_result").html("<span>修改成功</span>");
-                                   $("#add_result").show();
-                                }else{
-                                   $("#add_result").html("<span>没有修改数据</span><span class='glyphicon glyphicon-minus-sign'></span>");
-                                   $("#add_result").show();
-                                 }
-
-                            }
-                    )
-
-                }else{
-                    alert("请填入修改信息");
-                }
-
-        }
-
-
-        function delete_repair_item(){
-                var checked_array = new Array();
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-                        }
-                );
-                if (checked_array.length > 0) {
-                    $.post('/delete/repair_item/',
-                            {
-                                'selected_item_string': checked_array.toString()
-                            },
-                            function (data) {
-                                  if(data.success){
-                                        alert(data.info);
-                                        window.location.href = "/manage/repair/item/";
-                                  }
-                            }
-                    )
-                } else {
-                    alert("请选择处理数据");
-                }
-        }
-
-        function user_get_express(){
-                var checked_array = new Array();
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-                        }
-                );
-                if (checked_array.length > 0) {
-                    $.post('/user/get_express/',
-                            {
-                                'selected_express_string': checked_array.toString()
-                            },
-                            function (data) {
-                                if (data.success) {
-                                    $('input[type="checkbox"][name="chk"]:checked').each(
-                                            function () {
-                                                var id = $(this).attr('id');
-                                                $("#status_" + id + "").html("<span style='color: green' >已签收</span>");
-                                            }
-                                    );
-                                }
-                            }
-                    )
-                } else {
-                    alert("请选择处理数据");
-                }
-
-        }
-
-         function get_my_express(){
-                var checked_array = new Array();
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-                        }
-                );
-                var get_express_type = $('#select_express_type').val();
-                if (checked_array.length > 0) {
-                    $.post('/userself/get_express/',
-                            {
-                                'selected_express_string': checked_array.toString(),
-                                'get_express_type': get_express_type
-                            },
-                            function (data) {
-                                if (data.success) {
-                                    alert(data.info);
-                                    $('input[type="checkbox"][name="chk"]:checked').each(
-                                            function () {
-                                                var id = $(this).attr('id');
-                                                $("#type_" + id + "").html("<span style='color: green' >"+data.express_type+"</span>");
-                                            }
-                                    );
-                                }
-                                else{
-                                    alert(data.info);
-                                }
-                            }
-                    )
-                } else {
-                    alert("请选择处理数据");
-                }
-         }
-
-        function submit_express_data(obj){
-            var response_content=$("#textarea").val();
-            var selected_radio=$('input[type="radio"]:checked').val();
-            var checked_array = new Array();
-            $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-                        }
-                );
-            if(selected_radio && checked_array.length > 0){
-                $.post('/express/response/',
-                        {
-                            'selected_express_string': checked_array.toString(),
-                            response_content:response_content,
-                            selected_radio:selected_radio
-                        },
-                        function(data){
-                            if(data.success){
-                                 alert(data.info);
-                                window.location.href = "/express/";
-                            }
-                        }
-                )
-            }else{
-                alert("请选择评价快件和满意度");
-            }
-
-        }
-
-        $(document).ready(function () {
-            $('#repair_item_table').dataTable({
-                "oLanguage": {
-                    "sLengthMenu": "显示 _MENU_每页显示记录",
-                    "sZeroRecords": "对不起没有你要找的记录",
-                    "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
-                    "sInfoEmpty": "显示 0 到 0 总共 0 记录",
-                    "sInfoFiltered": "(从 _MAX_条记录中查找)",
-                    "sSearch": "搜索:"
-                }
-            });
         });
+    });
 
     </script>
     <script src="/static/js/jquery.dataTables.min.js"></script>
