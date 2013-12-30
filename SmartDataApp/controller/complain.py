@@ -130,6 +130,7 @@ def complain_deal(request):
             for i in range(len(list_complain_)):
                 com_id = int(list_complain_[i])
                 complain = Complaints.objects.get(id=com_id)
+                complain.is_read = True
                 complain.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:

@@ -185,6 +185,7 @@ def deal_housekeeping(request):
             for i in range(len(list_housekeeping)):
                 house_id = int(list_housekeeping[i])
                 housekeeping = Housekeeping.objects.get(id=house_id)
+                housekeeping.is_read = True
                 housekeeping.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:

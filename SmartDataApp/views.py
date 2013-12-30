@@ -17,7 +17,7 @@ from django.core import serializers
 from captcha.models import CaptchaStore
 
 from SmartDataApp.forms import UserForm
-from SmartDataApp.models import Picture, ProfileDetail, Community
+from SmartDataApp.models import Picture, ProfileDetail, Community, Complaints, Housekeeping, Express, Repair
 
 
 def random_captcha():
@@ -356,3 +356,134 @@ def ajax_delete_picture(request, id=None):
     else:
         response_data = {'success': False, 'info': '仅接受POST请求！'}
         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+def get_message_num(request):
+    profile = ProfileDetail.objects.get(profile=request.user)
+    complain = Complaints.objects.filter(author=request.user.username, is_read=True)
+    complain_num = complain.count()
+    repair = Repair.objects.filter(author=request.user.username, is_read=True)
+    repair_num = repair.count()
+    housekeeping = Housekeeping.objects.filter(author=profile, is_read=True)
+    housekeeping_num = housekeeping.count()
+    express = Express.objects.filter(author=profile, is_read=True)
+    express_num = express.count()
+    sum_num = complain_num + repair_num + housekeeping_num + express_num
+    return complain_num, express_num, housekeeping_num, repair_num, sum_num
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required
+def get_new_dynamic_data(request):
+    complain_num, express_num, housekeeping_num, repair_num, sum_num = get_message_num(request)
+    response_data = {'complain_num': complain_num,'repair_num': repair_num,'housekeeping_num': housekeeping_num,'express_num': express_num, 'sum_num': sum_num}
+    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required
+def get_detail_data(request):
+
+    if request.method != 'POST':
+        return redirect(index)
+    else:
+        item_name = request.POST.get('item_name',None)
+        if item_name == u'housekeeping':
+            profile = ProfileDetail.objects.get(profile=request.user)
+            housekeeping = Housekeeping.objects.filter(author=profile).order_by('-time')
+            if housekeeping:
+                house_keep_list = list()
+                for housekeeping_detail in housekeeping:
+                    housekeeping_detail.is_read = False
+                    housekeeping_detail.save()
+                    data = {
+                        'id': housekeeping_detail.id,
+                        'housekeeping_author': str(housekeeping_detail.author.profile),
+                        'content': housekeeping_detail.housekeeping_item.content,
+                        'housekeeping_status': housekeeping_detail.status,
+                        'price_description': housekeeping_detail.housekeeping_item.price_description,
+                        'item': housekeeping_detail.housekeeping_item.item,
+                        'remarks': housekeeping_detail.housekeeping_item.remarks,
+                        'pleased': housekeeping_detail.pleased,
+                        'handler': str(housekeeping_detail.handler),
+                        'time': str(housekeeping_detail.time)
+                    }
+                    house_keep_list.append(data)
+                response_data = {'house_keep_list': house_keep_list, 'success': True}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+            else:
+                response_data = {'success':False}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        if item_name == u'complain':
+            complain = Complaints.objects.filter(author=request.user.username).order_by('-time')
+            complain_list = list()
+            if complain:
+                for complain_detail in complain:
+                    complain_detail.is_read = False
+                    complain_detail.save()
+                    data = {
+                        'id': complain_detail.id,
+                        'complain_author': complain_detail.author,
+                        'content': complain_detail.content,
+                        'type': complain_detail.type,
+                        'deal_status': complain_detail.status,
+                        'pleased': complain_detail.pleased,
+                        'src': complain_detail.src.name,
+                        'time': str(complain_detail.timestamp),
+                        'handler': str(complain_detail.handler)
+                    }
+                    complain_list.append(data)
+                response_data = {'complain_list': complain_list, 'success': True}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+            else:
+                response_data = {'success': False}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        if item_name == u'express':
+            profile = ProfileDetail.objects.get(profile=request.user)
+            express = Express.objects.filter(author = profile).order_by('-time')
+            express_list = list()
+            if express:
+                for express_detail in express:
+                    express_detail.is_read = False
+                    express_detail.save()
+                    data = {
+                        'id': express_detail.id,
+                        'express_author': express_detail.author.profile.username,
+                        'get_express_type': express_detail.type,
+                        'deal_status': express_detail.status,
+                        'pleased': express_detail.pleased,
+                        'arrive_time': str(express_detail.arrive_time),
+                        'get_time': str(express_detail.get_time)
+                    }
+                    express_list.append(data)
+                response_data = {'express_list': express_list, 'success': True}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+            else:
+                response_data = {'success': False}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        if item_name == u'repair':
+                repair = Repair.objects.filter(author=request.user.username).order_by('-time')
+                repair_list = list()
+                if repair:
+                    for repair_detail in repair:
+                        repair_detail.is_read = False
+                        repair_detail.save()
+                        data = {
+                            'id': repair_detail.id,
+                            'repair_author': repair_detail.author,
+                            'content': repair_detail.content,
+                            'type': repair_detail.type,
+                            'deal_status': repair_detail.status,
+                            'pleased': repair_detail.pleased,
+                            'src': repair_detail.src.name,
+                            'time': str(repair_detail.timestamp),
+                            'handler': str(repair_detail.handler)
+                        }
+                        repair_list.append(data)
+                    response_data = {'repair_list': repair_list, 'success': True}
+                    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+                else:
+                    response_data = {'success': False}
+                    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')

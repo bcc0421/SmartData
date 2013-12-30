@@ -250,10 +250,11 @@
                 }
 
             });
-        })
+        });
 
         $(document).ready(function () {
             $('#example').dataTable({
+                "aaSorting": [[ 0, "desc" ]],
                 "oLanguage": {
                         "sLengthMenu": "显示 _MENU_每页显示记录",
                         "sZeroRecords": "对不起没有你要找的记录",

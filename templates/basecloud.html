@@ -20,6 +20,13 @@
     {% endblock %}
 </head>
 <body class="s_info_lst">
+     <div id="show_detail"class="bs-example"style="display: none;margin-bottom: -15px">
+      <div  id="show_info_detail"class="alert alert-warning fade in">
+        <button type="button" onclick="close_alert()"class="close"  >&times;</button>
+        <div id="show_info_detail_content">
+        </div>        .
+      </div>
+    </div>
 <!-- 工具栏 start -->
 <div class="topBanner_box">
     <div class="toolbar el_container">
@@ -68,6 +75,18 @@
                         </div>
                     </span>
                 </span>
+        </div>
+         <div class="fn_right"style="margin-right: 10px;margin-top: 2px">
+            {% if user %}
+                <span class=" glyphicon glyphicon-volume-up "></span>
+                <a  id="show_detail_num" role="button" data-toggle="dropdown" href="#"><font color="#a52a2a">新消息</font></a>
+                <ul  id="show_item_num"style="left: inherit" class="dropdown-menu" role="menu" aria-labelledby="show_detail">
+                    <li id="show_housekeeping_num"onclick="info_detail(this)"name="housekeeping" ><a href="#">家政：5</a></li>
+                    <li id="show_repair_num" onclick="info_detail(this)" name="repair"><a href="#">报修：5</a></li>
+                    <li id="show_express_num" onclick="info_detail(this)"name="express"><a href="#">快递：5</a></li>
+                    <li id="show_complain_num"  onclick="info_detail(this)"name="complain"><a href="#">投诉：5</a></li>
+                </ul>
+            {% endif %}
         </div>
         <!-- right part end -->
 
@@ -340,7 +359,66 @@
 <script src="/static/js/colourlife.common.js"></script>
 <script src="/static/js/bootstrap.js"></script>
 <script src="/static/js/colourlife.form.js"></script>
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/DT_bootstrap.js"></script>
 <script type="text/javascript">
+    function get_new_num(){
+        $.post('/get/new/dynamic_data/',
+        function(data){
+              $('#show_detail_num').html("<font color='#a52a2a'>"+data.sum_num+"</font>");
+              $('#show_housekeeping_num').html("<a href='#'>家政："+data.housekeeping_num+"</a>");
+              $('#show_repair_num').html("<a href='#'>报修："+data.repair_num+"</a>");
+              $('#show_express_num').html("<a href='#'>快递："+data.express_num+"</a>");
+              $('#show_complain_num').html("<a href='#'>投诉："+data.complain_num+"</a>");
+        })
+    }
+    window.setInterval("get_new_num()", 3000);
+    function get_data(item_name){
+       $.post('/get/detail_data/',
+               {'item_name':item_name},
+                function(data){
+                    if(data.success){
+                       if (item_name == 'housekeeping'){
+                         for(var i=0; i<data.house_keep_list.length;i++){
+                             $("#show_info_detail_content").html('');
+                             $("#show_info_detail_content").append("<p>您于"+data.house_keep_list[i].time+"申请的"+data.house_keep_list[i].item+"已派"+data.house_keep_list[i].handler+"去处理");
+                            }
+                        }
+                        if(item_name == 'express'){
+                           $("#show_info_detail_content").html('');
+                          for(var i=0; i<data.express_list.length;i++){
+                             $("#show_info_detail_content").append("<p>您有新的快件于"+data.express_list[i].arrive_time+"到达请注意查收");
+                            }
+                        }
+                        if(item_name == 'repair'){
+                            $("#show_info_detail_content").html('');
+                            for(var i=0; i<data.repair_list.length;i++){
+                             $("#show_info_detail_content").append("<p>您于"+data.repair_list[i].time+"报修的"+data.repair_list[i].content+"已派"+data.repair_list[i].handler+"去处理");
+                            }
+                        }
+                        if(item_name == 'complain'){
+                          $("#show_info_detail_content").html('');
+                          for(var i=0; i<data.complain_list.length;i++){
+                             $("#show_info_detail_content").append("<p>您于"+data.complain_list[i].time+"投诉的"+data.complain_list[i].type+"已派"+data.complain_list[i].handler+"去处理");
+                            }
+                        }
+                    }
+                    else{
+                            $("#show_info_detail_content").html('');
+                           $("#show_info_detail_content").append("<p>当前没有最新消息！</p>");
+                        }
+
+                })
+    }
+    function info_detail(obj){
+       var item_name=$(obj).attr('name');
+        get_data(item_name);
+      $("#show_detail").slideDown();
+    }
+   function close_alert(){
+       $("#show_detail").slideUp();
+       $("#show_info_detail_content").html('');
+   }
     function goTop() {
         $(window).scroll(function (e) {
             var clientHeight = $(window).height();
@@ -385,9 +463,6 @@
                                    $('#change_name').html(""+now_name+"<span class='caret'></span>");
                                 }
                 }
-
-
-
         )
     }
 </script>
