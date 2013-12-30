@@ -52,6 +52,9 @@ class Complaints(models.Model):
     src = models.ImageField(upload_to='uploads/%Y/%m/%d', null=True)
     pleased_reason = models.CharField(max_length=250, null=True)
     community = models.ForeignKey(Community, null=True)
+    is_read = models.BooleanField(default=False)
+    is_worker_read = models.BooleanField(default=False)
+    is_admin_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.content
@@ -70,6 +73,9 @@ class Repair(models.Model):
     repair_item = models.CharField(max_length=200, default='')
     price = models.IntegerField(default=0)
     community = models.ForeignKey(Community, null=True)
+    is_read = models.BooleanField(default=False)
+    is_worker_read = models.BooleanField(default=False)
+    is_admin_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.content
@@ -86,6 +92,9 @@ class Express(models.Model):
     pleased = models.IntegerField(default=0)
     allowable_get_express_time = models.CharField(max_length=200, default='')
     community = models.ForeignKey(Community, null=True)
+    is_read = models.BooleanField(default=False)
+    is_worker_read = models.BooleanField(default=False)
+    is_admin_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.type
@@ -118,6 +127,9 @@ class Housekeeping(models.Model):
     pleased_reason = models.CharField(max_length=250, null=True)
     handler = models.ForeignKey(User, null=True)
     community = models.ForeignKey(Community, null=True)
+    is_read = models.BooleanField(default=False)
+    is_worker_read = models.BooleanField(default=False)
+    is_admin_read = models.BooleanField(default=False)
     def __str__(self):
         return self.author
 

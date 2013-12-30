@@ -87,6 +87,7 @@ def add_user_express(request):
             express = Express(author=profile)
             express.handler = request.user
             express.arrive_time = datetime.datetime.now()
+            express.is_read = True
             express.community = community
             express.save()
             response_data = {'success': True, 'info': '添加成功！'}

@@ -168,6 +168,7 @@ def repair_deal(request):
             for i in range(len(list_repair)):
                 re_id = int(list_repair[i])
                 repair = Repair.objects.get(id=re_id)
+                repair.is_read = True
                 repair.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:

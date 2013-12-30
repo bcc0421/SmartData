@@ -44,6 +44,7 @@ def enter_community(request, id):
     community = Community.objects.get(id=id)
     communities = Community.objects.all()
     request.session['community_id'] = id
+    request.session.set_expiry(3600*24*7)
     if request.user.is_authenticated():
         return render_to_response('index.html', {
                         'community': community,

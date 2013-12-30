@@ -112,6 +112,8 @@ urlpatterns = patterns('',
                        url(r'^api/delete/housekeeping_item/$',api_housekeeping_item_delete),
                        url(r'^api/modify/housekeeping_item/$',api_modify_housekeeping_item),
                        url(r'^api/modify/repair_item/$',api_modify_repair_item),
+                       url(r'^get/new/dynamic_data/$',get_new_dynamic_data),
+                       url(r'^get/detail_data/$',get_detail_data),
 
 
 
