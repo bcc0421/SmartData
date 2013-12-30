@@ -55,21 +55,26 @@ def register(request):
         gate_card = request.POST.get(u'gate_card', None)
         address = request.POST.get(u'address', None)
         if len(User.objects.filter(username=username)) > 0:
-            response_data = {'username_error': True, 'info': u'用户名已存在', 'user': request.user, 'communities': communities}
+            response_data = {'username_error': True, 'info': u'用户名已存在', 'user': request.user,
+                             'communities': communities}
             return render_to_response('register.html', response_data)
         if password != repeatPwd:
-            response_data = {'password_error': True, 'info': u'两次密码输入不相同', 'user': request.user, 'communities': communities}
+            response_data = {'password_error': True, 'info': u'两次密码输入不相同', 'user': request.user,
+                             'communities': communities}
             return render_to_response('register.html', response_data)
         pattern = re.compile(r'^[a-zA-Z0-9]{6,15}$')
         if not pattern.match(password):
-            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位', 'user': request.user, 'communities': communities}
+            response_data = {'password_error': True, 'info': u'密码：字母、数字组成，6-15位', 'user': request.user,
+                             'communities': communities}
             return render_to_response('register.html', response_data)
         pattern = re.compile(r'^(1[0-9][0-9])\d{8}$')
         if not pattern.match(mobile):
-            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码', 'user': request.user, 'communities': communities}
+            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码', 'user': request.user,
+                             'communities': communities}
             return render_to_response('register.html', response_data)
         if not validateEmail(email):
-            response_data = {'email_error': True, 'info': u'请输入正确的邮箱地址', 'user': request.user, 'communities': communities}
+            response_data = {'email_error': True, 'info': u'请输入正确的邮箱地址', 'user': request.user,
+                             'communities': communities}
             return render_to_response('register.html', response_data)
         user = User(username=username)
         user.email = email
@@ -218,13 +223,13 @@ def api_user_login(request):
             profile = ProfileDetail.objects.get(profile=user)
             if user.is_staff:
                 response_data = {'identity': 'admin', 'info': 'login successful'}
-                return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
             elif profile.is_admin:
-                response_data = {'identity': 'worker','info': 'login successful'}
-                return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
+                response_data = {'identity': 'worker', 'info': 'login successful'}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
             else:
-                response_data = {'identity': 'resident','info': 'login successful'}
-                return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
+                response_data = {'identity': 'resident', 'info': 'login successful'}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
         else:
             return HttpResponse(simplejson.dumps({'info': 'login failed'}), content_type='application/json')
     else:
@@ -284,24 +289,23 @@ def api_user_change_password(request):
         user = request.user
         if new_password != repeat_password:
             response_data = {'error': True, 'info': u'两次密码不一致'}
-            return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
         if check_password(old_password, user.password):
             pattern = re.compile('\w{6,15}')
             match = pattern.match(new_password)
             if not match:
                 response_data = {'error': True, 'info': u'密码长度为6-15位数字或字母'}
-                return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
             else:
                 user.password = make_password(new_password, 'md5')
                 user.save()
-                return HttpResponse(simplejson.dumps({'error': False, 'info': u'密码更新成功'}),content_type = 'application/json')
+                return HttpResponse(simplejson.dumps({'error': False, 'info': u'密码更新成功'}),
+                                    content_type='application/json')
         else:
             response_data = {'error': True, 'info': u'旧密码不正确'}
-            return HttpResponse(simplejson.dumps(response_data),content_type='application/json')
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
         return return_404_response()
-
-
 
 
 @transaction.atomic
@@ -369,7 +373,7 @@ def api_get_worker_list(request):
                 'phone_number': profile_detail.phone_number,
             }
             worker_list.append(data)
-        response_data = {'worker_list': worker_list,'success': True}
+        response_data = {'worker_list': worker_list, 'success': True}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
         return HttpResponse(simplejson.dumps({'success': False}), content_type='application/json')
