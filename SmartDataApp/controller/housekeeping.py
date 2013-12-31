@@ -149,6 +149,7 @@ def submit_housekeeping(request):
             housekeeping.community = profile.community
             housekeeping.time = datetime.datetime.utcnow().replace(tzinfo=utc)
             housekeeping.housekeeping_item = housekeeping_item
+            housekeeping.is_admin_read =True
             housekeeping.save()
         response_data = {'success': True, 'info': '提交成功！'}
         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
@@ -186,6 +187,7 @@ def deal_housekeeping(request):
                 house_id = int(list_housekeeping[i])
                 housekeeping = Housekeeping.objects.get(id=house_id)
                 housekeeping.is_read = True
+                housekeeping.is_worker_read =True
                 housekeeping.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
@@ -313,6 +315,7 @@ def api__user_submit_housekeeping(request):
             housekeeping.community = profile.community
             housekeeping.time = datetime.datetime.utcnow().replace(tzinfo=utc)
             housekeeping.housekeeping_item = housekeeping_item
+            housekeeping.is_admin_read =True
             housekeeping.save()
         response_data = {'success': True, 'info': '提交成功！'}
         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
@@ -399,6 +402,7 @@ def api_housekeeping_deal(request):
                 housekeeping = Housekeeping.objects.get(id=com_id)
                 housekeeping.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
+                housekeeping.is_read = True
                 if user_obj:
                     housekeeping.handler = user_obj
                 housekeeping.save()

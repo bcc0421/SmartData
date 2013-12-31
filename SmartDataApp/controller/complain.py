@@ -109,6 +109,7 @@ def complain_create(request):
             complain.author = request.user.username
             complain.type = complain_type
             complain.community = profile.community
+            complain.is_admin_read = True
             if upload__complain_src:
                 complain.src = upload__complain_src
             complain.save()
@@ -131,6 +132,7 @@ def complain_deal(request):
                 com_id = int(list_complain_[i])
                 complain = Complaints.objects.get(id=com_id)
                 complain.is_read = True
+                complain.is_worker_read = True
                 complain.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
@@ -245,6 +247,7 @@ def api_complain_create(request):
             complain.content = complain_content
             complain.timestamp = complain_time
             complain.type = complain_type
+            complain.is_admin_read = True
             complain.community = profile.community
             if upload__complain_src:
                 complain.src = upload__complain_src
@@ -330,6 +333,8 @@ def api_complain_deal(request):
                 com_id = int(list_complain_[i])
                 complain = Complaints.objects.get(id=com_id)
                 complain.status = 2
+                complain.is_worker_read = True
+                complain.is_read = True
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
                     complain.handler = user_obj

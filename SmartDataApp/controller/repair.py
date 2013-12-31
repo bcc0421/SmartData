@@ -147,6 +147,7 @@ def repair_create(request):
             repair.repair_item = item.item
             repair.price = item.price
             repair.community = profile.community
+            repair.is_admin_read = True
             if upload_repair_src:
                 repair.src = upload_repair_src
             repair.save()
@@ -169,6 +170,7 @@ def repair_deal(request):
                 re_id = int(list_repair[i])
                 repair = Repair.objects.get(id=re_id)
                 repair.is_read = True
+                repair .is_worker_read =True
                 repair.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
@@ -271,6 +273,7 @@ def api_repair_create(request):
             repair.repair_item = item.item
             repair.price = item.price
             repair.community = profile.community
+            repair.is_read = True
             if upload_repair_src:
                 repair.src = upload_repair_src
             repair.save()
@@ -357,6 +360,8 @@ def api_repair_deal(request):
                 rep_id = int(list_repair[i])
                 repair =Repair.objects.get(id=rep_id)
                 repair.status = 2
+                repair.is_read = True
+                repair .is_worker_read =True
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
                     repair.handler = user_obj

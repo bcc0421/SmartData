@@ -14,7 +14,6 @@
     <link href="/static/css/baseNew.css" rel="stylesheet">
     <link href="/static/css/indexNew.css" rel="stylesheet">
     <link href="/static/css/bootstrap.css" rel="stylesheet">
-
     {% block css %}
         <style>
             .dataTables_wrapper {
@@ -32,7 +31,8 @@
 
             .dataTables_filter {
                 float: right;
-                margin-top: -25px
+                margin-top: -25px;
+                margin-right: 18px
             }
         </style>
 
@@ -102,14 +102,14 @@
             {% if user %}
                 <span class=" glyphicon glyphicon-volume-up "></span>
                 <a id="show_detail_num" role="button" data-toggle="dropdown" href="#"><font
-                        color="#a52a2a">新消息</font></a>
+                        color="#a52a2a">0</font></a>
                 <ul id="show_item_num" style="left: inherit" class="dropdown-menu" role="menu"
                     aria-labelledby="show_detail">
-                    <li id="show_housekeeping_num" onclick="info_detail(this)" name="housekeeping"><a href="#">家政：5</a>
+                    <li id="show_housekeeping_num" onclick="info_detail(this)" name="housekeeping"><a href="#">家政：0</a>
                     </li>
-                    <li id="show_repair_num" onclick="info_detail(this)" name="repair"><a href="#">报修：5</a></li>
-                    <li id="show_express_num" onclick="info_detail(this)" name="express"><a href="#">快递：5</a></li>
-                    <li id="show_complain_num" onclick="info_detail(this)" name="complain"><a href="#">投诉：5</a></li>
+                    <li id="show_repair_num" onclick="info_detail(this)" name="repair"><a href="#">报修：0</a></li>
+                    <li id="show_express_num" onclick="info_detail(this)" name="express"><a href="#">快递：0</a></li>
+                    <li id="show_complain_num" onclick="info_detail(this)" name="complain"><a href="#">投诉：0</a></li>
                 </ul>
             {% endif %}
         </div>
@@ -371,6 +371,8 @@
                 "aoColumns": [
                     { "sTitle": "提醒内容", "sClass": "center" }
                 ],
+                "iDisplayLength": 5,
+                "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
                 "bSort": false,
                 "oLanguage": {
                     "sLengthMenu": "显示 _MENU_每页显示记录",
@@ -386,32 +388,71 @@
                 {'item_name': item_name},
                 function (data) {
                    // if (data.success) {
+                        var DataSet = new Array();
                         $('#show_info_detail_content').html('<table cellpadding="0" cellspacing="0" border="1" class=" display table table-striped table-bordered dataTable" id="message_remind"></table>');
                         if (item_name == 'housekeeping') {
-                            var DataSet = new Array();
-                            for (var i = 0; i < data.house_keep_list.length; i++) {
-                                DataSet[i] = new Array("您于&nbsp;&nbsp;" + data.house_keep_list[i].time + "&nbsp;&nbsp;申请的&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp;已派&nbsp;&nbsp;" + data.house_keep_list[i].handler + "&nbsp;&nbsp;去处理");
+                            if(data.identity == 'inhabitant'){
+                                for (var i = 0; i < data.house_keep_list.length; i++) {
+                                    DataSet[i] = new Array("您于&nbsp;&nbsp;" + data.house_keep_list[i].time + "&nbsp;&nbsp;申请的&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp;已派&nbsp;&nbsp;" + data.house_keep_list[i].handler + "&nbsp;&nbsp;去处理");
+                                }
+                             }
+                            if(data.identity == 'admin'){
+                                for (var i = 0; i < data.house_keep_list.length; i++) {
+                                    DataSet[i] = new Array("" + data.house_keep_list[i].housekeeping_author +"&nbsp;&nbsp;在&nbsp;&nbsp;"+data.house_keep_list[i].time + "&nbsp;&nbsp;申请&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp服务&nbsp;&nbsp;");
+                                }
+                            }
+                             if(data.identity == 'worker'){
+                                for (var i = 0; i < data.house_keep_list.length; i++) {
+                                    DataSet[i] = new Array("管理员将&nbsp;&nbsp;" +  data.house_keep_list[i].housekeeping_author + "&nbsp;&nbsp;申请的&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp;指派于你去处理" );
+                                }
                             }
                             TableInit(DataSet);
                         }
                         if (item_name == 'express') {
-                            var DataSet = new Array();
-                            for (var i = 0; i < data.express_list.length; i++) {
-                                DataSet[i] = new Array("您有新的快件于" + data.express_list[i].arrive_time + "到达请注意查收");
+                            if(data.identity == 'inhabitant'){
+                                for (var i = 0; i < data.express_list.length; i++) {
+                                    DataSet[i] = new Array("您有新的快件于" + data.express_list[i].arrive_time + "到达请注意查收");
+                                }
+                             }
+                            else{
+                                DataSet[i] = new Array("详情请看邮政业务！");
                             }
-                            TableInit(DataSet);
+                                TableInit(DataSet);
+
                         }
                         if (item_name == 'repair') {
-                            var DataSet = new Array();
-                            for (var i = 0; i < data.repair_list.length; i++) {
-                                DataSet[i] = new Array("您于" + data.repair_list[i].time + "报修的" + data.repair_list[i].content + "已派" + data.repair_list[i].handler + "去处理");
+                            if(data.identity == 'inhabitant'){
+                                for (var i = 0; i < data.repair_list.length; i++) {
+                                    DataSet[i] = new Array("您于" + data.repair_list[i].time + "的" + data.repair_list[i].type + "已派" + data.repair_list[i].handler + "去处理");
+                                }
+                             }
+                            if(data.identity == 'admin'){
+                                for (var i = 0; i < data.repair_list.length; i++) {
+                                    DataSet[i] = new Array("" + data.repair_list[i].repair_author +"&nbsp;&nbsp;在&nbsp;&nbsp;"+data.repair_list[i].time + "&nbsp;&nbsp;报修&nbsp;&nbsp;" + data.repair_list[i].type  + "&nbsp;&nbsp服务&nbsp;&nbsp;");
+                                }
+                            }
+                             if(data.identity == 'worker'){
+                                for (var i = 0; i < data.repair_list.length; i++) {
+                                    DataSet[i] = new Array("管理员将&nbsp;&nbsp;" +  data.repair_list[i].repair_author + "&nbsp;&nbsp;报修的&nbsp;&nbsp;" +  data.repair_list[i].type + "&nbsp;&nbsp;指派于你去处理" );
+                                }
                             }
                             TableInit(DataSet);
                         }
                         if (item_name == 'complain') {
-                           var DataSet = new Array();
-                           for (var i = 0; i < data.repair_list.length; i++) {
-                                DataSet[i] = new Array("您于" + data.complain_list[i].time + "投诉的" + data.complain_list[i].type + "已派" + data.complain_list[i].handler + "去处理");
+                             if(data.identity == 'inhabitant'){
+                                for (var i = 0; i < data.complain_list.length; i++) {
+                                    DataSet[i] = new Array("您于" + data.complain_list[i].time + "投诉的" + data.complain_list[i].type + "已派" + data.complain_list[i].handler + "去处理");
+                                }
+                             }
+                            if(data.identity == 'admin'){
+                                for (var i = 0; i < data.complain_list.length; i++) {
+                                    DataSet[i] = new Array("" + data.complain_list[i].complain_author +"&nbsp;&nbsp;在&nbsp;&nbsp;"+data.complain_list[i].time + "&nbsp;&nbsp;投诉&nbsp;&nbsp;" + data.complain_list[i].type  + "");
+                                }
+                            }
+                             if(data.identity == 'worker'){
+                                for (var i = 0; i < data.complain_list.length; i++) {
+                                    DataSet[i] = new Array("管理员将&nbsp;&nbsp;" +  data.complain_list[i].complain_author + "&nbsp;&nbsp;投诉的&nbsp;&nbsp;" +  data.complain_list[i].type + "&nbsp;&nbsp;指派于你去处理" );
+                                }
                             }
                             TableInit(DataSet);
                         }
