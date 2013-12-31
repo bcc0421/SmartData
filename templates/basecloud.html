@@ -14,38 +14,44 @@
     <link href="/static/css/baseNew.css" rel="stylesheet">
     <link href="/static/css/indexNew.css" rel="stylesheet">
     <link href="/static/css/bootstrap.css" rel="stylesheet">
+
+    <style>
+        .dataTables_wrapper {
+            padding-left: 0px !important;
+        }
+
+        .dataTables_paginate {
+            float: right;
+            margin-top: -20px;
+        }
+
+        .dataTables_paginate li {
+            float: left
+        }
+
+        .dataTables_filter {
+            float: right;
+            margin-top: -25px;
+            margin-right: 18px;
+        }
+
+        .span6 li {
+            padding-left: 1px;
+            padding-right: 1px;
+        }
+    </style>
     {% block css %}
-        <style>
-            .dataTables_wrapper {
-                padding-left: 0px !important;
-            }
-
-            .dataTables_paginate {
-                float: right;
-                margin-top: -20px;
-            }
-
-            .dataTables_paginate li {
-                float: left
-            }
-
-            .dataTables_filter {
-                float: right;
-                margin-top: -25px;
-                margin-right: 18px;
-            }
-        </style>
-
     {% endblock %}
 </head>
 <body class="s_info_lst">
-     <div id="show_detail"class="bs-example"style="display: none;margin-bottom: -15px">
-      <div  id="show_info_detail"class="alert alert-warning fade in">
-        <button type="button" onclick="close_alert()"class="close"  >&times;</button>
+<div id="show_detail" class="bs-example" style="display: none;margin-bottom: -15px">
+    <div id="show_info_detail" class="alert alert-warning fade in">
+        <button type="button" onclick="close_alert()" class="close">&times;</button>
         <div id="show_info_detail_content">
-        </div>        .
-      </div>
+        </div>
+        .
     </div>
+</div>
 <!-- 工具栏 start -->
 <div class="topBanner_box">
     <div class="toolbar el_container">
@@ -60,8 +66,8 @@
             </a>&nbsp;&nbsp;&nbsp;&nbsp;
 
         </div>
-        <div class="fn_left"style="margin-top:1px ">
-            <span ><font color="black">工作时间：早8:00--12:00，下午14:00--18:00，晚上19:00--22:00</font></span>
+        <div class="fn_left" style="margin-top:1px ">
+            <span><font color="black">工作时间：早8:00--12:00，下午14:00--18:00，晚上19:00--22:00</font></span>
         </div>
         <!-- left part end -->
 
@@ -95,15 +101,17 @@
                     </span>
                 </span>
         </div>
-         <div class="fn_right"style="margin-right: 10px;margin-top: 2px">
+        <div class="fn_right" style="margin-right: 10px;margin-top: 2px">
             {% if user %}
                 <span class=" glyphicon glyphicon-volume-up "></span>
-                <a  id="show_detail_num" role="button" data-toggle="dropdown" href="#"><font color="#a52a2a">0</font></a>
-                <ul  id="show_item_num"style="left: inherit" class="dropdown-menu" role="menu" aria-labelledby="show_detail">
-                    <li id="show_housekeeping_num"onclick="info_detail(this)"name="housekeeping" ><a href="#">家政：0</a></li>
+                <a id="show_detail_num" role="button" data-toggle="dropdown" href="#"><font color="#a52a2a">0</font></a>
+                <ul id="show_item_num" style="left: inherit" class="dropdown-menu" role="menu"
+                    aria-labelledby="show_detail">
+                    <li id="show_housekeeping_num" onclick="info_detail(this)" name="housekeeping"><a href="#">家政：0</a>
+                    </li>
                     <li id="show_repair_num" onclick="info_detail(this)" name="repair"><a href="#">报修：0</a></li>
-                    <li id="show_express_num" onclick="info_detail(this)"name="express"><a href="#">快递：0</a></li>
-                    <li id="show_complain_num"  onclick="info_detail(this)"name="complain"><a href="#">投诉：0</a></li>
+                    <li id="show_express_num" onclick="info_detail(this)" name="express"><a href="#">快递：0</a></li>
+                    <li id="show_complain_num" onclick="info_detail(this)" name="complain"><a href="#">投诉：0</a></li>
                 </ul>
             {% endif %}
         </div>
@@ -175,20 +183,22 @@
 <div class="mainNav">
     <div class="mainNav_box el_container">
         <span class="nowPos">亨通物业管理平台</span>
+
         <div class="btn-group" style="margin-left:10px">
-          <button type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown">
-              {% if change_community == 1 %}
+            <button type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown">
+                {% if change_community == 1 %}
                     {{ community.title }}
-              {% elif change_community == 2 %}
+                {% elif change_community == 2 %}
                     {{ profile.community.title }}
-              {% else %}
-                      切换小区
-              {% endif %}
-            <span class="caret"></span>
-          </button>
-            <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel"     >
+                {% else %}
+                    切换小区
+                {% endif %}
+                <span class="caret"></span>
+            </button>
+            <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 {% for community in communities %}
-                    <li  id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a></li>
+                    <li id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a>
+                    </li>
                 {% endfor %}
 
             </ul>
@@ -215,79 +225,78 @@
         {% endif %}
 
 
-
     </div>
 </div>
 <!-- 主导航栏 end -->
 <div class="container" id="page">
-     <div style="width: 1210px">
-                <!-- 主要内容区域 start -->
+    <div style="width: 1210px">
+        <!-- 主要内容区域 start -->
 
-            <div class="el_blank_h20"></div>
+        <div class="el_blank_h20"></div>
 
-            <!-- 左侧 start -->
-            <div class="el_w_203 fn_left">
-                <!-- 服务列表 start -->
-                <div class="sur_ix_serBox">
-                    <!-- 元素 start -->
-                    <a class="item_s1 item" href="/repair/">
-                        <i class="icon"></i>
-                        <span class="title">报修</span>
-                    </a>
-                    <!-- 元素 end -->
+        <!-- 左侧 start -->
+        <div class="el_w_203 fn_left">
+            <!-- 服务列表 start -->
+            <div class="sur_ix_serBox">
+                <!-- 元素 start -->
+                <a class="item_s1 item" href="/repair/">
+                    <i class="icon"></i>
+                    <span class="title">报修</span>
+                </a>
+                <!-- 元素 end -->
 
-                    <!-- 元素 start -->
-                    <a class="item_s2 item" href="/complain/">
-                        <i class="icon"></i>
-                        <span class="title">投诉</span>
-                    </a>
-                    <!-- 元素 end -->
+                <!-- 元素 start -->
+                <a class="item_s2 item" href="/complain/">
+                    <i class="icon"></i>
+                    <span class="title">投诉</span>
+                </a>
+                <!-- 元素 end -->
 
-                    <!-- 元素 start -->
-                    <a class="item_s3 item" href="/housekeeping/">
-                        <i class="icon"></i>
-                        <span class="title">家政</span>
-                    </a>
-                    <!-- 元素 end -->
+                <!-- 元素 start -->
+                <a class="item_s3 item" href="/housekeeping/">
+                    <i class="icon"></i>
+                    <span class="title">家政</span>
+                </a>
+                <!-- 元素 end -->
 
-                    <!-- 元素 start -->
-                    <a class="item_s4 item" href="#">
-                        <i class="icon"></i>
-                        <span class="title">停车费</span>
-                    </a>
-                    <!-- 元素 end -->
-                    <!-- 元素 start -->
-                    <a class="item_s5 item" href="#">
-                        <i class="icon"></i>
-                        <span class="title">充值</span>
-                    </a>
-                    <!-- 元素 end -->
-                    <!-- 元素 start -->
-                    <a class="item_s6 item" href="#">
-                        <i class="icon"></i>
-                        <span class="title">教育</span>
-                    </a>
-                    <!-- 元素 end -->
-                    <!-- 元素 start -->
-                    <a class="item_s7 item" href="/express/">
-                        <i class="icon"></i>
-                        <span class="title">快递</span>
-                    </a>
-                    <!-- 元素 end -->
-                    <!-- 元素 start -->
-                    <a class="item_s8 item" href="#">
-                        <i class="icon"></i>
-                        <span class="title">餐饮</span>
-                    </a>
-                    <!-- 元素 end -->
-                </div>
-                <!-- 服务列表 end -->
+                <!-- 元素 start -->
+                <a class="item_s4 item" href="#">
+                    <i class="icon"></i>
+                    <span class="title">停车费</span>
+                </a>
+                <!-- 元素 end -->
+                <!-- 元素 start -->
+                <a class="item_s5 item" href="#">
+                    <i class="icon"></i>
+                    <span class="title">充值</span>
+                </a>
+                <!-- 元素 end -->
+                <!-- 元素 start -->
+                <a class="item_s6 item" href="#">
+                    <i class="icon"></i>
+                    <span class="title">教育</span>
+                </a>
+                <!-- 元素 end -->
+                <!-- 元素 start -->
+                <a class="item_s7 item" href="/express/">
+                    <i class="icon"></i>
+                    <span class="title">快递</span>
+                </a>
+                <!-- 元素 end -->
+                <!-- 元素 start -->
+                <a class="item_s8 item" href="#">
+                    <i class="icon"></i>
+                    <span class="title">餐饮</span>
+                </a>
+                <!-- 元素 end -->
             </div>
-            <!-- 左侧 end -->
-            {% block right_container %}
+            <!-- 服务列表 end -->
+        </div>
+        <!-- 左侧 end -->
+        {% block right_container %}
 
-            {% endblock %}
-     </div>
+        {% endblock %}
+    </div>
 </div>
 <!-- 服务快链区域 start -->
 <div class="serverBar">
@@ -381,15 +390,15 @@
 <script src="/static/js/jquery.dataTables.min.js"></script>
 <script src="/static/js/DT_bootstrap.js"></script>
 <script type="text/javascript">
-    function get_new_num(){
+    function get_new_num() {
         $.post('/get/new/dynamic_data/',
-        function(data){
-              $('#show_detail_num').html("<font color='#a52a2a'>"+data.sum_num+"</font>");
-              $('#show_housekeeping_num').html("<a href='#'>家政："+data.housekeeping_num+"</a>");
-              $('#show_repair_num').html("<a href='#'>报修："+data.repair_num+"</a>");
-              $('#show_express_num').html("<a href='#'>快递："+data.express_num+"</a>");
-              $('#show_complain_num').html("<a href='#'>投诉："+data.complain_num+"</a>");
-        })
+                function (data) {
+                    $('#show_detail_num').html("<font color='#a52a2a'>" + data.sum_num + "</font>");
+                    $('#show_housekeeping_num').html("<a href='#'>家政：" + data.housekeeping_num + "</a>");
+                    $('#show_repair_num').html("<a href='#'>报修：" + data.repair_num + "</a>");
+                    $('#show_express_num').html("<a href='#'>快递：" + data.express_num + "</a>");
+                    $('#show_complain_num').html("<a href='#'>投诉：" + data.complain_num + "</a>");
+                })
     }
     window.setInterval("get_new_num()", 3000);
     function get_data(item_name) {
@@ -400,7 +409,10 @@
                     { "sTitle": "提醒内容", "sClass": "center" }
                 ],
                 "iDisplayLength": 5,
-                "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]]   ,
+                "aLengthMenu": [
+                    [5, 10, 15, -1],
+                    [5, 10, 15, 20]
+                ],
                 "bSort": false,
                 "oLanguage": {
                     "sLengthMenu": "显示 _MENU_每页显示记录",
@@ -412,94 +424,95 @@
                 }
             });
         }
+
         $.post('/get/detail_data/',
                 {'item_name': item_name},
                 function (data) {
-                   // if (data.success) {
-                        var DataSet = new Array();
-                        $('#show_info_detail_content').html('<table cellpadding="0" cellspacing="0" border="1" class=" display table table-striped table-bordered dataTable" id="message_remind"></table>');
-                        if (item_name == 'housekeeping') {
-                            if(data.identity == 'inhabitant'){
-                                for (var i = 0; i < data.house_keep_list.length; i++) {
-                                    DataSet[i] = new Array("您于&nbsp;&nbsp;" + data.house_keep_list[i].time + "&nbsp;&nbsp;申请的&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp;已派&nbsp;&nbsp;" + data.house_keep_list[i].handler + "&nbsp;&nbsp;去处理");
-                                }
-                             }
-                            if(data.identity == 'admin'){
-                                for (var i = 0; i < data.house_keep_list.length; i++) {
-                                    DataSet[i] = new Array("" + data.house_keep_list[i].housekeeping_author +"&nbsp;&nbsp;在&nbsp;&nbsp;"+data.house_keep_list[i].time + "&nbsp;&nbsp;申请&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp服务&nbsp;&nbsp;");
-                                }
+                    // if (data.success) {
+                    var DataSet = new Array();
+                    $('#show_info_detail_content').html('<table cellpadding="0" cellspacing="0" border="1" class=" display table table-striped table-bordered dataTable" id="message_remind"></table>');
+                    if (item_name == 'housekeeping') {
+                        if (data.identity == 'inhabitant') {
+                            for (var i = 0; i < data.house_keep_list.length; i++) {
+                                DataSet[i] = new Array("您于&nbsp;&nbsp;" + data.house_keep_list[i].time + "&nbsp;&nbsp;申请的&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp;已派&nbsp;&nbsp;" + data.house_keep_list[i].handler + "&nbsp;&nbsp;去处理");
                             }
-                             if(data.identity == 'worker'){
-                                for (var i = 0; i < data.house_keep_list.length; i++) {
-                                    DataSet[i] = new Array("管理员将&nbsp;&nbsp;" +  data.house_keep_list[i].housekeeping_author + "&nbsp;&nbsp;申请的&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp;指派于你去处理" );
-                                }
-                            }
-                            TableInit(DataSet);
                         }
-                        if (item_name == 'express') {
-                            if(data.identity == 'inhabitant'){
-                                for (var i = 0; i < data.express_list.length; i++) {
-                                    DataSet[i] = new Array("您有新的快件于" + data.express_list[i].arrive_time + "到达请注意查收");
-                                }
-                             }
-                            else{
-                                DataSet[i] = new Array("详情请看邮政业务！");
+                        if (data.identity == 'admin') {
+                            for (var i = 0; i < data.house_keep_list.length; i++) {
+                                DataSet[i] = new Array("" + data.house_keep_list[i].housekeeping_author + "&nbsp;&nbsp;在&nbsp;&nbsp;" + data.house_keep_list[i].time + "&nbsp;&nbsp;申请&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp服务&nbsp;&nbsp;");
                             }
-                                TableInit(DataSet);
+                        }
+                        if (data.identity == 'worker') {
+                            for (var i = 0; i < data.house_keep_list.length; i++) {
+                                DataSet[i] = new Array("管理员将&nbsp;&nbsp;" + data.house_keep_list[i].housekeeping_author + "&nbsp;&nbsp;申请的&nbsp;&nbsp;" + data.house_keep_list[i].item + "&nbsp;&nbsp;指派于你去处理");
+                            }
+                        }
+                        TableInit(DataSet);
+                    }
+                    if (item_name == 'express') {
+                        if (data.identity == 'inhabitant') {
+                            for (var i = 0; i < data.express_list.length; i++) {
+                                DataSet[i] = new Array("您有新的快件于" + data.express_list[i].arrive_time + "到达请注意查收");
+                            }
+                        }
+                        else {
+                            DataSet[i] = new Array("详情请看邮政业务！");
+                        }
+                        TableInit(DataSet);
 
+                    }
+                    if (item_name == 'repair') {
+                        if (data.identity == 'inhabitant') {
+                            for (var i = 0; i < data.repair_list.length; i++) {
+                                DataSet[i] = new Array("您于" + data.repair_list[i].time + "的" + data.repair_list[i].type + "已派" + data.repair_list[i].handler + "去处理");
+                            }
                         }
-                        if (item_name == 'repair') {
-                            if(data.identity == 'inhabitant'){
-                                for (var i = 0; i < data.repair_list.length; i++) {
-                                    DataSet[i] = new Array("您于" + data.repair_list[i].time + "的" + data.repair_list[i].type + "已派" + data.repair_list[i].handler + "去处理");
-                                }
-                             }
-                            if(data.identity == 'admin'){
-                                for (var i = 0; i < data.repair_list.length; i++) {
-                                    DataSet[i] = new Array("" + data.repair_list[i].repair_author +"&nbsp;&nbsp;在&nbsp;&nbsp;"+data.repair_list[i].time + "&nbsp;&nbsp;报修&nbsp;&nbsp;" + data.repair_list[i].type  + "&nbsp;&nbsp服务&nbsp;&nbsp;");
-                                }
+                        if (data.identity == 'admin') {
+                            for (var i = 0; i < data.repair_list.length; i++) {
+                                DataSet[i] = new Array("" + data.repair_list[i].repair_author + "&nbsp;&nbsp;在&nbsp;&nbsp;" + data.repair_list[i].time + "&nbsp;&nbsp;报修&nbsp;&nbsp;" + data.repair_list[i].type + "&nbsp;&nbsp服务&nbsp;&nbsp;");
                             }
-                             if(data.identity == 'worker'){
-                                for (var i = 0; i < data.repair_list.length; i++) {
-                                    DataSet[i] = new Array("管理员将&nbsp;&nbsp;" +  data.repair_list[i].repair_author + "&nbsp;&nbsp;报修的&nbsp;&nbsp;" +  data.repair_list[i].type + "&nbsp;&nbsp;指派于你去处理" );
-                                }
-                            }
-                            TableInit(DataSet);
                         }
-                        if (item_name == 'complain') {
-                             if(data.identity == 'inhabitant'){
-                                for (var i = 0; i < data.complain_list.length; i++) {
-                                    DataSet[i] = new Array("您于" + data.complain_list[i].time + "投诉的" + data.complain_list[i].type + "已派" + data.complain_list[i].handler + "去处理");
-                                }
-                             }
-                            if(data.identity == 'admin'){
-                                for (var i = 0; i < data.complain_list.length; i++) {
-                                    DataSet[i] = new Array("" + data.complain_list[i].complain_author +"&nbsp;&nbsp;在&nbsp;&nbsp;"+data.complain_list[i].time + "&nbsp;&nbsp;投诉&nbsp;&nbsp;" + data.complain_list[i].type  + "");
-                                }
+                        if (data.identity == 'worker') {
+                            for (var i = 0; i < data.repair_list.length; i++) {
+                                DataSet[i] = new Array("管理员将&nbsp;&nbsp;" + data.repair_list[i].repair_author + "&nbsp;&nbsp;报修的&nbsp;&nbsp;" + data.repair_list[i].type + "&nbsp;&nbsp;指派于你去处理");
                             }
-                             if(data.identity == 'worker'){
-                                for (var i = 0; i < data.complain_list.length; i++) {
-                                    DataSet[i] = new Array("管理员将&nbsp;&nbsp;" +  data.complain_list[i].complain_author + "&nbsp;&nbsp;投诉的&nbsp;&nbsp;" +  data.complain_list[i].type + "&nbsp;&nbsp;指派于你去处理" );
-                                }
-                            }
-                            TableInit(DataSet);
                         }
-                   // }
+                        TableInit(DataSet);
+                    }
+                    if (item_name == 'complain') {
+                        if (data.identity == 'inhabitant') {
+                            for (var i = 0; i < data.complain_list.length; i++) {
+                                DataSet[i] = new Array("您于" + data.complain_list[i].time + "投诉的" + data.complain_list[i].type + "已派" + data.complain_list[i].handler + "去处理");
+                            }
+                        }
+                        if (data.identity == 'admin') {
+                            for (var i = 0; i < data.complain_list.length; i++) {
+                                DataSet[i] = new Array("" + data.complain_list[i].complain_author + "&nbsp;&nbsp;在&nbsp;&nbsp;" + data.complain_list[i].time + "&nbsp;&nbsp;投诉&nbsp;&nbsp;" + data.complain_list[i].type + "");
+                            }
+                        }
+                        if (data.identity == 'worker') {
+                            for (var i = 0; i < data.complain_list.length; i++) {
+                                DataSet[i] = new Array("管理员将&nbsp;&nbsp;" + data.complain_list[i].complain_author + "&nbsp;&nbsp;投诉的&nbsp;&nbsp;" + data.complain_list[i].type + "&nbsp;&nbsp;指派于你去处理");
+                            }
+                        }
+                        TableInit(DataSet);
+                    }
+                    // }
                     //else {
-                     //   $("#show_info_detail_content").html('');
-                     //   $("#show_info_detail_content").append("<p>当前没有最新消息！</p>");
+                    //   $("#show_info_detail_content").html('');
+                    //   $("#show_info_detail_content").append("<p>当前没有最新消息！</p>");
                     //}
                 })
     }
-    function info_detail(obj){
-       var item_name=$(obj).attr('name');
+    function info_detail(obj) {
+        var item_name = $(obj).attr('name');
         get_data(item_name);
-      $("#show_detail").slideDown();
+        $("#show_detail").slideDown();
     }
-   function close_alert(){
-       $("#show_detail").slideUp();
-       $("#show_info_detail_content").html('');
-   }
+    function close_alert() {
+        $("#show_detail").slideUp();
+        $("#show_info_detail_content").html('');
+    }
     function goTop() {
         $(window).scroll(function (e) {
             var clientHeight = $(window).height();
@@ -532,17 +545,17 @@
     });
     goTop();//实现回到顶部元素的渐显与渐隐
 
-    function selected_community(obj){
-        var now_name=$(obj).attr('name');
-        var community_id=$(obj).attr('id');
+    function selected_community(obj) {
+        var now_name = $(obj).attr('name');
+        var community_id = $(obj).attr('id');
         $.post('/enter/community/',
                 {
-                    'community_id':community_id
+                    'community_id': community_id
                 },
-                function(data){
-                          if (data.success) {
-                                   $('#change_name').html(""+now_name+"<span class='caret'></span>");
-                                }
+                function (data) {
+                    if (data.success) {
+                        $('#change_name').html("" + now_name + "<span class='caret'></span>");
+                    }
                 }
         )
     }
