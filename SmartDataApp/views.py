@@ -448,6 +448,19 @@ def get_repair_data(repair_detail, repair_list):
     repair_list.append(data)
 
 
+def get_express_data(express_detail, express_list):
+    data = {
+        'id': express_detail.id,
+        'express_author': express_detail.author.profile.username,
+        'get_express_type': express_detail.type,
+        'deal_status': express_detail.status,
+        'pleased': express_detail.pleased,
+        'arrive_time': str(express_detail.arrive_time),
+        'get_time': str(express_detail.get_time)
+    }
+    express_list.append(data)
+
+
 @transaction.atomic
 @csrf_exempt
 @login_required
@@ -511,26 +524,30 @@ def get_detail_data(request):
                 return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
 
         if item_name == u'express':
-            express = Express.objects.filter(author = profile).order_by('-time')
             express_list = list()
-            if express:
+            if request.user.is_staff:
+                express = Express.objects.all().order_by('-arrive_time')
                 for express_detail in express:
                     express_detail.is_read = False
                     express_detail.save()
-                    data = {
-                        'id': express_detail.id,
-                        'express_author': express_detail.author.profile.username,
-                        'get_express_type': express_detail.type,
-                        'deal_status': express_detail.status,
-                        'pleased': express_detail.pleased,
-                        'arrive_time': str(express_detail.arrive_time),
-                        'get_time': str(express_detail.get_time)
-                    }
-                    express_list.append(data)
-                response_data = {'express_list': express_list, 'success': True}
+                    get_express_data(express_detail, express_list)
+                response_data = {'express_list': express_list, 'success': True,'identity': 'admin'}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+            elif profile.is_admin:
+                express = Express.objects.all().order_by('-arrive_time')
+                for express_detail in express:
+                    express_detail.is_read = False
+                    express_detail.save()
+                    get_express_data(express_detail, express_list)
+                response_data = {'express_list': express_list, 'success': True, 'identity': 'worker'}
                 return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
             else:
-                response_data = {'success': False}
+                express = Express.objects.filter(author=profile).order_by('-arrive_time')
+                for express_detail in express:
+                    express_detail.is_read = False
+                    express_detail.save()
+                    get_express_data(express_detail, express_list)
+                response_data = {'express_list': express_list, 'success': True, 'identity': 'inhabitant'}
                 return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
         if item_name == u'repair':
                 repair_list = list()
