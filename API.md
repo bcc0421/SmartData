@@ -1403,3 +1403,24 @@ category 和 category_item_id 必填
 #### Error
 
    {'success': False, 'info': '没有快递！'}
+
+
+
+### 47. Get dynamic data number(用户需要登录)(消息提醒显示最新数据)
+
+#### URL : /api/get_dynamic_data_num/
+
+#### Method : GET
+
+### Result:
+
+#### Success
+        {
+
+                repair_num: 7
+                housekeeping_num: 0
+                sum_num: 7
+                complain_num: 0
+                express_num: 0
+
+        }

@@ -11,6 +11,7 @@ from SmartDataApp.controller.express import *
 from SmartDataApp.controller.repair_item import *
 from SmartDataApp.controller.housekeeping import *
 from SmartDataApp.controller.property import *
+from SmartDataApp.controller.park import *
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -120,6 +121,8 @@ urlpatterns = patterns('',
                        url(r'^api_/show/repair_by_status/$',api_show_repair_by_status),
                        url(r'^api_/show/housekeeping_by_status/$',api_show_housekeeping_by_status),
                        url(r'^api_/show/express_by_status/$',api_show_express_by_status),
+                       url(r'^parking/fees/$',parking_fees),
+                       url(r'^api/get_dynamic_data_num/$',api_get_dynamic_data_num),
 
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

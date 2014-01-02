@@ -1,0 +1,107 @@
+{% extends "baseheader.html" %}
+{% block title %}停车缴费{% endblock %}
+{% block css %}
+{% endblock %}
+{% block container %}
+    <!-- 主要内容区域 start -->
+    <div class="s_ifs_ix main el_container">
+        <div class="el_blank_h20"></div>
+        <!-- 右侧栏 start -->
+        <div class="el_w_974 fn_right">
+            <!-- vessel start -->
+            <div class="vessel vessel_s1">
+                <div class="vessel_titBox">
+                    <span class="tit">停车费</span>
+                </div>
+                <div class="vessel_conBox">
+                    <!--缴费步骤 start-->
+                    <div class="vessel_conBox_step">
+                        <div class="vessel_conBox_step_head">
+                				<span class="stepName stepName_s1">
+                                        私家车
+                                </span>
+                    			<span class="stepName stepName_s2">
+                                    车位
+                                </span>
+                            <span class="stepName stepName_s3">在线支付</span>
+                            <span class="stepName stepName_s4">支付成功</span>
+                        </div>
+                    </div>
+                    <!--缴费步骤 end-->
+                    <!--步骤1内容 start-->
+                    <div class="vessel_conBox_text">
+
+                        <div class="vessel_conBox_text_head">
+                            <span class="vessel_conBox_step_head1">所选停车卡</span>
+                        </div>
+
+
+                        <!--增加部分隐藏 start-->
+                        <form action="/property/verifyParking" method="post" name="parking-fees-form">
+                            <div id="add" style="display: block;">
+                                <div class="el_tipPop_h_i">
+                                    <span class="title">增加停车卡</span>
+                                </div>
+                                <div class="add_box">
+                                    <p>
+                                        <span>所在小区：</span>
+                                        <input class="func_position xiaoqu el_btn" type="button" value="请选择小区"
+                                               get_position_pid="" get_position_cid="" get_positionid="">
+                                        <input type="hidden" name="Parking[id]" class="id_text_for_from"/>
+                                        <input type="hidden" name="Parking[community_id]"
+                                               class="community_text_for_form" value=""/>
+                                    </p>
+
+                                    <p>
+                                        <span>楼栋房号：</span>
+                                        <input class="func_building_parking xiaoqu el_btn" type="button" value="选择楼栋房间">
+                                        <input type="hidden" name="Parking[build_id]" value=""
+                                               class="build_text_for_form"/>
+                                        <input type="hidden" name="Parking[room_id]" value=""
+                                               class="room_text_for_form"/>
+                                    </p>
+
+                                    <p>
+                                        <span>车&nbsp;&nbsp;牌&nbsp;&nbsp;号：</span>
+                                        <input class="el_inText" type="text" id="car_number" value="车牌号"
+                                               name="Parking[car_number]" defaultTxt="车牌号">
+                                    </p>
+                                </div>
+
+
+                            </div>
+                            <!--增加部分隐藏 end-->
+                            <div class="vessel_conBox_text_button">
+                                <div>
+                                    <input type="button" value="立即缴费" class="el_btn_orange_xsl el_btn btn_by_parking"/>
+                                </div>
+                                <div style="width: 468px;">
+                                    <input type="checkbox" name="is_save" value="1"/>
+                                    <label>将车位信息保存到您的账号</label>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="line"></div>
+                        <div class="last_text_box">
+                            <p>
+                                1、本应用只适用于所有彩生活集团管理的物业！
+                            </p>
+
+                            <p>
+                                2、最终解释权归彩生活集团所有！
+                            </p>
+                        </div>
+                    </div>
+                    <!--步骤1内容 end-->
+                </div>
+            </div>
+            <!-- vessel end -->
+        </div>
+        <!-- 右侧栏 end -->
+        <div class="el_blank_h10 fn_clear"></div>
+        <div class="el_blank_h50 fn_clear"></div>
+    </div>
+    </div>
+
+{% endblock %}
