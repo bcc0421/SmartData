@@ -588,3 +588,53 @@ def api_modify_housekeeping_item(request):
             else:
                 response_data = {'success': False,'info':'没有修改信息'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+
+@transaction.atomic
+@csrf_exempt
+def api_show_housekeeping_by_status(request):
+    convert_session_id_to_user(request)
+    community_id = request.GET.get("community_id", None)
+    housekeeping_status = request.GET.get("status", None)
+    if community_id:
+        community = Community.objects.get(id=community_id)
+    else:
+        response_data = {'info': '没有传入小区id', 'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    if housekeeping_status == u'未处理':
+        housekeeping = Housekeeping.objects.filter(community=community, status=1).order_by('-time')
+    if housekeeping_status == u'处理中':
+        housekeeping = Housekeeping.objects.filter(community=community, status=2).order_by('-time')
+    if housekeeping_status == u'已处理':
+        housekeeping = Housekeeping.objects.filter(community=community, status=3).order_by('-time')
+    if housekeeping:
+        paginator = Paginator(housekeeping, 20)
+        page_count = paginator.num_pages
+        page = request.GET.get('page')
+        try:
+            housekeeping_list = paginator.page(page).object_list
+        except PageNotAnInteger:
+            housekeeping_list = paginator.page(1)
+        except EmptyPage:
+            housekeeping_list = paginator.page(paginator.num_pages)
+        house_keep_list = list()
+        for housekeeping_detail in housekeeping_list:
+            data = {
+                'id': housekeeping_detail.id,
+                'housekeeping_author': str(housekeeping_detail.author.profile),
+                'content': housekeeping_detail.housekeeping_item.content,
+                'housekeeping_status': housekeeping_detail.status,
+                'price_description': housekeeping_detail.housekeeping_item.price_description,
+                'item': housekeeping_detail.housekeeping_item.item,
+                'remarks': housekeeping_detail.housekeeping_item.remarks,
+                'pleased': housekeeping_detail.pleased,
+                'handler': str(housekeeping_detail.handler),
+                'time': str(housekeeping_detail.time)
+            }
+            house_keep_list.append(data)
+        response_data = {'house_keep_list': house_keep_list, 'page_count': page_count, 'success': True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')

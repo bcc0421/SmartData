@@ -407,3 +407,52 @@ def api_show_all_complains(request):
     else:
         response_data = {'success': False,'info': '该小区没有投诉'}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+
+@transaction.atomic
+@csrf_exempt
+def api_show_complains_by_status(request):
+    convert_session_id_to_user(request)
+    community_id = request.GET.get("community_id", None)
+    complains_status= request.GET.get("status", None)
+    if community_id:
+        community = Community.objects.get(id=community_id)
+    else:
+        response_data = {'info': '没有传入小区id', 'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    if complains_status == u'未处理':
+        complains = Complaints.objects.filter(community=community, status=1).order_by('-timestamp')
+    if complains_status == u'处理中':
+        complains = Complaints.objects.filter(community=community, status=2).order_by('-timestamp')
+    if complains_status == u'已处理':
+        complains = Complaints.objects.filter(community=community, status=3).order_by('-timestamp')
+    if len(complains) > 0:
+        paginator = Paginator(complains, 20)
+        page_count = paginator.num_pages
+        page = request.GET.get('page')
+        try:
+            complains_list = paginator.page(page).object_list
+        except PageNotAnInteger:
+            complains_list = paginator.page(1)
+        except EmptyPage:
+            complains_list = paginator.page(paginator.num_pages)
+        complain_list = list()
+        for complain_detail in complains_list:
+            data = {
+                'id': complain_detail.id,
+                'complain_author': complain_detail.author,
+                'content': complain_detail.content,
+                'type': complain_detail.type,
+                'deal_status': complain_detail.status,
+                'pleased': complain_detail.pleased,
+                'src': complain_detail.src.name,
+                'time': str(complain_detail.timestamp),
+                'handler': str(complain_detail.handler)
+            }
+            complain_list.append(data)
+        response_data = {'complains_list': complain_list, 'page_count': page_count,'success': True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False,'info': '没有搜到要找的结果'}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')

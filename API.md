@@ -1230,3 +1230,176 @@ category 和 category_item_id 必填
 #### Error
 
         {'success': False}
+
+### 43. Get complains by status(用户需要登录)
+
+#### URL :/api_/show/complains_by_status/?page=页数&community_id=(小区id号)&status=三选一(未处理，处理中，已处理)
+
+#### Method : GET
+
+#### Success
+        {
+           complains_list:
+                [
+
+                        {
+                            content: "投诉内容"
+                            src: "uploads/2013/12/26/a044ad345982b2b7a1f9f0cd33adcbef76099b51.jpg"
+                            handler: "None"
+                            deal_status: 1
+                            time: "2013-12-26 01:50:06.514000+00:00"
+                            type: "环境投诉"
+                            id: 34
+                            complain_author: "user2"
+                            pleased: 0
+                        }
+
+                        {
+                           content: "撒打算"
+                            src: ""
+                            handler: "worker1"
+                            deal_status: 2
+                            time: "2013-12-26 01:41:49.604000+00:00"
+                            type: "安全投诉"
+                            id: 33
+                            complain_author: "sfi1234"
+                            pleased: 0
+                        }
+
+                ]
+             page_count: 1 页数
+             success: true
+        }
+
+
+#### Error
+
+        {'success': False}
+
+
+
+### 44. Get repair by status(用户需要登录)
+
+#### URL :/api_/show/repair_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一
+
+#### Method : GET
+
+#### Success
+        {
+           repair_list:
+                [
+
+                        {
+                            content: "阿萨德"
+                            src: ""
+                            handler: "None"
+                            deal_status: 1
+                            time: "2013-12-25 05:37:57.746000+00:00"
+                            type: "个人报修"
+                            id: 41
+                            repair_author: "sfi123"
+                            pleased: 0
+                        }
+
+                        {
+                            content: "dfasd"
+                            src: "uploads/2013/12/25/a044ad345982b2b7a1f9f0cd33adcbef76099b51.jpg"
+                            handler: "worker1"
+                            deal_status: 2
+                            time: "2013-12-25 01:49:10.760000+00:00"
+                            type: "个人报修"
+                            id: 38
+                            repair_author: "user3"
+                            pleased: 0
+                        }
+
+                ]
+             success: true
+        }
+
+
+#### Error
+
+        {'success': False}
+
+
+### 45 Show housekeeping by status(用户需要登录)
+
+#### URL : /api_/show/housekeeping_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一
+
+#### Method : GET
+
+#### Success
+
+         {
+            house_keep_list:
+                [
+
+                        {
+                            content: "一般性家庭保洁"
+                            housekeeping_status: 2
+                            handler: "worker9"
+                            item: "钟点工"
+                            remarks: "小于20小时每月，两小时起步。"
+                            price_description: "40元/小时"
+                            time: "2013-12-25 08:54:32.425000+00:00"
+                            id: 8
+                            housekeeping_author: "sfi12345"
+                            pleased: 0
+                        }
+
+                        {
+                            content: "一般性家庭保洁"
+                            housekeeping_status: 2
+                            handler: "worker9"
+                            item: "钟点工"
+                            remarks: "小于20小时每月，两小时起步。"
+                            price_description: "40元/小时"
+                            time: "2013-12-25 08:32:11.428000+00:00"
+                            id: 7
+                            housekeeping_author: "user3"
+                            pleased: 0
+                        }
+
+                ]
+             success: true
+             page_count:（总页数）
+        }
+
+#### Error
+
+        {'success': False}
+
+
+
+
+### 46. Get express by status(用户需要登录)
+
+#### URL : /api_/show/express_by_status/?page=页数&community_id=(小区id号)&status=(领取，未领取)2选一
+
+#### Method : GET
+
+### Result:
+
+#### Success（每页返回20条记录）
+        {
+            page_count:（总页数）
+            express_list:
+                [
+
+                        {
+                            arrive_time: "2013-12-16 01:09:36+00:00"（快件到达时间）
+                            deal_status: false (false:未领取，true:领取)
+                            pleased: 0
+                            express_author: "user3"
+                            get_time: "None"（快件领取时间）
+                            get_express_type: ""
+                            id: 13
+                        }
+
+                success: true
+                ]
+        }
+#### Error
+
+   {'success': False, 'info': '没有快递！'}

@@ -434,3 +434,51 @@ def api_show_all_repair(request):
     else:
         response_data = {'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+@transaction.atomic
+@csrf_exempt
+def api_show_repair_by_status(request):
+    convert_session_id_to_user(request)
+    community_id = request.GET.get("community_id", None)
+    repair_status = request.GET.get("status", None)
+    if community_id:
+        community = Community.objects.get(id=community_id)
+    else:
+        response_data = {'info': '没有传入小区id', 'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    if repair_status == u'未处理':
+        repairs = Repair.objects.filter(community=community, status=1).order_by('-timestamp')
+    if repair_status == u'处理中':
+        repairs = Repair.objects.filter(community=community, status=2).order_by('-timestamp')
+    if repair_status == u'已处理':
+        repairs = Repair.objects.filter(community=community, status=3).order_by('-timestamp')
+    if len(repairs) > 0:
+        paginator = Paginator(repairs, 20)
+        page_count = paginator.num_pages
+        page = request.GET.get('page')
+        try:
+            repairs_list = paginator.page(page).object_list
+        except PageNotAnInteger:
+            repairs_list = paginator.page(1)
+        except EmptyPage:
+            repairs_list = paginator.page(paginator.num_pages)
+        repair_list = list()
+        for repair_detail in repairs_list:
+            data = {
+                'id': repair_detail.id,
+                'repair_author': repair_detail.author,
+                'content': repair_detail.content,
+                'type': repair_detail.type,
+                'deal_status': repair_detail.status,
+                'pleased': repair_detail.pleased,
+                'src': repair_detail.src.name,
+                'time': str(repair_detail.timestamp),
+                'handler': str(repair_detail.handler)
+            }
+            repair_list.append(data)
+        response_data = {'repair_list': repair_list, 'page_count': page_count,'success': True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')

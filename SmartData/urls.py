@@ -10,6 +10,7 @@ from SmartDataApp.controller.user_profile import *
 from SmartDataApp.controller.express import *
 from SmartDataApp.controller.repair_item import *
 from SmartDataApp.controller.housekeeping import *
+from SmartDataApp.controller.property import *
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -114,6 +115,11 @@ urlpatterns = patterns('',
                        url(r'^api/modify/repair_item/$',api_modify_repair_item),
                        url(r'^get/new/dynamic_data/$',get_new_dynamic_data),
                        url(r'^get/detail_data/$',get_detail_data),
+                       url(r'^house/pay_fees/$',house_pay_fees),
+                       url(r'^api_/show/complains_by_status/$',api_show_complains_by_status),
+                       url(r'^api_/show/repair_by_status/$',api_show_repair_by_status),
+                       url(r'^api_/show/housekeeping_by_status/$',api_show_housekeeping_by_status),
+                       url(r'^api_/show/express_by_status/$',api_show_express_by_status),
 
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

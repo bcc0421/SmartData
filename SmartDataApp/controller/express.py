@@ -393,3 +393,48 @@ def api_express_complete(request):
             express.save()
         response_data = {'success': True, 'info': '完成领取！'}
         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+
+@csrf_exempt
+def api_show_express_by_status(request):
+    convert_session_id_to_user(request)
+    community_id = request.GET.get("community_id", None)
+    express_status = request.GET.get("status", None)
+    if community_id:
+        one_community = Community.objects.get(id=community_id)
+    else:
+        response_data = {'info': '没有传入小区id', 'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    if express_status == u'领取':
+        expresses = Express.objects.filter(community=one_community, status=True).order_by('-get_time')
+    if express_status == u'未领取':
+        expresses = Express.objects.filter(community=one_community, status=False).order_by('-arrive_time')
+    if len(expresses) > 0:
+        paginator = Paginator(expresses, 20)
+        page_count = paginator.num_pages
+        page = request.GET.get('page')
+        try:
+            expresses_list = paginator.page(page).object_list
+        except PageNotAnInteger:
+            expresses_list = paginator.page(1)
+        except EmptyPage:
+            expresses_list = paginator.page(paginator.num_pages)
+        express_list = list()
+        for express_detail in expresses_list:
+                data = {
+                    'id': express_detail.id,
+                    'express_author': express_detail.author.profile.username,
+                    'get_express_type': express_detail.type,
+                    'deal_status': express_detail.status,
+                    'pleased': express_detail.pleased,
+                    'arrive_time': str(express_detail.arrive_time),
+                    'get_time': str(express_detail.get_time)
+                }
+                express_list.append(data)
+        response_data = {'express_list': express_list, 'page_count': page_count, 'success': True}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False, 'info': '没有快递！'}
+        return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
