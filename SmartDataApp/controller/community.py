@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
 import simplejson
-import web
 from SmartDataApp.controller.admin import convert_session_id_to_user, return_error_response
 from SmartDataApp.models import Community
 from SmartDataApp.views import index
