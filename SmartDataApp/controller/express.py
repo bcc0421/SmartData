@@ -401,15 +401,27 @@ def api_show_express_by_status(request):
     convert_session_id_to_user(request)
     community_id = request.GET.get("community_id", None)
     express_status = request.GET.get("status", None)
+    profile = ProfileDetail.objects.get(profile=request.user)
     if community_id:
         one_community = Community.objects.get(id=community_id)
     else:
         response_data = {'info': '没有传入小区id', 'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-    if express_status == u'领取':
-        expresses = Express.objects.filter(community=one_community, status=True).order_by('-get_time')
-    if express_status == u'未领取':
-        expresses = Express.objects.filter(community=one_community, status=False).order_by('-arrive_time')
+    if request.user.is_staff:
+        if express_status == u'领取':
+            expresses = Express.objects.filter(community=one_community, status=True).order_by('-get_time')
+        if express_status == u'未领取':
+            expresses = Express.objects.filter(community=one_community, status=False).order_by('-arrive_time')
+    elif profile.is_admin:
+        if express_status == u'领取':
+            expresses = Express.objects.filter(community=one_community, status=True).order_by('-get_time')
+        if express_status == u'未领取':
+            expresses = Express.objects.filter(community=one_community, status=False).order_by('-arrive_time')
+    else:
+        if express_status == u'领取':
+            expresses = Express.objects.filter(community=one_community, status=True, author=profile).order_by('-get_time')
+        if express_status == u'未领取':
+            expresses = Express.objects.filter(community=one_community, status=False,author=profile).order_by('-arrive_time')
     if len(expresses) > 0:
         paginator = Paginator(expresses, 20)
         page_count = paginator.num_pages

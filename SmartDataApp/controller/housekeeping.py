@@ -597,17 +597,31 @@ def api_show_housekeeping_by_status(request):
     convert_session_id_to_user(request)
     community_id = request.GET.get("community_id", None)
     housekeeping_status = request.GET.get("status", None)
+    profile = ProfileDetail.objects.get(profile=request.user)
     if community_id:
         community = Community.objects.get(id=community_id)
     else:
         response_data = {'info': '没有传入小区id', 'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-    if housekeeping_status == u'未处理':
-        housekeeping = Housekeeping.objects.filter(community=community, status=1).order_by('-time')
-    if housekeeping_status == u'处理中':
-        housekeeping = Housekeeping.objects.filter(community=community, status=2).order_by('-time')
-    if housekeeping_status == u'已处理':
-        housekeeping = Housekeeping.objects.filter(community=community, status=3).order_by('-time')
+    if request.user.is_staff:
+        if housekeeping_status == u'未处理':
+            housekeeping = Housekeeping.objects.filter(community=community, status=1).order_by('-time')
+        if housekeeping_status == u'处理中':
+            housekeeping = Housekeeping.objects.filter(community=community, status=2).order_by('-time')
+        if housekeeping_status == u'已处理':
+            housekeeping = Housekeeping.objects.filter(community=community, status=3).order_by('-time')
+    elif profile.is_admin:
+        if housekeeping_status == u'处理中':
+            housekeeping = Housekeeping.objects.filter(community=community, status=2, handler=request.user).order_by('-time')
+        if housekeeping_status == u'已处理':
+            housekeeping = Housekeeping.objects.filter(community=community, status=3, handler=request.user).order_by('-time')
+    else:
+        if housekeeping_status == u'未处理':
+            housekeeping = Housekeeping.objects.filter(community=community, status=1, author=profile).order_by('-time')
+        if housekeeping_status == u'处理中':
+            housekeeping = Housekeeping.objects.filter(community=community, status=2, author=profile).order_by('-time')
+        if housekeeping_status == u'已处理':
+            housekeeping = Housekeeping.objects.filter(community=community, status=3, author=profile).order_by('-time')
     if housekeeping:
         paginator = Paginator(housekeeping, 20)
         page_count = paginator.num_pages
