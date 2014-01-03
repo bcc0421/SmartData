@@ -221,14 +221,25 @@ def api_user_login(request):
         if user is not None and user.is_active:
             auth_login(request, user)
             profile = ProfileDetail.objects.get(profile=user)
+            user_profile = list()
+            data = {
+                'id': user.id,
+                'community_id': profile.community.id,
+                'phone_num': profile.phone_number,
+                'email': user.email,
+                'floor': profile.floor,
+                'room': profile.gate_card,
+                'address': profile.address
+            }
+            user_profile.append(data)
             if user.is_staff:
-                response_data = {'identity': 'admin', 'info': 'login successful'}
+                response_data = {'identity': 'admin', 'info': 'login successful', 'user_profile': user_profile}
                 return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
             elif profile.is_admin:
-                response_data = {'identity': 'worker', 'info': 'login successful'}
+                response_data = {'identity': 'worker', 'info': 'login successful', 'user_profile':user_profile}
                 return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
             else:
-                response_data = {'identity': 'resident', 'info': 'login successful'}
+                response_data = {'identity': 'resident', 'info': 'login successful', 'user_profile':user_profile}
                 return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
         else:
             return HttpResponse(simplejson.dumps({'info': 'login failed'}), content_type='application/json')
