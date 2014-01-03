@@ -442,17 +442,31 @@ def api_show_repair_by_status(request):
     convert_session_id_to_user(request)
     community_id = request.GET.get("community_id", None)
     repair_status = request.GET.get("status", None)
+    profile = ProfileDetail.objects.get(profile=request.user)
     if community_id:
         community = Community.objects.get(id=community_id)
     else:
         response_data = {'info': '没有传入小区id', 'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-    if repair_status == u'未处理':
-        repairs = Repair.objects.filter(community=community, status=1).order_by('-timestamp')
-    if repair_status == u'处理中':
-        repairs = Repair.objects.filter(community=community, status=2).order_by('-timestamp')
-    if repair_status == u'已处理':
-        repairs = Repair.objects.filter(community=community, status=3).order_by('-timestamp')
+    if request.user.is_staff:
+        if repair_status == u'未处理':
+            repairs = Repair.objects.filter(community=community, status=1).order_by('-timestamp')
+        if repair_status == u'处理中':
+            repairs = Repair.objects.filter(community=community, status=2).order_by('-timestamp')
+        if repair_status == u'已处理':
+            repairs = Repair.objects.filter(community=community, status=3).order_by('-timestamp')
+    elif profile.is_admin:
+        if repair_status == u'处理中':
+            repairs = Repair.objects.filter(community=community, status=2,handler=request.user).order_by('-timestamp')
+        if repair_status == u'已处理':
+            repairs = Repair.objects.filter(community=community, status=3,handler=request.user).order_by('-timestamp')
+    else:
+        if repair_status == u'未处理':
+            repairs = Repair.objects.filter(community=community, status=1, author=request.user.username).order_by('-timestamp')
+        if repair_status == u'处理中':
+            repairs = Repair.objects.filter(community=community, status=2, author=request.user.username).order_by('-timestamp')
+        if repair_status == u'已处理':
+            repairs = Repair.objects.filter(community=community, status=3, author=request.user.username).order_by('-timestamp')
     if len(repairs) > 0:
         paginator = Paginator(repairs, 20)
         page_count = paginator.num_pages
