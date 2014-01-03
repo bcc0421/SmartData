@@ -75,10 +75,10 @@
         <div class="fn_right">
             {% if user %}
                 <a href="/own_information/" class="optLink el_btn">{{ user.username }}</a>
-{#                {% if user.is_staff %}#}
+                {% if user.is_staff %}
                     <a href="/register/" class="optLink el_btn">添加用户</a>
                     <a href="/community/" class="optLink el_btn">添加社区</a>
-{#                {% endif %}#}
+                {% endif %}
                 <a href="/logout/" class="optLink el_btn">登出</a>
             {% else %}
                 <a href="/login/" class="optLink el_btn">[登录]</a>
