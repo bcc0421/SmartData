@@ -1233,7 +1233,7 @@ category 和 category_item_id 必填
 
 ### 43. Get complains by status(用户需要登录)
 
-#### URL :/api_/show/complains_by_status/?page=页数&community_id=(小区id号)&status=三选一(未处理，处理中，已处理)
+#### URL :/api/show/complains_by_status/?page=页数&community_id=(小区id号)&status=三选一(未处理，处理中，已处理)
 
 #### Method : GET
 
@@ -1280,7 +1280,7 @@ category 和 category_item_id 必填
 
 ### 44. Get repair by status(用户需要登录)
 
-#### URL :/api_/show/repair_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一
+#### URL :/api/show/repair_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一
 
 #### Method : GET
 
@@ -1325,7 +1325,7 @@ category 和 category_item_id 必填
 
 ### 45 Show housekeeping by status(用户需要登录)
 
-#### URL : /api_/show/housekeeping_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一
+#### URL : /api/show/housekeeping_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一
 
 #### Method : GET
 
@@ -1375,7 +1375,7 @@ category 和 category_item_id 必填
 
 ### 46. Get express by status(用户需要登录)
 
-#### URL : /api_/show/express_by_status/?page=页数&community_id=(小区id号)&status=(领取，未领取)2选一
+#### URL : /api/show/express_by_status/?page=页数&community_id=(小区id号)&status=(领取，未领取)2选一
 
 #### Method : GET
 

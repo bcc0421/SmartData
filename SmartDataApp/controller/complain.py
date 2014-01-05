@@ -307,7 +307,8 @@ def api_own_complain(request):
                 'deal_status': complain_detail.status,
                 'pleased': complain_detail.pleased,
                 'src': complain_detail.src.name,
-                'time': str(complain_detail.timestamp)
+                'time': str(complain_detail.timestamp),
+                'handler':str(complain_detail.handler)
             }
             complain_list.append(data)
         response_data = {'complain_list': complain_list, 'page_count': page_count, 'success': True}
