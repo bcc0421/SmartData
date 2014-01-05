@@ -333,7 +333,8 @@ def api_own_repair(request):
                 'deal_status': repair_detail.status,
                 'pleased': repair_detail.pleased,
                 'src': repair_detail.src.name,
-                'time': str(repair_detail.timestamp)
+                'time': str(repair_detail.timestamp),
+                'handler': str(repair_detail.handler)
             }
             repair_list.append(data)
         response_data = {'repair_list': repair_list, 'page_count': page_count,'success': True}

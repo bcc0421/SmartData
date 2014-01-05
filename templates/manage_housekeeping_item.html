@@ -310,6 +310,9 @@
         }
 
         $(document).ready(function () {
+          $('#add_housekeeping_item').on('hidden.bs.modal', function (e) {
+                window.location.reload();
+            })
             $('#repair_item_table').dataTable({
                 "oLanguage": {
                     "sLengthMenu": "显示 _MENU_每页显示记录",

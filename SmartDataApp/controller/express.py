@@ -186,11 +186,11 @@ def express_response(request):
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
-
 @csrf_exempt
 def api_get_user_express(request):
     convert_session_id_to_user(request)
-    expresses = Express.objects.filter(author=request.user)
+    profile = ProfileDetail.objects.filter(profile=request.user)
+    expresses = Express.objects.filter(author=profile)
     if len(expresses) > 0:
         paginator = Paginator(expresses, 20)
         page_count = paginator.num_pages
