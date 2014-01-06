@@ -30,7 +30,7 @@ def express(request):
         expresses = Express.objects.filter(community=one_community).order_by('-arrive_time')
         if communities and express:
             return render_to_response('admin_express.html',
-                                      {'user': request.user, 'communities': communities, 'expresses': expresses, 'is_admin': True, 'community': one_community,'change_community': status})
+                                      {'user': request.user, 'communities': communities, 'expresses': expresses, 'is_admin': True, 'community': one_community,'profile': profile,'change_community': status})
         else:
             return render_to_response('admin_express.html', {
                 'show': False,
@@ -42,7 +42,7 @@ def express(request):
             })
     else:
         expresses = Express.objects.filter(author=profile).order_by('-arrive_time')
-        return render_to_response('admin_express.html', {'user': request.user, 'expresses': expresses,'communities': communities, 'is_admin': False, 'community': one_community,'change_community': status})
+        return render_to_response('user_express.html', {'user': request.user,'profile': profile, 'expresses': expresses,'communities': communities, 'is_admin': False, 'community': one_community,'change_community': status})
 
 
 @transaction.atomic

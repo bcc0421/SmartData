@@ -100,17 +100,23 @@ def modify_repair_item(request):
 @csrf_exempt
 def api_get_repair_item(request):
     convert_session_id_to_user(request)
-    items = Repair_item.objects.all()
+    item_type = request.GET.get("type", None)
+    if item_type == u'个人':
+        items = Repair_item.objects.filter(type='个人报修')
+    if item_type == u'公共':
+        items = Repair_item.objects.filter(type='公共报修')
+    else:
+        items = Repair_item.objects.all()
     if items:
-        paginator = Paginator(items, 5)
-        page_count = paginator.num_pages
-        page = request.GET.get('page')
-        try:
-            items = paginator.page(page).object_list
-        except PageNotAnInteger:
-            items = paginator.page(1)
-        except EmptyPage:
-            items = paginator.page(paginator.num_pages)
+        #paginator = Paginator(items, 5)
+        #page_count = paginator.num_pages
+        #page = request.GET.get('page')
+        #try:
+        #    items = paginator.page(page).object_list
+        #except PageNotAnInteger:
+        #    items = paginator.page(1)
+        #except EmptyPage:
+        #    items = paginator.page(paginator.num_pages)
         items_list = list()
         for item_detail in items:
             data = {
@@ -120,7 +126,7 @@ def api_get_repair_item(request):
                 'item_price': item_detail.price,
             }
             items_list.append(data)
-        response_data = {'success': True, 'items_list': items_list, 'page_count': page_count}
+        response_data = {'success': True, 'items_list': items_list}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
         response_data = {'success': False, 'info': '没有报修项目'}

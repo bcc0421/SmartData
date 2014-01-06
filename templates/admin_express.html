@@ -1,7 +1,11 @@
 {% extends "basecloud.html" %}
 {% block title %}快递管理{% endblock %}
 {% block css %}
+    <link href="/static/css/jquery-ui-1.7.2.custom.css" rel="stylesheet">
     <style>
+         .ui-datepicker {
+              margin-left: -100px;
+            }
         .help-inline {
             display: block;
             margin-left: 70px;
@@ -48,9 +52,9 @@
             background-color: #A674B0;
         }
 
-        tr:hover {
+       /* tr:hover {
             background-color: #A674B0;
-        }
+        }*/
 
         .prev {
             margin-left: 200px !important;
@@ -89,7 +93,7 @@
 
             <!-- 中部 start -->
 
-            <div style="width: 822px;overflow: auto;float:left">
+            <div style="width: 906px;overflow: auto;float:left">
                 <div class="vessel vessel_s1" style="margin-bottom: 10px">
                     <div class="vessel_titBox"><span class="tit">快件管理</span></div>
                 </div>
@@ -97,12 +101,12 @@
                        id="example" aria-describedby="example_info">
                     <thead>
                     <tr role="row">
-                        <th>收件人</th>
+                        <th style="width:150px">收件人</th>
                         {% if is_admin %}
-                            <th>允许时间</th>
+                            <th style="width:100px">允许时间</th>
                         {% endif %}
-                        <th>到达时间</th>
-                        <th>取件时间</th>
+                        <th style="width:100px">到达时间</th>
+                        <th style="width:100px">取件时间</th>
                         <th>取件方式</th>
                         <th>取件状态</th>
                         {% if is_admin %}
@@ -180,7 +184,7 @@
 
                            <div style="margin-top: 10px">
                                <span>领取时间：</span>
-                                <input type="text">
+                               <input type="text" name="datetime" id="datetime" value="" />
                                 <!--select id="select_express_time">
                                     <option value="header">领取时间：</option>
                                     <option value="早上9：00-12:00">早上9：00-12:00</option>
@@ -424,8 +428,8 @@
                         }
                 );
                 var get_express_type = $('#select_express_type').val();
-                var get_express_time = $('#select_express_time').val();
-
+                var get_express_time = $('#datetime').val();
+                //alert(get_express_time);
                 if (checked_array.length > 0) {
                     $.post('/userself/get_express/',
                             {
@@ -484,6 +488,15 @@
         }
 
         $(document).ready(function () {
+        $('#datetime').datepicker({
+                duration: '',
+                showTime: true,
+                constrainInput: false
+            });
+        });
+
+        $(document).ready(function () {
+
             $('#example').dataTable({
                 "oLanguage": {
                     "sLengthMenu": "显示 _MENU_每页显示记录",
@@ -495,8 +508,30 @@
                 }
             });
         });
-
+        jQuery(function($){
+            $.datepicker.regional['zh-CN'] = {
+                closeText: '确定',
+                prevText: '<上月',
+                nextText: '下月>',
+                currentText: '今天',
+                monthNames: ['一月','二月','三月','四月','五月','六月',
+                '七月','八月','九月','十月','十一月','十二月'],
+                monthNamesShort: ['一','二','三','四','五','六',
+                '七','八','九','十','十一','十二'],
+                dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+                dayNamesMin: ['日','一','二','三','四','五','六'],
+                weekHeader: '周',
+                dateFormat: 'yy-mm-dd',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: true,
+                yearSuffix: '年'};
+            $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+});
     </script>
     <script src="/static/js/jquery.dataTables.min.js"></script>
     <script src="/static/js/DT_bootstrap.js"></script>
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <script src="/static/js/timepicker.js"></script>
 {% endblock %}

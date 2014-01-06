@@ -779,13 +779,13 @@ category 和 category_item_id 必填
 
 ### 27. Get repair item(用户需要登录)
 
-#### URL : /api/get/repair/item/
+#### URL : /api/get/repair/item/?type=(个人，公共)二选一 不传参数返回所有
 
 #### Method :  GET
 
 #### Success（每页返回五条记录）
         {
-            page_count:（总页数）
+
             items_list:
                 [
 

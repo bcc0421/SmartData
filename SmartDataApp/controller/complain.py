@@ -288,7 +288,7 @@ def api_own_complain(request):
     convert_session_id_to_user(request)
     complains = Complaints.objects.filter(author=request.user.username)
     if len(complains) > 0:
-        paginator = Paginator(complains, 5)
+        paginator = Paginator(complains, 20)
         page_count = paginator.num_pages
         page = request.GET.get('page')
         try:
