@@ -97,7 +97,9 @@ def register(request):
 @csrf_exempt
 def login(request):
     if request.method != u'POST':
+        communities = Community.objects.all()
         response_data = random_captcha()
+        response_data['communities'] = communities
         return render_to_response('login.html', response_data)
     else:
         captcha_list = CaptchaStore.objects.filter(hashkey=request.POST.get(u'cptch_key', None))
