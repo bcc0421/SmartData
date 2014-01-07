@@ -8,22 +8,39 @@ from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from SmartDataApp.controller.admin import convert_session_id_to_user, return_error_response
 from SmartDataApp.views import index
-from SmartDataApp.models import Repair_item
+from SmartDataApp.models import Repair_item, ProfileDetail, Community
 
 
 @transaction.atomic
 @csrf_exempt
 @login_required(login_url='/login/')
 def repair_item(request):
+    profile = ProfileDetail.objects.get(profile=request.user)
+    community_id = request.session.get('community_id', profile.community.id)
+    one_community = Community.objects.get(id=community_id)
+    status = None
+    if community_id == profile.community.id:
+        status = 2
+    else:
+        status = 1
+    communities = Community.objects.all()
     items = Repair_item.objects.all()
     if len(items) > 0:
         return render_to_response('manage_repair_item.html', {
             'items': items,
             'user': request.user,
+            'profile': profile,
+            'community': one_community,
+            'change_community': status,
+            'communities': communities,
             'is_show': True
         })
     else:
         return render_to_response('manage_repair_item.html', {
+            'community': one_community,
+            'change_community': status,
+            'communities': communities,
+            'profile': profile,
             'user': request.user,
             'is_show': False
         })
