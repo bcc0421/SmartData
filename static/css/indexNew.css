@@ -1,7 +1,7 @@
 /* 服务列表 */
 .sur_ix_serBox {font-size:0;}
 .sur_ix_serBox .item {width:94px;height:94px;display:inline-block;position:relative;background:#e8e8e8;margin:0 6px 6px 0;}
-.sur_ix_serBox .item:hover{background:#ffc000;}
+.sur_ix_serBox .item:hover{background:#bad804;}
 .sur_ix_serBox .title {position:absolute;bottom:10px;right:10px;color:#686868;font-size:12px;}
 .sur_ix_serBox .icon {position:absolute;top:50%;left:50%;background:url(../images/pic_elements.png) no-repeat;}
 .sur_ix_serBox .item_s1 .icon {width:46px;height:45px;margin:-33px 0 0 -23px;background-position:0 -5209px;}

@@ -54,7 +54,7 @@
 .searchBar {z-index:4;}
 .searchBar .logoBox {padding:8px 29px 7px 12px;}
 .searchBar .logoLink {font-size:0;}
-.searchBar .logoImg {width:176px;height:57px;background:url(../images/pic_elements.png) no-repeat 0 -892px;}
+.searchBar .logoImg {width:176px;height:57px;background:url(../images/logo) no-repeat 0 -892px;}
 .searchBar .searchBox_tabs {font-size:0;}
 .searchBar .searchBox_tab {width:70px;line-height:21px;display:inline-block;font-size:12px;text-align:center;cursor:pointer;}
 .searchBar .searchBox_tab_cur {background:url(../images/pic_elements.png) no-repeat 0 -2543px;color:#fff;}
@@ -70,7 +70,7 @@
 .searchBar .search_by_el_btn {width:84px;height:28px;vertical-align:top;}
 .searchBar .search_by_el_btn .icon {width:17px;height:16px;background:url(../images/pic_elements.png) no-repeat 0 -763px;}
 .searchBar .phoneBox {padding:31px 25px 0 0;}
-.searchBar .phoneBox_item .icon {width:23px;height:15px;background:url(../images/pic_elements.png) no-repeat 0 -844px;}
+/*.searchBar .phoneBox_item .icon {width:23px;height:15px;background:url(../images/pic_elements.png) no-repeat 0 -844px;}*/
 .searchBar .phoneBox_item .txt {font-size:15px;vertical-align:top;}
 
 
@@ -225,7 +225,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
  * content	: 服务快链区域
  */
 
-.serverBar {border-top:2px solid #c3c3c3;background-color:#f0f0f0;padding:20px 0;}
+/*.serverBar {border-top:2px solid #c3c3c3;background-color:#f0f0f0;padding:20px 0;}*/
 .serverBar_box {text-align:center;}
 .serverBar .borderBox, .serverBar .exBox {display:inline-block;vertical-align:top;}
 .serverBar .borderBox {background:url(../images/bg_dot.png) repeat-y right top;padding-right:20px;}
@@ -235,7 +235,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
 .serverBar .title, .serverBar .box {display:block;}
 .serverBar .title {font-size:15px;font-weight:normal;}
 .serverBar .box {padding-top:15px;}
-.serverBar .link, .serverBar .txt {color:#686868;}
+/*.serverBar .link, .serverBar .txt {color:#686868;}*/
 .serverBar .link:hover {text-decoration:underline;}
 .serverBar .el_blank {height:13px;display:block;}
 
@@ -1109,7 +1109,7 @@ a.crumbBox_item:hover {text-decoration:underline;}
 /* el_btn */
 .el_btn {cursor:pointer;background:none;border:none 0;}
 .el_btn, .icon, .el_btn .txt {display:inline-block;}
-.el_btn_orange_xl, .el_btn_orange_xsl, .el_btn_orange_xxl, .el_btn_orange_sl, .el_btn_orange_xxsl, .el_btn_gray_xxsl, .el_btn_gray_sl, .el_btn_gray_xssl, .el_btn_gray_xsl, .el_btn_orange_xxxl, .el_btn_gray_xxxl, .el_btn_orange_zxl, .el_btn_gray_zxl {color:#fff;text-align:center;background:url(../images/pic_elements.png) no-repeat 0 -1408px;font-size:18px;}
+/*.el_btn_orange_xl, .el_btn_orange_xsl, .el_btn_orange_xxl, .el_btn_orange_sl, .el_btn_orange_xxsl, .el_btn_gray_xxsl, .el_btn_gray_sl, .el_btn_gray_xssl, .el_btn_gray_xsl, .el_btn_orange_xxxl, .el_btn_gray_xxxl, .el_btn_orange_zxl, .el_btn_gray_zxl {color:#fff;text-align:center;background:url(../images/pic_elements.png) no-repeat 0 -1408px;font-size:18px;}*/
 .el_btn_orange_xl {width:125px;height:37px;line-height:37px;}
 .el_btn_orange_xsl, .el_btn_orange_xxl, .el_btn_orange_sl, .el_btn_orange_xxsl, .el_btn_gray_sl, .el_btn_gray_xssl, .el_btn_gray_xsl, .el_btn_orange_xxxl, .el_btn_gray_xxxl, .el_btn_orange_zxl, .el_btn_gray_zxl {width:101px;height:28px;line-height:28px;background-position:0 -1607px;font-size:15px;font-family:"微软雅黑";}
 .el_btn_orange_xxl {width:167px;height:28px;background-position:0 -1758px;}

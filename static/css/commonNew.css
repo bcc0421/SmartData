@@ -54,12 +54,12 @@
 .searchBar {z-index:4;}
 .searchBar .logoBox {padding:8px 29px 7px 12px;}
 .searchBar .logoLink {font-size:0;}
-.searchBar .logoImg {width:176px;height:57px;background:url(../images/pic_elements.png) no-repeat 0 -892px;}
+.searchBar .logoImg {width:137px;height:57px;background:url(../images/logo.png) no-repeat 0;}
 .searchBar .searchBox_tabs {font-size:0;}
 .searchBar .searchBox_tab {width:70px;line-height:21px;display:inline-block;font-size:12px;text-align:center;cursor:pointer;}
 .searchBar .searchBox_tab_cur {background:url(../images/pic_elements.png) no-repeat 0 -2543px;color:#fff;}
 .searchBar .searchBox {padding-top:9px;}
-.searchBar .searchBox_container {display:inline-block;border:3px solid #a238b4;background-color:#a238b4;width:480px;}
+.searchBar .searchBox_container {display:inline-block;border:3px solid #0793d2;background-color:#0793d2;width:480px;}
 .searchBar .keyword_by_el_inText {width:375px;height:28px;padding-left:6px;line-height:28px;border:none 0;font-size:15px;vertical-align:top;}
 .searchBar .el_selectBox_valBox {height:28px;background:#feecff;vertical-align:top;padding:0 7px 0 12px;}
 .searchBar .el_selectBox_val {width:64px;height:28px;line-height:28px;color:#000;}
@@ -70,7 +70,7 @@
 .searchBar .search_by_el_btn {width:84px;height:28px;vertical-align:top;}
 .searchBar .search_by_el_btn .icon {width:17px;height:16px;background:url(../images/pic_elements.png) no-repeat 0 -763px;}
 .searchBar .phoneBox {padding:37px 25px 0 0;}
-.searchBar .phoneBox_item .icon {width:23px;height:15px;background:url(../images/pic_elements.png) no-repeat 0 -844px;}
+.searchBar .phoneBox_item .icon {width:37px;height:34px;background:url(../images/phone.png) no-repeat 0 ;}
 .searchBar .phoneBox_item .txt {font-size:15px;vertical-align:top;}
 
 /*下拉框摸拟*/
@@ -209,7 +209,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
  * content	: 主导航栏
  */
 
-.mainNav {height:38px;background:url(../images/nav_main_bg.png) repeat-x;font-size:0;}
+.mainNav {height:38px;background:url(../images/navigation.png) repeat-x;font-size:0;}
 .mainNav_box {vertical-align:top;z-index:3;}
 .mainNav_box .nowPos {min-width:110px;vertical-align:middle;display:inline-block;color:#CDB8D5;font-size:15px;line-height:38px;padding-left:10px;float:left;}
 .mainNav .addressBox { background:url(../images/nav_tab_bg.png) no-repeat; z-index:10; position: relative;}
@@ -236,7 +236,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
  * content	: 服务快链区域
  */
 
-.serverBar {border-top:2px solid #c3c3c3;background-color:#f0f0f0;padding:20px 0;}
+.serverBar {border-top:2px solid #0b92d7;background-color:#0b92d7;padding:20px 0;}
 .serverBar_box {text-align:center;}
 .serverBar .borderBox, .serverBar .exBox {display:inline-block;vertical-align:top;}
 .serverBar .borderBox {background:url(../images/bg_dot.png) repeat-y right top;padding-right:20px;}
@@ -246,7 +246,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
 .serverBar .title, .serverBar .box {display:block;}
 .serverBar .title {font-size:15px;font-weight:normal;}
 .serverBar .box {padding-top:15px;}
-.serverBar .link, .serverBar .txt {color:#686868;}
+.serverBar .link, .serverBar .txt {color:#ffffff;}
 .serverBar .link:hover {text-decoration:underline;}
 .serverBar .el_blank {height:13px;display:block;}
 

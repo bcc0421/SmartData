@@ -239,7 +239,7 @@ def own_housekeeping(request):
                             'profile': profile,
                             'show': True
                         })
-    return render_to_response('own_housekeeping.html',{ 'show': False ,'user':request.user,'profile':profile })
+    return render_to_response('own_housekeeping.html', {'show': False, 'user': request.user, 'profile': profile })
 
 
 

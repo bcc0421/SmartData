@@ -1132,7 +1132,7 @@ category 和 category_item_id 必填
 
 ### 39. Get housekeeping item(用户需要登录)
 
-#### URL : /api/get/housekeeping_item/
+#### URL : /api/get/housekeeping_item/?page=页数
 
 #### Method :  GET
 

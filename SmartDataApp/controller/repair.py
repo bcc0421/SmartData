@@ -257,6 +257,7 @@ def api_repair_create(request):
         return return_error_response()
     else:
         repair_content = request.POST.get('content', None)
+        #repair_content = repair_content.encode("UTF-8")
         repair_type = request.POST.get('category', None)
         category_item_id = request.POST.get('category_item_id', None)
         upload_repair_src = request.FILES.get('upload_repair_img', None)
