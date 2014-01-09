@@ -1,16 +1,12 @@
 #coding:utf-8
 import re
-from captcha.models import CaptchaStore
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
-from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
-from django.contrib.auth.models import User
-from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from SmartDataApp.models import ProfileDetail, Community
-from SmartDataApp.views import index, random_captcha, own_information
+from SmartDataApp.views import index, own_information
 
 
 def validateEmail(email):
@@ -25,12 +21,13 @@ def validateEmail(email):
 
 
 def update_own_profile(request):
-    profile=ProfileDetail.objects.get(profile=request.user)
+    profile = ProfileDetail.objects.get(profile=request.user)
     communities = Community.objects.all()
-    if profile :
-        return render_to_response('update_profile.html',{'user': request.user ,'profile':profile,'communities':communities})
-    else :
-         return render_to_response('index.html')
+    if profile:
+        return render_to_response('update_profile.html',
+                                  {'user': request.user, 'profile': profile, 'communities': communities})
+    else:
+        return render_to_response('index.html')
 
 
 @transaction.atomic
@@ -50,18 +47,17 @@ def profile_update(request):
         new_room = request.POST.get(u'new_room', None)
         new_address = request.POST.get(u'new_address', None)
         new_community_id = request.POST.get(u'community', None)
-        if len(User.objects.filter(username=new_name)) > 0:
-            response_data = {'username_error': True, 'info': u'用户名已存在', 'user': request.user,'communities':communities,'profile':profile_detail}
-            return render_to_response('update_profile.html', response_data)
         pattern = re.compile(r'^(1[0-9][0-9])\d{8}$')
         if not pattern.match(new_mobile):
-            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码','communities':communities,'profile':profile_detail}
+            response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码', 'communities': communities,
+                             'profile': profile_detail, 'user': user}
             return render_to_response('update_profile.html', response_data)
         if not validateEmail(new_email):
-            response_data = {'email_error': True, 'info': u'请输入正确的邮箱地址','communities':communities,'profile':profile_detail}
+            response_data = {'email_error': True, 'info': u'请输入正确的邮箱地址', 'communities': communities,
+                             'profile': profile_detail, 'user': user}
             return render_to_response('update_profile.html', response_data)
         user.email = new_email
-        user.username=new_name
+        user.username = new_name
         user.save()
         community = Community.objects.get(id=new_community_id)
         profile_detail.community = community
@@ -80,14 +76,14 @@ def update_own_password(request):
 @csrf_exempt
 @login_required
 def update_password(request):
-     if request.method != u'POST':
+    if request.method != u'POST':
         return redirect(index)
-     else:
+    else:
         old_password = request.POST.get(u'old_password', None)
         new_password = request.POST.get(u'new_password', None)
         repeat_password = request.POST.get(u'repeat_password', None)
         user = request.user
-        if new_password !=repeat_password:
+        if new_password != repeat_password:
             response_data = {'error1': True, 'info': u'两次密码不一致'}
             return render_to_response('update_password.html', response_data)
         if check_password(old_password, user.password):

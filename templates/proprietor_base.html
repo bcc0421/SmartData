@@ -45,11 +45,11 @@
                 <span class="title">家人/邻居</span>
             </a>
             <span class="sepLine"></span>
-            <a class="item_back item" href="/logout/" title="退出">
+            <a class="item_back item" href="/index/" title="退出">
                         <span class="box">
                             <i class="icon"></i>
                         </span>
-                <span class="title">退出</span>
+                <span class="title">返回</span>
             </a>
         </div>
     </div>
@@ -69,13 +69,13 @@
                 </a>
                 <ul class="infoBox">
                     <li class="name">
-                        <span class="txt"><a href="#">{{user.username  }}</a></span>
+                        <span class="txt"><a href="#">{{ user.username }}</a></span>
                     </li>
                     <li class="info">
-                <span class="txt">
-                <a href="#">
-                    {{ profile.address }} </a>
-                 </span>
+                        <span class="txt">
+{#                        <a href="#">#}
+{#                            {{ profile.address }} </a>#}
+                         </span>
                     </li>
                     <li class="score">积分（<span class="imp"><a class="imp" href="#">50</a></span>）</li>
                 </ul>
@@ -149,7 +149,8 @@
                     <i class="icon"></i>
                     <span class="title">客服电话</span>
                 </p>
-                <p class="numBox">4008-893-893</p>
+
+                <p class="numBox">8888-888-888</p>
             </div>
             <!-- 客服电话 end -->
         </div>
@@ -174,25 +175,25 @@
                              <span class="item">
                                 <strong class="title">购物指南</strong>
                                    <span class="box">
-                                        <a href="#"class="link"title="购物流程">购物流程</a>
+                                        <a href="#" class="link" title="购物流程">购物流程</a>
                                         <em class="el_blank"></em>
                                         <a href="#" class="link" title="订单状态说明">订单状态说明</a>
                                         <em class="el_blank"></em>
-                                        <a href="#"class="link"title="优惠券说明">优惠券说明</a>
+                                        <a href="#" class="link" title="优惠券说明">优惠券说明</a>
                                         <em class="el_blank"></em>
                                     </span>
                             </span>
                             <span class="item">
                                 <strong class="title">支付帮助</strong>
                                     <span class="box">
-                                         <a href="#"class="link"title="在线支付">在线支付</a>
+                                         <a href="#" class="link" title="在线支付">在线支付</a>
                                          <em class="el_blank"></em>
                                      </span>
                             </span>
                             <span class="item">
                                 <strong class="title">物流配送</strong>
                                     <span class="box">
-                                        <a href="#"class="link" title="商家配送">商家配送</a>
+                                        <a href="#" class="link" title="商家配送">商家配送</a>
                                         <em class="el_blank"></em>
                                     </span>
                             </span>
@@ -276,6 +277,7 @@
         |
         <a href="#" class="link" title="帮助">帮助</a>
     </p>
+
     <p class="copyrightBox">
         CopyRigth ©2013 Colour Life All Rights Reserved
     </p>
