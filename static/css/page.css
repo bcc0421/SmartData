@@ -23,16 +23,18 @@
  * content	: 登录、注册、找回密码栏目
  */
 
-.lrf_optBox {border:1px solid #c0c0c0;}
-.lrf_optBox .titItem {border-bottom:1px solid #c0c0c0;padding:10px 20px;background:#f6f6f6;}
-.lrf_optBox .titItem .icon {width:47px;height:47px;background:url(../images/pic_elements.png) no-repeat 0 -1445px;}
+/*.lrf_optBox {border:1px solid #c0c0c0;}*/
+.lrf_optBox .titItem {padding:10px 20px;}
+/*.lrf_optBox .titItem {border-bottom:1px solid #c0c0c0;padding:10px 20px;background:#f6f6f6;}*/
+.lrf_optBox .titItem .icon {width:47px;height:37px;background:url(../images/portrait.png) no-repeat;}
 .lrf_optBox .titItem .title {line-height:47px;vertical-align:top;display:inline-block;font-size:18px;margin-left:5px;}
-.lrf_optBox .optItem_item .el_lab {width:103px;height:42px;line-height:42px;display:inline-block;text-align:right;color:#686868;vertical-align:top;font-size:12px;}
+.lrf_optBox .optItem_item .el_lab {width:103px;height:42px;line-height:42px;display:inline-block;text-align:right;color:#ffffff;vertical-align:top;}
+/*.lrf_optBox .optItem_item .el_lab {width:103px;height:42px;line-height:42px;display:inline-block;text-align:right;color:#ffffff;vertical-align:top;font-size:12px;}*/
 .lrf_optBox .optItem_item .el_inText {width:244px;height:40px;line-height:40px;vertical-align:middle;padding-left:5px;}
 .lrf_optBox .optItem_item .tip {color:#686868;font-size:12px;padding:0 10px;}
 .lrf_optBox .el_checkbox .checkbox {vertical-align:middle;margin-right:4px;}
-.lrf_optBox .el_checkbox .txt {color:#686868;font-size:12px;}
-.lrf_optBox .link {color:#686868;font-size:12px;vertical-align:middle;}
+.lrf_optBox .el_checkbox .txt {color:#ffffff;font-size:12px;}
+.lrf_optBox .link {color:#ffffff;font-size:12px;vertical-align:middle;}
 .lrf_optBox .link:hover {text-decoration:underline;}
 .lrf_optBox .optItem_item .el_inText_sl {width:159px;}
 .lrf_optBox .optItem_item .el_inText_ssl {width:141px;}
@@ -48,13 +50,13 @@
  */
 
 .s_lrf_log .main_inner {padding:50px;}
-.lrf_logBox {width:379px;background:#f6f6f6;}
-.lrf_logBox .optItem {padding:43px 0 50px 0;}
-.lrf_logBox .optItem_item {padding-bottom:20px;}
-.lrf_logBox .optItem_item_btns {padding:30px 0 0 55px;}
+/*.lrf_logBox {width:379px;background:#f6f6f6;}*/
+.lrf_logBox .optItem {padding:65px 0 50px 0;}
+.lrf_logBox .optItem_item {padding-bottom:25px;}
+/*.lrf_logBox .optItem_item_btns {padding:30px 0 0 55px;}*/
 .lrf_logBox .fpwLink {margin-left:20px;}
 .lrf_logBox .optItem_item_btns .el_btn {float:right;margin-top:-12px;margin-right:42px;#margin-top:-30px;}
-.lrf_logSideBox {width:406px;background:url(../images/bg_userLog.png) no-repeat center 0;padding-top:300px;#padding-top:315px;}
+.lrf_logSideBox {width:543px;background:url(../images/login_right.png) no-repeat center 0;padding-top:481px;#padding-top:315px;}
 .lrf_logSideBox .list {padding-left:58px;color:#686868;}
 .lrf_logSideBox .list_item {list-style:disc;padding-bottom:8px;}
 .lrf_logSideBox .btns {float:right;margin-top:-48px;}
