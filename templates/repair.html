@@ -104,7 +104,7 @@
                                   </span>
                                   <div class="line"></div>
                                   <span class="last_text_box1">
-                                     <button class="el_btn_orange_xsl el_btn" type="submit"><span class="txt">提交</span></button>
+                                      <button class="el_btn_orange_xsl el_btn el_btn1" type="submit" style="background: url('/static/images/submit.png') no-repeat;width:106px;height: 36px"><span class="txt">提交</span></button>
                                   </span>
                            </div>
                         </form>
@@ -121,6 +121,13 @@
 <script src="/static/js/jquery.iframe-transport.js"></script>
 <script src="/static/js/jquery.imgreview.js"></script>
 <script type="text/javascript">
+    $(function(){
+        $('.el_btn1').mouseover(function(){
+            $(this).attr("style","background: url('/static/images/submit_hover.png') no-repeat;width:106px;height:36px");
+        }).mouseout(function(){
+           $(this).attr("style","background: url('/static/images/submit.png') no-repeat;width:106px;height:36px");
+                })
+    })
     function select_type_repair(){
         var objS = document.getElementById("select_type");
         if (objS.selectedIndex == 0){

@@ -273,7 +273,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
 .payment_btn{color:#fff; text-align:center; background:url(../images/pic_elements.png) no-repeat -100px -6430px; font-size:18px; width:132px; height:43px; line-height:43px; font-family:"微软雅黑";}
 .payment_btn .txt{height:40px; line-height:43px;}
 .el_btn, .icon, .el_btn .txt {display:inline-block;}
-.el_btn_orange_xl, .el_btn_orange_xsl, .el_btn_orange_xxl, .el_btn_orange_sl, .el_btn_orange_xxsl, .el_btn_gray_xxsl, .el_btn_gray_sl, .el_btn_gray_xssl, .el_btn_gray_xsl, .el_btn_orange_xxxl, .el_btn_gray_xxxl, .el_btn_orange_zxl, .el_btn_gray_zxl {color:#fff;text-align:center;background:url(../images/pic_elements.png) no-repeat 0 -1408px;font-size:18px;}
+.el_btn_orange_xl, .el_btn_orange_xsl, .el_btn_orange_xxl, .el_btn_orange_sl, .el_btn_orange_xxsl, .el_btn_gray_xxsl, .el_btn_gray_sl, .el_btn_gray_xssl, .el_btn_gray_xsl, .el_btn_orange_xxxl, .el_btn_gray_xxxl, .el_btn_orange_zxl, .el_btn_gray_zxl {color:#fff;text-align:center;font-size:18px;}
 .el_btn_orange_xl {width:125px;height:37px;line-height:37px;}
 .el_btn_orange_xsl, .el_btn_orange_xxl, .el_btn_orange_sl, .el_btn_orange_xxsl, .el_btn_gray_sl, .el_btn_gray_xssl, .el_btn_gray_xsl, .el_btn_orange_xxxl, .el_btn_gray_xxxl, .el_btn_orange_zxl, .el_btn_gray_zxl {width:101px;height:28px;line-height:28px;background-position:0 -1607px;font-size:15px;font-family:"微软雅黑";}
 .el_btn_orange_xxl {width:167px;height:28px;background-position:0 -1758px;}

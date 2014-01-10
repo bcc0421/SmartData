@@ -293,6 +293,8 @@ def api_repair_response(request):
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
         repair_id = data.get("repair_id", None)
+
+
         response_content = data.get("response_content", None)
         selected_pleased = data.get("selected_pleased", None)
         repair = Repair.objects.get(id=repair_id)
