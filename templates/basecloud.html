@@ -193,7 +193,7 @@
     <div class="mainNav_box el_container">
 
         <div class="btn-group" style="margin-left:10px">
-            <button type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown"style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">
                 {% if change_community == 1 %}
                     {{ community.title }}
                 {% elif change_community == 2 %}
@@ -201,8 +201,8 @@
                 {% else %}
                     切换小区
                 {% endif %}
-                <span class="caret"></span>
-            </button>
+                    <img src="/static/images/triangle.png"  />
+            </span>
             <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 {% for community in communities %}
                     <li id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a>
@@ -328,7 +328,7 @@
 <span class="item">
 <strong class="title title_new">支付帮助</strong>
 <span class="box">
-<a href="#" title="在线支付">在线支付</a><em class="el_blank"></em>
+<a href="#" title="在线支付"><span style="color: #ffffff">在线支付</span></a><em class="el_blank"></em>
 </span>
 </span>
 <span class="item">

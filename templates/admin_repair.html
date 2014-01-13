@@ -102,7 +102,7 @@
                     <tr role="row">
                         <th>时间</th>
                         <th>报修人</th>
-                        <th>类型</th>
+                        <th style="width:20px">类型</th>
                         <th>报修项目</th>
                         <th>价格（元）</th>
                         <th>图片</th>
@@ -122,16 +122,16 @@
                             <td>{{ one_repair.timestamp| date:"Y-m-d H:i:s" }}</td>
                             <td>{{ one_repair.author}}</td>
                             <td>{{ one_repair.type}}</td>
-                            <td>{{ one_repair.repair_iteam}}</td>
+                            <td>{{ one_repair.repair_item}}</td>
                             <td>{{ one_repair.price}}</td>
                             <td>
-                                {% if one_repair.src  %}
-                                    <a href="/show/image_detail/{{ one_repair.id }}/?type=repair"target="_blank">
-                                        <img src="/media/{{ one_repair.src }}" style="height: 25px;width: 25px">
-                                    </a>
-                                {% else %}
-                                    <span>无图片</span>
-                                {% endif %}
+{#                                {% if one_repair.src  %}#}
+                                <a href="/show/image_detail/{{ one_repair.id }}/?type=repair"target="_blank">
+                                    <img src="/media/{{ one_repair.src }}" style="height: 25px;width: 25px">
+                                </a>
+{#                                {% else %}#}
+{#                                    <span>无图片</span>#}
+{#                                {% endif %}#}
                             </td>
                             <td class="deal_status"  id="status_{{ one_repair.id }}">
                                 {% ifequal one_repair.status 1 %}

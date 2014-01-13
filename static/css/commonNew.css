@@ -209,7 +209,7 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
  * content	: 主导航栏
  */
 
-.mainNav {height:38px;background:url(../images/navigation.png) repeat-x;font-size:0;}
+.mainNav {height:38px;background:url(../images/navigation1.png) repeat-x;font-size:0;}
 .mainNav_box {vertical-align:top;z-index:3;}
 .mainNav_box .nowPos {min-width:110px;vertical-align:middle;display:inline-block;color:#CDB8D5;font-size:15px;line-height:38px;padding-left:10px;float:left;}
 .mainNav .addressBox { background:url(../images/nav_tab_bg.png) no-repeat; z-index:10; position: relative;}
@@ -219,9 +219,9 @@ div.posAddressTipPop {width:400px;top:40px;left:50%;margin-left:-200px;position:
 .mainNav .addressBox .el_selectBox_list {top:36px;}
 .mainNav .addressBox .el_selectBox_list_item {color:#fff;text-align:right;padding-right:28px;background-color:#552F57;}
 .mainNav .addressBox .el_selectBox_list_item:hover {background-color:#884D8C;}
-.mainNav_item {display:inline-block;height:38px;line-height:38px;vertical-align:top; text-align:center; width:103px;padding:0;}
+.mainNav_item {display:inline-block;height:38px;line-height:38px;vertical-align:top; text-align:center; width:117px;padding:0;}
 /*.mainNav_item:hover, .mainNav_item_cur {background:url(../images/bg_repeat_x.png) repeat-x 0 -36px;}  */
-.mainNav_item:hover, .mainNav_item_cur {background:url(../images/nav_hover_bg.png) no-repeat;}
+.mainNav_item:hover, .mainNav_item_cur {background:url(../images/navigation_hover.png) no-repeat;}
 .mainNav_item .txt {font-size:15px;color:#FFFFFF; vertical-align:middle;}
 
 /*
