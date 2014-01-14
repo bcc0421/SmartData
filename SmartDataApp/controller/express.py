@@ -209,8 +209,8 @@ def api_get_user_express(request):
                     'get_express_type': express_detail.type,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
-                    'arrive_time': str(express_detail.arrive_time),
-                    'get_time': str(express_detail.get_time)
+                    'arrive_time': str(express_detail.arrive_time).split('.')[0],
+                    'get_time': str(express_detail.get_time).split('.')[0]
                 }
                 express_list.append(data)
         response_data = {'express_list': express_list, 'page_count': page_count, 'success': True}
@@ -250,8 +250,8 @@ def api_show_all_express(request):
                     'get_express_type': express_detail.type,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
-                    'arrive_time': str(express_detail.arrive_time),
-                    'get_time': str(express_detail.get_time)
+                    'arrive_time': str(express_detail.arrive_time).split('.')[0],
+                    'get_time': str(express_detail.get_time).split('.')[0]
                 }
                 express_list.append(data)
         response_data = {'express_list': express_list, 'page_count': page_count, 'success': True}
@@ -440,8 +440,8 @@ def api_show_express_by_status(request):
                     'get_express_type': express_detail.type,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
-                    'arrive_time': str(express_detail.arrive_time),
-                    'get_time': str(express_detail.get_time)
+                    'arrive_time': str(express_detail.arrive_time).split('.')[0],
+                    'get_time': str(express_detail.get_time).split('.')[0]
                 }
                 express_list.append(data)
         response_data = {'express_list': express_list, 'page_count': page_count, 'success': True}

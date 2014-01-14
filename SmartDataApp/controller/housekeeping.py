@@ -375,7 +375,7 @@ def api_own_housekeeping(request):
                 'remarks': housekeeping_detail.housekeeping_item.remarks,
                 'pleased': housekeeping_detail.pleased,
                 'handler': str(housekeeping_detail.handler),
-                'time': str(housekeeping_detail.time)
+                'time': str(housekeeping_detail.time).split('.')[0]
             }
             house_keep_list.append(data)
         response_data = {'house_keep_list': house_keep_list, 'page_count': page_count, 'success': True}
@@ -467,7 +467,7 @@ def api_show_all_housekeeping(request):
                 'remarks': housekeeping_detail.housekeeping_item.remarks,
                 'pleased': housekeeping_detail.pleased,
                 'handler': str(housekeeping_detail.handler),
-                'time': str(housekeeping_detail.time)
+                'time': str(housekeeping_detail.time).split('.')[0]
             }
             house_keep_list.append(data)
         response_data = {'house_keep_list': house_keep_list, 'page_count': page_count, 'success': True}
@@ -558,36 +558,37 @@ def api_housekeeping_item_delete(request):
 
 @transaction.atomic
 @csrf_exempt
-@login_required(login_url='/login/')
 def api_modify_housekeeping_item(request):
+    convert_session_id_to_user(request)
     if request.method != u'POST':
-        return redirect(index)
-    else:
-        if request.method != u'POST':
-            return return_error_response()
-        elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
-            data = simplejson.loads(request.body)
-            modify_item_id = data.get('modify_item_id', None)
-            housekeeping_price_description = data.get('modify_price_description', None)
-            housekeeping_item_name = data.get('modify_item_name', None)
-            housekeeping_content = data.get('modify_content', None)
-            housekeeping_remarks = data.get('modify_remarks', None)
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        modify_item_id = data.get('modify_item_id', None)
+        housekeeping_price_description = data.get('modify_price_description', None)
+        housekeeping_item_name = data.get('modify_item_name', None)
+        housekeeping_content = data.get('modify_content', None)
+        housekeeping_remarks = data.get('modify_remarks', None)
+        try:
             item = Housekeeping_items.objects.get(id=modify_item_id)
-            if housekeeping_price_description or housekeeping_item_name or housekeeping_content or housekeeping_remarks:
-                if housekeeping_price_description:
-                    item.price_description = housekeeping_price_description
-                if housekeeping_item_name:
-                    item.item = housekeeping_item_name
-                if housekeeping_content:
-                    item.content = housekeeping_content
-                if housekeeping_remarks:
-                    item.remarks = housekeeping_remarks
-                item.save()
-                response_data = {'success': True}
-                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-            else:
-                response_data = {'success': False,'info':'没有修改信息'}
-                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        except Exception:
+            response_data = {'success': False, 'info': '不存在'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        if housekeeping_price_description or housekeeping_item_name or housekeeping_content or housekeeping_remarks:
+            if housekeeping_price_description:
+                item.price_description = housekeeping_price_description
+            if housekeeping_item_name:
+                item.item = housekeeping_item_name
+            if housekeeping_content:
+                item.content = housekeeping_content
+            if housekeeping_remarks:
+                item.remarks = housekeeping_remarks
+            item.save()
+            response_data = {'success': True}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False, 'info': '没有修改信息'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
 
@@ -644,7 +645,7 @@ def api_show_housekeeping_by_status(request):
                 'remarks': housekeeping_detail.housekeeping_item.remarks,
                 'pleased': housekeeping_detail.pleased,
                 'handler': str(housekeeping_detail.handler),
-                'time': str(housekeeping_detail.time)
+                'time': str(housekeeping_detail.time).split('.')[0]
             }
             house_keep_list.append(data)
         response_data = {'house_keep_list': house_keep_list, 'page_count': page_count, 'success': True}

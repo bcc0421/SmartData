@@ -336,7 +336,7 @@ def api_own_repair(request):
                 'deal_status': repair_detail.status,
                 'pleased': repair_detail.pleased,
                 'src': repair_detail.src.name,
-                'time': str(repair_detail.timestamp),
+                'time': str(repair_detail.timestamp).split('.')[0],
                 'handler': str(repair_detail.handler)
             }
             repair_list.append(data)
@@ -429,7 +429,7 @@ def api_show_all_repair(request):
                 'deal_status': repair_detail.status,
                 'pleased': repair_detail.pleased,
                 'src': repair_detail.src.name,
-                'time': str(repair_detail.timestamp),
+                'time': str(repair_detail.timestamp).split('.')[0],
                 'handler': str(repair_detail.handler)
             }
             repair_list.append(data)
@@ -491,7 +491,7 @@ def api_show_repair_by_status(request):
                 'deal_status': repair_detail.status,
                 'pleased': repair_detail.pleased,
                 'src': repair_detail.src.name,
-                'time': str(repair_detail.timestamp),
+                'time': str(repair_detail.timestamp).split('.')[0],
                 'handler': str(repair_detail.handler)
             }
             repair_list.append(data)
