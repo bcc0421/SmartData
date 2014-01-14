@@ -99,7 +99,8 @@ def complain_create(request):
         complain_content = request.POST.get('content', None)
         complain_type = request.POST.get('category', None)
         upload__complain_src = request.FILES.get('upload_complain_img', None)
-        complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
+        #complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
+        complain_time = datetime.datetime.now()
         profile = ProfileDetail.objects.get(profile=request.user)
         if complain_content or complain_type:
             complain = Complaints()
@@ -241,6 +242,7 @@ def api_complain_create(request):
         complain_type = request.POST.get('category', None)
         upload__complain_src = request.FILES.get('upload_complain_img', None)
         complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
+        #complain_time = datetime.datetime.now()
         profile = ProfileDetail.objects.get(profile=request.user)
         if complain_content or complain_type:
             complain = Complaints(author=request.user.username)
@@ -307,7 +309,7 @@ def api_own_complain(request):
                 'deal_status': complain_detail.status,
                 'pleased': complain_detail.pleased,
                 'src': complain_detail.src.name,
-                'time': str(complain_detail.timestamp),
+                'time': str(complain_detail.timestamp).split('.')[0],
                 'handler':str(complain_detail.handler)
             }
             complain_list.append(data)
@@ -399,7 +401,7 @@ def api_show_all_complains(request):
                 'deal_status': complain_detail.status,
                 'pleased': complain_detail.pleased,
                 'src': complain_detail.src.name,
-                'time': str(complain_detail.timestamp),
+                'time': str(complain_detail.timestamp).split('.')[0],
                 'handler': str(complain_detail.handler)
             }
             complain_list.append(data)
@@ -462,7 +464,7 @@ def api_show_complains_by_status(request):
                 'deal_status': complain_detail.status,
                 'pleased': complain_detail.pleased,
                 'src': complain_detail.src.name,
-                'time': str(complain_detail.timestamp),
+                'time': str(complain_detail.timestamp).split('.')[0],
                 'handler': str(complain_detail.handler)
             }
             complain_list.append(data)
