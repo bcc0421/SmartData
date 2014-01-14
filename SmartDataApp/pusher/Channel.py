@@ -8,8 +8,6 @@ import json
 
 import requests
 
-from lib.ChannelException import ChannelException
-
 
 ###
 # 百度云推送PUSH服务 Python SDK
@@ -19,8 +17,8 @@ from lib.ChannelException import ChannelException
 # @author 百度云平台部
 # @copyright Copyright (c) 2012-2020 百度在线网络技术(北京)有限公司
 # @version 1.0.0
-### 
-
+###
+from SmartDataApp.pusher import ChannelException
 
 
 class Channel(object):
