@@ -130,9 +130,10 @@ def test_queryDeviceType():
 
 
 if (__name__ == '__main__'):
+    pass
     # test_queryBindList()
     # time.sleep(1)
-    test_pushMessage_to_user()
+    #test_pushMessage_to_user()
     #time.sleep(1)
     #test_pushMessage_to_tag()
     #time.sleep(1)

@@ -1424,3 +1424,26 @@ category 和 category_item_id 必填
                 express_num: 0
 
         }
+
+
+### 48. Get channel and user id(用户需要登录)(绑定手机短)
+
+#### URL : /api/get_channel_use_id/
+
+#### Method : POST
+
+    {
+            'channel_id': '频道id',
+            'user_id': '手机用户id',
+
+     }
+
+### Result:
+
+#### Success
+
+        {'success': True, 'info': u'绑定成功'}
+
+#### Error
+
+        {'success': False, 'info': '没有传入相关信息'}

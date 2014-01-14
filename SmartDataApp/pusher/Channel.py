@@ -525,8 +525,6 @@ class Channel(object):
 
     def _channelExceptionHandler(self, ex):
         print ex.error_msg, self._arrayErrorMap[ex.error_code]
-		
-	
-			 
+
 
 

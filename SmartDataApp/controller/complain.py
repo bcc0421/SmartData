@@ -11,8 +11,13 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.models import Complaints, Repair
+from SmartDataApp.pusher.Channel import Channel
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail, Community
+import hashlib
+
+apiKey = "xS8MeH5f4vfgTukMcB2Bo6Ea"
+secretKey = "chcxUOTIvBkItk91bXbXxQw5VSAaYhBb"
 
 
 def return_error_response():
@@ -86,7 +91,9 @@ def complain(request):
                 'is_admin': True
             })
     else:
-        return render_to_response('complains.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+        return render_to_response('complains.html',
+                                  {'user': request.user, 'profile': profile, 'communities': communities,
+                                   'community': one_community, 'change_community': status})
 
 
 @transaction.atomic
@@ -114,9 +121,13 @@ def complain_create(request):
             if upload__complain_src:
                 complain.src = upload__complain_src
             complain.save()
-            return render_to_response('complain_sucess.html', {'user': request.user,'communities': communities,'profile': profile, 'change_community': 2})
+            return render_to_response('complain_sucess.html',
+                                      {'user': request.user, 'communities': communities, 'profile': profile,
+                                       'change_community': 2})
         else:
-            return render_to_response('complains.html', {'user': request.user,'communities': communities,'profile': profile, 'change_community': 2})
+            return render_to_response('complains.html',
+                                      {'user': request.user, 'communities': communities, 'profile': profile,
+                                       'change_community': 2})
 
 
 @transaction.atomic
@@ -139,6 +150,23 @@ def complain_deal(request):
                 if user_obj:
                     complain.handler = user_obj
                 complain.save()
+            handler_detail = ProfileDetail.objects.get(profile=user_obj)
+            c = Channel(apiKey, secretKey)
+            push_type = 1
+            optional = dict()
+            #optional[Channel.USER_ID] = handler_detail.device_user_id
+            optional[Channel.USER_ID] = '665778416804465913'
+            optional[Channel.CHANNEL_ID] = '4617656892525519033'
+            #optional[Channel.CHANNEL_ID] = handler_detail.device_chanel_id
+            #推送通知类型
+            optional[Channel.DEVICE_TYPE] = 4
+            optional[Channel.MESSAGE_TYPE] = 1
+            message_key = hashlib.md5(str(datetime.datetime.now())).hexdigest()
+            message = "{" \
+                      " 'title': 'user', " \
+                      "'description': 'description'" \
+                      "}"
+            c.pushMessage(push_type, message, message_key, optional)
             response_data = {'success': True, 'info': '授权成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
@@ -182,7 +210,8 @@ def own_complain(request):
             'change_community': 2,
             'show': True
         })
-    return render_to_response('own_complain.html', {'show': False, 'user': request.user, 'profile': profile, 'change_community': 2})
+    return render_to_response('own_complain.html',
+                              {'show': False, 'user': request.user, 'profile': profile, 'change_community': 2})
 
 
 @transaction.atomic
@@ -310,7 +339,7 @@ def api_own_complain(request):
                 'pleased': complain_detail.pleased,
                 'src': complain_detail.src.name,
                 'time': str(complain_detail.timestamp).split('.')[0],
-                'handler':str(complain_detail.handler)
+                'handler': str(complain_detail.handler)
             }
             complain_list.append(data)
         response_data = {'complain_list': complain_list, 'page_count': page_count, 'success': True}
@@ -369,7 +398,6 @@ def api_complain_complete(request):
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
-
 @transaction.atomic
 @csrf_exempt
 def api_show_all_complains(request):
@@ -405,12 +433,11 @@ def api_show_all_complains(request):
                 'handler': str(complain_detail.handler)
             }
             complain_list.append(data)
-        response_data = {'complains_list': complain_list, 'page_count': page_count,'success': True}
+        response_data = {'complains_list': complain_list, 'page_count': page_count, 'success': True}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
-        response_data = {'success': False,'info': '该小区没有投诉'}
+        response_data = {'success': False, 'info': '该小区没有投诉'}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-
 
 
 @transaction.atomic
@@ -418,7 +445,7 @@ def api_show_all_complains(request):
 def api_show_complains_by_status(request):
     convert_session_id_to_user(request)
     community_id = request.GET.get("community_id", None)
-    complains_status= request.GET.get("status", None)
+    complains_status = request.GET.get("status", None)
     profile = ProfileDetail.objects.get(profile=request.user)
     if community_id:
         community = Community.objects.get(id=community_id)
@@ -434,16 +461,21 @@ def api_show_complains_by_status(request):
             complains = Complaints.objects.filter(community=community, status=3).order_by('-timestamp')
     elif profile.is_admin:
         if complains_status == u'处理中':
-            complains = Complaints.objects.filter(community=community, status=2, handler=request.user).order_by('-timestamp')
+            complains = Complaints.objects.filter(community=community, status=2, handler=request.user).order_by(
+                '-timestamp')
         if complains_status == u'已处理':
-            complains = Complaints.objects.filter(community=community, status=3,handler=request.user).order_by('-timestamp')
+            complains = Complaints.objects.filter(community=community, status=3, handler=request.user).order_by(
+                '-timestamp')
     else:
         if complains_status == u'未处理':
-            complains = Complaints.objects.filter(community=community, status=1,author=request.user.username).order_by('-timestamp')
+            complains = Complaints.objects.filter(community=community, status=1, author=request.user.username).order_by(
+                '-timestamp')
         if complains_status == u'处理中':
-            complains = Complaints.objects.filter(community=community, status=2,author=request.user.username).order_by('-timestamp')
+            complains = Complaints.objects.filter(community=community, status=2, author=request.user.username).order_by(
+                '-timestamp')
         if complains_status == u'已处理':
-            complains = Complaints.objects.filter(community=community, status=3,author=request.user.username).order_by('-timestamp')
+            complains = Complaints.objects.filter(community=community, status=3, author=request.user.username).order_by(
+                '-timestamp')
     if len(complains) > 0:
         paginator = Paginator(complains, 20)
         page_count = paginator.num_pages
@@ -468,8 +500,8 @@ def api_show_complains_by_status(request):
                 'handler': str(complain_detail.handler)
             }
             complain_list.append(data)
-        response_data = {'complains_list': complain_list, 'page_count': page_count,'success': True}
+        response_data = {'complains_list': complain_list, 'page_count': page_count, 'success': True}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
-        response_data = {'success': False,'info': '没有搜到要找的结果'}
+        response_data = {'success': False, 'info': '没有搜到要找的结果'}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
