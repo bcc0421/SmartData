@@ -320,9 +320,9 @@ def api_add_express_record(request):
         building_num = data.get(u'building_num', None)
         room_num = data.get(u'room_num', None)
         community = Community.objects.get(id=community_id)
-        profile = ProfileDetail.objects.filter(community=community, floor=building_num, gate_card=room_num)[0]
+        profile = ProfileDetail.objects.filter(community=community, floor=building_num, gate_card=room_num)
         if profile:
-            express = Express(author=profile)
+            express = Express(author=profile[0])
             express.handler = request.user
             express.arrive_time = datetime.datetime.now()
             express.community = community

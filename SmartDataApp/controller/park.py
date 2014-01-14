@@ -1,3 +1,4 @@
+#coding:utf-8
 import datetime
 from django.utils.timezone import utc
 from django.http import HttpResponse

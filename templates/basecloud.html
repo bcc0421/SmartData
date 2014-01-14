@@ -191,10 +191,9 @@
 <!-- 主导航栏 start -->
 <div class="mainNav">
     <div class="mainNav_box el_container">
-        <span class="nowPos">亨通物业管理平台</span>
 
         <div class="btn-group" style="margin-left:10px">
-            <button type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown"style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">
                 {% if change_community == 1 %}
                     {{ community.title }}
                 {% elif change_community == 2 %}
@@ -202,8 +201,8 @@
                 {% else %}
                     切换小区
                 {% endif %}
-                <span class="caret"></span>
-            </button>
+                    <img src="/static/images/triangle.png"  />
+            </span>
             <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 {% for community in communities %}
                     <li id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a>
@@ -222,6 +221,14 @@
 
         <a href="#" class="mainNav_item" title="本地生活">
             <span class="txt">本地生活</span>
+        </a>
+
+        <a href="#" class="mainNav_item" title="天天超市">
+            <span class="txt">天天超市</span>
+        </a>
+
+        <a href="#" class="mainNav_item" title="便民服务">
+            <span class="txt">便民服务</span>
         </a>
 
         <a href="#" class="mainNav_item" title="应用">
@@ -253,54 +260,42 @@
              <div class="sur_ix_serBox dropdown-menu" role="menu" aria-labelledby="dLabel"style="width:214px">
                  <div style="margin-top: 4px;margin-left:7px">
                        <!-- 元素 start -->
-                    <a class="item_s1 item" href="/repair/">
-                        <i class="icon" style="background: url('/static/images/repair.png') no-repeat;"></i>
+                    <a class="item_s1 item out" href="/repair/">
+                        <i name="repair" class="icon change_style" style="background: url('/static/images/repair.png') no-repeat;"></i>
                         <span class="title">报修</span>
                     </a>
                     <!-- 元素 end -->
 
                     <!-- 元素 start -->
-                    <a class="item_s2 item" href="/complain/">
-                        <i class="icon"></i>
+                    <a class="item_s2 item out" href="/complain/">
+                        <i name="complain" class="icon change_style" style="background: url('/static/images/complain.png') no-repeat;"></i>
                         <span class="title">投诉</span>
                     </a>
                     <!-- 元素 end -->
 
                     <!-- 元素 start -->
-                    <a class="item_s3 item" href="/housekeeping/">
-                        <i class="icon"></i>
+                    <a class="item_s3 item out" href="/housekeeping/">
+                        <i name="housekeeping" class="icon change_style" style="background: url('/static/images/housekeeping.png') no-repeat;"></i>
                         <span class="title">家政</span>
                     </a>
                     <!-- 元素 end -->
 
                     <!-- 元素 start -->
-                    <a class="item_s4 item" href="/parking/fees/">
-                        <i class="icon"></i>
+                    <a class="item_s4 item out" href="/parking/fees/">
+                        <i name="park" class="icon change_style" style="background: url('/static/images/park.png') no-repeat;"></i>
                         <span class="title">停车费</span>
                     </a>
                     <!-- 元素 end -->
                     <!-- 元素 start -->
-                    <a class="item_s5 item" href="/house/pay_fees/">
-                        <i class="icon"></i>
+                    <a class="item_s5 item out" href="/house/pay_fees/">
+                        <i name="property" class="icon change_style" style="background: url('/static/images/property.png') no-repeat;"></i>
                         <span class="title">物业缴费</span>
                     </a>
                     <!-- 元素 end -->
                     <!-- 元素 start -->
-                    <a class="item_s6 item" href="#">
-                        <i class="icon"></i>
-                        <span class="title">教育</span>
-                    </a>
-                    <!-- 元素 end -->
-                    <!-- 元素 start -->
-                    <a class="item_s7 item" href="/express/">
-                        <i class="icon"></i>
+                    <a class="item_s7 item out" href="/express/">
+                        <i name="express" class="icon change_style" style="background: url('/static/images/express.png') no-repeat;"></i>
                         <span class="title">快递</span>
-                    </a>
-                    <!-- 元素 end -->
-                    <!-- 元素 start -->
-                    <a class="item_s8 item" href="#">
-                        <i class="icon"></i>
-                        <span class="title">餐饮</span>
                     </a>
                     <!-- 元素 end -->
                  </div>
@@ -333,7 +328,7 @@
 <span class="item">
 <strong class="title title_new">支付帮助</strong>
 <span class="box">
-<a href="#" title="在线支付">在线支付</a><em class="el_blank"></em>
+<a href="#" title="在线支付"><span style="color: #ffffff">在线支付</span></a><em class="el_blank"></em>
 </span>
 </span>
 <span class="item">
@@ -410,6 +405,15 @@
 <script src="/static/js/jquery.dataTables.min.js"></script>
 <script src="/static/js/DT_bootstrap.js"></script>
 <script type="text/javascript">
+       $(function(){
+            $('.out').mouseover(function(){
+                var name =$(this).children(".change_style").attr('name');
+                $(this).children(".change_style").attr("style","background:url('/static/images/"+name+"_hover.png') no-repeat");
+            }).mouseout(function(){
+                var name =$(this).children(".change_style").attr('name');
+                $(this).children(".change_style").attr("style","background:url('/static/images/"+name+".png') no-repeat");
+                    })
+        })
      $(function(){
         $('.searchBox_tabs a').click(function(){
             $(this).addClass('searchBox_tab_cur_new').siblings().removeClass('searchBox_tab_cur_new');
