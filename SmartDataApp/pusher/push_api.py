@@ -4,7 +4,7 @@ from django.db import transaction
 import simplejson
 from SmartDataApp.controller.admin import return_error_response
 from SmartDataApp.views import convert_session_id_to_user
-from SmartDataApp.models import ProfileDetail, Community
+from SmartDataApp.models import ProfileDetail
 
 @transaction.atomic
 @csrf_exempt
@@ -21,6 +21,6 @@ def api_get_channel_use_id(request):
             profile.device_chanel_id = channel_id
             profile.device_user_id = user_id
             profile.save()
-            return HttpResponse(simplejson.dumps({'success': True, 'info': u'绑定成功'}), content_type='application/json')
+            return HttpResponse(simplejson.dumps({'success': True, 'info': '绑定成功'}), content_type='application/json')
         else:
-            return HttpResponse(simplejson.dumps({'success': False, 'info': u'没有传入相关信息'}), content_type='application/json')
+            return HttpResponse(simplejson.dumps({'success': False, 'info': '没有传入相关信息'}), content_type='application/json')
