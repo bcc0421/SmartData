@@ -1428,7 +1428,7 @@ category 和 category_item_id 必填
 
 ### 48. Get channel and user id(用户需要登录)(绑定手机短)
 
-#### URL : /api/get_channel_use_id/
+#### URL : /api/get_channel_user_id/
 
 #### Method : POST
 

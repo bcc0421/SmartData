@@ -10,7 +10,7 @@ from SmartDataApp.models import ProfileDetail
 
 @transaction.atomic
 @csrf_exempt
-def api_get_channel_use_id(request):
+def api_get_channel_user_id(request):
     convert_session_id_to_user(request)
     if request.method != u'POST':
         return return_error_response()
