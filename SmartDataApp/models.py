@@ -36,6 +36,8 @@ class ProfileDetail(models.Model):
     gate_card = models.CharField(max_length=20, null=True)
     address = models.CharField(max_length=100, null=True)
     is_admin = models.BooleanField(default=False)
+    device_user_id = models.IntegerField(max_length=100, null=True, default=0)
+    device_chanel_id = models.CharField(max_length=30, null=True, default='')
 
     def __str__(self):
         return self.phone_number
@@ -105,8 +107,10 @@ class Repair_item(models.Model):
     type = models.CharField(max_length=200)
     price = models.IntegerField(default=0)
     community = models.ForeignKey(Community, null=True)
+
     def __str__(self):
         return self.type
+
 
 class Housekeeping_items(models.Model):
     item = models.CharField(max_length=250, null=True)
@@ -115,8 +119,10 @@ class Housekeeping_items(models.Model):
     remarks = models.CharField(max_length=250, null=True)
     price_description = models.CharField(max_length=250, null=True)
     community = models.ForeignKey(Community, null=True)
+
     def __str__(self):
         return self.content
+
 
 class Housekeeping(models.Model):
     author = models.ForeignKey(ProfileDetail, null=True)
@@ -130,6 +136,7 @@ class Housekeeping(models.Model):
     is_read = models.BooleanField(default=False)
     is_worker_read = models.BooleanField(default=False)
     is_admin_read = models.BooleanField(default=False)
+
     def __str__(self):
         return self.author
 
