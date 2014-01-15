@@ -457,7 +457,11 @@ class Channel(object):
         # TODO: Production.....
         # url = 'http://' + host + '/rest/2.0/' + Channel.PRODUCT + '/'
         # url += resource
-        url = 'https://channel.iospush.api.duapp.com' + '/rest/2.0/' + Channel.PRODUCT + '/'
+        if opt['phone_type'] == 'ios':
+            url = 'https://channel.iospush.api.duapp.com' + '/rest/2.0/' + Channel.PRODUCT + '/'
+
+        else:
+           url = 'http://channel.api.duapp.com' + '/rest/2.0/' + Channel.PRODUCT + '/'
         url += resource
         http_method = 'POST'
         opt[Channel.SIGN] = self._genSign(http_method, url, opt)
@@ -482,7 +486,7 @@ class Channel(object):
                                        Channel.CHANNEL_SDK_HTTP_STATUS_OK_BUT_RESULT_ERROR)
             self._requestId = result['request_id']
             return result
-        result = json.loads(ret.body)
+        result = json.loads(ret.text)
         if (result is None):
             raise ChannelException('ret body:' + ret.body,
                                    Channel.CHANNEL_SDK_HTTP_STATUS_ERROR_AND_RESULT_ERROR)

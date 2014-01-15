@@ -1435,6 +1435,7 @@ category 和 category_item_id 必填
     {
             'channel_id': '频道id',
             'user_id': '手机用户id',
+            'device_type':手机类型
 
      }
 

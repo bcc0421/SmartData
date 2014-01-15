@@ -38,7 +38,7 @@ class ProfileDetail(models.Model):
     is_admin = models.BooleanField(default=False)
     device_user_id = models.IntegerField(max_length=100, null=True, default=0)
     device_chanel_id = models.CharField(max_length=30, null=True, default='')
-
+    device_type = models.CharField(max_length=30, null=True, default='')
     def __str__(self):
         return self.phone_number
 

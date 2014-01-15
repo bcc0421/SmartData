@@ -2,6 +2,7 @@
 # _*_ coding: UTF-8 _*_
 
 import sys
+import datetime
 
 sys.path.append("..")
 from Channel import *
@@ -39,12 +40,15 @@ def test_pushMessage_to_user():
     c.DEFAULT_HOST=dev_host
     push_type = 1
     optional = dict()
-    optional[Channel.USER_ID] = user_id
-    optional[Channel.CHANNEL_ID] = channel_id
+    #optional[Channel.USER_ID] = 815730795201756090
+    optional[Channel.USER_ID] = 665778416804465913
+    optional[Channel.CHANNEL_ID] = 4617656892525519033
+    #optional[Channel.CHANNEL_ID] = 4320553738754859600
     #推送通知类型
     optional[Channel.DEVICE_TYPE] = 4
     optional[Channel.MESSAGE_TYPE] = 1
-    ret = c.pushMessage(push_type, message, message_key, optional)
+    optional['phone_type'] = 'ios'
+    ret = c.pushMessage(push_type, message, hashlib.md5(str(datetime.datetime.now())).hexdigest(), optional)
     print ret
 
 
@@ -130,10 +134,10 @@ def test_queryDeviceType():
 
 
 if (__name__ == '__main__'):
-    pass
+
     # test_queryBindList()
     # time.sleep(1)
-    #test_pushMessage_to_user()
+    test_pushMessage_to_user()
     #time.sleep(1)
     #test_pushMessage_to_tag()
     #time.sleep(1)

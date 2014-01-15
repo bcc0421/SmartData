@@ -151,24 +151,31 @@ def complain_deal(request):
                     complain.handler = user_obj
                 complain.save()
             handler_detail = ProfileDetail.objects.get(profile=user_obj)
-            c = Channel(apiKey, secretKey)
-            push_type = 1
-            optional = dict()
-            #optional[Channel.USER_ID] = handler_detail.device_user_id
-            optional[Channel.USER_ID] = '665778416804465913'
-            optional[Channel.CHANNEL_ID] = '4617656892525519033'
-            #optional[Channel.CHANNEL_ID] = handler_detail.device_chanel_id
-            #推送通知类型
-            optional[Channel.DEVICE_TYPE] = 4
-            optional[Channel.MESSAGE_TYPE] = 1
-            message_key = hashlib.md5(str(datetime.datetime.now())).hexdigest()
-            message = "{" \
-                      " 'title': 'user', " \
-                      "'description': 'description'" \
-                      "}"
-            c.pushMessage(push_type, message, message_key, optional)
-            response_data = {'success': True, 'info': '授权成功！'}
-            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
+                c = Channel(apiKey, secretKey)
+                push_type = 1
+                optional = dict()
+                #optional[Channel.USER_ID] = handler_detail.device_user_id
+                #optional[Channel.USER_ID] = '665778416804465913'
+                optional[Channel.USER_ID] = '665778416804465913'
+                optional[Channel.CHANNEL_ID] = '4617656892525519033'
+                #optional[Channel.CHANNEL_ID] = '4617656892525519033'
+                #optional[Channel.CHANNEL_ID] = handler_detail.device_chanel_id
+                #推送通知类型
+                optional[Channel.DEVICE_TYPE] = 4
+                optional[Channel.MESSAGE_TYPE] = 1
+                optional['phone_type'] = handler_detail.device_type
+                message_key = hashlib.md5(str(datetime.datetime.now())).hexdigest()
+                message = "{" \
+                          " 'title': 'user', " \
+                          "'description': 'description'" \
+                          "}"
+                c.pushMessage(push_type, message, message_key, optional)
+                response_data = {'success': True, 'info': '授权成功并推送消息至处理人！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            else:
+                response_data = {'success': True, 'info': '授权成功,消息推送失败！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
 @transaction.atomic

@@ -18,10 +18,12 @@ def api_get_channel_user_id(request):
         data = simplejson.loads(request.body)
         channel_id = data.get("channel_id", None)
         user_id = data.get("user_id", None)
+        device_type = data.get("device_type", None)
         if channel_id and user_id:
             profile = ProfileDetail.objects.get(profile=request.user)
             profile.device_chanel_id = channel_id
             profile.device_user_id = user_id
+            profile.device_type = device_type
             profile.save()
             return HttpResponse(simplejson.dumps({'success': True, 'info': '绑定成功'}), content_type='application/json')
         else:
