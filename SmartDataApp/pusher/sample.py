@@ -40,14 +40,14 @@ def test_pushMessage_to_user():
     c.DEFAULT_HOST=dev_host
     push_type = 1
     optional = dict()
-    #optional[Channel.USER_ID] = 815730795201756090
-    optional[Channel.USER_ID] = 665778416804465913
-    optional[Channel.CHANNEL_ID] = 4617656892525519033
-    #optional[Channel.CHANNEL_ID] = 4320553738754859600
+    optional[Channel.USER_ID] = 815730795201756090
+    #optional[Channel.USER_ID] = 665778416804465913
+    #optional[Channel.CHANNEL_ID] = 4617656892525519033
+    optional[Channel.CHANNEL_ID] = 4320553738754859600
     #推送通知类型
     optional[Channel.DEVICE_TYPE] = 4
     optional[Channel.MESSAGE_TYPE] = 1
-    optional['phone_type'] = 'ios'
+    optional['phone_type'] = 'io'
     ret = c.pushMessage(push_type, message, hashlib.md5(str(datetime.datetime.now())).hexdigest(), optional)
     print ret
 

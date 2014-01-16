@@ -36,9 +36,9 @@ class ProfileDetail(models.Model):
     gate_card = models.CharField(max_length=20, null=True)
     address = models.CharField(max_length=100, null=True)
     is_admin = models.BooleanField(default=False)
-    device_user_id = models.IntegerField(max_length=100, null=True, default=0)
-    device_chanel_id = models.CharField(max_length=30, null=True, default='')
-    device_type = models.CharField(max_length=30, null=True, default='')
+    device_user_id = models.CharField(max_length=250, null=True, default=0)
+    device_chanel_id = models.CharField(max_length=250, null=True, default='')
+    device_type = models.CharField(max_length=250, null=True, default='')
     def __str__(self):
         return self.phone_number
 
@@ -136,6 +136,7 @@ class Housekeeping(models.Model):
     is_read = models.BooleanField(default=False)
     is_worker_read = models.BooleanField(default=False)
     is_admin_read = models.BooleanField(default=False)
+    allow_deal_time = models.CharField(max_length=250, null=True)
 
     def __str__(self):
         return self.author

@@ -130,6 +130,28 @@ def complain_create(request):
                                        'change_community': 2})
 
 
+def push_message(description, handler_detail, title):
+    c = Channel(apiKey, secretKey)
+    push_type = 1
+    optional = dict()
+    #optional[Channel.USER_ID] = handler_detail.device_user_id
+    #optional[Channel.USER_ID] = '665778416804465913'
+    optional[Channel.USER_ID] = '665778416804465913'
+    optional[Channel.CHANNEL_ID] = '4617656892525519033'
+    #optional[Channel.CHANNEL_ID] = '4617656892525519033'
+    #optional[Channel.CHANNEL_ID] = handler_detail.device_chanel_id
+    #推送通知类型
+    optional[Channel.DEVICE_TYPE] = 4
+    optional[Channel.MESSAGE_TYPE] = 1
+    optional['phone_type'] = handler_detail.device_type
+    message_key = hashlib.md5(str(datetime.datetime.now())).hexdigest()
+    message = "{" \
+              " 'title': '" + title + "', " \
+                                      "'description': '" + description + "'" \
+                                                                         "}"
+    c.pushMessage(push_type, message, message_key, optional)
+
+
 @transaction.atomic
 @csrf_exempt
 def complain_deal(request):
@@ -151,26 +173,10 @@ def complain_deal(request):
                     complain.handler = user_obj
                 complain.save()
             handler_detail = ProfileDetail.objects.get(profile=user_obj)
+            title = 'title'
+            description = 'description'
             if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
-                c = Channel(apiKey, secretKey)
-                push_type = 1
-                optional = dict()
-                #optional[Channel.USER_ID] = handler_detail.device_user_id
-                #optional[Channel.USER_ID] = '665778416804465913'
-                optional[Channel.USER_ID] = '665778416804465913'
-                optional[Channel.CHANNEL_ID] = '4617656892525519033'
-                #optional[Channel.CHANNEL_ID] = '4617656892525519033'
-                #optional[Channel.CHANNEL_ID] = handler_detail.device_chanel_id
-                #推送通知类型
-                optional[Channel.DEVICE_TYPE] = 4
-                optional[Channel.MESSAGE_TYPE] = 1
-                optional['phone_type'] = handler_detail.device_type
-                message_key = hashlib.md5(str(datetime.datetime.now())).hexdigest()
-                message = "{" \
-                          " 'title': 'user', " \
-                          "'description': 'description'" \
-                          "}"
-                c.pushMessage(push_type, message, message_key, optional)
+                push_message(description, handler_detail, title)
                 response_data = {'success': True, 'info': '授权成功并推送消息至处理人！'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
@@ -366,6 +372,8 @@ def api_complain_deal(request):
         data = simplejson.loads(request.body)
         complain_array = data.get("complains_id_string", None)
         deal_person_id = data.get("deal_person_id", None)
+        title = 'title'
+        description = 'description'
         if complain_array and deal_person_id:
             list_complain_ = str(complain_array).split(",")
             for i in range(len(list_complain_)):
@@ -378,8 +386,14 @@ def api_complain_deal(request):
                 if user_obj:
                     complain.handler = user_obj
                 complain.save()
-            response_data = {'success': True, 'info': u'授权成功！'}
-            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            handler_detail = ProfileDetail.objects.get(profile=user_obj)
+            if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
+                push_message(description, handler_detail, title)
+                response_data = {'success': True, 'info': u'授权成功，并推送消息至处理人！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            else:
+                response_data = {'success': True, 'info': u'授权成功，推送消息失败！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
             response_data = {'success': False, 'info': u'请选择要处理的投诉'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")

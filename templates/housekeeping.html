@@ -116,11 +116,33 @@
             <div class="el_w_237 fn_right" style="width:58px">
 
                     <div style="margin-top:10px;">
-                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="submit_housekeeping">
+                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" data-toggle="modal" id="show_modal">
                            提交
                         </button>
                     </div>
             </div>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">请填入允许服务的时间段</h4>
+                  </div>
+                  <div class="modal-body">
+                    <textarea style="width:500px" id="text_area"></textarea>
+                  </div>
+                  <div class="modal-footer">
+{#                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+                    <button type="button" class="btn btn-default" id="submit_housekeeping">确认</button>
+
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+
+
             <!-- 右侧 end -->
             <div class="el_blank_h10 fn_clear"></div>
         </div>
@@ -130,6 +152,10 @@
 {% block script %}
     <script type="text/javascript">
         $(function () {
+            $('#show_modal').click(function(){
+                 $('#text_area').val("");
+                $('#myModal').modal('show');
+            })
             $('#submit_housekeeping').click(function () {
                 var checked_array = new Array();
                 $('input[type="checkbox"][name="chk"]:checked').each(
@@ -139,16 +165,25 @@
                         }
                 );
                 if (checked_array.length > 0) {
-                    $.post('/submit/housekeeping/',
+                    var allowable_time_description = $('#text_area').val().replace(/(^\s*)|(\s*$)/g, "");
+                    if (allowable_time_description.length != 0){
+                        $.post('/submit/housekeeping/',
                             {
-                                'housekeeping_item_string': checked_array.toString()
+                                'housekeeping_item_string': checked_array.toString(),
+                                'allowable_time_description': allowable_time_description
                             },
                             function (data) {
                                 if (data.success) {
                                     alert(data.info);
+                                    window.location.href = "/housekeeping/";
                                 }
                             }
-                    )
+                        )
+                    }
+                    else{
+                        alert("请填入允许服务时间");
+                    }
+
                 } else {
                     alert("请选择处理数据");
                 }

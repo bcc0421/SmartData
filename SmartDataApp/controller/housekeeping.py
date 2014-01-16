@@ -138,6 +138,7 @@ def submit_housekeeping(request):
         return redirect(index)
     else:
         housekeeping_array = request.POST.get("housekeeping_item_string", None)
+        allowable_time_description = request.POST.get("allowable_time_description", None)
         list_housekeeping = str(housekeeping_array).split(",")
         profile = ProfileDetail.objects.get(profile=request.user)
         for i in range(len(list_housekeeping)):
@@ -146,6 +147,7 @@ def submit_housekeeping(request):
             housekeeping = Housekeeping()
             housekeeping.author = profile
             housekeeping.status = 1
+            housekeeping.allow_deal_time = allowable_time_description
             housekeeping.community = profile.community
             housekeeping.time = datetime.datetime.utcnow().replace(tzinfo=utc)
             housekeeping.housekeeping_item = housekeeping_item

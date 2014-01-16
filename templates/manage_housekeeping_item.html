@@ -110,14 +110,12 @@
                         {% for item in items %}
 
                             <tr class="except_one">
+                                <td id="item_{{item.id }}">{{ item.item }}</td>
+                                <td id="content_{{item.id }}">{{ item.content }}</td>
+                                <td id="description_{{item.id }}">{{ item.price_description}}</td>
+                                <td id="remarks_{{item.id }}">{{ item.remarks}}</td>
                                 <td>
-                                    <span>{{ item.item }}</span>
-                                </td>
-                                <td>{{ item.content }}</td>
-                                <td>{{ item.price_description}}</td>
-                                <td>{{ item.remarks}}</td>
-                                <td>
-                                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" onclick="modify({{ item.id }})">
+                                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" onclick="modify(this,{{ item.id }})">
                                         修改
                                     </button>
                                 </td>
@@ -158,18 +156,17 @@
                     <div class="modal-dialog">
                         <div class="modal-content" >
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"
-                                        aria-hidden="true"></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="refresh()">&times;</button>
                                 <h4 class="modal-title" id="myModalLabel">
                                     项目记录管理</h4>
                             </div>
                             <div class="modal-body">
 
-                                <div style="margin-top:10px "><span>项目</span>：<input type="text" name="input_item"></div>
-                                <div style="margin-top:10px "><span>费用</span>：<input type="text" name="input_price"></div>
+                                <div style="margin-top:10px "><span>项目</span>：<input type="text" name="input_item" id="item_input" ></div>
+                                <div style="margin-top:10px "><span>费用</span>：<input type="text" name="input_price" id="price_input"></div>
                                 <div style="margin-top: 10px">
                                     <span class="txt txt_1">内容：</span>
-                                    <textarea name="content"  style=" margin:10px 0 10px 0;width: 500px;"></textarea>
+                                    <textarea name="content"  style=" margin:10px 0 10px 0;width: 500px;"id="content_area"></textarea>
                                 </div>
                                  <div>
                                     <span class="txt txt_1">备注：</span>
@@ -190,9 +187,9 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default"  onclick="refresh()">
-                                    关闭
-                                </button>
+{#                                <button type="button" class="btn btn-default"  onclick="refresh()">#}
+{#                                    关闭#}
+{#                                </button>#}
                             </div>
                         </div>
                     </div>
@@ -268,15 +265,19 @@
              $('#add_housekeeping_item').modal('show');
         }
 
-        function modify(id){
+        function modify(obj,id){
             $('.add_item').hide();
             $('.modify').show();
             $('.modify').attr('name',id);
+            $('input[name="input_item"]').attr('placeholder',$('#item_'+id+'').html());
+            $('input[name="input_price"]').attr('placeholder',$('#content_'+id+'').html());
+            $('textarea[name="content"]').attr('placeholder', $('#description_'+id+'').html());
+            $('textarea[name="remarks"]').attr('placeholder',$('#remarks_'+id+'').html());
             $('#add_housekeeping_item').modal('show');
-
         }
 
         function modify_housekeeping_item(obj){
+
             var modify_item_id= $('.modify').attr('name');
             var housekeeping_item_name=$('input[name="input_item"]').val();
             var housekeeping_price_description=$('input[name="input_price"]').val();
