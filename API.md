@@ -1448,3 +1448,25 @@ category 和 category_item_id 必填
 #### Error
 
         {'success': False, 'info': '没有传入相关信息'}
+
+
+### 49. Get dynamic data/(用户需要登录)(获取最新消息)
+
+#### URL : /api/get_dynamic_data/
+
+#### Method : POST
+
+    {
+            'item_name': '(housekeeping, complain, express,repair)传入获取的类型 四选一',
+
+     }
+
+### Result:
+
+#### Success
+
+        {'complain_list': complain_list, 'success': True, 'identity': 'admin'}
+
+#### Error
+
+        { 'success': False}

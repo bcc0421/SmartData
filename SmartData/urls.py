@@ -124,6 +124,7 @@ urlpatterns = patterns('',
                        url(r'^api/show/express_by_status/$',api_show_express_by_status),
                        url(r'^parking/fees/$',parking_fees),
                        url(r'^api/get_dynamic_data_num/$',api_get_dynamic_data_num),
+                       url(r'^api/get_dynamic_data/$',api_get_dynamic_data),
                        url(r'^api/get_channel_user_id/$',api_get_channel_user_id),
 
 
