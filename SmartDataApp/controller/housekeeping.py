@@ -55,7 +55,8 @@ def housekeeping(request):
                     'change_community': status,
                     'communities': communities,
                     'profile': profile,
-                    'deal_person_list': deal_person_list
+                    'deal_person_list': deal_person_list,
+                    'is_admin': True
                 })
         elif profile.is_admin:
             housekeeping = Housekeeping.objects.filter(handler=request.user)
