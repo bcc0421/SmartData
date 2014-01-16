@@ -13,7 +13,8 @@ from SmartDataApp.views import index
 @csrf_exempt
 def add_community(request):
     if request.method != u'POST':
-        return render_to_response('add_community.html', {'user': request.user})
+        communities = Community.objects.all()
+        return render_to_response('add_community.html', {'user': request.user, 'communities':communities})
     else:
         name = request.POST.get(u'name', None)
         description = request.POST.get(u'description', None)
