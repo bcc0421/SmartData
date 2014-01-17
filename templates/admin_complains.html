@@ -123,10 +123,12 @@
 
                                 {% if one_complain.src  %}
                                     <a href="/show/image_detail/{{ one_complain.id }}/?type=complain"target="_blank">
-                                        <img src="/media/{{ one_complain.src }}" style="height: 25px;width: 25px">
+                                        <img src="/media/{{ one_complain.src }}"style="height: 25px;width: 25px">
                                     </a>
                                 {% else %}
-                                    <span>无图片</span>
+                                    <a href="/show/image_detail/{{ one_complain.id }}/?type=complain"target="_blank">
+                                        <span  style="height: 25px;width: 25px">无图片</span>
+                                    </a>
                                 {% endif %}
                             </td>
                             <td class="deal_status" id="status_{{ one_complain.id }}">
