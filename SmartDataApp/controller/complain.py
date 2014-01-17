@@ -121,7 +121,7 @@ def complain_create(request):
             if upload__complain_src:
                 complain.src = upload__complain_src
             complain.save()
-            return render_to_response('complain_sucess.html',
+            return render_to_response('complain_success.html',
                                       {'user': request.user, 'communities': communities, 'profile': profile,
                                        'change_community': 2})
         else:

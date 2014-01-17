@@ -151,7 +151,7 @@ def repair_create(request):
             if upload_repair_src:
                 repair.src = upload_repair_src
             repair.save()
-            return render_to_response('complain_sucess.html', {'user': request.user,'communities': communities,'profile': profile, 'change_community': 2})
+            return render_to_response('repair_success.html', {'user': request.user,'communities': communities,'profile': profile, 'change_community': 2})
         else:
             return render_to_response('repair.html', {'user': request.user,'communities': communities,'profile': profile, 'change_community': 2})
 
