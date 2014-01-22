@@ -1,6 +1,5 @@
 #coding:utf-8
 import datetime
-from django.utils.timezone import utc
 from django.http import HttpResponse, HttpRequest
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -18,6 +17,19 @@ import hashlib
 
 apiKey = "xS8MeH5f4vfgTukMcB2Bo6Ea"
 secretKey = "chcxUOTIvBkItk91bXbXxQw5VSAaYhBb"
+
+class UTC(datetime.tzinfo):
+    def __init__(self,offset = 0):
+        self._offset = offset
+
+    def utcoffset(self, dt):
+        return datetime.timedelta(hours=self._offset)
+
+    def tzname(self, dt):
+        return "UTC +%s" % self._offset
+
+    def dst(self, dt):
+        return datetime.timedelta(hours=self._offset)
 
 
 def return_error_response():
@@ -283,8 +295,8 @@ def api_complain_create(request):
         complain_content = request.POST.get('content', None)
         complain_type = request.POST.get('category', None)
         upload__complain_src = request.FILES.get('upload_complain_img', None)
-        complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
-        #complain_time = datetime.datetime.now()
+        #complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
+        complain_time = datetime.datetime.now()
         profile = ProfileDetail.objects.get(profile=request.user)
         if complain_content or complain_type:
             complain = Complaints(author=request.user.username)
@@ -343,6 +355,8 @@ def api_own_complain(request):
             complains_list = paginator.page(paginator.num_pages)
         complain_list = list()
         for complain_detail in complains_list:
+            time = complain_detail.timestamp
+            local = time.astimezone(UTC(8))
             data = {
                 'id': complain_detail.id,
                 'complain_author': complain_detail.author,
@@ -351,7 +365,7 @@ def api_own_complain(request):
                 'deal_status': complain_detail.status,
                 'pleased': complain_detail.pleased,
                 'src': complain_detail.src.name,
-                'time': str(complain_detail.timestamp).split('.')[0],
+                'time': str(local).split('.')[0],
                 'handler': str(complain_detail.handler)
             }
             complain_list.append(data)
@@ -442,6 +456,8 @@ def api_show_all_complains(request):
             complains_list = paginator.page(paginator.num_pages)
         complain_list = list()
         for complain_detail in complains_list:
+            time = complain_detail.timestamp
+            local = time.astimezone(UTC(8))
             data = {
                 'id': complain_detail.id,
                 'complain_author': complain_detail.author,
@@ -450,7 +466,7 @@ def api_show_all_complains(request):
                 'deal_status': complain_detail.status,
                 'pleased': complain_detail.pleased,
                 'src': complain_detail.src.name,
-                'time': str(complain_detail.timestamp).split('.')[0],
+                'time': str(local).split('.')[0],
                 'handler': str(complain_detail.handler)
             }
             complain_list.append(data)
@@ -509,6 +525,8 @@ def api_show_complains_by_status(request):
             complains_list = paginator.page(paginator.num_pages)
         complain_list = list()
         for complain_detail in complains_list:
+            time = complain_detail.timestamp
+            local = time.astimezone(UTC(8))
             data = {
                 'id': complain_detail.id,
                 'complain_author': complain_detail.author,
@@ -517,7 +535,7 @@ def api_show_complains_by_status(request):
                 'deal_status': complain_detail.status,
                 'pleased': complain_detail.pleased,
                 'src': complain_detail.src.name,
-                'time': str(complain_detail.timestamp).split('.')[0],
+                'time': str(local).split('.')[0],
                 'handler': str(complain_detail.handler)
             }
             complain_list.append(data)

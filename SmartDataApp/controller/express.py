@@ -7,9 +7,8 @@ from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user, return_error_response, return_404_response
-from SmartDataApp.models import Complaints
+from SmartDataApp.controller.complain import UTC
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail, Community, Express
 
@@ -203,14 +202,21 @@ def api_get_user_express(request):
             expresses_list = paginator.page(paginator.num_pages)
         express_list = list()
         for express_detail in expresses_list:
+                time = express_detail.arrive_time
+                arrive_time = time.astimezone(UTC(8))
+                if express_detail.get_time:
+                    time_get = express_detail.get_time
+                    get_time = time_get.astimezone(UTC(8))
+                else:
+                    get_time = express_detail.get_time
                 data = {
                     'id': express_detail.id,
                     'express_author': express_detail.author.profile.username,
                     'get_express_type': express_detail.type,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
-                    'arrive_time': str(express_detail.arrive_time).split('.')[0],
-                    'get_time': str(express_detail.get_time).split('.')[0]
+                    'arrive_time': str(arrive_time).split('.')[0],
+                    'get_time': str(get_time).split('.')[0]
                 }
                 express_list.append(data)
         response_data = {'express_list': express_list, 'page_count': page_count, 'success': True}
@@ -244,14 +250,21 @@ def api_show_all_express(request):
             expresses_list = paginator.page(paginator.num_pages)
         express_list = list()
         for express_detail in expresses_list:
+                arrive_time = express_detail.arrive_time
+                arrive_time = arrive_time.astimezone(UTC(8))
+                if express_detail.get_time:
+                    get_time = express_detail.get_time
+                    get_time = get_time.astimezone(UTC(8))
+                else:
+                    get_time = express_detail.get_time
                 data = {
                     'id': express_detail.id,
                     'express_author': express_detail.author.profile.username,
                     'get_express_type': express_detail.type,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
-                    'arrive_time': str(express_detail.arrive_time).split('.')[0],
-                    'get_time': str(express_detail.get_time).split('.')[0]
+                    'arrive_time': str(arrive_time).split('.')[0],
+                    'get_time': str(get_time).split('.')[0]
                 }
                 express_list.append(data)
         response_data = {'express_list': express_list, 'page_count': page_count, 'success': True}
@@ -434,14 +447,21 @@ def api_show_express_by_status(request):
             expresses_list = paginator.page(paginator.num_pages)
         express_list = list()
         for express_detail in expresses_list:
+                arrive_time = express_detail.arrive_time
+                arrive_time = arrive_time.astimezone(UTC(8))
+                if express_detail.get_time:
+                    get_time = express_detail.get_time
+                    get_time = get_time.astimezone(UTC(8))
+                else:
+                    get_time = express_detail.get_time
                 data = {
                     'id': express_detail.id,
                     'express_author': express_detail.author.profile.username,
                     'get_express_type': express_detail.type,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
-                    'arrive_time': str(express_detail.arrive_time).split('.')[0],
-                    'get_time': str(express_detail.get_time).split('.')[0]
+                    'arrive_time': str(arrive_time).split('.')[0],
+                    'get_time': str(get_time).split('.')[0]
                 }
                 express_list.append(data)
         response_data = {'express_list': express_list, 'page_count': page_count, 'success': True}

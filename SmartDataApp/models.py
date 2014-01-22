@@ -46,7 +46,7 @@ class ProfileDetail(models.Model):
 class Complaints(models.Model):
     content = models.CharField(max_length=1000, null=True, blank=True, default='')
     author = models.CharField(blank=True, null=True, max_length=250, default='')
-    timestamp = models.DateTimeField(default=timezone.now)
+    timestamp = models.DateTimeField(null=True)
     handler = models.ForeignKey(User, null=True)
     pleased = models.IntegerField(default=0)
     type = models.CharField(max_length=200)

@@ -9,6 +9,7 @@ from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user
+from SmartDataApp.controller.complain import UTC
 from SmartDataApp.models import Repair
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail,Repair_item,Community
@@ -293,8 +294,6 @@ def api_repair_response(request):
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
         repair_id = data.get("repair_id", None)
-
-
         response_content = data.get("response_content", None)
         selected_pleased = data.get("selected_pleased", None)
         repair = Repair.objects.get(id=repair_id)
@@ -328,6 +327,8 @@ def api_own_repair(request):
             repairs_list = paginator.page(paginator.num_pages)
         repair_list = list()
         for repair_detail in repairs_list:
+            time = repair_detail.timestamp
+            local = time.astimezone(UTC(8))
             data = {
                 'id': repair_detail.id,
                 'repair_author': repair_detail.author,
@@ -336,7 +337,7 @@ def api_own_repair(request):
                 'deal_status': repair_detail.status,
                 'pleased': repair_detail.pleased,
                 'src': repair_detail.src.name,
-                'time': str(repair_detail.timestamp).split('.')[0],
+                'time': str(local).split('.')[0],
                 'handler': str(repair_detail.handler)
             }
             repair_list.append(data)
@@ -421,6 +422,8 @@ def api_show_all_repair(request):
             repairs_list = paginator.page(paginator.num_pages)
         repair_list = list()
         for repair_detail in repairs_list:
+            time = repair_detail.timestamp
+            local = time.astimezone(UTC(8))
             data = {
                 'id': repair_detail.id,
                 'repair_author': repair_detail.author,
@@ -429,7 +432,7 @@ def api_show_all_repair(request):
                 'deal_status': repair_detail.status,
                 'pleased': repair_detail.pleased,
                 'src': repair_detail.src.name,
-                'time': str(repair_detail.timestamp).split('.')[0],
+                'time': str(local).split('.')[0],
                 'handler': str(repair_detail.handler)
             }
             repair_list.append(data)
@@ -483,6 +486,8 @@ def api_show_repair_by_status(request):
             repairs_list = paginator.page(paginator.num_pages)
         repair_list = list()
         for repair_detail in repairs_list:
+            time = repair_detail.timestamp
+            local = time.astimezone(UTC(8))
             data = {
                 'id': repair_detail.id,
                 'repair_author': repair_detail.author,
@@ -491,7 +496,7 @@ def api_show_repair_by_status(request):
                 'deal_status': repair_detail.status,
                 'pleased': repair_detail.pleased,
                 'src': repair_detail.src.name,
-                'time': str(repair_detail.timestamp).split('.')[0],
+                'time': str(local).split('.')[0],
                 'handler': str(repair_detail.handler)
             }
             repair_list.append(data)

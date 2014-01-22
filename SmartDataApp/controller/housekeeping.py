@@ -1,6 +1,6 @@
 #coding:utf-8
 import datetime
-from django.utils.timezone import utc
+from SmartDataApp.controller.complain import UTC
 from django.http import HttpResponse
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -150,7 +150,7 @@ def submit_housekeeping(request):
             housekeeping.status = 1
             housekeeping.allow_deal_time = allowable_time_description
             housekeeping.community = profile.community
-            housekeeping.time = datetime.datetime.utcnow().replace(tzinfo=utc)
+            housekeeping.time = datetime.datetime.now()
             housekeeping.housekeeping_item = housekeeping_item
             housekeeping.is_admin_read =True
             housekeeping.save()
@@ -316,7 +316,8 @@ def api__user_submit_housekeeping(request):
             housekeeping.author = profile
             housekeeping.status = 1
             housekeeping.community = profile.community
-            housekeeping.time = datetime.datetime.utcnow().replace(tzinfo=utc)
+            #housekeeping.time = datetime.datetime.utcnow().replace(tzinfo=utc)
+            housekeeping.time = datetime.datetime.now()
             housekeeping.housekeeping_item = housekeeping_item
             housekeeping.is_admin_read =True
             housekeeping.save()
@@ -368,6 +369,8 @@ def api_own_housekeeping(request):
             housekeeping_list = paginator.page(paginator.num_pages)
         house_keep_list = list()
         for housekeeping_detail in housekeeping_list:
+            time = housekeeping_detail.time
+            local = time.astimezone(UTC(8))
             data = {
                 'id': housekeeping_detail.id,
                 'housekeeping_author': str(housekeeping_detail.author.profile),
@@ -378,7 +381,7 @@ def api_own_housekeeping(request):
                 'remarks': housekeeping_detail.housekeeping_item.remarks,
                 'pleased': housekeeping_detail.pleased,
                 'handler': str(housekeeping_detail.handler),
-                'time': str(housekeeping_detail.time).split('.')[0]
+                'time': str(local).split('.')[0]
             }
             house_keep_list.append(data)
         response_data = {'house_keep_list': house_keep_list, 'page_count': page_count, 'success': True}
@@ -460,6 +463,8 @@ def api_show_all_housekeeping(request):
             housekeeping_list = paginator.page(paginator.num_pages)
         house_keep_list = list()
         for housekeeping_detail in housekeeping_list:
+            time = housekeeping_detail.time
+            local = time.astimezone(UTC(8))
             data = {
                 'id': housekeeping_detail.id,
                 'housekeeping_author': str(housekeeping_detail.author.profile),
@@ -470,7 +475,7 @@ def api_show_all_housekeeping(request):
                 'remarks': housekeeping_detail.housekeeping_item.remarks,
                 'pleased': housekeeping_detail.pleased,
                 'handler': str(housekeeping_detail.handler),
-                'time': str(housekeeping_detail.time).split('.')[0]
+                'time': str(local).split('.')[0]
             }
             house_keep_list.append(data)
         response_data = {'house_keep_list': house_keep_list, 'page_count': page_count, 'success': True}
@@ -638,6 +643,8 @@ def api_show_housekeeping_by_status(request):
             housekeeping_list = paginator.page(paginator.num_pages)
         house_keep_list = list()
         for housekeeping_detail in housekeeping_list:
+            time = housekeeping_detail.time
+            local = time.astimezone(UTC(8))
             data = {
                 'id': housekeeping_detail.id,
                 'housekeeping_author': str(housekeeping_detail.author.profile),
@@ -648,7 +655,7 @@ def api_show_housekeeping_by_status(request):
                 'remarks': housekeeping_detail.housekeeping_item.remarks,
                 'pleased': housekeeping_detail.pleased,
                 'handler': str(housekeeping_detail.handler),
-                'time': str(housekeeping_detail.time).split('.')[0]
+                'time': str(local).split('.')[0]
             }
             house_keep_list.append(data)
         response_data = {'house_keep_list': house_keep_list, 'page_count': page_count, 'success': True}
