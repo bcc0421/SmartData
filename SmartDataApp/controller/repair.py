@@ -13,7 +13,8 @@ from SmartDataApp.controller.complain import UTC
 from SmartDataApp.models import Repair
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail,Repair_item,Community
-
+from django.utils.http import *
+from urllib import unquote
 
 def return_error_response():
     response_data = {'error': 'Just support POST method.'}
@@ -258,7 +259,6 @@ def api_repair_create(request):
         return return_error_response()
     else:
         repair_content = request.POST.get('content', None)
-        #repair_content = repair_content.encode("UTF-8")
         repair_type = request.POST.get('category', None)
         category_item_id = request.POST.get('category_item_id', None)
         upload_repair_src = request.FILES.get('upload_repair_img', None)
@@ -505,3 +505,37 @@ def api_show_repair_by_status(request):
     else:
         response_data = {'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+@transaction.atomic
+@csrf_exempt
+def api_repair_create_android(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    else:
+        repair_content = unquote(str(request.POST.get('content', None)))
+        repair_type = unquote(str(request.POST.get('category', None)))
+        category_item_id = request.POST.get('category_item_id', None)
+        upload_repair_src = unquote(str(request.FILES.get('upload_repair_img', None)))
+        repair_time = datetime.datetime.now()
+        item = Repair_item.objects.get(id=category_item_id)
+        profile = ProfileDetail.objects.get(profile=request.user)
+        if repair_type:
+            repair = Repair()
+            repair.content = repair_content
+            repair.timestamp = repair_time
+            repair.status = 1
+            repair.author = request.user.username
+            repair.type = repair_type
+            repair.repair_item = item.item
+            repair.price = item.price
+            repair.community = profile.community
+            repair.is_read = True
+            if upload_repair_src:
+                repair.src = upload_repair_src
+            repair.save()
+            return HttpResponse(simplejson.dumps({'error': False, 'info': u'报修创建成功'}), content_type='application/json')
+        else:
+            return HttpResponse(simplejson.dumps({'error': True, 'info': u'报修创建失败'}),
+                                content_type='application/json')

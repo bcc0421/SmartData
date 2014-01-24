@@ -253,7 +253,6 @@ def api_user_login(request):
 @transaction.atomic
 def api_user_update(request):
     convert_session_id_to_user(request)
-
     if request.method != u'POST':
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
@@ -312,6 +311,7 @@ def api_user_change_password(request):
             else:
                 user.password = make_password(new_password, 'md5')
                 user.save()
+                Session.objects.get(session_key=request.META['HTTP_SESSIONID']).delete()
                 return HttpResponse(simplejson.dumps({'error': False, 'info': u'密码更新成功'}),
                                     content_type='application/json')
         else:

@@ -1,5 +1,6 @@
 #coding:utf-8
 import datetime
+from urllib import unquote
 from django.http import HttpResponse, HttpRequest
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -294,6 +295,7 @@ def api_complain_create(request):
     else:
         complain_content = request.POST.get('content', None)
         complain_type = request.POST.get('category', None)
+
         upload__complain_src = request.FILES.get('upload_complain_img', None)
         #complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
         complain_time = datetime.datetime.now()
@@ -544,3 +546,31 @@ def api_show_complains_by_status(request):
     else:
         response_data = {'success': False, 'info': '没有搜到要找的结果'}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+@transaction.atomic
+@csrf_exempt
+def api_complain_create_android(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    else:
+        complain_content = unquote(str(request.POST.get('content', None)))
+        complain_type = unquote(str(request.POST.get('category', None)))
+        upload__complain_src = unquote(str(request.FILES.get('upload_complain_img', None)))
+        #complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
+        complain_time = datetime.datetime.now()
+        profile = ProfileDetail.objects.get(profile=request.user)
+        if complain_content or complain_type:
+            complain = Complaints(author=request.user.username)
+            complain.content = complain_content
+            complain.timestamp = complain_time
+            complain.type = complain_type
+            complain.is_admin_read = True
+            complain.community = profile.community
+            if upload__complain_src:
+                complain.src = upload__complain_src
+            complain.save()
+            return HttpResponse(simplejson.dumps({'error': False, 'info': u'投诉创建成功'}), content_type='application/json')
+        else:
+            return HttpResponse(simplejson.dumps({'error': True, 'info': u'投诉创建失败'}), content_type='application/json')

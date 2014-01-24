@@ -126,6 +126,10 @@ urlpatterns = patterns('',
                        url(r'^api/get_dynamic_data_num/$',api_get_dynamic_data_num),
                        url(r'^api/get_dynamic_data/$',api_get_dynamic_data),
                        url(r'^api/get_channel_user_id/$',api_get_channel_user_id),
+                       url(r'^api/repair/create/android/$',api_repair_create_android),
+                       url(r'^api/complain/create/android/$',api_complain_create_android),
+                       url(r'^api/complain/complete/$',api_complain_complete),
+
 
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

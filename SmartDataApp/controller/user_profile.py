@@ -7,8 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from SmartDataApp.models import ProfileDetail, Community
 from SmartDataApp.views import index, own_information
-
-
+from django.contrib.sessions.models import Session
 def validateEmail(email):
     from django.core.validators import validate_email
     from django.core.exceptions import ValidationError
@@ -95,6 +94,7 @@ def update_password(request):
             else:
                 user.password = make_password(new_password, 'md5')
                 user.save()
+                Session.objects.get(session_key=request.META['HTTP_SESSIONID']).delete()
                 return redirect(own_information)
         else:
             response_data = {'error3': True, 'info': u'旧密码不正确'}

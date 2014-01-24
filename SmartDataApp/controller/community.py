@@ -69,8 +69,8 @@ def api_get_community(request):
                         'community_description':community_detail.description
                     }
                     community_list.append(data)
-        response_data = {'community_list': community_list,'success':True}
+        response_data = {'community_list': community_list, 'success':True}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
-        response_data = {'success':False}
+        response_data = {'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
