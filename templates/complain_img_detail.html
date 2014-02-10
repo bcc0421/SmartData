@@ -20,5 +20,15 @@
         <div >
             <span style="background-color: #808080">{{ complain.content}}</span>
         </div>
+        <div style="margin-top: 10px"><span>满意度反馈内容：</span></div>
+        {% if complain.pleased_reason %}
+            <div >
+                <span style="background-color: #808080">{{ complain.pleased_reason}}</span>
+            </div>
+        {% else %}
+            <div >
+                <span style="background-color: #808080">暂无反馈内容</span>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

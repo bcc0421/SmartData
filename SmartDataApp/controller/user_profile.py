@@ -45,7 +45,7 @@ def profile_update(request):
         new_building = request.POST.get(u'new_building', None)
         new_room = request.POST.get(u'new_room', None)
         new_address = request.POST.get(u'new_address', None)
-        new_community_id = request.POST.get(u'community', None)
+        #new_community_id = request.POST.get(u'community', None)
         pattern = re.compile(r'^(1[0-9][0-9])\d{8}$')
         if not pattern.match(new_mobile):
             response_data = {'mobile_error': True, 'info': u'请输入正确的手机号码', 'communities': communities,
@@ -58,11 +58,12 @@ def profile_update(request):
         user.email = new_email
         user.username = new_name
         user.save()
-        community = Community.objects.get(id=new_community_id)
-        profile_detail.community = community
+        #community = Community.objects.get(id=new_community_id)
+        #profile_detail.community = community
         profile_detail.floor = new_building
         profile_detail.gate_card = new_room
         profile_detail.address = new_address
+        profile_detail.phone_number = new_mobile
         profile_detail.save()
         return redirect(own_information)
 
@@ -94,8 +95,8 @@ def update_password(request):
             else:
                 user.password = make_password(new_password, 'md5')
                 user.save()
-                Session.objects.get(session_key=request.META['HTTP_SESSIONID']).delete()
-                return redirect(own_information)
+                Session.objects.get(session_key=request.COOKIES['sessionid']).delete()
+                return redirect(index)
         else:
             response_data = {'error3': True, 'info': u'旧密码不正确'}
             return render_to_response('update_password.html', response_data)

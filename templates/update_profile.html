@@ -46,15 +46,17 @@
                                     <th>小&nbsp;&nbsp;&nbsp;&nbsp;区：</th>
                                     <td>
                                         <div class="optItem_item">
-                                            <select class="el_inText" id="id_community" name="community">
-                                                {% for community in communities %}
-                                                    <option value="{{ community.id }}">{{ community.title }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            {% if communities|length == 0 %}
-                                                <span style="color:red;"
-                                                      class="help-inline error tip">没有社区可以选择，请联系管理员</span>
-                                            {% endif %}
+{#                                            <select class="el_inText" id="id_community" name="community" readonly>#}
+{#                                                {% for community in communities %}#}
+{#                                                    <option value="{{ community.id }}">{{ community.title }}</option>#}
+{#                                                {% endfor %}#}
+{#                                            </select>#}
+{#                                            {% if communities|length == 0 %}#}
+{#                                                <span style="color:red;"#}
+{#                                                      class="help-inline error tip">没有社区可以选择，请联系管理员</span>#}
+{#                                            {% endif %}#}
+                                             <input class="el_inText" id="id_community" name="community" type="text"
+                                               maxlength="64" value="{{ profile.community.title }}" readonly/>
                                         </div>
                                     </td>
                                 </tr>

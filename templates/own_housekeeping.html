@@ -140,14 +140,14 @@
                             <!-- 分页 start -->
                 <div class="paginator" >
                         <span class="step-links">
-                            {% if complains.has_previous %}
-                                <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
+                            {% if housekeeping_list.has_previous %}
+                                <a href="?page={{ housekeeping_list.previous_page_number }}">《上一页》</a> &nbsp;
                             {% endif %}
                             <span class="current">
-                                 当前页： {{ complains.number }}/{{ complains.paginator.num_pages }}.
+                                 当前页： {{ housekeeping_list.number }}/{{ housekeeping_list.paginator.num_pages }}.
                             </span> &nbsp;
-                            {% if complains.has_next %}
-                                <a href="?page={{ complains.next_page_number }}">《下一页》</a>
+                            {% if housekeeping_list.has_next %}
+                                <a href="?page={{ housekeeping_list.next_page_number }}">《下一页》</a>
                             {% endif %}
                         </span>
                     </div>

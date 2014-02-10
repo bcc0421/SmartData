@@ -48,6 +48,48 @@
         .title_new{
             color:#ffffff
         }
+
+
+
+        .sur_ix_serBox .item {
+{#                background: url('/static/images/index_arrow.png') no-repeat;#}
+                background: #b1d979;
+                height: 55px;
+                width:200px;
+                margin: 0;!important
+            }
+{#            .sur_ix_serBox .title {#}
+{#                position: absolute;#}
+{#                bottom: 22px;#}
+{#                left: 56px;#}
+{#                color: #686868;#}
+{#                font-size: 12px;#}
+{#            }#}
+            .icon_index{
+                margin-top: 18px;
+                margin-left: 30px;
+                width:15px;
+{#                border: 1px solid blue#}
+            }
+            .sur_ix_serBox .title {
+                position: absolute;
+                bottom: 18px;
+                left: 56px;
+                color: #726464;
+                font-size: 15px;!important
+            }
+            .sur_ix_serBox .item:hover {
+                background: #ffffff; !important
+            }
+            .sur_ix_serBox .item:hover .title {
+                 color: #726464;!important
+            }
+            .out{
+                border: 1px solid #ffffff;
+            }
+            .container {
+                width: 1003px !important;
+             }
     </style>
     {% block css %}
     {% endblock %}
@@ -250,64 +292,139 @@
 
         <div class="el_blank_h20"></div>
 
-        <!-- 左侧 start -->
-        <div class="el_w_203 fn_left" style="width: 123px">
 
-        <div class="dropdown" style="margin-top: 2px;padding-left: 91px;">
-          <a id="dLabel"  role="button" data-toggle="dropdown" data-target="#"href="#" >
-            <span class="glyphicon glyphicon-align-justify"></span>
-{#              <img style="margin-left: 10px" src="/static/images/arrow.png" />#}
-          </a>
-             <div class="sur_ix_serBox dropdown-menu" role="menu" aria-labelledby="dLabel"style="width:214px">
-                 <div style="margin-top: 4px;margin-left:7px">
-                       <!-- 元素 start -->
+                    <div class="el_w_203 fn_left" style="border: 1px solid #dcdcdc;height: 391px" >
+                <!-- 服务列表 start -->
+                <div class="sur_ix_serBox">
+                    <!-- 元素 start -->
                     <a class="item_s1 item out" href="/repair/">
-                        <i name="repair" class="icon change_style" style="background: url('/static/images/repair.png') no-repeat;"></i>
-                        <span class="title">报修</span>
+{#                        <i  name="repair" class="icon change_style" style="background: url('/static/images/index_arrow.png') no-repeat;margin-top: 5px;margin-left: 5px"></i>#}
+{#                        <span class="title">报修</span>#}
+                        <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong><B>报修</B></strong></span>
                     </a>
                     <!-- 元素 end -->
 
                     <!-- 元素 start -->
                     <a class="item_s2 item out" href="/complain/">
-                        <i name="complain" class="icon change_style" style="background: url('/static/images/complain.png') no-repeat;"></i>
-                        <span class="title">投诉</span>
+{#                        <i name="complain" class="icon change_style" style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+                         <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong><B>投诉</B></strong></span>
                     </a>
                     <!-- 元素 end -->
 
                     <!-- 元素 start -->
                     <a class="item_s3 item out" href="/housekeeping/">
-                        <i name="housekeeping" class="icon change_style" style="background: url('/static/images/housekeeping.png') no-repeat;"></i>
-                        <span class="title">家政</span>
+{#                        <i  name="housekeeping"class="icon change_style" style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+                         <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong>家政</strong></span>
                     </a>
                     <!-- 元素 end -->
 
                     <!-- 元素 start -->
                     <a class="item_s4 item out" href="/parking/fees/">
-                        <i name="park" class="icon change_style" style="background: url('/static/images/park.png') no-repeat;"></i>
-                        <span class="title">停车费</span>
+{#                        <i name="park" class="change_width icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+                        <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong>停车费</strong></span>
                     </a>
                     <!-- 元素 end -->
+
                     <!-- 元素 start -->
                     <a class="item_s5 item out" href="/house/pay_fees/">
-                        <i name="property" class="icon change_style" style="background: url('/static/images/property.png') no-repeat;"></i>
-                        <span class="title">物业缴费</span>
+                        <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+{#                        <i name="property" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+                        <span class="title"><strong>物业缴费</strong></span>
                     </a>
                     <!-- 元素 end -->
+
                     <!-- 元素 start -->
                     <a class="item_s7 item out" href="/express/">
-                        <i name="express" class="icon change_style" style="background: url('/static/images/express.png') no-repeat;"></i>
-                        <span class="title">快递</span>
+{#                        <i name="express" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+                         <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong>快递</strong></span>
                     </a>
                     <!-- 元素 end -->
-                 </div>
-
+                     <a class="item_s7 item out" href="/express/">
+{#                        <i name="express" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+                         <div class="icon_index"s>
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong><B>小区通知</B></strong></span>
+                    </a>
+                </div>
+                <!-- 服务列表 end -->
             </div>
 
-        </div>
-            <!-- 服务列表 start -->
+        <!-- 左侧 start -->
+{#        <div class="el_w_203 fn_left" style="width: 123px">#}
+
+{#        <div class="dropdown" style="margin-top: 2px;padding-left: 91px;">#}
+{#          <a id="dLabel"  role="button" data-toggle="dropdown" data-target="#"href="#" >#}
+{#            <span class="glyphicon glyphicon-align-justify"></span>#}
+{#              <img style="margin-left: 10px" src="/static/images/arrow.png" />#}
+{#          </a>#}
+{#             <div class="sur_ix_serBox dropdown-menu" role="menu" aria-labelledby="dLabel"style="width:214px">#}
+{#                 <div style="margin-top: 4px;margin-left:7px">#}
+{#                       <!-- 元素 start -->#}
+{#                    <a class="item_s1 item out" href="/repair/">#}
+{#                        <i name="repair" class="icon change_style" style="background: url('/static/images/repair.png') no-repeat;"></i>#}
+{#                        <span class="title">报修</span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s2 item out" href="/complain/">#}
+{#                        <i name="complain" class="icon change_style" style="background: url('/static/images/complain.png') no-repeat;"></i>#}
+{#                        <span class="title">投诉</span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s3 item out" href="/housekeeping/">#}
+{#                        <i name="housekeeping" class="icon change_style" style="background: url('/static/images/housekeeping.png') no-repeat;"></i>#}
+{#                        <span class="title">家政</span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s4 item out" href="/parking/fees/">#}
+{#                        <i name="park" class="icon change_style" style="background: url('/static/images/park.png') no-repeat;"></i>#}
+{#                        <span class="title">停车费</span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s5 item out" href="/house/pay_fees/">#}
+{#                        <i name="property" class="icon change_style" style="background: url('/static/images/property.png') no-repeat;"></i>#}
+{#                        <span class="title">物业缴费</span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s7 item out" href="/express/">#}
+{#                        <i name="express" class="icon change_style" style="background: url('/static/images/express.png') no-repeat;"></i>#}
+{#                        <span class="title">快递</span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{#                 </div>#}
+{##}
+{#            </div>#}
+{##}
+{#        </div>#}
+{#            <!-- 服务列表 start -->#}
 
             <!-- 服务列表 end -->
-        </div>
+{#        </div>#}
         <!-- 左侧 end -->
         {% block right_container %}
 

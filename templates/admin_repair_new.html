@@ -1,0 +1,312 @@
+{% extends "basecloud.html" %}
+{% block title %}报修管理{% endblock %}
+{% block css %}
+    <style>
+        .help-inline {
+            display: block;
+            margin-left: 70px;
+            padding-top: 10px;
+        }
+
+        .error {
+            color: #f00;
+        }
+
+        input.error {
+            border-color: #f00;
+        }
+
+        .repair1, span, button {
+            font-size: 15px;
+
+        }
+        /*     table button{
+                 border-radius: 0px 0px 0px 0px;
+                 width: 80px;
+                 height:30px;
+
+             }
+             table tr td{
+                 border: 1px solid #808080 ;
+
+             }
+             tr:first-child td{
+                text-align: center;
+                 padding: 20px 20px;
+
+             }
+             table tr td{
+                 padding-left: 20px;
+                 padding-right: 20px;
+
+             }
+             tr:first-child{
+                 background-color: #26d6ff;
+             }
+             tr:hover {
+                 background-color: #26d6ff;
+             }*/
+        tr:first-child {
+            background-color: #A674B0;
+        }
+
+        tr:hover {
+            background-color: #A674B0;
+        }
+
+        .prev {
+            margin-left: 200px !important;
+        }
+
+        .next {
+            margin-left: 20px !important;
+        }
+
+        .dataTables_wrapper {
+            padding-left: 0px !important;
+        }
+
+        .dataTables_paginate {
+            float: right;
+            margin-top: -20px;
+        }
+
+        .dataTables_paginate li {
+            float: left
+        }
+
+        .dataTables_filter {
+            float: right;
+            margin-top: -25px
+        }
+
+        .container {
+            width: 1260px !important;
+        }
+
+    </style>
+
+{% endblock %}
+{% block right_container %}
+
+        <!-- 主要内容区域 start -->
+            <!-- 中部 start -->
+
+            <div style="width: 907px;overflow: auto;float:left">
+                <div class="vessel vessel_s1" style="margin-bottom: 10px">
+                    <div class="vessel_titBox"><span class="tit">报修管理</span></div>
+                </div>
+                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable"
+                       id="example" aria-describedby="example_info">
+                    <thead>
+                    <tr role="row">
+                        <th style="width:100px">时间</th>
+                        <th>报修人</th>
+                        <th style="width:80px">类型</th>
+                        <th style="width:150px">报修项目</th>
+                        <th style="width:100px">价格（元）</th>
+                        <th>图片</th>
+                        <th>处理状态</th>
+                        {% if not is_admin %}
+                            <th>处理人</th>
+                        {% endif %}
+                        <th>满意度</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for one_repair in repairs %}
+
+                        <tr class="except_one">
+                            <td>{{ one_repair.timestamp| date:"Y-m-d H:i:s" }}</td>
+                            <td>{{ one_repair.author}}</td>
+                            <td>{{ one_repair.type}}</td>
+                            <td>{{ one_repair.repair_item}}</td>
+                            <td>{{ one_repair.price}}</td>
+                            <td>
+                                {% if one_repair.src  %}
+                                    <a href="/show/image_detail/{{ one_repair.id }}/?type=repair"target="_blank">
+                                        <img src="/media/{{ one_repair.src }}" style="height: 25px;width: 25px">
+                                    </a>
+                                {% else %}
+                                    <a href="/show/image_detail/{{ one_repair.id }}/?type=repair"target="_blank">
+                                        <span  style="height: 25px;width: 25px">无图片</span>
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td class="deal_status"  id="status_{{ one_repair.id }}">
+                                {% ifequal one_repair.status 1 %}
+                                    <span style="color: red">未受理</span>
+                                {% endifequal %}
+                                {% ifequal one_repair.status 2 %}
+                                    <span style="color: deepskyblue">处理中</span>
+                                {% endifequal %}
+                                {% ifequal one_repair.status 3 %}
+                                    <span style="color: green">处理完成</span>
+                                {% endifequal %}
+                            </td>
+                            {% if not is_admin %}
+                                <td>{{ one_repair.handler.username }}</td>
+                            {% endif %}
+                            <td>{{ one_repair.pleased }}</td>
+                            {% ifequal one_repair.status 1 %}
+                                <td><input type="checkbox" name="chk" id={{ one_repair.id }}></td>
+                            {% else %}
+                                {% if  is_admin %}
+                                    {% ifequal one_repair.status 2 %}
+                                        <td id="complete_{{ one_repair.id }}"><input type="checkbox" name="chk" id={{ one_repair.id }}></td>
+                                    {% else %}
+                                        <td ><span style="color: green">完成</span></td>
+                                    {% endifequal %}
+                                {% else %}
+                                    <td>
+                                        {% ifequal one_repair.status 2 %}
+                                            <span style="color: deepskyblue">授权</span>
+                                        {% else %}
+                                            <span style="color: green">授权</span>
+                                        {% endifequal %}
+                                    </td>
+                                {% endif %}
+                            {% endifequal %}
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- 中部 end -->
+            <!-- 右侧 start -->
+            <div class="el_w_237 fn_right" style="width:172px">
+                {% if not is_admin %}
+                    <div>
+                        <span>选择处理人：</span>
+                        <div>
+                            <select id="id_handler">
+                                {% for deal_person in deal_person_list %}
+                                    <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div style="margin-top:12px; ">
+                            <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_repair">
+                                授权处理
+                            </button>
+                        </div>
+                        <div style="margin-top:12px; ">
+                            <a href="/manage/repair/item/"target="_blank">
+                                <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="manage_item">
+                                    项目管理
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                <!-- 右侧焦点图 start -->
+                {% else %}
+                     <div style="margin-top:0px;">
+                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="update_repair_status">
+                           完成
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+            <!-- 右侧 end -->
+            <div class="el_blank_h10 fn_clear"></div>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        $(function () {
+            $('#deal_repair').click(function () {
+                var checked_array = new Array();
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                    function () {
+                        var id = $(this).attr('id');
+                        checked_array.push(id);
+                    }
+                );
+                var deal_person_id = $('#id_handler').val();
+                if (checked_array.length>0)
+                {
+                   $.post('/deal/repair/',
+                        {
+                            'selected_repair_string': checked_array.toString(),
+                            'deal_person_id': deal_person_id
+                        },
+                        function (data) {
+                               if(data.success){
+                                 alert(data.info);
+                                 $('input[type="checkbox"][name="chk"]:checked').each(
+                                        function() {
+                                            var id = $(this).attr('id');
+                                             $("#status_" + id + "").html("<span style='color:deepskyblue' >处理中</span>");
+
+                                        }
+                                    );
+                             }
+
+                        }
+                    )
+                 }
+                else{
+                    alert("请选择处理数据");
+                }
+
+            });
+
+            $('#update_repair_status').click(function () {
+                var checked_array = new Array();
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                        function () {
+                            var id = $(this).attr('id');
+                            checked_array.push(id);
+                        }
+                );
+                var deal_person_id = $('#id_handler').val();
+                if (checked_array.length>0)
+                {
+                   $.post('/complete/repair/',
+                        {
+                            'selected_repair_string': checked_array.toString()
+                        },
+                        function (data) {
+                               if(data.success){
+                                 alert(data.info);
+                                 $('input[type="checkbox"][name="chk"]:checked').each(
+                                        function() {
+                                            var id = $(this).attr('id');
+                                             $("#status_" + id + "").html("<span style='color: green' >处理完成</span>");
+                                             $("#complete_" + id + "").html("<span style='color: green'>完成</span>");
+                                        }
+                                    );
+                             }
+
+                        }
+                    )
+                 }
+                else{
+                    alert("请选择处理数据");
+                }
+
+            });
+        })
+
+        $(document).ready(function () {
+            $('#example').dataTable({
+                "oLanguage": {
+                        "sLengthMenu": "显示 _MENU_每页显示记录",
+                        "sZeroRecords": "对不起没有你要找的记录",
+                        "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
+                        "sInfoEmpty": "显示 0 到 0 总共 0 记录",
+                        "sInfoFiltered": "(从 _MAX_条记录中查找)",
+                        "sSearch": "搜索:"
+		}
+            });
+        });
+
+
+    </script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/DT_bootstrap.js"></script>
+{% endblock %}
