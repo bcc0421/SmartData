@@ -1,4 +1,5 @@
 #coding:utf-8
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
@@ -11,6 +12,7 @@ from SmartDataApp.views import index
 
 @transaction.atomic
 @csrf_exempt
+@login_required
 def add_community(request):
     if request.method != u'POST':
         communities = Community.objects.all()
