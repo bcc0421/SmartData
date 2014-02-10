@@ -282,7 +282,7 @@ content 和category (必须有一个给值)
 
 
 
-### 9. User complain deal(用户需要登录)
+### 9. User complain deal(用户需要登录)（管理员调用）
 
 #### URL : /api/complain/deal/
 
@@ -304,7 +304,7 @@ content 和category (必须有一个给值)
 
 
 
-### 10. User complain complete(用户需要登录)
+### 10. User complain complete(用户需要登录)(工作人员调用)
 
 #### URL : /api/complain/complete/
 
@@ -323,7 +323,7 @@ content 和category (必须有一个给值)
 
 
 
-### 11. User own complain(用户需要登录)
+### 11. User own complain(用户需要登录)（此接口得到用户自己所有的数据 ，第39个根据处理状态进行了分类）
 
 #### URL : /api/own/complain/?page=页数 (page 可选, 默认为1)
 
@@ -366,54 +366,7 @@ content 和category (必须有一个给值)
     {'success':false}
 
 
-### 12. Get all complains list(用户需要登录)
-
-#### URL :/api/show/all_complains/?page=页数&community_id=(小区id号)
-
-#### Method : GET
-
-#### Success
-        {
-           complains_list:
-                [
-
-                        {
-                            content: "投诉内容"
-                            src: "uploads/2013/12/26/a044ad345982b2b7a1f9f0cd33adcbef76099b51.jpg"
-                            handler: "None"
-                            deal_status: 1
-                            time: "2013-12-26 01:50:06.514000+00:00"
-                            type: "环境投诉"
-                            id: 34
-                            complain_author: "user2"
-                            pleased: 0
-                        }
-
-                        {
-                           content: "撒打算"
-                            src: ""
-                            handler: "worker1"
-                            deal_status: 2
-                            time: "2013-12-26 01:41:49.604000+00:00"
-                            type: "安全投诉"
-                            id: 33
-                            complain_author: "sfi1234"
-                            pleased: 0
-                        }
-
-                ]
-             page_count: 1 页数
-             success: true
-        }
-
-
-#### Error
-
-        {'success': False}
-
-
-
-### 13. User repair create(用户需要登录)
+### 12. User repair create(用户需要登录)
 
 #### URL : /api/repair/create/
 
@@ -445,7 +398,7 @@ category 和 category_item_id 必填
 
 
 
-### 14. User repair response(用户需要登录)
+### 13. User repair response(用户需要登录)
 
 #### URL : /api/repair/response/
 
@@ -468,7 +421,7 @@ category 和 category_item_id 必填
     {'success': False, 'info': '反馈失败！'}
 
 
-### 15. User own repair(用户需要登录)
+### 14. User own repair(用户需要登录)（此接口得到用户自己所有的数据 ，第40个根据处理状态进行了分类）
 
 #### URL : /api/own/repair/?page=页数 (page 可选, 默认为1)
 
@@ -512,7 +465,7 @@ category 和 category_item_id 必填
 
 
 
-### 16. User repair deal(用户需要登录)
+### 15. User repair deal(用户需要登录)（管理员调用）
 
 #### URL : /api/repair/deal/
 
@@ -534,7 +487,7 @@ category 和 category_item_id 必填
 
 
 
-### 17. User repair complete(用户需要登录)
+### 16. User repair complete(用户需要登录)（工作人员调用）
 
 #### URL : /api/repair/complete/
 
@@ -554,7 +507,7 @@ category 和 category_item_id 必填
 
 
 
-### 18. User own express(用户需要登录)
+### 17. User own express(用户需要登录)（此接口得到用户自己所有的数据 ，第42个根据领取状态进行了分类）
 
 #### URL : /api/get/user/express/?page=页数 (page 可选, 默认为1)
 
@@ -586,40 +539,8 @@ category 和 category_item_id 必填
    {'success': False, 'info': '没有快递！'}
 
 
-### 19. Get all express(用户需要登录)
 
-#### URL : /api/show/all_express/?page=页数&community_id=小区id号 (page 可选, 默认为1)
-
-#### Method : GET
-
-### Result:
-
-#### Success（每页返回20条记录）
-        {
-            page_count:（总页数）
-            express_list:
-                [
-
-                        {
-                            arrive_time: "2013-12-16 01:09:36+00:00"（快件到达时间）
-                            deal_status: false (false:未领取，true:领取)
-                            pleased: 0
-                            express_author: "user3"
-                            get_time: "None"（快件领取时间）
-                            get_express_type: ""
-                            id: 13
-                        }
-
-                success: true
-                ]
-        }
-#### Error
-
-   {'success': False, 'info': '没有快递！'}
-
-
-
-### 20. User express response(用户需要登录)
+### 18. User express response(用户需要登录)
 
 #### URL : /api/express/response/
 
@@ -643,7 +564,7 @@ category 和 category_item_id 必填
 
 
 
-### 21. User obtain express(用户需要登录)
+### 19. User obtain express(用户需要登录)（用户调用 用户点击领取快件的时候调用）
 
 #### URL : /api/user/obtain/express/
 
@@ -661,7 +582,7 @@ category 和 category_item_id 必填
 
 
 
-### 22. Find inhabitant(用户需要登录)
+### 20. Find inhabitant(用户需要登录)（工作人员调用，增加快递是查询该用户是否存在）
 
 #### URL : /api/find/inhabitant/
 
@@ -682,7 +603,7 @@ category 和 category_item_id 必填
         {'success': False, 'info': '没有此用户！'}
 
 
-### 23. Delete express(用户需要登录)
+### 21. Delete express(用户需要登录)
 
 #### URL : /api/express/delete/
 
@@ -697,7 +618,7 @@ category 和 category_item_id 必填
         {'success': True, 'info': '删除成功！'}
 
 
-### 24. Add express record(用户需要登录)
+### 22. Add express record(用户需要登录)（工作人员调用）
 
 #### URL : /api/add/express/record/
 
@@ -720,7 +641,7 @@ category 和 category_item_id 必填
         {'success': False, 'info': '添加失败！'}
 
 
-### 25. Get communities(用户需要登录)
+### 23. Get communities(用户需要登录)
 
 #### URL : /api/get/community/
 
@@ -761,7 +682,7 @@ category 和 category_item_id 必填
     {'success':false}
 
 
-### 26. Express complete(用户需要登录)
+### 24. Express complete(用户需要登录)（工作人员或管理员调用在用户已将快件取走是 工作人员或管理员调用来更改状态）
 
 #### URL : /api/express/complete/
 
@@ -777,7 +698,7 @@ category 和 category_item_id 必填
 
 
 
-### 27. Get repair item(用户需要登录)
+### 25. Get repair item(用户需要登录)（管理员调用）
 
 #### URL : /api/get/repair/item/?type=(个人，公共)二选一 不传参数返回所有
 
@@ -812,7 +733,7 @@ category 和 category_item_id 必填
        {'success': False, 'info':'没有报修项目'}
 
 
-### 28. Add repair item record(用户需要登录)
+### 26. Add repair item record(用户需要登录)（管理员调用）
 
 #### URL : /api/add/repair/item/record/
 
@@ -834,7 +755,7 @@ category 和 category_item_id 必填
         {'success': False}
 
 
-### 29. Delete repair item(用户需要登录)
+### 27. Delete repair item(用户需要登录)（管理员调用）
 
 #### URL : /api/repair/item/delete/
 
@@ -854,51 +775,8 @@ category 和 category_item_id 必填
 
 
 
-### 30. Get all repair list(用户需要登录)
 
-#### URL :/api/show/all_repair/?page=页数community_id=小区id号
-
-#### Method : GET
-
-#### Success
-        {
-           repair_list:
-                [
-
-                        {
-                            content: "阿萨德"
-                            src: ""
-                            handler: "None"
-                            deal_status: 1
-                            time: "2013-12-25 05:37:57.746000+00:00"
-                            type: "个人报修"
-                            id: 41
-                            repair_author: "sfi123"
-                            pleased: 0
-                        }
-
-                        {
-                            content: "dfasd"
-                            src: "uploads/2013/12/25/a044ad345982b2b7a1f9f0cd33adcbef76099b51.jpg"
-                            handler: "worker1"
-                            deal_status: 2
-                            time: "2013-12-25 01:49:10.760000+00:00"
-                            type: "个人报修"
-                            id: 38
-                            repair_author: "user3"
-                            pleased: 0
-                        }
-
-                ]
-             success: true
-        }
-
-
-#### Error
-
-        {'success': False}
-
-### 31. Get worker list(用户需要登录)
+### 28. Get worker list(用户需要登录)（管理员调用）
 
 #### URL : /api/get/worker/list/?community_id=(小区id号)
 
@@ -934,7 +812,7 @@ category 和 category_item_id 必填
 
 
 
-### 32. Modify repair item(用户需要登录)
+### 29. Modify repair item(用户需要登录)（管理员调用）
 
 #### URL : /api/api/modify/repair_item/
 
@@ -956,7 +834,7 @@ category 和 category_item_id 必填
         {'success': False}
 
 
-### 33 User submit housekeeping(用户需要登录)
+### 30 User submit housekeeping(用户需要登录)（用户调用 提交家政项目）
 
 #### URL : /api/user/submit_housekeeping/
 
@@ -972,7 +850,7 @@ category 和 category_item_id 必填
          {'success': True, 'info': '提交成功！'}
 
 
-### 34 User submit response(用户需要登录)
+### 31 User submit response(用户需要登录)
 
 #### URL : /api/housekeeping/response/
 
@@ -995,7 +873,7 @@ category 和 category_item_id 必填
         {'success': False, 'info': '反馈失败！'}
 
 
-### 35 User get own housekeeping(用户需要登录)
+### 32 User get own housekeeping(用户需要登录)（获得用户自己已提交的家政服务，第41根据处理状态进行了分类）
 
 #### URL : /api/own/housekeeping/
 
@@ -1043,7 +921,7 @@ category 和 category_item_id 必填
         {'success': False}
 
 
-### 36 Deal housekeeping(用户需要登录)
+### 33 Deal housekeeping(用户需要登录)
 
 #### URL : /api/housekeeping/deal/
 
@@ -1065,7 +943,7 @@ category 和 category_item_id 必填
         {'success': False}
 
 
-### 37 Housekeeping complete(用户需要登录)
+### 34 Housekeeping complete(用户需要登录)（工作人员调用）
 
 #### URL : /api/housekeeping/complete/
 
@@ -1082,55 +960,7 @@ category 和 category_item_id 必填
 
 
 
-### 38 Show all housekeeping(用户需要登录)
-
-#### URL : /api/show/all_housekeeping/?community_id=小区id&page=页数
-
-#### Method : GET
-
-#### Success
-
-         {
-            house_keep_list:
-                [
-
-                        {
-                            content: "一般性家庭保洁"
-                            housekeeping_status: 2
-                            handler: "worker9"
-                            item: "钟点工"
-                            remarks: "小于20小时每月，两小时起步。"
-                            price_description: "40元/小时"
-                            time: "2013-12-25 08:54:32.425000+00:00"
-                            id: 8
-                            housekeeping_author: "sfi12345"
-                            pleased: 0
-                        }
-
-                        {
-                            content: "一般性家庭保洁"
-                            housekeeping_status: 2
-                            handler: "worker9"
-                            item: "钟点工"
-                            remarks: "小于20小时每月，两小时起步。"
-                            price_description: "40元/小时"
-                            time: "2013-12-25 08:32:11.428000+00:00"
-                            id: 7
-                            housekeeping_author: "user3"
-                            pleased: 0
-                        }
-
-                ]
-             success: true
-             page_count:（总页数）
-        }
-
-#### Error
-
-        {'success': False}
-
-
-### 39. Get housekeeping item(用户需要登录)
+### 35. Get housekeeping item(用户需要登录)（管理员和用户调用，用户调用 显示所有服务项目 一边选择，管理员得到所有项目便于管理）
 
 #### URL : /api/get/housekeeping_item/?page=页数
 
@@ -1167,7 +997,7 @@ category 和 category_item_id 必填
        {'success': False, 'info':'没有家政项目'}
 
 
-### 40. Add housekeeping item (用户需要登录)
+### 36. Add housekeeping item (用户需要登录)（管理员调用）
 
 #### URL : /api/add/housekeeping_item/
 
@@ -1190,7 +1020,7 @@ category 和 category_item_id 必填
         {'success': False}
 
 
-### 41. Delete housekeeping item(用户需要登录)
+### 37. Delete housekeeping item(用户需要登录)（管理员调用）
 
 #### URL : /api/delete/housekeeping_item/
 
@@ -1209,7 +1039,7 @@ category 和 category_item_id 必填
         {'success': False, 'info': '删除失败！'}
 
 
-### 42. Modify housekeeping item(用户需要登录)
+### 38. Modify housekeeping item(用户需要登录)（管理员调用）
 
 #### URL : /api/modify/housekeeping_item/
 
@@ -1231,9 +1061,9 @@ category 和 category_item_id 必填
 
         {'success': False}
 
-### 43. Get complains by status(用户需要登录)
+### 39. Get complains by status(用户需要登录)（工作人员 管理员 用户 调用此接口 得到各自对应的数据）
 
-#### URL :/api/show/complains_by_status/?page=页数&community_id=(小区id号)&status=三选一(未处理，处理中，已处理)
+#### URL :/api/show/complains_by_status/?page=页数&community_id=(小区id号)&status=三选一(未处理，处理中，已处理) 如果是工作人员 status=(处理中，已处理)二选一
 
 #### Method : GET
 
@@ -1278,9 +1108,9 @@ category 和 category_item_id 必填
 
 
 
-### 44. Get repair by status(用户需要登录)
+### 40. Get repair by status(用户需要登录)（工作人员 管理员 用户 调用此接口 得到各自对应的数据）
 
-#### URL :/api/show/repair_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一
+#### URL :/api/show/repair_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一，如果是工作人员 status=(处理中，已处理)二选一
 
 #### Method : GET
 
@@ -1323,9 +1153,9 @@ category 和 category_item_id 必填
         {'success': False}
 
 
-### 45 Show housekeeping by status(用户需要登录)
+### 41 Show housekeeping by status(用户需要登录)（工作人员 管理员 用户 调用此接口 得到各自对应的数据）
 
-#### URL : /api/show/housekeeping_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一
+#### URL : /api/show/housekeeping_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一，如果是工作人员 status=(处理中，已处理)二选一
 
 #### Method : GET
 
@@ -1373,7 +1203,7 @@ category 和 category_item_id 必填
 
 
 
-### 46. Get express by status(用户需要登录)
+### 42. Get express by status(用户需要登录)（工作人员 管理员 用户 调用此接口 得到各自对应的数据，管理员可以看所有小区的 工作人员只可以看本小区的 不存在指派给功能）
 
 #### URL : /api/show/express_by_status/?page=页数&community_id=(小区id号)&status=(领取，未领取)2选一
 
@@ -1406,7 +1236,7 @@ category 和 category_item_id 必填
 
 
 
-### 47. Get dynamic data number(用户需要登录)(消息提醒显示最新数据)
+### 43. Get dynamic data number(用户需要登录)(消息提醒显示最新数据)（得到新增的数目）
 
 #### URL : /api/get_dynamic_data_num/
 
@@ -1426,7 +1256,7 @@ category 和 category_item_id 必填
         }
 
 
-### 48. Get channel and user id(用户需要登录)(绑定手机短)
+### 44. Get channel and user id(用户需要登录)(绑定手机短)
 
 #### URL : /api/get_channel_user_id/
 
@@ -1450,7 +1280,7 @@ category 和 category_item_id 必填
         {'success': False, 'info': '没有传入相关信息'}
 
 
-### 49. Get dynamic data/(用户需要登录)(获取最新消息)
+### 45. Get dynamic data/(用户需要登录)(获取最新消息的详细内容)
 
 #### URL : /api/get_dynamic_data/
 
