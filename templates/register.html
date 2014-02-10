@@ -38,17 +38,17 @@
                                 <span style="color:red;" class="help-inline error tip">{{ info }}</span>
                             {% endif %}
                         </div>
-                        <div class="optItem_item">
-                            <label class="el_lab">小    区：</label>
-                            <select class="el_inText" id="id_community" name="community">
-                                {% for community in communities %}
-                                    <option value="{{ community.id }}">{{ community.title }}</option>
-                                {% endfor %}
-                            </select>
-                            {% if communities|length == 0 %}
-                                <span style="color:red;" class="help-inline error tip">没有社区可以选择，请联系管理员</span>
-                            {% endif %}
-                        </div>
+{#                        <div class="optItem_item">#}
+{#                            <label class="el_lab">小    区：</label>#}
+{#                            <select class="el_inText" id="id_community" name="community">#}
+{#                                {% for community in communities %}#}
+{#                                    <option value="{{ community.id }}">{{ community.title }}</option>#}
+{#                                {% endfor %}#}
+{#                            </select>#}
+{#                            {% if communities|length == 0 %}#}
+{#                                <span style="color:red;" class="help-inline error tip">没有社区可以选择，请联系管理员</span>#}
+{#                            {% endif %}#}
+{#                        </div>#}
                         <div class="optItem_item">
                             <label class="el_lab">楼　　栋：</label>
                             <input class="el_inText" placeholder="请填写楼栋号" name="floor"
