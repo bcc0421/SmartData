@@ -12,7 +12,9 @@ from SmartDataApp.controller.repair_item import *
 from SmartDataApp.controller.housekeeping import *
 from SmartDataApp.controller.property import *
 from SmartDataApp.controller.park import *
+from SmartDataApp.controller.update_version import *
 from SmartDataApp.pusher.push_api import *
+
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -129,6 +131,8 @@ urlpatterns = patterns('',
                        url(r'^api/repair/create/android/$',api_repair_create_android),
                        url(r'^api/complain/create/android/$',api_complain_create_android),
                        url(r'^api/complain/complete/$',api_complain_complete),
+                       url(r'^api/return_xml/$',return_xml),
+                       url(r'^property/$',property_service),
 
 
 

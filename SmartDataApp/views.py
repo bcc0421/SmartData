@@ -50,7 +50,10 @@ def index(request):
 
     if request.user.is_authenticated():
         profile = ProfileDetail.objects.get(profile=request.user)
-        return render_to_response('index.html', {'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
+        if request.user.is_staff:
+            return render_to_response('admin_index.html', {'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
+        else:
+            return render_to_response('index.html', {'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
     else:
         return render_to_response('index.html', {'communities': communities})
 

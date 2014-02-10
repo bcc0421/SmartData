@@ -28,3 +28,14 @@ def house_pay_fees(request):
         status = 1
     communities = Community.objects.all()
     return render_to_response('housing_service_fee.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+
+
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def property_service(request):
+    communities = Community.objects.all()
+    profile = ProfileDetail.objects.get(profile=request.user)
+    return render_to_response('property_service.html',{'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})

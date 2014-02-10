@@ -39,10 +39,19 @@ def repair(request):
     communities = Community.objects.all()
     if request.user.is_staff:
         repairs = Repair.objects.filter(community=one_community).order_by('-timestamp')
+        if len(repairs) > 0:
+            paginator = Paginator(repairs, 2)
+            page = request.GET.get('page')
+            try:
+                repairs_list = paginator.page(page)
+            except PageNotAnInteger:
+                repairs_list = paginator.page(1)
+            except EmptyPage:
+                repairs_list = paginator.page(paginator.num_pages)
         deal_person_list = ProfileDetail.objects.filter(is_admin=True,community=one_community)
         if len(repairs) > 0:
             return render_to_response('admin_repair.html', {
-                'repairs': list(repairs),
+                'repairs': repairs_list,
                 'show': True,
                 'community': one_community,
                 'change_community': status,
