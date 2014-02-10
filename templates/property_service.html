@@ -41,12 +41,12 @@
          padding-top: 10px
      }
      .img_limit{
-         height:50px;
-         width:50px;
+         height:70px;
+         width:100px;
 
      }
      .right_container{
-         border: 1px solid darkgray;
+         border: 1px solid #d8d8d8;
          margin-top: 10px;
          float: right;
          width:445px;
@@ -56,7 +56,7 @@
      .left_container_header{
           padding-left: 33px;
          padding-top: 5px;
-         border-bottom:1px solid darkgray;
+         border-bottom:1px solid #d8d8d8;
          height: 35px
      }
      .service_title{
@@ -65,7 +65,7 @@
          margin-top: 15px
      }
      .left_container{
-         border: 1px solid red;
+{#         border: 1px solid red;#}
          margin-top: 10px;
          float: left;
          width:518px;
@@ -73,27 +73,27 @@
         </style>
 {% endblock %}
 {% block container %}
-     <div class="s_ifs_ix main el_container" style="border: 1px solid red">
+     <div class="s_ifs_ix main el_container" >
        <div class="service_title">
            <div style="padding-left: 33px;padding-top: 5px"><span><strong><font color="#808080">物业服务</font></strong></span></div>
        </div>
        <div class="left_container">
            <div>
                <div  style="float: left" >
-                   <div class="img_container">
-                     <div style="background: url('/static/images/repair_hover.png') no-repeat;"class="img_limit"></div>
+                   <div class="img_container"style="padding-left: 27px;padding-top: 52px">
+                     <div class="img_limit" style="background: url('/static/images/property_service_fee.png') no-repeat;"></div>
                    </div>
-                   <div class="text_container"><span>报修</span></div>
+                   <div class="text_container"><span>物业费</span></div>
                </div>
                <div  class="out_container" >
                    <div class="img_container">
-                     <div style="background: url('/static/images/repair_hover.png') no-repeat;"class="img_limit"></div>
+                     <div style="background: url('/static/images/property_service_parking.png') no-repeat;"class="img_limit"></div>
                    </div>
-                   <div class="text_container"><span>报修</span></div>
+                   <div class="text_container"><span>停车费</span></div>
                </div>
                <div  class="out_container" >
                    <div class="img_container">
-                     <div style="background: url('/static/images/repair_hover.png') no-repeat;"class="img_limit"></div>
+                     <div style="background: url('/static/images/property_service_repair.png') no-repeat;"class="img_limit"></div>
                    </div>
                    <div class="text_container"><span>报修</span></div>
                </div>
@@ -101,21 +101,21 @@
            <div style="float: left;margin-top: 10px"  >
                 <div  style="float: left" >
                    <div class="img_container">
-                     <div style="background: url('/static/images/repair_hover.png') no-repeat;"class="img_limit"></div>
+                     <div style="background: url('/static/images/property_service_complain.png') no-repeat;"class="img_limit"></div>
                    </div>
-                   <div class="text_container"><span>报修</span></div>
+                   <div class="text_container"><span>投诉</span></div>
                </div>
                <div  class="out_container">
                    <div class="img_container">
-                     <div style="background: url('/static/images/repair_hover.png') no-repeat;"class="img_limit"></div>
+                     <div style="background: url('/static/images/property_service_express.png') no-repeat;"class="img_limit"></div>
                    </div>
-                   <div class="text_container"><span>报修</span></div>
+                   <div class="text_container"><span>快递领取</span></div>
                </div>
                <div  class="out_container" >
                    <div class="img_container">
-                     <div style="background: url('/static/images/repair_hover.png') no-repeat;"class="img_limit"></div>
+                     <div style="background: url('/static/images/property_service_message.png') no-repeat;"class="img_limit"></div>
                    </div>
-                   <div class="text_container"><span>报修</span></div>
+                   <div class="text_container"><span>小区通知</span></div>
                </div>
 
            </div>
@@ -130,7 +130,7 @@
             </div>
        </div>
 
-     <div style="float: left;margin-top: 56px;margin-left: -96px" >
+     <div style="float: left;margin-top: 56px;margin-left: -96px;padding-bottom: 20px" >
         <div style="float: left">
             <div class="bottom_container">
             </div>
