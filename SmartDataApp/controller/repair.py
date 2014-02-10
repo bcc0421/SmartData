@@ -1,5 +1,6 @@
 #coding:utf-8
-import datetime
+from urllib import unquote
+
 from django.http import HttpResponse
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -8,13 +9,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
+from django.utils.http import *
+
 from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.controller.complain import UTC
 from SmartDataApp.models import Repair
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail,Repair_item,Community
-from django.utils.http import *
-from urllib import unquote
+from SmartDataApp.models import ProfileDetail, Repair_item, Community
+
 
 def return_error_response():
     response_data = {'error': 'Just support POST method.'}
@@ -39,7 +41,7 @@ def repair(request):
     communities = Community.objects.all()
     if request.user.is_staff:
         repairs = Repair.objects.filter(community=one_community).order_by('-timestamp')
-        deal_person_list = ProfileDetail.objects.filter(is_admin=True,community=one_community)
+        deal_person_list = ProfileDetail.objects.filter(is_admin=True, community=one_community)
         if len(repairs) > 0:
             return render_to_response('admin_repair.html', {
                 'repairs': list(repairs),
@@ -109,13 +111,13 @@ def repair(request):
                 }
                 item_public_list.append(data)
         return render_to_response('repair.html', {'user': request.user,
-                                                   'item_person_list':item_person_list,
-                                                   'item_public_list':item_public_list,
-                                                   'community': one_community,
-                                                    'change_community': status,
-                                                    'communities': communities,
-                                                    'profile': profile
-                                                    })
+                                                  'item_person_list': item_person_list,
+                                                  'item_public_list': item_public_list,
+                                                  'community': one_community,
+                                                  'change_community': status,
+                                                  'communities': communities,
+                                                  'profile': profile
+        })
 
 
 @transaction.atomic
@@ -144,7 +146,7 @@ def repair_create(request):
             repair.content = repair_content
             repair.timestamp = repair_time
             repair.status = 1
-            repair.author=request.user.username
+            repair.author = request.user.username
             repair.type = repair_type
             repair.repair_item = item.item
             repair.price = item.price
@@ -153,9 +155,13 @@ def repair_create(request):
             if upload_repair_src:
                 repair.src = upload_repair_src
             repair.save()
-            return render_to_response('repair_success.html', {'user': request.user,'communities': communities,'profile': profile, 'change_community': 2})
+            return render_to_response('repair_success.html',
+                                      {'user': request.user, 'communities': communities, 'profile': profile,
+                                       'change_community': 2})
         else:
-            return render_to_response('repair.html', {'user': request.user,'communities': communities,'profile': profile, 'change_community': 2})
+            return render_to_response('repair.html',
+                                      {'user': request.user, 'communities': communities, 'profile': profile,
+                                       'change_community': 2})
 
 
 @transaction.atomic
@@ -172,7 +178,7 @@ def repair_deal(request):
                 re_id = int(list_repair[i])
                 repair = Repair.objects.get(id=re_id)
                 repair.is_read = True
-                repair .is_worker_read =True
+                repair.is_worker_read = True
                 repair.status = 2
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
@@ -223,7 +229,9 @@ def own_repair(request):
             'profile': profile,
             'show': True
         })
-    return render_to_response('own_repair.html', {'show': False, 'user': request.user,'communities': communities,'profile': profile, 'change_community': 2})
+    return render_to_response('own_repair.html',
+                              {'show': False, 'user': request.user, 'communities': communities, 'profile': profile,
+                               'change_community': 2})
 
 
 @transaction.atomic
@@ -244,9 +252,6 @@ def repair_response(request):
             repair.save()
             response_data = {'success': True, 'info': '评论成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-
-
-
         else:
             return render_to_response('own_repair.html', {'show': True, 'user': request.user, 'profile': profile})
 
@@ -341,12 +346,11 @@ def api_own_repair(request):
                 'handler': str(repair_detail.handler)
             }
             repair_list.append(data)
-        response_data = {'repair_list': repair_list, 'page_count': page_count,'success': True}
+        response_data = {'repair_list': repair_list, 'page_count': page_count, 'success': True}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
         response_data = {'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-
 
 
 @transaction.atomic
@@ -357,16 +361,16 @@ def api_repair_deal(request):
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
-        repair_array = data .get("repair_id_string", None)
-        deal_person_id = data .get("deal_person_id", None)
+        repair_array = data.get("repair_id_string", None)
+        deal_person_id = data.get("deal_person_id", None)
         if repair_array and deal_person_id:
             list_repair = str(repair_array).split(",")
             for i in range(len(list_repair)):
                 rep_id = int(list_repair[i])
-                repair =Repair.objects.get(id=rep_id)
+                repair = Repair.objects.get(id=rep_id)
                 repair.status = 2
                 repair.is_read = True
-                repair .is_worker_read =True
+                repair.is_worker_read = True
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
                     repair.handler = user_obj
@@ -386,12 +390,12 @@ def api_repair_complete(request):
         return return_error_response()
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
-        repair_array = data .get("repair_id_string", None)
-        if repair_array :
+        repair_array = data.get("repair_id_string", None)
+        if repair_array:
             list_repair = str(repair_array).split(",")
             for i in range(len(list_repair)):
                 rep_id = int(list_repair[i])
-                repair =Repair.objects.get(id=rep_id)
+                repair = Repair.objects.get(id=rep_id)
                 repair.status = 3
                 repair.save()
             response_data = {'success': True, 'info': '提交成功！'}
@@ -436,7 +440,7 @@ def api_show_all_repair(request):
                 'handler': str(repair_detail.handler)
             }
             repair_list.append(data)
-        response_data = {'repair_list': repair_list, 'page_count': page_count,'success': True}
+        response_data = {'repair_list': repair_list, 'page_count': page_count, 'success': True}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
         response_data = {'success': False}
@@ -464,16 +468,19 @@ def api_show_repair_by_status(request):
             repairs = Repair.objects.filter(community=community, status=3).order_by('-timestamp')
     elif profile.is_admin:
         if repair_status == u'处理中':
-            repairs = Repair.objects.filter(community=community, status=2,handler=request.user).order_by('-timestamp')
+            repairs = Repair.objects.filter(community=community, status=2, handler=request.user).order_by('-timestamp')
         if repair_status == u'已处理':
-            repairs = Repair.objects.filter(community=community, status=3,handler=request.user).order_by('-timestamp')
+            repairs = Repair.objects.filter(community=community, status=3, handler=request.user).order_by('-timestamp')
     else:
         if repair_status == u'未处理':
-            repairs = Repair.objects.filter(community=community, status=1, author=request.user.username).order_by('-timestamp')
+            repairs = Repair.objects.filter(community=community, status=1, author=request.user.username).order_by(
+                '-timestamp')
         if repair_status == u'处理中':
-            repairs = Repair.objects.filter(community=community, status=2, author=request.user.username).order_by('-timestamp')
+            repairs = Repair.objects.filter(community=community, status=2, author=request.user.username).order_by(
+                '-timestamp')
         if repair_status == u'已处理':
-            repairs = Repair.objects.filter(community=community, status=3, author=request.user.username).order_by('-timestamp')
+            repairs = Repair.objects.filter(community=community, status=3, author=request.user.username).order_by(
+                '-timestamp')
     if len(repairs) > 0:
         paginator = Paginator(repairs, 20)
         page_count = paginator.num_pages
@@ -500,7 +507,7 @@ def api_show_repair_by_status(request):
                 'handler': str(repair_detail.handler)
             }
             repair_list.append(data)
-        response_data = {'repair_list': repair_list, 'page_count': page_count,'success': True}
+        response_data = {'repair_list': repair_list, 'page_count': page_count, 'success': True}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
         response_data = {'success': False}

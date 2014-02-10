@@ -1,4 +1,4 @@
- #coding:utf-8
+#coding:utf-8
 import re
 import logging
 
@@ -36,6 +36,7 @@ def generate_captcha(request):
 def return_404_response():
     return HttpResponse('', content_type='application/json', status=404)
 
+
 def convert_session_id_to_user(request):
     try:
         session = Session.objects.get(session_key=request.META['HTTP_SESSIONID'])
@@ -45,22 +46,26 @@ def convert_session_id_to_user(request):
     except:
         return_404_response()
 
+
 def index(request):
     communities = Community.objects.all()
 
     if request.user.is_authenticated():
         profile = ProfileDetail.objects.get(profile=request.user)
-        return render_to_response('index.html', {'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
+        return render_to_response('index.html', {'user': request.user, 'communities': communities, 'profile': profile,
+                                                 'change_community': 2})
     else:
         return render_to_response('index.html', {'communities': communities})
 
+
 @login_required
 def own_information(request):
-    profile=ProfileDetail.objects.get(profile=request.user)
-    if profile :
-        return render_to_response('own_information.html',{'user': request.user ,'profile':profile,})
-    else :
-         return render_to_response('index.html')
+    profile = ProfileDetail.objects.get(profile=request.user)
+    if profile:
+        return render_to_response('own_information.html', {'user': request.user, 'profile': profile, })
+    else:
+        return render_to_response('index.html')
+
 
 @login_required
 def dashboard(request):
@@ -406,12 +411,14 @@ def get_message_num(request):
         sum_num = complain_num + repair_num + housekeeping_num + express_num
         return complain_num, express_num, housekeeping_num, repair_num, sum_num
 
+
 @transaction.atomic
 @csrf_exempt
 @login_required
 def get_new_dynamic_data(request):
     complain_num, express_num, housekeeping_num, repair_num, sum_num = get_message_num(request)
-    response_data = {'complain_num': complain_num,'repair_num': repair_num,'housekeeping_num': housekeeping_num, 'express_num': express_num, 'sum_num': sum_num}
+    response_data = {'complain_num': complain_num, 'repair_num': repair_num, 'housekeeping_num': housekeeping_num,
+                     'express_num': express_num, 'sum_num': sum_num}
     return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
 
 
@@ -481,7 +488,7 @@ def get_detail_data(request):
     if request.method != 'POST':
         return redirect(index)
     else:
-        item_name = request.POST.get('item_name',None)
+        item_name = request.POST.get('item_name', None)
         profile = ProfileDetail.objects.get(profile=request.user)
         if item_name == u'housekeeping':
             house_keep_list = list()
@@ -544,7 +551,7 @@ def get_detail_data(request):
                     express_detail.is_read = False
                     express_detail.save()
                     get_express_data(express_detail, express_list)
-                response_data = {'express_list': express_list, 'success': True,'identity': 'admin'}
+                response_data = {'express_list': express_list, 'success': True, 'identity': 'admin'}
                 return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
             elif profile.is_admin:
                 express = Express.objects.all().order_by('-arrive_time')
@@ -563,153 +570,154 @@ def get_detail_data(request):
                 response_data = {'express_list': express_list, 'success': True, 'identity': 'inhabitant'}
                 return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
         if item_name == u'repair':
-                repair_list = list()
-                if request.user.is_staff:
-                    repair = Repair.objects.all().order_by('-timestamp')
-                    for repair_detail in repair:
-                        repair_detail.is_admin_read = False
-                        repair_detail.save()
-                        get_repair_data(repair_detail, repair_list)
-                    response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
-                    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-                elif profile.is_admin:
-                    repair = Repair.objects.filter(handler=request.user).order_by('-timestamp')
-                    for repair_detail in repair:
-                        repair_detail.is_worker_read = False
-                        repair_detail.save()
-                        get_repair_data(repair_detail, repair_list)
-                    response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
-                    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-                else:
-                    repair = Repair.objects.filter(author=request.user.username).order_by('-timestamp')
-                    for repair_detail in repair:
-                        repair_detail.is_read = False
-                        repair_detail.save()
-                        get_repair_data(repair_detail, repair_list)
-                    response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
-                    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+            repair_list = list()
+            if request.user.is_staff:
+                repair = Repair.objects.all().order_by('-timestamp')
+                for repair_detail in repair:
+                    repair_detail.is_admin_read = False
+                    repair_detail.save()
+                    get_repair_data(repair_detail, repair_list)
+                response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+            elif profile.is_admin:
+                repair = Repair.objects.filter(handler=request.user).order_by('-timestamp')
+                for repair_detail in repair:
+                    repair_detail.is_worker_read = False
+                    repair_detail.save()
+                    get_repair_data(repair_detail, repair_list)
+                response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+            else:
+                repair = Repair.objects.filter(author=request.user.username).order_by('-timestamp')
+                for repair_detail in repair:
+                    repair_detail.is_read = False
+                    repair_detail.save()
+                    get_repair_data(repair_detail, repair_list)
+                response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
+                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
 
 @transaction.atomic
 @csrf_exempt
 def api_get_dynamic_data_num(request):
     convert_session_id_to_user(request)
     complain_num, express_num, housekeeping_num, repair_num, sum_num = get_message_num(request)
-    response_data = {'complain_num': complain_num, 'repair_num': repair_num, 'housekeeping_num': housekeeping_num, 'express_num': express_num, 'sum_num': sum_num}
+    response_data = {'complain_num': complain_num, 'repair_num': repair_num, 'housekeeping_num': housekeeping_num,
+                     'express_num': express_num, 'sum_num': sum_num}
     return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-
 
 
 @transaction.atomic
 @csrf_exempt
 def api_get_dynamic_data(request):
-        convert_session_id_to_user(request)
-        item_name = request.POST.get('item_name', None)
-        profile = ProfileDetail.objects.get(profile=request.user)
-        if item_name == u'housekeeping':
-            house_keep_list = list()
-            if request.user.is_staff:
-                housekeeping = Housekeeping.objects.filter(is_admin_read=True).order_by('-time')
-                for housekeeping_detail in housekeeping:
-                    housekeeping_detail.is_admin_read = False
-                    housekeeping_detail.save()
-                    get_house_data(house_keep_list, housekeeping_detail)
-                response_data = {'house_keep_list': house_keep_list, 'success': True, 'identity': 'admin'}
-                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-            elif profile.is_admin:
-                housekeeping = Housekeeping.objects.filter(handler=request.user, is_worker_read=True).order_by('-time')
-                for housekeeping_detail in housekeeping:
-                    housekeeping_detail.is_worker_read = False
-                    housekeeping_detail.save()
-                    get_house_data(house_keep_list, housekeeping_detail)
-                response_data = {'house_keep_list': house_keep_list, 'success': True, 'identity': 'worker'}
-                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-            else:
-                housekeeping = Housekeeping.objects.filter(author=profile, is_read=True).order_by('-time')
-                for housekeeping_detail in housekeeping:
-                    housekeeping_detail.is_read = False
-                    housekeeping_detail.save()
-                    get_house_data(house_keep_list, housekeeping_detail)
-                response_data = {'house_keep_list': house_keep_list, 'success': True, 'identity': 'inhabitant'}
-                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-        if item_name == u'complain':
-            complain_list = list()
-            if request.user.is_staff:
-                complain = Complaints.objects.filter(is_admin_read=True).order_by('-timestamp')
-                for complain_detail in complain:
-                    complain_detail.is_admin_read = False
-                    complain_detail.save()
-                    get_compalin_data(complain_detail, complain_list)
-                response_data = {'complain_list': complain_list, 'success': True, 'identity': 'admin'}
-                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-            elif profile.is_admin:
-                complain = Complaints.objects.filter(handler=request.user, is_worker_read=True).order_by('-timestamp')
-                for complain_detail in complain:
-                    complain_detail.is_worker_read = False
-                    complain_detail.save()
-                    get_compalin_data(complain_detail, complain_list)
-                response_data = {'complain_list': complain_list, 'success': True, 'identity': 'worker'}
-                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-            else:
-                complain = Complaints.objects.filter(author=request.user.username,is_read=True).order_by('-timestamp')
-                for complain_detail in complain:
-                    complain_detail.is_read = False
-                    complain_detail.save()
-                    get_compalin_data(complain_detail, complain_list)
-                response_data = {'complain_list': complain_list, 'success': True, 'identity': 'inhabitant'}
-                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-
-        if item_name == u'express':
-            express_list = list()
-            if request.user.is_staff:
-                express = Express.objects.all(is_admin_read=True).order_by('-arrive_time')
-                for express_detail in express:
-                    express_detail.is_read = False
-                    express_detail.save()
-                    get_express_data(express_detail, express_list)
-                response_data = {'express_list': express_list, 'success': True,'identity': 'admin'}
-                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-            elif profile.is_admin:
-                express = Express.objects.all(is_admin_read=True).order_by('-arrive_time')
-                for express_detail in express:
-                    express_detail.is_read = False
-                    express_detail.save()
-                    get_express_data(express_detail, express_list)
-                response_data = {'express_list': express_list, 'success': True, 'identity': 'worker'}
-                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-            else:
-                express = Express.objects.filter(author=profile,is_read=True).order_by('-arrive_time')
-                for express_detail in express:
-                    express_detail.is_read = False
-                    express_detail.save()
-                    get_express_data(express_detail, express_list)
-                response_data = {'express_list': express_list, 'success': True, 'identity': 'inhabitant'}
-                return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-        if item_name == u'repair':
-                repair_list = list()
-                if request.user.is_staff:
-                    repair = Repair.objects.all(is_admin_read=True).order_by('-timestamp')
-                    for repair_detail in repair:
-                        repair_detail.is_admin_read = False
-                        repair_detail.save()
-                        get_repair_data(repair_detail, repair_list)
-                    response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
-                    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-                elif profile.is_admin:
-                    repair = Repair.objects.filter(handler=request.user, is_worker_read=True).order_by('-timestamp')
-                    for repair_detail in repair:
-                        repair_detail.is_worker_read = False
-                        repair_detail.save()
-                        get_repair_data(repair_detail, repair_list)
-                    response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
-                    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-                else:
-                    repair = Repair.objects.filter(author=request.user.username,is_read=True).order_by('-timestamp')
-                    for repair_detail in repair:
-                        repair_detail.is_read = False
-                        repair_detail.save()
-                        get_repair_data(repair_detail, repair_list)
-                    response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
-                    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    convert_session_id_to_user(request)
+    item_name = request.POST.get('item_name', None)
+    profile = ProfileDetail.objects.get(profile=request.user)
+    if item_name == u'housekeeping':
+        house_keep_list = list()
+        if request.user.is_staff:
+            housekeeping = Housekeeping.objects.filter(is_admin_read=True).order_by('-time')
+            for housekeeping_detail in housekeeping:
+                housekeeping_detail.is_admin_read = False
+                housekeeping_detail.save()
+                get_house_data(house_keep_list, housekeeping_detail)
+            response_data = {'house_keep_list': house_keep_list, 'success': True, 'identity': 'admin'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        elif profile.is_admin:
+            housekeeping = Housekeeping.objects.filter(handler=request.user, is_worker_read=True).order_by('-time')
+            for housekeeping_detail in housekeeping:
+                housekeeping_detail.is_worker_read = False
+                housekeeping_detail.save()
+                get_house_data(house_keep_list, housekeeping_detail)
+            response_data = {'house_keep_list': house_keep_list, 'success': True, 'identity': 'worker'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
         else:
-            response_data = { 'success': False}
-            HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+            housekeeping = Housekeeping.objects.filter(author=profile, is_read=True).order_by('-time')
+            for housekeeping_detail in housekeeping:
+                housekeeping_detail.is_read = False
+                housekeeping_detail.save()
+                get_house_data(house_keep_list, housekeeping_detail)
+            response_data = {'house_keep_list': house_keep_list, 'success': True, 'identity': 'inhabitant'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    if item_name == u'complain':
+        complain_list = list()
+        if request.user.is_staff:
+            complain = Complaints.objects.filter(is_admin_read=True).order_by('-timestamp')
+            for complain_detail in complain:
+                complain_detail.is_admin_read = False
+                complain_detail.save()
+                get_compalin_data(complain_detail, complain_list)
+            response_data = {'complain_list': complain_list, 'success': True, 'identity': 'admin'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        elif profile.is_admin:
+            complain = Complaints.objects.filter(handler=request.user, is_worker_read=True).order_by('-timestamp')
+            for complain_detail in complain:
+                complain_detail.is_worker_read = False
+                complain_detail.save()
+                get_compalin_data(complain_detail, complain_list)
+            response_data = {'complain_list': complain_list, 'success': True, 'identity': 'worker'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        else:
+            complain = Complaints.objects.filter(author=request.user.username, is_read=True).order_by('-timestamp')
+            for complain_detail in complain:
+                complain_detail.is_read = False
+                complain_detail.save()
+                get_compalin_data(complain_detail, complain_list)
+            response_data = {'complain_list': complain_list, 'success': True, 'identity': 'inhabitant'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+    if item_name == u'express':
+        express_list = list()
+        if request.user.is_staff:
+            express = Express.objects.all(is_admin_read=True).order_by('-arrive_time')
+            for express_detail in express:
+                express_detail.is_read = False
+                express_detail.save()
+                get_express_data(express_detail, express_list)
+            response_data = {'express_list': express_list, 'success': True, 'identity': 'admin'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        elif profile.is_admin:
+            express = Express.objects.all(is_admin_read=True).order_by('-arrive_time')
+            for express_detail in express:
+                express_detail.is_read = False
+                express_detail.save()
+                get_express_data(express_detail, express_list)
+            response_data = {'express_list': express_list, 'success': True, 'identity': 'worker'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        else:
+            express = Express.objects.filter(author=profile, is_read=True).order_by('-arrive_time')
+            for express_detail in express:
+                express_detail.is_read = False
+                express_detail.save()
+                get_express_data(express_detail, express_list)
+            response_data = {'express_list': express_list, 'success': True, 'identity': 'inhabitant'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    if item_name == u'repair':
+        repair_list = list()
+        if request.user.is_staff:
+            repair = Repair.objects.all(is_admin_read=True).order_by('-timestamp')
+            for repair_detail in repair:
+                repair_detail.is_admin_read = False
+                repair_detail.save()
+                get_repair_data(repair_detail, repair_list)
+            response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        elif profile.is_admin:
+            repair = Repair.objects.filter(handler=request.user, is_worker_read=True).order_by('-timestamp')
+            for repair_detail in repair:
+                repair_detail.is_worker_read = False
+                repair_detail.save()
+                get_repair_data(repair_detail, repair_list)
+            response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+        else:
+            repair = Repair.objects.filter(author=request.user.username, is_read=True).order_by('-timestamp')
+            for repair_detail in repair:
+                repair_detail.is_read = False
+                repair_detail.save()
+                get_repair_data(repair_detail, repair_list)
+            response_data = {'repair_list': repair_list, 'success': True, 'identity': 'admin'}
+            return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+    else:
+        response_data = {'success': False}
+        HttpResponse(simplejson.dumps(response_data), content_type='application/json')
