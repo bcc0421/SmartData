@@ -32,14 +32,36 @@ def housekeeping(request):
         else:
             status = 1
         communities = Community.objects.all()
+        deal_status = request.GET.get("deal_status", None)
         if request.user.is_staff:
-            housekeeping = Housekeeping.objects.filter(community=one_community).order_by('-time')
+            if deal_status == u'1':
+                housekeeping = Housekeeping.objects.filter(community=one_community, status=1).order_by('-time')
+                btn_status = 1
+            elif deal_status == u'2':
+                housekeeping = Housekeeping.objects.filter(community=one_community, status=2).order_by('-time')
+                btn_status = 2
+            elif deal_status == u'3':
+                housekeeping = Housekeeping.objects.filter(community=one_community, status=3).order_by('-time')
+                btn_status = 3
+            else:
+                housekeeping = Housekeeping.objects.filter(community=one_community, status=1).order_by('-time')
+                btn_status = 1
             deal_person_list = ProfileDetail.objects.filter(is_admin=True, community=one_community)
             if len(housekeeping) > 0:
+                paginator = Paginator(housekeeping, 4)
+                page = request.GET.get('page')
+                try:
+                    housekeeping_list = paginator.page(page)
+                except PageNotAnInteger:
+                    housekeeping_list = paginator.page(1)
+                except EmptyPage:
+                    housekeeping_list = paginator.page(paginator.num_pages)
+                deal_person_list = ProfileDetail.objects.filter(is_admin=True,community=one_community)
                 return render_to_response('admin_housekeeping.html', {
-                    'housekeeping': list(housekeeping),
+                    'housekeeping': housekeeping_list,
                     'show': True,
                     'user': request.user,
+                    'btn_style': btn_status,
                     'community': one_community,
                     'change_community': status,
                     'profile': profile,
@@ -160,6 +182,22 @@ def submit_housekeeping(request):
 
 @transaction.atomic
 @csrf_exempt
+def housekeeping_delete(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        housekeeping_array = request.POST.get("selected_housekeeping_string", None)
+        if housekeeping_array:
+            list_housekeeping = str(housekeeping_array).split(",")
+            for i in range(len(list_housekeeping)):
+                com_id = int(list_housekeeping[i])
+                Housekeeping.objects.get(id=com_id).delete()
+            response_data = {'success': True, 'info': '删除成功'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+@transaction.atomic
+@csrf_exempt
 @login_required(login_url='/login/')
 def delete_housekeeping_item(request):
     if request.method != u'POST':
@@ -225,8 +263,13 @@ def housekeeping_complete(request):
 @csrf_exempt
 @login_required(login_url='/login/')
 def own_housekeeping(request):
+    start_time = request.POST.get('start_time', None)
+    end_time = request.POST.get('end_time', None)
     profile = ProfileDetail.objects.get(profile=request.user)
-    housekeepings = Housekeeping.objects.filter(author=profile)
+    if start_time and end_time:
+        housekeepings = Housekeeping.objects.filter(author=profile, time__range=[start_time, end_time])
+    else:
+        housekeepings = Housekeeping.objects.filter(author=profile)
     if len(housekeepings) > 0:
         paginator = Paginator(housekeepings, 5)
         page = request.GET.get('page')

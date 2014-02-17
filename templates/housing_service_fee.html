@@ -34,7 +34,7 @@
                     <div class="vessel_conBox_text_head">
                         <span class="tit">缴费地址</span>
                     </div>
-                    <form action="" method="post" name="property-fees-form" id="add_property_fees">
+                    <form action="/user/fee_list/" method="post" name="property-fees-form" id="add_property_fees">
                         <input type="hidden" name="Property[id]" class="address_id_for_property"
                                value=""
                                id="address_id_for_property" />
@@ -58,18 +58,18 @@
                             <div class="simulate_s">
                                 <input type="text" name="Property[fees_address]" class="payment_address" value="请选择缴费地址" readonly="readonly"  onfocus="this.blur()"/>
                             </div>
-                            <div class="identity_erro">
-                                <label>身份证：</label>
-                                <input type="text" name="Property[id_card]" class="idlast_four" id="id_card_for_property" value="" />
-                                <span class="yellow_color">身份证尾数与物业地址不匹配,请重新输入身份证后四位</span>
-                            </div>
+{#                            <div class="identity_erro">#}
+{#                                <label>身份证：</label>#}
+{#                                <input type="text" name="Property[id_card]" class="idlast_four" id="id_card_for_property" value="" />#}
+{#                                <span class="yellow_color">身份证尾数与物业地址不匹配,请重新输入身份证后四位</span>#}
+{#                            </div>#}
                             <p>&nbsp;</p>
                             <input type="radio" name="property_type_list" value="0"  id="property_month" ><label for="property_month">&nbsp;按月缴费</label>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <input type="radio" name="property_type_list" value="1"   id="property_before" ><label for="property_before">&nbsp;预缴费</label>
 
                             </div>
-                            <div class="payment_button"><input type="button" id="btn_by_property" class="el_btn payment_btn" value="立即缴费" ></div>
+                            <div class="payment_button"><input type="submit" id="btn_by_property" class="el_btn payment_btn" value="立即缴费" ></div>
                     </form>
                  </div>
                 <!--步骤1内容 end-->
@@ -80,80 +80,80 @@
 <!-- 左侧栏 end -->
 <!-- //引入右侧服务页面 -->
 <!-- 侧栏 start -->
-    <div class="el_w_264 fn_right">
-        <!-- vessel start -->
-        <div class="vessel vessel_s1">
-            <div class="vessel_titBox">
-                <span class="tit">服务排行</span>
-            </div>
-            <div class="vessel_conBox">
-                <!-- 元素 start -->
-                <ul class="vessel_serBox vessel_s1_s1">
-                    <li class="picBox">
-                        <a class="link" href="/property/createProperty" target="_blank"></a>
-                    </li>
-                    <li class="conBox">
-                        <p class="txt fn_right">1.9万人次使用</p>
-                        <p class="txt"><a class="title link" href="/property/createProperty" target="_blank">物业缴费</a></p>
-                        <p class="txt">开发商：彩之云</p>
-                    </li>
-                </ul>
-                <!-- 元素 end -->
-
-                <!-- 元素 start -->
-                <ul class="vessel_serBox vessel_s1_s2">
-                    <li class="picBox">
-                        <a class="link" href="/property/createParking" target="_blank"></a>
-                    </li>
-                    <li class="conBox">
-                        <p class="txt fn_right">1.6万人次使用</p>
-                        <p class="txt"><a class="title link" href="/property/createParking" target="_blank">停车费</a></p>
-                        <p class="txt">开发商：彩之云</p>
-                    </li>
-                </ul>
-                <!-- 元素 end -->
-
-                <!-- 元素 start -->
-                <ul class="vessel_serBox vessel_s1_s3">
-                    <li class="picBox">
-                        <a class="link" href="/phoneRecharge" target="_blank"></a>
-                    </li>
-                    <li class="conBox">
-                        <p class="txt fn_right">1.1万人次使用</p>
-                        <p class="txt"><a class="title link" href="/phoneRecharge" target="_blank">手机充值</a></p>
-                        <p class="txt">开发商：彩之云</p>
-                    </li>
-                </ul>
-                <!-- 元素 end -->
-
-                <!-- 元素 start -->
-                <ul class="vessel_serBox vessel_s1_s4">
-                    <li class="picBox">
-                        <a class="link" href="/goods" target="_blank"></a>
-                    </li>
-                    <li class="conBox">
-                        <p class="txt fn_right">1.0万人次使用</p>
-                        <p class="txt"><a class="title link" href="/goods" target="_blank">生活超市</a></p>
-                        <p class="txt">开发商：彩之云</p>
-                    </li>
-                </ul>
-                <!-- 元素 end -->
-
-                <!-- 元素 start -->
-                <ul class="vessel_serBox vessel_s1_s5">
-                    <li class="picBox">
-                        <a class="link" href="/repair/create" target="_blank"></a>
-                    </li>
-                    <li class="conBox">
-                        <p class="txt fn_right">9.8千人次使用</p>
-                        <p class="txt"><a class="title link" href="/repair/create" target="_blank">报修</a></p>
-                        <p class="txt">开发商：彩之云</p>
-                    </li>
-                </ul>
-                <!-- 元素 end -->
-                </div>
-            </div>
+{#    <div class="el_w_264 fn_right">#}
+{#        <!-- vessel start -->#}
+{#        <div class="vessel vessel_s1">#}
+{#            <div class="vessel_titBox">#}
+{#                <span class="tit">服务排行</span>#}
+{#            </div>#}
+{#            <div class="vessel_conBox">#}
+{#                <!-- 元素 start -->#}
+{#                <ul class="vessel_serBox vessel_s1_s1">#}
+{#                    <li class="picBox">#}
+{#                        <a class="link" href="/property/createProperty" target="_blank"></a>#}
+{#                    </li>#}
+{#                    <li class="conBox">#}
+{#                        <p class="txt fn_right">1.9万人次使用</p>#}
+{#                        <p class="txt"><a class="title link" href="/property/createProperty" target="_blank">物业缴费</a></p>#}
+{#                        <p class="txt">开发商：彩之云</p>#}
+{#                    </li>#}
+{#                </ul>#}
+{#                <!-- 元素 end -->#}
+{##}
+{#                <!-- 元素 start -->#}
+{#                <ul class="vessel_serBox vessel_s1_s2">#}
+{#                    <li class="picBox">#}
+{#                        <a class="link" href="/property/createParking" target="_blank"></a>#}
+{#                    </li>#}
+{#                    <li class="conBox">#}
+{#                        <p class="txt fn_right">1.6万人次使用</p>#}
+{#                        <p class="txt"><a class="title link" href="/property/createParking" target="_blank">停车费</a></p>#}
+{#                        <p class="txt">开发商：彩之云</p>#}
+{#                    </li>#}
+{#                </ul>#}
+{#                <!-- 元素 end -->#}
+{##}
+{#                <!-- 元素 start -->#}
+{#                <ul class="vessel_serBox vessel_s1_s3">#}
+{#                    <li class="picBox">#}
+{#                        <a class="link" href="/phoneRecharge" target="_blank"></a>#}
+{#                    </li>#}
+{#                    <li class="conBox">#}
+{#                        <p class="txt fn_right">1.1万人次使用</p>#}
+{#                        <p class="txt"><a class="title link" href="/phoneRecharge" target="_blank">手机充值</a></p>#}
+{#                        <p class="txt">开发商：彩之云</p>#}
+{#                    </li>#}
+{#                </ul>#}
+{#                <!-- 元素 end -->#}
+{##}
+{#                <!-- 元素 start -->#}
+{#                <ul class="vessel_serBox vessel_s1_s4">#}
+{#                    <li class="picBox">#}
+{#                        <a class="link" href="/goods" target="_blank"></a>#}
+{#                    </li>#}
+{#                    <li class="conBox">#}
+{#                        <p class="txt fn_right">1.0万人次使用</p>#}
+{#                        <p class="txt"><a class="title link" href="/goods" target="_blank">生活超市</a></p>#}
+{#                        <p class="txt">开发商：彩之云</p>#}
+{#                    </li>#}
+{#                </ul>#}
+{#                <!-- 元素 end -->#}
+{##}
+{#                <!-- 元素 start -->#}
+{#                <ul class="vessel_serBox vessel_s1_s5">#}
+{#                    <li class="picBox">#}
+{#                        <a class="link" href="/repair/create" target="_blank"></a>#}
+{#                    </li>#}
+{#                    <li class="conBox">#}
+{#                        <p class="txt fn_right">9.8千人次使用</p>#}
+{#                        <p class="txt"><a class="title link" href="/repair/create" target="_blank">报修</a></p>#}
+{#                        <p class="txt">开发商：彩之云</p>#}
+{#                    </li>#}
+{#                </ul>#}
+{#                <!-- 元素 end -->#}
+{#                </div>#}
+{#            </div>#}
         <!-- vessel end -->
-        </div>
+{#        </div>#}
 </div>
 {% endblock %}

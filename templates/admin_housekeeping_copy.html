@@ -1,0 +1,273 @@
+{% extends "basecloud.html" %}
+{% block title %}家政管理{% endblock %}
+{% block css %}
+    <style>
+        .help-inline {
+            display: block;
+            margin-left: 70px;
+            padding-top: 10px;
+        }
+
+        .error {
+            color: #f00;
+        }
+
+        input.error {
+            border-color: #f00;
+        }
+
+        .repair1, span, button {
+            font-size: 15px;
+
+        }
+        tr:first-child {
+            background-color: #A674B0;
+        }
+
+        tr:hover {
+            background-color: #A674B0;
+        }
+
+        .prev {
+            margin-left: 200px !important;
+        }
+
+        .next {
+            margin-left: 20px !important;
+        }
+
+        .dataTables_wrapper {
+            padding-left: 0px !important;
+        }
+
+        .dataTables_paginate {
+            float: right;
+            margin-top: -20px;
+        }
+
+        .dataTables_paginate li {
+            float: left
+        }
+
+        .dataTables_filter {
+            float: right;
+            margin-top: -25px
+        }
+
+        .container {
+            width: 1260px !important;
+        }
+
+    </style>
+
+{% endblock %}
+{% block right_container %}
+
+        <!-- 主要内容区域 start -->
+            <!-- 中部 start -->
+
+            <div style="width: 906px;overflow: auto;float:left">
+                <div class="vessel vessel_s1" style="margin-bottom: 10px">
+                    <div class="vessel_titBox"><span class="tit">家政服务</span></div>
+                </div>
+                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable"
+                       id="example" aria-describedby="example_info">
+                    <thead>
+                    <tr role="row">
+                        <th style="width:150px">时间</th>
+                        <th>申请人</th>
+                        <th>项目</th>
+                        <th style="width:100px">费用描述</th>
+                        <th style="width:100px">内容</th>
+                        <th>状态</th>
+                        {% if is_admin %}
+                            <th>处理人</th>
+                        {% endif %}
+                        <th>满意度</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for one_housekeeping in housekeeping %}
+
+                        <tr class="except_one">
+                            <td>{{ one_housekeeping.time| date:"Y-m-d H:i:s" }}</td>
+                            <td>{{ one_housekeeping.author.profile.username }}({{ one_housekeeping.author.phone_number }})</td>
+                            <td>{{ one_housekeeping.housekeeping_item.item }}</td>
+                            <td>{{ one_housekeeping.housekeeping_item.price_description }}</td>
+                            <td>{{ one_housekeeping.housekeeping_item.content }}</td>
+                            <td class="deal_status"  id="status_{{ one_housekeeping.id }}">
+                                {% ifequal one_housekeeping.status 1 %}
+                                    <span style="color: red">未受理</span>
+                                {% endifequal %}
+                                {% ifequal one_housekeeping.status 2 %}
+                                    <span style="color: deepskyblue">处理中</span>
+                                {% endifequal %}
+                                {% ifequal one_housekeeping.status 3 %}
+                                    <span style="color: green">处理完成</span>
+                                {% endifequal %}
+                           </td>
+                            {% if is_admin %}
+                                <td>{{ one_housekeeping.handler.username }}</td>
+                            {% endif %}
+                            <td>{{ one_housekeeping.pleased }}</td>
+                            {% ifequal one_housekeeping.status 1 %}
+                                <td><input type="checkbox" name="chk" id={{ one_housekeeping.id }}></td>
+                            {% else %}
+                                {% if  not is_admin %}
+                                    {% ifequal one_housekeeping.status 2 %}
+                                        <td id="complete_{{ one_housekeeping.id }}"><input type="checkbox" name="chk" id={{ one_housekeeping.id }}></td>
+                                    {% else %}
+                                        <td ><span style="color: green">完成</span></td>
+                                    {% endifequal %}
+                                {% else %}
+                                    <td>
+                                        {% ifequal one_housekeeping.status 2 %}
+                                            <span style="color: deepskyblue">授权</span>
+                                        {% else %}
+                                            <span style="color: green">授权</span>
+                                        {% endifequal %}
+                                    </td>
+                                {% endif %}
+                            {% endifequal %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- 中部 end -->
+            <!-- 右侧 start -->
+            <div class="el_w_237 fn_right" style="width:172px">
+                {% if  is_admin %}
+                    <div>
+                        <span>选择处理人：</span>
+                        <div>
+                            <select id="id_handler">
+                                {% for deal_person in deal_person_list %}
+                                    <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div style="margin-top:12px; ">
+                            <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="deal_housekeeping">
+                                授权处理
+                            </button>
+                        </div>
+                        <div style="margin-top:12px; ">
+                            <a href="/manage/housekeeping/item/"target="_blank">
+                                <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="manage_item">
+                                    项目管理
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                <!-- 右侧焦点图 start -->
+                {% else %}
+                     <div style="margin-top:0px;">
+                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="update_housekeeping_status">
+                           完成
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+            <!-- 右侧 end -->
+            <div class="el_blank_h10 fn_clear"></div>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        $(function () {
+            $('#deal_housekeeping').click(function () {
+                var checked_array = new Array();
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                    function () {
+                        var id = $(this).attr('id');
+                        checked_array.push(id);
+                    }
+                );
+                var deal_person_id = $('#id_handler').val();
+                if (checked_array.length>0)
+                {
+                   $.post('/deal/housekeeping/',
+                        {
+                            'selected_housekeeping_string': checked_array.toString(),
+                            'deal_person_id': deal_person_id
+                        },
+                        function (data) {
+                               if(data.success){
+                                 alert(data.info);
+                                 $('input[type="checkbox"][name="chk"]:checked').each(
+                                        function() {
+                                            var id = $(this).attr('id');
+                                             $("#status_" + id + "").html("<span style='color:deepskyblue' >处理中</span>");
+
+                                        }
+                                    );
+                             }
+
+                        }
+                    )
+                 }
+                else{
+                    alert("请选择处理数据");
+                }
+
+            });
+
+            $('#update_housekeeping_status').click(function () {
+                var checked_array = new Array();
+                $('input[type="checkbox"][name="chk"]:checked').each(
+                        function () {
+                            var id = $(this).attr('id');
+                            checked_array.push(id);
+                        }
+                );
+                var deal_person_id = $('#id_handler').val();
+                if (checked_array.length>0)
+                {
+                   $.post('/complete/housekeeping/',
+                        {
+                            'selected_housekeeping_string': checked_array.toString()
+                        },
+                        function (data) {
+                               if(data.success){
+                                 alert(data.info);
+                                 $('input[type="checkbox"][name="chk"]:checked').each(
+                                        function() {
+                                            var id = $(this).attr('id');
+                                             $("#status_" + id + "").html("<span style='color: green' >处理完成</span>");
+                                             $("#complete_" + id + "").html("<span style='color: green'>完成</span>");
+                                        }
+                                    );
+                             }
+
+                        }
+                    )
+                 }
+                else{
+                    alert("请选择处理数据");
+                }
+
+            });
+        });
+
+        $(document).ready(function () {
+            $('#example').dataTable({
+                "aaSorting": [[ 0, "desc" ]],
+                "oLanguage": {
+                        "sLengthMenu": "显示 _MENU_每页显示记录",
+                        "sZeroRecords": "对不起没有你要找的记录",
+                        "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
+                        "sInfoEmpty": "显示 0 到 0 总共 0 记录",
+                        "sInfoFiltered": "(从 _MAX_条记录中查找)",
+                        "sSearch": "搜索:"
+		}
+            });
+        });
+
+
+    </script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/DT_bootstrap.js"></script>
+{% endblock %}
