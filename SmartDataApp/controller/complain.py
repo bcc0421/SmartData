@@ -1,14 +1,17 @@
 #coding:utf-8
 import datetime
+import json
 from urllib import unquote
 from django.http import HttpResponse, HttpRequest
 import simplejson
+import json
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
+#from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.models import Complaints, Repair
 from SmartDataApp.pusher.Channel import Channel
@@ -54,12 +57,33 @@ def complain(request):
     else:
         status = 1
     communities = Community.objects.all()
+    deal_status = request.GET.get("deal_status", None)
     if request.user.is_staff:
-        complains = Complaints.objects.filter(community=one_community).order_by('-timestamp')
+        if deal_status == u'1':
+            complains = Complaints.objects.filter(community=one_community, status=1).order_by('-timestamp')
+            btn_status = 1
+        elif deal_status == u'2':
+            complains = Complaints.objects.filter(community=one_community, status=2).order_by('-timestamp')
+            btn_status = 2
+        elif deal_status == u'3':
+            complains = Complaints.objects.filter(community=one_community, status=3).order_by('-timestamp')
+            btn_status = 3
+        else:
+            complains = Complaints.objects.filter(community=one_community, status=1).order_by('-timestamp')
+            btn_status = 1
         deal_person_list = ProfileDetail.objects.filter(is_admin=True, community=one_community)
         if len(complains) > 0:
+            paginator = Paginator(complains, 4)
+            page = request.GET.get('page')
+            try:
+                complains_list = paginator.page(page)
+            except PageNotAnInteger:
+                complains_list = paginator.page(1)
+            except EmptyPage:
+                complains_list = paginator.page(paginator.num_pages)
             return render_to_response('admin_complains.html', {
-                'complains': list(complains),
+                'complains': complains_list,
+                'btn_style': btn_status,
                 'show': True,
                 'community': one_community,
                 'change_community': status,
@@ -172,9 +196,11 @@ def complain_deal(request):
         return redirect(index)
     else:
         complain_array = request.POST.get("selected_complain_string", None)
+        #handler_array = request.POST.get("selected_handler_string", None)
         deal_person_id = request.POST.get("deal_person_id", None)
         if complain_array and deal_person_id:
             list_complain_ = str(complain_array).split(",")
+            #deal_person_id = str(handler_array).split(",")
             for i in range(len(list_complain_)):
                 com_id = int(list_complain_[i])
                 complain = Complaints.objects.get(id=com_id)
@@ -199,6 +225,21 @@ def complain_deal(request):
 
 @transaction.atomic
 @csrf_exempt
+def complain_delete(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        complain_array = request.POST.get("selected_complain_string", None)
+        if complain_array:
+            list_complain_ = str(complain_array).split(",")
+            for i in range(len(list_complain_)):
+                com_id = int(list_complain_[i])
+                Complaints.objects.get(id=com_id).delete()
+            response_data = {'success': True, 'info': '删除成功'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+@transaction.atomic
+@csrf_exempt
 def complain_complete(request):
     if request.method != u'POST':
         return redirect(index)
@@ -218,7 +259,12 @@ def complain_complete(request):
 @transaction.atomic
 @csrf_exempt
 def own_complain(request):
-    complains = Complaints.objects.filter(author=request.user.username)
+    start_time = request.POST.get('start_time', None)
+    end_time = request.POST.get('end_time', None)
+    if start_time and end_time:
+        complains = Complaints.objects.filter(author=request.user.username, timestamp__range=[start_time, end_time])
+    else:
+        complains = Complaints.objects.filter(author=request.user.username)
     profile = ProfileDetail.objects.get(profile=request.user)
     if len(complains) > 0:
         paginator = Paginator(complains, 5)

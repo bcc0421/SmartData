@@ -36,13 +36,13 @@
             </div>
         </div>
 	<!-- 投诉/保修 end -->
-	<form action="/complain/index" method="get">
+	<form action="/own/housekeeping/" method="post">
 		<!-- 投诉/保修 start -->
 		<!-- umFormBox start -->
 		<div class="umFormBox_s1 umFormBox">
 			<label class="el_lab">筛选：</label>
-			<input id="start_time" type="date" value="" name="start_time" />			<span class="sep"> - </span>
-			<input id="end_time" type="date" value="" name="end_time" />
+			<input type="text" name="start_time" id="start_datetime" value=""/>			<span class="sep"> - </span>
+            <input type="text" name="end_time" id="end_datetime" value=""/>
 			<button class="el_btn_gray_sl el_btn">
 				<span class="txt">筛选</span>
 			</button>
@@ -172,6 +172,22 @@
 <!-- 中部·容器 end -->
 {% endblock %}
 {% block script %}
+ <script type="text/javascript">
+        $(document).ready(function () {
+            $('#start_datetime').datepicker({
+                duration: '',
+                //showTime: true,
+                constrainInput: false
+            });
+        });
+    $(document).ready(function () {
+            $('#end_datetime').datepicker({
+                duration: '',
+                //showTime: true,
+                constrainInput: false
+            });
+        });
+</script>
     <script type="text/javascript">
         function submit_response_data(obj){
             var get_id=$(obj).attr("name");

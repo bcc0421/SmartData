@@ -15,6 +15,9 @@
     <link href="/static/css/indexNew.css" rel="stylesheet">
     <link href="/static/css/bootstrap.css" rel="stylesheet">
     <style>
+        body{
+            background-color: #eeeeee;
+        }
         .searchBox_tab_cur_new{
             background: url(/static/images/search.png) no-repeat 0;
             color: #fff;
@@ -53,8 +56,8 @@
 
         .sur_ix_serBox .item {
 {#                background: url('/static/images/index_arrow.png') no-repeat;#}
-                background: #b1d979;
-                height: 55px;
+                background: #ffffff;
+                height: 65px;
                 width:200px;
                 margin: 0;!important
             }
@@ -66,7 +69,7 @@
 {#                font-size: 12px;#}
 {#            }#}
             .icon_index{
-                margin-top: 18px;
+                margin-top: 28px;
                 margin-left: 30px;
                 width:15px;
 {#                border: 1px solid blue#}
@@ -79,14 +82,14 @@
                 font-size: 15px;!important
             }
             .sur_ix_serBox .item:hover {
-                background: #ffffff; !important
+                background: #bad804; !important
             }
             .sur_ix_serBox .item:hover .title {
                  color: #726464;!important
             }
-            .out{
-                border: 1px solid #ffffff;
-            }
+{#            .out{#}
+{#                border: 1px solid #ffffff;#}
+{#            }#}
             .container {
                 width: 1003px !important;
              }
@@ -236,6 +239,7 @@
 
         <div class="btn-group" style="margin-left:10px">
             <span type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown"style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">
+{#            <span type="button" class="mainNav_item btn btn-default dropdown-toggle" style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">#}
                 {% if change_community == 1 %}
                     {{ community.title }}
                 {% elif change_community == 2 %}
@@ -245,19 +249,20 @@
                 {% endif %}
                     <img src="/static/images/triangle.png"  />
             </span>
-            <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                {% for community in communities %}
-                    <li id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a>
-                    </li>
-                {% endfor %}
+                <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    {% for community in communities %}
+                        <li id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
 
-            </ul>
+
         </div>
         <a href="/index/" class="mainNav_item" title="小区首页">
             <span class="txt">小区首页</span>
         </a>
 
-        <a href="#" class="mainNav_item" title="物业服务">
+        <a href="/property/" class="mainNav_item" title="物业服务">
             <span class="txt">物业服务</span>
         </a>
 
@@ -287,13 +292,13 @@
 </div>
 <!-- 主导航栏 end -->
 <div class="container" id="page">
-    <div style="width: 1210px">
+    <div style="width: 1210px;">
         <!-- 主要内容区域 start -->
 
         <div class="el_blank_h20"></div>
 
 
-                    <div class="el_w_203 fn_left" style="border: 1px solid #dcdcdc;height: 391px" >
+               <div class="el_w_203 fn_left" style="border: 1px solid #dcdcdc;height: 592px;background-color: #ffffff" >
                 <!-- 服务列表 start -->
                 <div class="sur_ix_serBox">
                     <!-- 元素 start -->

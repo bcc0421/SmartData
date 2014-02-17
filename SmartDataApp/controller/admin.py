@@ -225,8 +225,10 @@ def api_user_login(request):
             profile = ProfileDetail.objects.get(profile=user)
             user_profile = list()
             data = {
+                'username': user.username,
                 'id': user.id,
                 'community_id': profile.community.id,
+                'community_name': profile.community.title,
                 'phone_num': profile.phone_number,
                 'email': user.email,
                 'floor': profile.floor,

@@ -57,6 +57,7 @@ class Complaints(models.Model):
     is_read = models.BooleanField(default=False)
     is_worker_read = models.BooleanField(default=False)
     is_admin_read = models.BooleanField(default=False)
+    author_detail = models.ForeignKey(ProfileDetail, null=True)
 
     def __str__(self):
         return self.content
@@ -78,6 +79,7 @@ class Repair(models.Model):
     is_read = models.BooleanField(default=False)
     is_worker_read = models.BooleanField(default=False)
     is_admin_read = models.BooleanField(default=False)
+    author_detail = models.ForeignKey(ProfileDetail, null=True)
 
     def __str__(self):
         return self.content

@@ -35,7 +35,17 @@ def house_pay_fees(request):
 @transaction.atomic
 @csrf_exempt
 @login_required(login_url='/login/')
-def property_service(request):
+def property_user_fee_list(request):
     communities = Community.objects.all()
     profile = ProfileDetail.objects.get(profile=request.user)
-    return render_to_response('property_service.html',{'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
+    return render_to_response('user_fee_list.html',{'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
+
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def property_user_pay_online(request):
+    communities = Community.objects.all()
+    profile = ProfileDetail.objects.get(profile=request.user)
+    return render_to_response('property_user_pay_online.html',{'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})

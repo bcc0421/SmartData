@@ -1036,20 +1036,24 @@ a.crumbBox_item:hover {text-decoration:underline;}
  * content	: 用户管理主导航
  */
 
-.umMainNav {background:#894d8d;height:120px;}
+.umMainNav {background:#0c93d7;height:120px;}
 .umMainNav .logoLink {display:block;float:left;font-size:0;margin:32px 0 0 40px;}
-.umMainNav .logoImg {width:176px;height:57px;background:url(../images/pic_elements.png) no-repeat 0 -892px;}
+.umMainNav .logoImg {width:176px;height:57px;background:url(../images/profile_logo.png) no-repeat ;}
 .umMainNav_main {float:left;margin-left:92px;}
 .umMainNav .item {display:block;float:left;margin-top:15px;margin-right:50px; text-align:center;}
 .umMainNav .item .box {height:60px;display:block;text-align:center;}
-.umMainNav .item_setting .icon {width:52px;height:52px;background:url(../images/pic_elements.png) no-repeat 0 -2688px;}
+/*.umMainNav .item_setting .icon {width:52px;height:52px;background:url(../images/pic_elements.png) no-repeat 0 -2688px;}*/
+.umMainNav .item_setting .icon {width:52px;height:52px;background:url(../images/profile_portrait2.png) no-repeat;}
 .umMainNav .item_setting .box {padding-top:4px;height:56px;}
-.umMainNav .item_family .icon {width:80px;height:43px;background:url(../images/pic_elements.png) no-repeat 0 -2740px;}
+/*.umMainNav .item_family .icon {width:80px;height:43px;background:url(../images/neighbour.png) no-repeat 0 -2740px;}*/
+.umMainNav .item_family .icon {width:80px;height:43px;background:url(../images/neighbour.png) no-repeat;}
 .umMainNav .item_family .box {padding-top:8px;height:52px;}
-.umMainNav .item_back .icon {width:56px;height:42px;background:url(../images/pic_elements.png) no-repeat -78px -2739px;}
+/*.umMainNav .item_back .icon {width:56px;height:42px;background:url(../images/pic_elements.png) no-repeat -78px -2739px;}*/
+.umMainNav .item_back .icon {width:56px;height:42px;background:url(../images/back.png) no-repeat ;}
 .umMainNav .item_back .box {padding-top:8px;height:52px;}
 .umMainNav .item .title {display:block;font-size:18px;color:#fff;}
-.umMainNav .sepLine {width:1px;height:120px;float:left;display:block;background:url(../images/pic_elements.png) no-repeat 0 -2801px;font-size:0;margin-right:50px;}
+/*.umMainNav .sepLine {width:1px;height:120px;float:left;display:block;background:url(../images/pic_elements.png) no-repeat 0 -2801px;font-size:0;margin-right:50px;}*/
+.umMainNav .sepLine {width:1px;height:120px;float:left;display:block;font-size:0;margin-right:50px;}
 
 
 /*

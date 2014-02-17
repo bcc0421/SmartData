@@ -1,5 +1,5 @@
 {% extends "basecloud.html" %}
-{% block title %}家政管理{% endblock %}
+{% block title %}家政项目管理{% endblock %}
 {% block css %}
     <style>
         .help-inline {
@@ -44,14 +44,6 @@
             margin-top: -20px;
         }
 
-        tr:first-child {
-            background-color: #A674B0;
-        }
-
-        tr:hover {
-            background-color: #A674B0;
-        }
-
         .prev {
             margin-left: 200px !important;
         }
@@ -79,7 +71,8 @@
         }
 
         .container {
-            width: 1260px !important;
+            width: 1126px !important;
+{#            border: 1px solid red;#}
         }
 
     </style>
@@ -136,64 +129,74 @@
                     </div>
                     <!-- 分页 end -->
                 {% endif %}
+
+                <div style="margin-top:-24px;margin-left:195px;width: 180px;">
+
+                         <div >
+                            <input type="checkbox" onclick="check_all(this)">
+                            <span>全选</span>
+                            <button class='btn'
+                                                  onclick="delete_housekeeping_item()"
+                                                  style=" background: url('/static/images/delete.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                                                  width: 53px;height: 28px;">
+                            </button>
+                            <button class='btn'data-toggle="modal"
+                                                 onclick="add_item()"
+                                                  style=" background: url('/static/images/add_item.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                                                  width: 53px;height: 28px;">
+                             </button>
+
+                        </div>
+                        <div class="modal fade" id="add_housekeeping_item" tabindex="-1"
+                             role="dialog" aria-labelledby="myModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content" >
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="refresh()">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">
+                                            项目记录管理</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div style="margin-top:10px "><span>项目</span>：<input type="text" name="input_item" id="item_input" ></div>
+                                        <div style="margin-top:10px "><span>费用</span>：<input type="text" name="input_price" id="price_input"></div>
+                                        <div style="margin-top: 10px">
+                                            <span class="txt txt_1">内容：</span>
+                                            <textarea name="content"  style=" margin:10px 0 10px 0;width: 500px;"id="content_area"></textarea>
+                                        </div>
+                                         <div>
+                                            <span class="txt txt_1">备注：</span>
+                                            <textarea name="remarks"  style=" margin:10px 0 20px 0;width: 500px;"></textarea>
+
+                                        </div>
+                                        <div style="margin-top:10px " >
+                                            <button class="btn btn-primary modify"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="modify_housekeeping_item(this)">
+                                                <span>修改</span>
+                                            </button>
+                                            <button class="btn btn-primary add_item"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="add_housekeeping_item()">
+                                                <span>增加</span>
+                                            </button>
+
+                                        </div>
+                                        <div id="add_result" class="alert alert-warning" style="margin-top:50px ;display: none">
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                 </div>
+
+
+
+
             </div>
             <!-- 中部 end -->
             <!-- 右侧 start -->
             <div class="el_w_237 fn_right" style="width:172px">
-                <div style="margin-top:0px;">
-                    <button class="btn btn-primary" data-toggle="modal"style="border-radius: 0px 0px 0px 0px;" onclick="add_item()">
-                        增加
-                    </button>
-                </div>
-                 <div style="margin-top:5px;">
-                    <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="delete_housekeeping_item()">
-                        删除
-                    </button>
-                </div>
-                <div class="modal fade" id="add_housekeeping_item" tabindex="-1"
-                     role="dialog" aria-labelledby="myModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content" >
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="refresh()">&times;</button>
-                                <h4 class="modal-title" id="myModalLabel">
-                                    项目记录管理</h4>
-                            </div>
-                            <div class="modal-body">
-
-                                <div style="margin-top:10px "><span>项目</span>：<input type="text" name="input_item" id="item_input" ></div>
-                                <div style="margin-top:10px "><span>费用</span>：<input type="text" name="input_price" id="price_input"></div>
-                                <div style="margin-top: 10px">
-                                    <span class="txt txt_1">内容：</span>
-                                    <textarea name="content"  style=" margin:10px 0 10px 0;width: 500px;"id="content_area"></textarea>
-                                </div>
-                                 <div>
-                                    <span class="txt txt_1">备注：</span>
-                                    <textarea name="remarks"  style=" margin:10px 0 20px 0;width: 500px;"></textarea>
-
-                                </div>
-                                <div style="margin-top:10px " >
-                                    <button class="btn btn-primary modify"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="modify_housekeeping_item(this)">
-                                        <span>修改</span>
-                                    </button>
-                                    <button class="btn btn-primary add_item"style="border-radius: 0px 0px 0px 0px;height:30px;float: right" onclick="add_housekeeping_item()">
-                                        <span>增加</span>
-                                    </button>
-
-                                </div>
-                                <div id="add_result" class="alert alert-warning" style="margin-top:50px ;display: none">
-
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-{#                                <button type="button" class="btn btn-default"  onclick="refresh()">#}
-{#                                    关闭#}
-{#                                </button>#}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- 右侧 end -->
             <div class="el_blank_h10 fn_clear"></div>

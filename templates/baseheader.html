@@ -195,7 +195,12 @@
 <!-- 主导航栏 start -->
 <div class="mainNav">
     <div class="mainNav_box el_container">
-
+{#    {% if change_community == 2 %}#}
+{#            <span type="button" id='change_name' class="mainNav_item btn btn-default "style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">#}
+{#                {{ profile.community.title }}#}
+{#            </span>#}
+{#     {% else %}#}
+{#         #}
         <div class="btn-group" style="margin-left:10px">
             <span type="button" id='change_name' class="mainNav_item btn btn-default dropdown-toggle"style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff"
                     data-toggle="dropdown">
@@ -215,6 +220,9 @@
                 {% endfor %}
             </ul>
         </div>
+{#     {% endif %}#}
+
+
         <a href="/index/" class="mainNav_item" title="小区首页">
             <span class="txt">小区首页</span>
         </a>
