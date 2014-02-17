@@ -6,7 +6,8 @@
     <title>{% block title %}{% endblock %}</title>
     <meta name="keywords" content="亨通,物业,管理,平台">
     <meta name="description" content="亨通,物业,管理,平台">
-    <link rel="stylesheet" type="text/css" href="http://cc.colourlife.com/assets/116046f6/jui/css/base/jquery-ui.css"/>
+{#    <link rel="stylesheet" type="text/css" href="http://cc.colourlife.com/assets/116046f6/jui/css/base/jquery-ui.css"/>#}
+    <link href="/static/css/jquery-ui-1.7.2.custom.css" rel="stylesheet">
     <link href="/static/css/page.css" rel="stylesheet">
     <link href="/static/css/common.css" rel="stylesheet">
     <link href="/static/css/base.css" rel="stylesheet">
@@ -18,6 +19,12 @@
     <link href="/static/css/bootstrap.css" rel="stylesheet">
     <link href="/static/css/shop.css" rel="stylesheet">
     <link href="/static/css/userCenter.css" rel="stylesheet">
+    <style>
+        .umMainNav .logoImg {
+             height: 116px;
+             width: 219px;!important
+        }
+    </style>
     {% block css %}
     {% endblock %}
 </head>
@@ -26,10 +33,9 @@
 <!-- 用户管理头部 start -->
 <div class="umMainNav">
     <div class="el_container">
-        <a href="/index/" class="logoLink">
-            <img src="http://cc.colourlife.com/common/images/pic_blank.gif" class="logoImg">
-        </a>
-
+            <a href="/index/" class="logoLink">
+                <img src="http://cc.colourlife.com/common/images/pic_blank.gif" class="logoImg" style="margin-top: -30px;margin-left: -66px">
+            </a>
         <div class="umMainNav_main">
             <a class="item_setting item" href="/own_information/" title="个人中心">
                         <span class="box">
@@ -287,6 +293,11 @@
 <script src="/static/js/bootstrap.js"></script>
 <script src="/static/js/colourlife.form.js"></script>
 <script src="/static/js/colourlife.shop.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
+<script src="/static/js/timepicker.js"></script>
+<script>
+
+</script>
 {% block script %}
 {% endblock %}
 </body>

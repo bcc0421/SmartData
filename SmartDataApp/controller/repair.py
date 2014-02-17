@@ -39,10 +39,23 @@ def repair(request):
     else:
         status = 1
     communities = Community.objects.all()
+    deal_status = request.GET.get("deal_status", None)
+    deal_person_list = ProfileDetail.objects.filter(is_admin=True,community=one_community)
     if request.user.is_staff:
-        repairs = Repair.objects.filter(community=one_community).order_by('-timestamp')
+        if deal_status == u'1':
+            repairs = Repair.objects.filter(community=one_community, status=1).order_by('-timestamp')
+            btn_status = 1
+        elif deal_status == u'2':
+            repairs = Repair.objects.filter(community=one_community, status=2).order_by('-timestamp')
+            btn_status = 2
+        elif deal_status == u'3':
+            repairs = Repair.objects.filter(community=one_community, status=3).order_by('-timestamp')
+            btn_status = 3
+        else:
+            repairs = Repair.objects.filter(community=one_community, status=1).order_by('-timestamp')
+            btn_status = 1
         if len(repairs) > 0:
-            paginator = Paginator(repairs, 2)
+            paginator = Paginator(repairs, 4)
             page = request.GET.get('page')
             try:
                 repairs_list = paginator.page(page)
@@ -50,11 +63,10 @@ def repair(request):
                 repairs_list = paginator.page(1)
             except EmptyPage:
                 repairs_list = paginator.page(paginator.num_pages)
-        deal_person_list = ProfileDetail.objects.filter(is_admin=True,community=one_community)
-        if len(repairs) > 0:
             return render_to_response('admin_repair.html', {
                 'repairs': repairs_list,
                 'show': True,
+                'btn_style': btn_status,
                 'community': one_community,
                 'change_community': status,
                 'communities': communities,
@@ -220,7 +232,12 @@ def complete_repair(request):
 @csrf_exempt
 @login_required
 def own_repair(request):
-    repairs = Repair.objects.filter(author=request.user.username).order_by('-timestamp')
+    start_time = request.POST.get('start_time', None)
+    end_time = request.POST.get('end_time', None)
+    if start_time and end_time:
+        repairs = Repair.objects.filter(author=request.user.username, timestamp__range=[start_time, end_time])
+    else:
+        repairs = Repair.objects.filter(author=request.user.username).order_by('-timestamp')
     profile = ProfileDetail.objects.get(profile=request.user)
     communities = Community.objects.all()
     if len(repairs) > 0:
@@ -264,6 +281,20 @@ def repair_response(request):
         else:
             return render_to_response('own_repair.html', {'show': True, 'user': request.user, 'profile': profile})
 
+@transaction.atomic
+@csrf_exempt
+def repair_delete(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        repair_array = request.POST.get("selected_repair_string", None)
+        if repair_array:
+            list_repair = str(repair_array).split(",")
+            for i in range(len(list_repair)):
+                com_id = int(list_repair[i])
+                Repair.objects.get(id=com_id).delete()
+            response_data = {'success': True, 'info': '删除成功'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 @transaction.atomic
 @csrf_exempt

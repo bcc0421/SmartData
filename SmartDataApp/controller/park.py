@@ -27,4 +27,10 @@ def parking_fees(request):
     else:
         status = 1
     communities = Community.objects.all()
-    return render_to_response('park_fees.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+    if request.user.is_staff:
+        return render_to_response('admin_park.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+    else:
+        return render_to_response('park_fees.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+
+
+

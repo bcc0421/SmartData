@@ -1,7 +1,7 @@
 #coding:utf-8
 import re
 import logging
-
+import datetime
 from captcha.helpers import captcha_image_url
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,21 @@ from django.contrib.sessions.models import Session
 
 from SmartDataApp.forms import UserForm
 from SmartDataApp.models import Picture, ProfileDetail, Community, Complaints, Housekeeping, Express, Repair
+
+
+class UTC(datetime.tzinfo):
+    def __init__(self,offset = 0):
+        self._offset = offset
+
+    def utcoffset(self, dt):
+        return datetime.timedelta(hours=self._offset)
+
+    def tzname(self, dt):
+        return "UTC +%s" % self._offset
+
+    def dst(self, dt):
+        return datetime.timedelta(hours=self._offset)
+
 
 
 def random_captcha():
@@ -425,6 +440,7 @@ def get_new_dynamic_data(request):
 
 
 def get_house_data(house_keep_list, housekeeping_detail):
+    local = housekeeping_detail.time.astimezone(UTC(8))
     data = {
         'id': housekeeping_detail.id,
         'housekeeping_author': str(housekeeping_detail.author.profile),
@@ -435,12 +451,13 @@ def get_house_data(house_keep_list, housekeeping_detail):
         'remarks': housekeeping_detail.housekeeping_item.remarks,
         'pleased': housekeeping_detail.pleased,
         'handler': str(housekeeping_detail.handler),
-        'time': str(housekeeping_detail.time)
+        'time': str(local).split('.')[0]
     }
     house_keep_list.append(data)
 
 
 def get_compalin_data(complain_detail, complain_list):
+    local = complain_detail.timestamp.astimezone(UTC(8))
     data = {
         'id': complain_detail.id,
         'complain_author': complain_detail.author,
@@ -449,13 +466,14 @@ def get_compalin_data(complain_detail, complain_list):
         'deal_status': complain_detail.status,
         'pleased': complain_detail.pleased,
         'src': complain_detail.src.name,
-        'time': str(complain_detail.timestamp),
+        'time': str(local).split('.')[0],
         'handler': str(complain_detail.handler)
     }
     complain_list.append(data)
 
 
 def get_repair_data(repair_detail, repair_list):
+    local = repair_detail.timestamp.astimezone(UTC(8))
     data = {
         'id': repair_detail.id,
         'repair_author': repair_detail.author,
@@ -464,21 +482,23 @@ def get_repair_data(repair_detail, repair_list):
         'deal_status': repair_detail.status,
         'pleased': repair_detail.pleased,
         'src': repair_detail.src.name,
-        'time': str(repair_detail.timestamp),
+        'time': str(local).split('.')[0],
         'handler': str(repair_detail.handler)
     }
     repair_list.append(data)
 
 
 def get_express_data(express_detail, express_list):
+    local_arrive = express_detail.arrive_time.astimezone(UTC(8))
+    local_get = express_detail.get_time.astimezone(UTC(8))
     data = {
         'id': express_detail.id,
         'express_author': express_detail.author.profile.username,
         'get_express_type': express_detail.type,
         'deal_status': express_detail.status,
         'pleased': express_detail.pleased,
-        'arrive_time': str(express_detail.arrive_time),
-        'get_time': str(express_detail.get_time)
+        'arrive_time': str(local_arrive).split('.')[0],
+        'get_time': str(local_get).split('.')[0]
     }
     express_list.append(data)
 

@@ -13,6 +13,7 @@ from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail, Community, Express
 
 
+
 @csrf_exempt
 @login_required(login_url='/login/')
 def express(request):
@@ -20,16 +21,33 @@ def express(request):
     community_id = request.session.get('community_id', profile.community.id)
     one_community = Community.objects.get(id=community_id)
     communities = Community.objects.all()
+    express_get_type = request.GET.get(u'type', None)
     status = None
     if community_id == profile.community.id:
         status = 2
     else:
         status = 1
     if request.user.is_staff or profile.is_admin:
-        expresses = Express.objects.filter(community=one_community).order_by('-arrive_time')
-        if communities and express:
+        obtained_expresses = Express.objects.filter(community=one_community, status=True).order_by('-arrive_time')
+        not_obtained_expresses = Express.objects.filter(community=one_community, status=False).order_by('-arrive_time')
+        expresses = None
+        if express_get_type == 'obtained':
+            expresses = obtained_expresses
+            btn_style = 1
+        elif express_get_type == 'not_obtained':
+            expresses = not_obtained_expresses
+            btn_style = 2
+        else:
+            expresses = obtained_expresses
+            btn_style = 1
+        if communities:
             return render_to_response('admin_express.html',
-                                      {'user': request.user, 'communities': communities, 'expresses': expresses, 'is_admin': True, 'community': one_community,'profile': profile,'change_community': status})
+                                      {'user': request.user,
+                                       'communities': communities,
+                                       'expresses': expresses,
+                                       'btn_style': btn_style,
+                                       'is_admin': True, 'community': one_community,
+                                       'profile': profile,'change_community': status})
         else:
             return render_to_response('admin_express.html', {
                 'show': False,
@@ -81,9 +99,9 @@ def add_user_express(request):
         building_num = request.POST.get(u'building_num', None)
         room_num = request.POST.get(u'room_num', None)
         community = Community.objects.get(id=community_id)
-        profile = ProfileDetail.objects.filter(community=community, floor=building_num, gate_card=room_num)[0]
+        profile = ProfileDetail.objects.filter(community=community, floor=building_num, gate_card=room_num)
         if profile:
-            express = Express(author=profile)
+            express = Express(author=profile[0])
             express.handler = request.user
             express.arrive_time = datetime.datetime.now()
             express.is_read = True
@@ -92,7 +110,7 @@ def add_user_express(request):
             response_data = {'success': True, 'info': '添加成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
-            response_data = {'success': False, 'info': '添加失败！'}
+            response_data = {'success': False, 'info': '没有此用户！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 

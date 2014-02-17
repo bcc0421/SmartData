@@ -1,0 +1,99 @@
+{% extends "basecloud.html" %}
+{% block title %}报修管理{% endblock %}
+{% block css %}
+    <style>
+        .help-inline {
+            display: block;
+            margin-left: 70px;
+            padding-top: 10px;
+        }
+
+        .error {
+            color: #f00;
+        }
+
+        input.error {
+            border-color: #f00;
+        }
+
+        .repair1, span, button {
+            font-size: 15px;
+
+        }
+
+        tr:first-child {
+            background-color: #f3f3f3;;
+        }
+
+
+        .prev {
+            margin-left: 200px !important;
+        }
+
+        .next {
+            margin-left: 20px !important;
+        }
+
+        .dataTables_wrapper {
+            padding-left: 0px !important;
+        }
+
+        .dataTables_paginate {
+            float: right;
+            margin-top: -20px;
+        }
+
+        .dataTables_paginate li {
+            float: left
+        }
+
+        .dataTables_filter {
+            float: right;
+            margin-top: -25px
+        }
+
+        .container {
+{#            border: 1px solid red;#}
+            width: 1171px !important;
+        }
+        .repair_header{
+            margin-top: -10px;
+            padding-top: 6px;
+            height:32px;
+            border-bottom: 1px solid #808080;
+            background-color: #f3f3f3;
+
+        }
+        .repair_header li{
+            padding-left: 116px;
+            float: left;
+        }
+
+        .vessel .vessel_titBox {
+            background: url("") repeat-x scroll 0 -226px rgba(0, 0, 0, 0);
+            border-bottom: 1px solid #00a1e9;
+            height: 40px;
+            line-height: 40px;!important
+    }
+        .vessel{
+            border: 0px ;
+        }
+
+        .repair_right_container{
+
+        }
+        .repair_right_container li{
+            float:left;
+            text-align: center;
+            padding-top: 8px;
+            height: 80px;
+{#            border: 1px solid red;#}
+        }
+      .border_style{
+{#          border-left:2px solid #eeeeee#}
+      }
+    </style>
+
+{% endblock %}
+{% block right_container %}
+{% endblock %}

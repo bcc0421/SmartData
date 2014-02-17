@@ -49,14 +49,6 @@
             margin-top: -20px;
         }
 
-        tr:first-child {
-            background-color: #A674B0;
-        }
-
-        tr:hover {
-            background-color: #A674B0;
-        }
-
         .prev {
             margin-left: 200px !important;
         }
@@ -84,7 +76,8 @@
         }
 
         .container {
-            width: 1260px !important;
+            width: 1133px !important;
+{#            border:1px solid red#}
         }
 
     </style>
@@ -142,66 +135,74 @@
             </div>
             <!-- 分页 end -->
         {% endif %}
-    </div>
-    <!-- 中部 end -->
-    <!-- 右侧 start -->
-    <div class="el_w_237 fn_right" style="width:172px">
-        <div style="margin-top:0px;">
-            <button class="btn btn-primary" data-toggle="modal" style="border-radius: 0px 0px 0px 0px;" onclick="add()">
-                增加
-            </button>
-        </div>
-        <div style="margin-top:5px;">
-            <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" onclick="delete_repair_item()">
-                删除
-            </button>
-        </div>
-        <div class="modal fade" id="add_repair_item" tabindex="-1"
-             role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                                aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">
-                            项目记录管理</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div id="repair_select_div" style="margin-left:-2px ">
-                            <span>选择类别：</span>
-                            <select id="repair_item_select">
-                                <option value="个人报修">个人报修</option>
-                                <option value="公共报修">公共报修</option>
-                            </select>
-                        </div>
-                        <div style="margin-top:10px "><span>输入项目</span>：<input type="text" name="input_item"></div>
-                        <div style="margin-top:10px "><span>输入价格</span>：<input type="text" name="input_price">&nbsp;元
-                        </div>
-                        <div style="margin-top:10px ">
-                            <button class="btn btn-primary modify"
-                                    style="border-radius: 0px 0px 0px 0px;height:30px;float: right"
-                                    onclick="modify_repair_item(this)">
-                                <span>修改</span>
-                            </button>
-                            <button class="btn btn-primary add_item"
-                                    style="border-radius: 0px 0px 0px 0px;height:30px;float: right"
-                                    onclick="add_repair_item()">
-                                <span>增加</span>
-                            </button>
-                        </div>
-                        <div id="add_result" class="alert alert-warning" style="margin-top:50px ;display: none">
+        <div style="margin-top:-24px;margin-left:195px;width: 180px;">
+            <div >
+                <input type="checkbox" onclick="check_all(this)">
+                <span>全选</span>
+                <button class='btn'
+                                      onclick="delete_repair_item()(this)"
+                                      style=" background: url('/static/images/delete.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                                      width: 53px;height: 28px;">
+                </button>
+                <button class='btn'data-toggle="modal"
+                                      onclick="add()"
+                                      style=" background: url('/static/images/add_item.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                                      width: 53px;height: 28px;">
+                 </button>
 
+            </div>
+            <div class="modal fade" id="add_repair_item" tabindex="-1"
+                 role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                项目记录管理</h4>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            关闭
-                        </button>
+                        <div class="modal-body">
+                            <div id="repair_select_div" style="margin-left:-2px ">
+                                <span>选择类别：</span>
+                                <select id="repair_item_select">
+                                    <option value="个人报修">个人报修</option>
+                                    <option value="公共报修">公共报修</option>
+                                </select>
+                            </div>
+                            <div style="margin-top:10px "><span>输入项目</span>：<input type="text" name="input_item"></div>
+                            <div style="margin-top:10px "><span>输入价格</span>：<input type="text" name="input_price">&nbsp;元
+                            </div>
+                            <div style="margin-top:10px ">
+                                <button class="btn btn-primary modify"
+                                        style="border-radius: 0px 0px 0px 0px;height:30px;float: right"
+                                        onclick="modify_repair_item(this)">
+                                    <span>修改</span>
+                                </button>
+                                <button class="btn btn-primary add_item"
+                                        style="border-radius: 0px 0px 0px 0px;height:30px;float: right"
+                                        onclick="add_repair_item()">
+                                    <span>增加</span>
+                                </button>
+                            </div>
+                            <div id="add_result" class="alert alert-warning" style="margin-top:50px ;display: none">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                关闭
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <!-- 中部 end -->
+    <!-- 右侧 start -->
+    <div class="el_w_237 fn_right" style="width:172px">
+
     </div>
     <!-- 右侧 end -->
     <div class="el_blank_h10 fn_clear"></div>
@@ -209,6 +210,12 @@
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
+    function check_all(obj) {
+        var check_box = document.getElementsByName('chk');
+        for (var i = 0; i < check_box.length; i++) {
+            check_box[i].checked = obj.checked;
+        }
+    }
     function add_repair_item() {
         var item_type = $("#repair_item_select").val();
         var item_name = $('input[name="input_item"]').val();
@@ -249,7 +256,6 @@
         $('#add_repair_item').modal('show');
     }
 
-
     function modify_repair_item(obj) {
         var modify_item_id = $('.modify').attr('name');
         var item_type = $("#repair_item_select").val();
@@ -280,7 +286,6 @@
         }
 
     }
-
 
     function delete_repair_item() {
         var checked_array = new Array();
@@ -405,7 +410,7 @@
     $(document).ready(function () {
         $('#add_repair_item').on('hidden.bs.modal', function (e) {
             window.location.reload();
-            })
+        })
         $('#repair_item_table').dataTable({
             "oLanguage": {
                 "sLengthMenu": "显示 _MENU_每页显示记录",
