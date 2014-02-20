@@ -113,11 +113,11 @@
             <div style="width: 944px;overflow: auto;border-top: 0px;margin-left: 5px;float: left;background-color: #ffffff">
                   <div class="vessel vessel_s1" style="margin-bottom: 10px">
                         <div class="vessel_titBox">
-                             <a href="/complain/?deal_status=1"
-                                class="btn_type btn {% if btn_style == 1 %}btn-primary{% endif %} "
-                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">
-                               未处理
-                             </a>
+{#                             <a href="/complain/?deal_status=1"#}
+{#                                class="btn_type btn {% if btn_style == 1 %}btn-primary{% endif %} "#}
+{#                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">#}
+{#                               未处理#}
+{#                             </a>#}
                             <a href="/complain/?deal_status=2"
                                class="btn_type btn {% if btn_style == 2 %}btn-primary{% endif %} "
                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
@@ -170,13 +170,6 @@
                                             <li style="width:92px;margin-left: 18px ">{{ one_complain.type }}</li>
                                             <li style="width:215px;margin-left: 0px ">{{ one_complain.content|truncatewords:"30" }}</li>
                                             <li  style="width:77px;margin-left: 0px"class="border_style">
-                                                {% ifequal one_complain.status 1 %}
-                                                    <select id="handler_complain_{{one_complain.id }}">
-                                                    {% for deal_person in deal_person_list %}
-                                                        <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
-                                                    {% endfor %}
-                                                 </select>
-                                                {% endifequal %}
                                                 {% ifequal one_complain.status 2 %}
                                                     <span style="color: deepskyblue">{{one_complain.handler.username  }}</span>
                                                 {% endifequal %}
@@ -193,44 +186,35 @@
                                                 {% endif %}
                                             </li>
                                             <li style="width:92px;margin-left: 11px"class="border_style">
-                                                {% if one_complain.pleased ==  1 %}
+                                                {% ifequal one_complain.pleased  1 %}
                                                     <span>满意</span>
-                                                {% elif one_complain.pleased == 2 %}
+                                                {% endifequal %}
+                                                {% ifequal one_complain.pleased  2 %}
                                                     <span>一般</span>
-                                                {% elif one_complain.pleased == 3 %}
+                                                {% endifequal %}
+                                                {% ifequal one_complain.pleased  3 %}
                                                     <span>差</span>
                                                 {% else %}
                                                     <span>暂无</span>
-                                                {% endif%}
+                                                {% endifequal %}
+
                                             </li>
-                                            <li style="width:120px;margin-left: 11px"class="border_style">
+                                            <li style="width:120px;margin-left: 11px;"class="border_style">
                                                 <a href="/show/image_detail/{{ one_complain.id }}/?type=complain"target="_blank">
                                                  查看详情
                                                 </a>
-                                                {% ifequal one_complain.status 1 %}
-                                                    <button class='btn'
-                                                      name={{ one_complain.id  }}
-                                                      onclick="deal_complain_single(this)"
-                                                      id="deal_complain_single_{{ one_complain.id  }}"
-                                                      style=" background: url('/static/images/deal_complain.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                                                      width: 67px;height: 26px;
-                                                      margin-left: 22px;
-                                                      margin-top: 5px">
-                                                    </button>
-                                                {% endifequal %}
-                                                {% ifequal one_complain.status 2 %}
-                                                {% endifequal %}
-                                                {% ifequal one_complain.status 3 %}
-                                                      <button class='btn'
-                                                      name={{ one_complain.id  }}
-                                                      onclick="delete_complain_single(this)"
-                                                      id="delete_complain_single_{{ one_complain.id  }}"
-                                                      style=" background: url('/static/images/delete.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                                                      width: 67px;height: 28px;
-                                                      margin-left: 22px;
-                                                      margin-top: 5px">
-                                                    </button>
-                                                {% endifequal %}
+{#                                                {% ifequal one_complain.status 3 %}#}
+{##}
+{#                                                      <button class='btn'#}
+{#                                                      name={{ one_complain.id  }}#}
+{#                                                      onclick="delete_complain_single(this)"#}
+{#                                                      id="delete_complain_single_{{ one_complain.id  }}"#}
+{#                                                      style=" background: url('/static/images/delete.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);#}
+{#                                                      width: 67px;height: 28px;#}
+{#                                                      margin-left: 22px;#}
+{#                                                      margin-top: 5px">#}
+{#                                                    </button>#}
+{#                                                {% endifequal %}#}
 
                                             </li>
 
@@ -256,13 +240,6 @@
                                             <li style="width:92px;margin-left: 40px ">{{ one_complain.type }}</li>
                                             <li style="width:230px;margin-left: 16px ">{{ one_complain.content|truncatewords:"30" }}</li>
                                             <li  style="width:110px;margin-left: 13px"class="border_style">
-                                                {% ifequal one_complain.status 1 %}
-                                                    <select id="handler_complain_{{one_complain.id }}">
-                                                    {% for deal_person in deal_person_list %}
-                                                        <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
-                                                    {% endfor %}
-                                                 </select>
-                                                {% endifequal %}
                                                 {% ifequal one_complain.status 2 %}
                                                     <span style="color: deepskyblue">{{one_complain.handler.username  }}</span>
                                                 {% endifequal %}
@@ -282,26 +259,13 @@
                                                 <a href="/show/image_detail/{{ one_complain.id }}/?type=complain"target="_blank">
                                                  查看详情
                                                 </a>
-                                                {% ifequal one_complain.status 1 %}
+                                                {% ifequal one_complain.status 2 %}
                                                     <button class='btn'
                                                       name={{ one_complain.id  }}
-                                                      onclick="deal_complain_single(this)"
-                                                      id="deal_complain_single_{{ one_complain.id  }}"
-                                                      style=" background: url('/static/images/deal_complain.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                                                      onclick="complete_complain_single(this)"
+                                                      id="complete_complain_single_{{ one_complain.id  }}"
+                                                      style=" background: url('/static/images/complete_complain.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
                                                       width: 67px;height: 26px;
-                                                      margin-left: 22px;
-                                                      margin-top: 5px">
-                                                    </button>
-                                                {% endifequal %}
-                                                {% ifequal one_complain.status 2 %}
-                                                {% endifequal %}
-                                                {% ifequal one_complain.status 3 %}
-                                                      <button class='btn'
-                                                      name={{ one_complain.id  }}
-                                                      onclick="delete_complain_single(this)"
-                                                      id="delete_complain_single_{{ one_complain.id  }}"
-                                                      style=" background: url('/static/images/delete.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                                                      width: 67px;height: 28px;
                                                       margin-left: 22px;
                                                       margin-top: 5px">
                                                     </button>
@@ -316,37 +280,37 @@
                         {% endifequal %}
 
                          <div class="paginator" style="background-color:#dcdcdc;height: 40px;margin-top: 10px;padding-top: 8px;text-align: right">
-                             <div style="float: left">
-                                        {% ifequal btn_style 1 %}
-                                            <input type="checkbox" name="chk_all"style="margin-left: 5px;margin-top: -3px" onclick="check_all(this)" >
-                                             <span>全选</span>&nbsp;&nbsp;
-                                              <span>处理人：</span>
-                                             <select id="id_handler">
-                                                        {% for deal_person in deal_person_list %}
-                                                            <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
-                                                        {% endfor %}
-                                              </select>
-                                              <button class='btn'
-                                                      id="deal_complain"
-                                                      style=" background: url('/static/images/solve.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                                                      width: 76px;height: 28px;
-                                                      margin-top: -5px">
-                                               </button>
-                                        {% endifequal %}
-                                        {% ifequal btn_style 2 %}
-                                        {% endifequal %}
-                                        {% ifequal btn_style 3 %}
-                                            <input type="checkbox" name="chk_all"style="margin-left: 5px;margin-top: -3px" onclick="check_all(this)" >
-                                            <span>全选</span>&nbsp;&nbsp;
-                                            <button class='btn'
-                                                      id="delete_complain"
-                                                      style=" background: url('/static/images/delete.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                                                      width: 76px;height: 28px;
-                                                      margin-top: -5px">
-                                            </button>
-                                        {% endifequal %}
-
-                             </div>
+{#                             <div style="float: left">#}
+{#                                        {% ifequal btn_style 1 %}#}
+{#                                            <input type="checkbox" name="chk_all"style="margin-left: 5px;margin-top: -3px" onclick="check_all(this)" >#}
+{#                                             <span>全选</span>&nbsp;&nbsp;#}
+{#                                              <span>处理人：</span>#}
+{#                                             <select id="id_handler">#}
+{#                                                        {% for deal_person in deal_person_list %}#}
+{#                                                            <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>#}
+{#                                                        {% endfor %}#}
+{#                                              </select>#}
+{#                                              <button class='btn'#}
+{#                                                      id="deal_complain"#}
+{#                                                      style=" background: url('/static/images/solve.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);#}
+{#                                                      width: 76px;height: 28px;#}
+{#                                                      margin-top: -5px">#}
+{#                                               </button>#}
+{#                                        {% endifequal %}#}
+{#                                        {% ifequal btn_style 2 %}#}
+{#                                        {% endifequal %}#}
+{#                                        {% ifequal btn_style 3 %}#}
+{#                                            <input type="checkbox" name="chk_all"style="margin-left: 5px;margin-top: -3px" onclick="check_all(this)" >#}
+{#                                            <span>全选</span>&nbsp;&nbsp;#}
+{#                                            <button class='btn'#}
+{#                                                      id="delete_complain"#}
+{#                                                      style=" background: url('/static/images/delete.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);#}
+{#                                                      width: 76px;height: 28px;#}
+{#                                                      margin-top: -5px">#}
+{#                                            </button>#}
+{#                                        {% endifequal %}#}
+{##}
+{#                             </div>#}
                             <div>
                                 <span class="step-links">
                                     {% if complains.has_previous %}
@@ -377,46 +341,20 @@
             for(var i=0;i<check_box.length;i++)
                 {check_box[i].checked = obj.checked;}
         }
-        function deal_complain_single(obj){
-            var id = $(obj).attr('name');
-            var deal_person_id = $("#handler_complain_"+id+"").val();
-            var checked_array = new Array();
-            if($(".chk_"+id+"").attr("checked")){
-                 checked_array.push(id);
-                 $.post('/deal/complain/',
-                            {
-                                'selected_complain_string': checked_array.toString(),
-                                'deal_person_id': deal_person_id
-                            },
-                            function (data) {
-                                if (data.success) {
-                                    alert(data.info);
-                                    $(".chk_"+id+"").remove();
-                                    $(obj).hide();
-                                }
-                            }
-                    )
-
-            }
-              else {
-                    alert("请选择处理数据");
-                }
-
-        }
-
-         function delete_complain_single(obj){
+        function complete_complain_single(obj){
             var id = $(obj).attr('name');
             var checked_array = new Array();
             if($(".chk_"+id+"").attr("checked")){
                  checked_array.push(id);
-                 $.post('/delete/complain/',
+                 $.post('/complete/complain/',
                             {
                                 'selected_complain_string': checked_array.toString()
                             },
                             function (data) {
                                 if (data.success) {
                                     alert(data.info);
-                                    $("#container_complain_" + id + "").remove();
+                                    $(".chk_"+id+"").remove();
+                                    $(obj).remove();
                                 }
                             }
                     )
@@ -427,6 +365,8 @@
                 }
 
         }
+
+
 
         $(function () {
             $('#decide_skip_page').click(function(){
@@ -434,121 +374,9 @@
                 var deal_status = $(this).attr('name');
                 window.location.href = "/complain/?page=" + page_num+"&deal_status="+deal_status+"";
 
-            })
-        $('#deal_complain').click(function () {
-                 var checked_array = new Array();
-
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            var handler_id =$("#handler_complain_"+id+"").val();
-                            checked_array.push(id);
-                        }
-                );
-                var deal_person_id = $('#id_handler').val();
-                if (checked_array.length > 0) {
-                    $.post('/deal/complain/',
-                            {
-                                'selected_complain_string': checked_array.toString(),
-                                'deal_person_id': deal_person_id
-                            },
-                            function (data) {
-                                if (data.success) {
-                                    alert(data.info);
-                                    $('input[type="checkbox"][name="chk"]:checked').each(
-                                            function () {
-                                                var id = $(this).attr('id');
-                                                $(".chk_"+id+"").remove();
-                                                 $("#delete_complain_single_"+id+"").remove();
-
-
-                                            }
-                                    );
-                                }
-                            }
-                    )
-                } else {
-                    alert("请选择处理数据");
-                }
+                })
             });
 
-              $('#delete_complain').click(function () {
-                 var checked_array = new Array();
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                            checked_array.push(id);
-
-                        }
-                );
-                if (checked_array.length > 0) {
-                    $.post('/delete/complain/',
-                            {
-                                'selected_complain_string': checked_array.toString()
-                            },
-                            function (data) {
-                                if (data.success) {
-                                    alert(data.info);
-                                    $('input[type="checkbox"][name="chk"]:checked').each(
-                                            function () {
-                                                var id = $(this).attr('id');
-                                                $("#container_complain_" + id + "").remove();
-                                            }
-                                    );
-                                }
-                            }
-                    )
-                } else {
-                    alert("请选择处理数据");
-                }
-            });
-
-            $('#update_complain_status').click(function () {
-                var checked_array = new Array();
-                $('input[type="checkbox"][name="chk"]:checked').each(
-                        function () {
-                            var id = $(this).attr('id');
-                           // var selected_status = $("#status_select_" + id + " option:selected").val();
-                            checked_array.push(id);
-                        }
-                );
-                var deal_person_id = $('#id_handler').val();
-                if (checked_array.length > 0) {
-                    $.post('/complete/complain/',
-                            {
-                                'selected_complain_string': checked_array.toString()
-                               // 'selected_status_string':status_checked_array.toString()
-                            },
-                            function (data) {
-                                if (data.success) {
-                                    alert(data.info);
-                                    $('input[type="checkbox"][name="chk"]:checked').each(
-                                            function () {
-                                                var id = $(this).attr('id');
-                                                $("#status_" + id + "").html("<span style='color: green' >处理完成</span>");
-                                                $("#complete_" + id + "").html("<span style='color: green'>完成</span>");
-                                            }
-                                    );
-                                }
-                            }
-                    )
-                } else {
-                    alert("请选择处理数据");
-                }
-            });
-        });
-        $(document).ready(function () {
-            $('#example').dataTable({
-                "oLanguage": {
-                    "sLengthMenu": "显示 _MENU_每页显示记录",
-                    "sZeroRecords": "对不起没有你要找的记录",
-                    "sInfo": "显示 _START_ 到 _END_ 总共 _TOTAL_ 条记录",
-                    "sInfoEmpty": "显示 0 到 0 总共 0 记录",
-                    "sInfoFiltered": "(从 _MAX_条记录中查找)",
-                    "sSearch": "搜索:"
-                }
-            });
-        });
 
     </script>
     <script src="/static/js/jquery.dataTables.min.js"></script>

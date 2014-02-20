@@ -11,12 +11,28 @@
             width: 970px; !important
     }
 
+    .top_style{
+         margin-top: 10px;
+     }
+
     </style>
 {% endblock %}
 {% block container %}
     <div class="container_inner" >
-        <img  src="/media/{{ complain.src }}"/>
-        <div><span>投诉内容：</span></div>
+        <div>
+            <span>业主信息：</span>
+            <span>{{ complain.community.title }}</span>小区，
+            <span>{{ complain.author_detail.floor }}</span>幢，
+            <span>{{ complain.author_detail.gate_card }}</span>房间，户主：
+            <span>{{ complain.author_detail.profile.username}}</span>
+        </div>
+        <div class="top_style">
+            <span>报修时间：{{complain.timestamp| date:"Y-m-d H:i:s" }}</span>
+        </div>
+        <div class="top_style">
+            <span>报修类型：{{ complain.type }}</span>
+        </div >
+        <div class="top_style"><span>投诉内容：</span></div>
         <div >
             <span style="background-color: #808080">{{ complain.content}}</span>
         </div>
@@ -30,5 +46,7 @@
                 <span style="background-color: #808080">暂无反馈内容</span>
             </div>
         {% endif %}
+        <div class="top_style"><span>图片详情：</span></div>
+         <img  src="/media/{{ complain.src }}"/>
     </div>
 {% endblock %}

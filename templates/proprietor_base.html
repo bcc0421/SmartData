@@ -20,9 +20,16 @@
     <link href="/static/css/shop.css" rel="stylesheet">
     <link href="/static/css/userCenter.css" rel="stylesheet">
     <style>
+        body{
+            background-color: #f6f6f6;!important
+        }
         .umMainNav .logoImg {
              height: 116px;
              width: 219px;!important
+        }
+        .own_message_header{
+            margin-top: -30px;
+            margin-left: -66px
         }
     </style>
     {% block css %}
@@ -34,7 +41,9 @@
 <div class="umMainNav">
     <div class="el_container">
             <a href="/index/" class="logoLink">
-                <img src="http://cc.colourlife.com/common/images/pic_blank.gif" class="logoImg" style="margin-top: -30px;margin-left: -66px">
+                <div class="logoImg own_message_header">
+                </div>
+
             </a>
         <div class="umMainNav_main">
             <a class="item_setting item" href="/own_information/" title="个人中心">
@@ -147,20 +156,20 @@
         </div>
         <!-- 左侧·容器 end -->
 
-        <!-- 右侧·容器 start -->
-        <div class="el_w_252 fn_right">
-            <!-- 客服电话 start -->
-            <div class="umPhoneBox">
-                <p class="titBox">
-                    <i class="icon"></i>
-                    <span class="title">客服电话</span>
-                </p>
-
-                <p class="numBox">8888-888-888</p>
-            </div>
-            <!-- 客服电话 end -->
-        </div>
-        <!-- 右侧·容器 end -->
+{#        <!-- 右侧·容器 start -->#}
+{#        <div class="el_w_252 fn_right">#}
+{#            <!-- 客服电话 start -->#}
+{#            <div class="umPhoneBox">#}
+{#                <p class="titBox">#}
+{#                    <i class="icon"></i>#}
+{#                    <span class="title">客服电话</span>#}
+{#                </p>#}
+{##}
+{#                <p class="numBox">8888-888-888</p>#}
+{#            </div>#}
+{#            <!-- 客服电话 end -->#}
+{#        </div>#}
+{#        <!-- 右侧·容器 end -->#}
         <div class="center_container" id="page1">
             {% block container %}
             {% endblock %}
@@ -216,30 +225,11 @@
                                            <em class="el_blank"></em>
                                     </span>
                                 </span>
-                                <span class="item">
-                                    <strong class="title">关于彩之云</strong>
-                                        <span class="box">
-                                               <a href="#"
-                                                  class="link"
-                                                  title="彩之云简介">彩之云简介</a>
-                                               <em class="el_blank"></em>
-                                              <a href="#"
-                                                 class="link"
-                                                 title="招贤纳士">招贤纳士</a>
-                                               <em class="el_blank"></em>
-                                              <a href="#"
-                                                 class="link"
-                                                 title="供应商直通车">供应商直通车</a>
-                                               <em class="el_blank"></em>
-                                              <a href="#"
-                                                 class="link"
-                                                 title="加盟商直通车">加盟商直通车</a>
-                                               <em class="el_blank"></em>
-                                         </span>
-                                    </span>
-                    
+
+
+
                     <!-- item end -->
-                        </span>
+
         <!-- borderBox end -->
 
         <!-- exBox start -->
@@ -296,6 +286,27 @@
 <script src="/static/js/jquery-ui.min.js"></script>
 <script src="/static/js/timepicker.js"></script>
 <script>
+            jQuery(function($){
+            $.datepicker.regional['zh-CN'] = {
+                closeText: '确定',
+                prevText: '<上月',
+                nextText: '下月>',
+                currentText: '今天',
+                monthNames: ['一月','二月','三月','四月','五月','六月',
+                '七月','八月','九月','十月','十一月','十二月'],
+                monthNamesShort: ['一','二','三','四','五','六',
+                '七','八','九','十','十一','十二'],
+                dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+                dayNamesMin: ['日','一','二','三','四','五','六'],
+                weekHeader: '周',
+                dateFormat: 'yy-mm-dd',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: true,
+                yearSuffix: '年'};
+            $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+        });
 
 </script>
 {% block script %}

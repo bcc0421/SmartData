@@ -129,7 +129,7 @@
                             <li style="padding-left: 39px">业主信息</li>
                             <li>家政项目</li>
                             <li>家政内容</li>
-                            <li>服务人员</li>
+                            <li>费用描述</li>
                             <li>满意度</li>
                             <li style="margin-left: -12px">其他操作</li>
                         </ul>
@@ -139,28 +139,32 @@
                             <div style="margin-top: 10px;background-color:#f3f3f3;height: 32px;padding-top:6px;border: 1px solid #808080;">
                                 <input type="checkbox" name="chk"style="margin-left: 5px;margin-top: -3px"id="{{ one_housekeeping.id }}" class="chk_{{ one_housekeeping.id }}">
                                 <span style="margin-left: 5px">申请时间：{{ one_housekeeping.time| date:"Y-m-d H:i:s" }}</span>
-                                <span style="margin-left: 70px">费用描述：{{ one_housekeeping.housekeeping_item.price_description }}</span>
                             </div>
                             <div style="border: 0px solid #eeeeee;height: 63px" class="repair_right_container"id="repair_container_{{one_housekeeping.id  }}">
                                 <ul>
-                                    <li style="padding-left: 0px;width:148px">{{ one_housekeeping.author }}</li>
+                                    <li style="padding-left: 0px;width:148px">
+{#                                        <span>{{ one_housekeeping.author.community.title }}</span>小区，#}
+                                        <span>{{ one_housekeeping.author.floor }}</span>幢，
+                                        <span>{{ one_housekeeping.author.gate_card }}</span>房间
+{#                                       ，户主： <span>{{ one_housekeeping.author.profile.username}}</span>#}
+                                    </li>
                                     <li style="width:142px;margin-left: 10px ">{{ one_housekeeping.housekeeping_item.item }}</li>
                                     <li style="width:200px;margin-left: 10px ">{{ one_housekeeping.housekeeping_item.content }}</li>
                                     <li  style="width:122px;margin-left: 11px"class="border_style">
-                                        {% ifequal one_housekeeping.status 1 %}
-                                            <select id="handler_housekeeping_{{one_housekeeping.id }}">
-                                            {% for deal_person in deal_person_list %}
-                                                <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
-                                            {% endfor %}
-                                         </select>
-                                        {% endifequal %}
-                                        {% ifequal one_housekeeping.status 2 %}
-                                            <span style="color: deepskyblue">{{one_housekeeping.handler.username  }}</span>
-                                        {% endifequal %}
-                                        {% ifequal one_housekeeping.status 3 %}
-                                            <span style="color: green">{{one_housekeeping.handler.username  }}</span>
-                                        {% endifequal %}
-
+{#                                        {% ifequal one_housekeeping.status 1 %}#}
+{#                                            <select id="handler_housekeeping_{{one_housekeeping.id }}">#}
+{#                                            {% for deal_person in deal_person_list %}#}
+{#                                                <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>#}
+{#                                            {% endfor %}#}
+{#                                         </select>#}
+{#                                        {% endifequal %}#}
+{#                                        {% ifequal one_housekeeping.status 2 %}#}
+{#                                            <span style="color: deepskyblue">{{one_housekeeping.handler.username  }}</span>#}
+{#                                        {% endifequal %}#}
+{#                                        {% ifequal one_housekeeping.status 3 %}#}
+{#                                            <span style="color: green">{{one_housekeeping.handler.username  }}</span>#}
+{#                                        {% endifequal %}#}
+                                            {{ one_housekeeping.housekeeping_item.price_description }}
                                     </li>
                                     <li style="width:92px;margin-left: 40px"class="border_style">{{ one_housekeeping.pleased }} </li>
                                     <li style="width:110px;margin-left: 50px"class="border_style">

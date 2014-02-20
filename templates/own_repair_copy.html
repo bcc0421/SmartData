@@ -1,0 +1,225 @@
+{% extends "proprietor_base.html" %}
+{% block title %}我的报修{% endblock %}
+{% block css %}
+        <style>
+       .modal-body ul li{
+           float: left;
+           padding-left: 43px;
+
+       }
+        .rate-standard{
+            margin-left: 144px;
+        }
+        .rate-standard span {
+
+
+
+
+            padding-left: 25px;
+        }
+        .pleased{
+            margin-left: 35px;
+            width:100px;
+            padding-left: 25px;
+             margin-top: -18px;
+            float:left;
+        }
+    .sr-shop-rating{
+        float:left;
+        margin-top: -20px;
+    }
+    </style>
+{% endblock %}
+{% block container %}
+    <div class="umMid el_w_495 fn_left">
+	<div class="umConBox">
+		<div class="umConBox_titBox">
+			<span class="title">报修</span>
+		</div>
+		<div class="umConBox_conBox">
+		</div>
+	</div>
+	<!-- 投诉/保修 end -->
+	<form action="/own_repair/" method="post">
+		<!-- 投诉/保修 start -->
+		<!-- umFormBox start -->
+		<div class="umFormBox_s1 umFormBox">
+			<label class="el_lab">筛选：</label>
+			<input type="text" name="start_time" id="start_datetime" value=""/>			<span class="sep"> - </span>
+            <input type="text" name="end_time" id="end_datetime" value=""/>
+			<button class="el_btn_gray_sl el_btn">
+				<span class="txt">筛选</span>
+			</button>
+		</div>
+		<!-- umFormBox end -->
+	</form>
+	<!-- 数据列表 start -->
+    {% if show %}
+        <div class="umDataLstBox">
+
+                 <div class="umDataBox_s1 umDataBox_nbd umDataBox">
+                     {% for repair in repairs %}
+                    <div class="records_details">
+                        <div class="proces_state clearfix">
+                            {% ifequal repair.status 1 %}
+                                 <span class="status_LEDs untreated fn_right"></span>
+                            {% endifequal %}
+                            {% ifequal repair.status 2 %}
+                                 <span class=" untreated fn_right" style="color: deepskyblue">处理中...</span>
+                            {% endifequal %}
+                            {% ifequal repair.status 3 %}
+                                <span class=" untreated fn_right" style="color: green">处理完成</span>
+                            {% endifequal %}
+                            <span class="black_color">[服务态度]</span>
+                            <span class="publish_time">{{ repair.timestamp | date:"Y-m-d H:i:s"}} </span>
+                            {% ifequal repair.status 3 %}
+                                {% if repair.pleased == 0 %}
+                                    <button class="btn"  data-toggle="modal"
+                                           data-target="#response_{{repair.id  }}">满意反馈</button>
+                                {% else %}
+                                    <button class="btn"  data-toggle="modal"
+                                           data-target="#response_{{repair.id  }}">已反馈</button>
+                                {% endif %}
+                            {% endifequal %}
+                               <div class="modal fade" id="response_{{repair.id  }}" tabindex="-1"
+                                     role="dialog" aria-labelledby="myModalLabel_{{ repair.id }}"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content" >
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel_{{ repair.id }}">
+                                                    服务满意度反馈</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h3>您对商家的服务评价</h3>
+                                                    <span class="rate-standard-border rate-standard-show leftoffset">
+
+                                                        <div class="rate-standard">
+                                                            <span>失望</span>
+                                                            <span>不满</span>
+                                                            <span>一般</span>
+                                                            <span>满意</span>
+                                                            <span>惊喜</span>
+                                                        </div>
+                                                    </span>
+                                                    <div class="pleased">
+                                                        <span class="sr-title sr-big-title">
+                                                            <span class="text">服务态度：</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="sr-shop-rating " id="radio_{{ repair.id }}">
+                                                        <ul class="sr-rating-level">
+                                                            <li><input value="1" name="radiobutton" type="radio"></li>
+                                                            <li><input value="2" name="radiobutton"  type="radio"></li>
+                                                            <li><input value="3" name="radiobutton" type="radio"></li>
+                                                            <li><input value="4" name="radiobutton" type="radio"></li>
+                                                            <li><input value="5" name="radiobutton" type="radio"></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div style="margin-top: 50px">
+                                                        <textarea id="textarea_{{ repair.id }}" style="line-height: normal;width:550px;height: 100px" placeholder="你可以对此次服务做出综合性的评论...."></textarea>
+                                                                    <button style="width: 90px;border-radius: 0px 0px 0px 0px;margin-left: 35px;margin-top:32px;"
+                                                                    class="btn"
+                                                                    onclick="submit_response_data(this)"
+                                                                     name="{{ repair.id }}">提交</button>
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                        <div class="comment">
+                            <p class="comment_txt">{{ repair.content }}</p>
+                            <div class="comment_img clearfix"></div>
+                        </div>
+                    </div>
+                    <!-- 每一条记录 end -->
+                    {% endfor %}
+                </div>
+
+            <!-- umDataBox end -->
+                            <!-- 分页 start -->
+                <div class="paginator" >
+                        <span class="step-links">
+                            {% if repairs.has_previous %}
+                                <a href="?page={{ repairs.previous_page_number }}">《上一页》</a> &nbsp;
+                            {% endif %}
+                            <span class="current">
+                                 当前页： {{ repairs.number }}/{{ repairs.paginator.num_pages }}.
+                            </span> &nbsp;
+                            {% if repairs.has_next %}
+                                <a href="?page={{ repairs.next_page_number }}">《下一页》</a>
+                            {% endif %}
+                        </span>
+                    </div>
+            <div class="pagesBox"></div>
+
+            <!-- 分页 end -->
+        </div>
+    {% else %}
+        <div class="umDataLstBox">
+				<div class="umDataBox_s1 umDataBox">
+			            <div class="umDataBox_receiptBox">
+				            <p class="title">暂无相关记录</p>
+			            </div>
+		        </div>
+				<!-- 分页 start -->
+		        <div class="pagesBox"></div>
+		</div>
+		<!-- 分页 end -->
+    {% endif %}
+	<!-- 数据列表 end -->
+</div>
+<!-- 中部·容器 end -->
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('#start_datetime').datepicker({
+                duration: '',
+                //showTime: true,
+                constrainInput: false
+            });
+        });
+    $(document).ready(function () {
+            $('#end_datetime').datepicker({
+                duration: '',
+                //showTime: true,
+                constrainInput: false
+            });
+        });
+</script>
+    <script type="text/javascript">
+        function submit_response_data(obj){
+            var get_id=$(obj).attr("name");
+            var response_content=$("#textarea_" + get_id).val();
+            var selected_radio=$('#radio_' + get_id + ' input[type="radio"]:checked').val();
+            if(selected_radio){
+                $.post('/repair/response/',
+                        {
+                            repair_id:get_id,
+                            response_content:response_content,
+                            selected_radio:selected_radio
+                        },
+                        function(data){
+                            if(data.success){
+                                 alert(data.info);
+                                window.location.href = "/own_repair/";
+                            }
+                        }
+                )
+            }else{
+                alert("请选择满意度");
+            }
+
+        }
+    </script>
+{% endblock %}

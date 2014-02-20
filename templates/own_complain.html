@@ -22,12 +22,49 @@
         }
     .sr-shop-rating{
         float:left;
-        margin-top: -20px;
+{#        margin-top: -20px;#}
+    }
+    .own_complain_header_ul li{
+        float: left;
+       margin-left: 114px;
+        padding-top: 5px;
+    }
+{#     .own_complain_container{#}
+{#         margin-top: 10px;#}
+{#         border: 1px solid #000000;#}
+{#     }#}
+
+    .own_complain_container .own_complain_container_ul li{
+        text-align: center;
+        padding-top: 15px;
+        margin-left: 15px;
+        float: left;
+        height: 80px;
+        width: 100px;
+{#        border: 1px solid red;#}
+    }
+    .container {
+{#        border: 1px solid #000000;#}
+        width: 1098px;!important
+        }
+    .el_container {
+        width: 1080px;
+        margin: 0 auto;
+        display: block;
+{#        border: 1px solid blue;#}
+     }
+    .own_message_header{
+        margin-top: -30px;
+        margin-left: 100px;!important
+    }
+
+    .element.style {
+        width: 851px;!important
     }
     </style>
 {% endblock %}
 {% block container %}
-    <div class="umMid el_w_495 fn_left">
+    <div class="umMid el_w_495 fn_left" style="width: 851px">
         <div class="umConBox">
             <div class="umConBox_titBox">
                 <span class="title">投诉</span>
@@ -51,99 +88,119 @@
 	</form>
 	<!-- 数据列表 start -->
     {% if show %}
-        <div class="umDataLstBox">
-
-                 <div class="umDataBox_s1 umDataBox_nbd umDataBox">
-                     {% for complain in complains %}
-                    <div class="records_details">
-                        <div class="proces_state clearfix">
-                            {% ifequal complain.status 1 %}
-                                 <span class="status_LEDs untreated fn_right"></span>
-                            {% endifequal %}
-                            {% ifequal complain.status 2 %}
-                                 <span class=" untreated fn_right" style="color: deepskyblue">处理中...</span>
-                            {% endifequal %}
-                            {% ifequal complain.status 3 %}
-                                <span class=" untreated fn_right" style="color: green">处理完成</span>
-                            {% endifequal %}
-                            <span class="black_color">[服务态度]</span>
-                            <span class="publish_time">{{ complain.timestamp | date:"Y-m-d H:i:s"}} </span>
-                            {% ifequal complain.status 3 %}
-                                {% if complain.pleased == 0 %}
-                                    <button class="btn"  data-toggle="modal"
-                                           data-target="#response_{{complain.id  }}">满意反馈</button>
-                                {% else %}
-                                    <button class="btn"  data-toggle="modal"
-                                           data-target="#response_{{complain.id  }}">已反馈</button>
-                                {% endif %}
-                            {% endifequal %}
-                                <div class="modal fade" id="response_{{complain.id  }}" tabindex="-1"
-                                     role="dialog" aria-labelledby="myModalLabel_{{ complain.id }}"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content" >
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel_{{ complain.id }}">
-                                                    服务满意度反馈</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h3>您对商家的服务评价</h3>
-                                                    <span class="rate-standard-border rate-standard-show leftoffset">
-
-                                                        <div class="rate-standard">
-                                                            <span>满意</span>
-                                                            <span>一般</span>
-                                                            <span>差</span>
-{#                                                            <span>满意</span>#}
-{#                                                            <span>惊喜</span>#}
-                                                        </div>
-
-                                                    </span>
-                                                    <div class="pleased">
-                                                        <span class="sr-title sr-big-title">
-                                                            <span class="text">服务态度：</span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="sr-shop-rating " id="radio_{{ complain.id }}">
-                                                        <ul class="sr-rating-level">
-                                                            <li><input value="1" name="radiobutton" type="radio"></li>
-                                                            <li><input value="2" name="radiobutton"  type="radio"></li>
-                                                            <li><input value="3" name="radiobutton" type="radio"></li>
-{#                                                            <li><input value="4" name="radiobutton" type="radio"></li>#}
-{#                                                            <li><input value="5" name="radiobutton" type="radio"></li>#}
-                                                        </ul>
-                                                    </div>
-                                                    <div style="margin-top: 50px">
-                                                        <textarea id="textarea_{{ complain.id }}" style="line-height: normal;width:550px;height: 100px" placeholder="你可以对此次服务做出综合性的评论...."></textarea>
-                                                                    <button style="width: 90px;border-radius: 0px 0px 0px 0px;margin-left: 35px;margin-top:32px;"
-                                                                    class="btn"
-                                                                    onclick="submit_response_data(this)"
-                                                                     name="{{ complain.id }}">提交</button>
-                                                    </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                    关闭
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+        <div style="width:851px">
+            <div class='own_complain_header' style="height: 30px;background-color:#bad804;margin-top: -10px ">
+                <ul class="own_complain_header_ul">
+                    <li style="margin-left: 45px">时间</li>
+                    <li>投诉类型</li>
+                    <li>投诉内容</li>
+                    <li  style="margin-left: 136px">照片</li>
+                    <li style="margin-left: 75px">处理状态</li>
+                    <li style="margin-left: 62px">满意度</li>
+                </ul>
+            </div>
+            {% for complain in complains %}
+                 <div class="modal fade" id="response_{{complain.id  }}" tabindex="-1"
+                         role="dialog" aria-labelledby="myModalLabel_{{ complain.id }}"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content" >
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel_{{ complain.id }}">
+                                        服务满意度反馈</h4>
                                 </div>
-                        </div>
-                        <div class="comment">
-                            <p class="comment_txt">{{ complain.content }}</p>
-                            <div class="comment_img clearfix"></div>
-                        </div>
-                    </div>
-                    <!-- 每一条记录 end -->
-                    {% endfor %}
-                </div>
+                                <div class="modal-body">
+                                    <h3>您对商家的服务评价</h3>
+                                        <span class="rate-standard-border rate-standard-show leftoffset">
 
-            <!-- umDataBox end -->
-                            <!-- 分页 start -->
-                <div class="paginator" >
+                                            <div class="rate-standard">
+                                                <span>满意</span>
+                                                <span>一般</span>
+                                                <span>差</span>
+    {#                                                            <span>满意</span>#}
+    {#                                                            <span>惊喜</span>#}
+                                            </div>
+
+                                        </span>
+                                        <div class="pleased">
+                                            <span class="sr-title sr-big-title">
+                                                <span class="text">服务态度：</span>
+                                            </span>
+                                        </div>
+                                        <div class="sr-shop-rating " id="radio_{{ complain.id }}">
+                                            <ul class="sr-rating-level">
+                                                <li><input value="1" name="radiobutton" type="radio"></li>
+                                                <li><input value="2" name="radiobutton"  type="radio"></li>
+                                                <li><input value="3" name="radiobutton" type="radio"></li>
+    {#                                                            <li><input value="4" name="radiobutton" type="radio"></li>#}
+    {#                                                            <li><input value="5" name="radiobutton" type="radio"></li>#}
+                                            </ul>
+                                        </div>
+                                        <div style="margin-top: 50px">
+                                            <textarea id="textarea_{{ complain.id }}" style="line-height: normal;width:550px;height: 100px" placeholder="你可以对此次服务做出综合性的评论...."></textarea>
+                                                        <button style="width: 90px;border-radius: 0px 0px 0px 0px;margin-left: 35px;margin-top:32px;"
+                                                        class="btn"
+                                                        onclick="submit_response_data(this)"
+                                                         name="{{ complain.id }}">提交</button>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        关闭
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+                <div class="own_complain_container" style="height: 80px;background-color: #f1f5ff">
+                    <ul class="own_complain_container_ul">
+                        <li style="width: 150px;margin-left: 0px">{{ complain.timestamp | date:"Y-m-d H:i:s"}} </li>
+                        <li>{{ complain.type }}</li>
+                        <li style="width:224px">{{ complain.content|truncatechars:40 }}</li>
+                        <li>
+                            {% if complain.src  %}
+                                 <img src="/media/{{ complain.src }}"style="height: 50px;width: 50px">
+                             {% else %}
+                                  <span  style="height: 25px;width: 25px">无图片</span>
+                              {% endif %}
+                        </li>
+                        <li>
+                             {% ifequal complain.status 1 %}
+                                    <span style="color: red">未受理</span>
+                                {% endifequal %}
+                                {% ifequal complain.status 2 %}
+                                    <span style="color: deepskyblue">处理中</span>
+                                {% endifequal %}
+                                {% ifequal complain.status 3 %}
+                                    <span style="color: green">处理完成</span>
+                                {% endifequal %}
+                        </li>
+                        <li>
+                             {% ifequal complain.status 3 %}
+                                    {% if complain.pleased == 0 %}
+                                        <button class="btn"  data-toggle="modal"
+                                           data-target="#response_{{complain.id  }}">满意反馈</button>
+                                    {% else %}
+                                        {% if complain.pleased ==  1 %}
+                                            <span>满意</span>
+                                        {% elif complain.pleased == 2 %}
+                                            <span>一般</span>
+                                        {% elif complain.pleased == 3 %}
+                                            <span>差</span>
+                                        {% endif%}
+                                    {% endif %}
+                             {% else %}
+                                 <span>暂无</span>
+                             {% endifequal %}
+                        </li>
+                    </ul>
+                </div>
+            {% endfor %}
+
+        </div>
+         <div class="paginator"  style="margin-top: 10px;background-color: #f1f5ff;height: 30px;text-align: right;padding-top: 5px;padding-left: 10px">
                         <span class="step-links">
                             {% if complains.has_previous %}
                                 <a href="?page={{ complains.previous_page_number }}">《上一页》</a> &nbsp;
@@ -155,11 +212,7 @@
                                 <a href="?page={{ complains.next_page_number }}">《下一页》</a>
                             {% endif %}
                         </span>
-                    </div>
-            <div class="pagesBox"></div>
-
-            <!-- 分页 end -->
-        </div>
+                </div>
     {% else %}
         <div class="umDataLstBox">
 				<div class="umDataBox_s1 umDataBox">
@@ -215,7 +268,6 @@
             }else{
                 alert("请选择满意度");
             }
-
         }
     </script>
 {% endblock %}

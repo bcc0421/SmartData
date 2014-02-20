@@ -230,6 +230,9 @@ def api_get_user_express(request):
                 data = {
                     'id': express_detail.id,
                     'express_author': express_detail.author.profile.username,
+                    'author_community': express_detail.author.community.title ,
+                    'author_floor': express_detail.author.floor,
+                    'author_room': express_detail.author.gate_card,
                     'get_express_type': express_detail.type,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
@@ -278,6 +281,9 @@ def api_show_all_express(request):
                 data = {
                     'id': express_detail.id,
                     'express_author': express_detail.author.profile.username,
+                    'author_community': express_detail.author.community.title ,
+                    'author_floor': express_detail.author.floor,
+                    'author_room': express_detail.author.gate_card,
                     'get_express_type': express_detail.type,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
@@ -361,7 +367,7 @@ def api_add_express_record(request):
             response_data = {'success': True, 'info': '添加成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
-            response_data = {'success': False, 'info': '添加失败！'}
+            response_data = {'success': False, 'info': '添加失败,没有此用户！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
@@ -475,6 +481,9 @@ def api_show_express_by_status(request):
                 data = {
                     'id': express_detail.id,
                     'express_author': express_detail.author.profile.username,
+                    'author_community': express_detail.author.community.title ,
+                    'author_floor': express_detail.author.floor,
+                    'author_room': express_detail.author.gate_card,
                     'get_express_type': express_detail.type,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
