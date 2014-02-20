@@ -99,6 +99,7 @@ class Express(models.Model):
     is_read = models.BooleanField(default=False)
     is_worker_read = models.BooleanField(default=False)
     is_admin_read = models.BooleanField(default=False)
+    submit_express_status = models.IntegerField(default=0)
 
     def __str__(self):
         return self.type

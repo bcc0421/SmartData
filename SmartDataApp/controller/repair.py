@@ -88,12 +88,29 @@ def repair(request):
             })
 
     elif profile.is_admin:
-        repairs = Repair.objects.filter(handler=request.user).order_by('timestamp')
+        if deal_status == u'2':
+            repairs = Repair.objects.filter(handler=request.user, status=2).order_by('-timestamp')
+            btn_status = 2
+        elif deal_status == u'3':
+            repairs = Repair.objects.filter(handler=request.user, status=3).order_by('-timestamp')
+            btn_status = 3
+        else:
+            repairs = Repair.objects.filter(handler=request.user, status=2).order_by('-timestamp')
+            btn_status = 2
         if len(repairs) > 0:
-            return render_to_response('admin_repair.html', {
-                'repairs': list(repairs),
+            paginator = Paginator(repairs, 4)
+            page = request.GET.get('page')
+            try:
+                repairs_list = paginator.page(page)
+            except PageNotAnInteger:
+                repairs_list = paginator.page(1)
+            except EmptyPage:
+                repairs_list = paginator.page(paginator.num_pages)
+            return render_to_response('worker_repair.html', {
+                'repairs': repairs_list,
                 'show': True,
                 'community': one_community,
+                'btn_style': btn_status,
                 'change_community': status,
                 'communities': communities,
                 'profile': profile,
@@ -101,7 +118,7 @@ def repair(request):
                 'is_admin': True
             })
         else:
-            return render_to_response('admin_repair.html', {
+            return render_to_response('worker_repair.html', {
                 'show': False,
                 'community': one_community,
                 'change_community': status,
@@ -167,6 +184,7 @@ def repair_create(request):
             repair.content = repair_content
             repair.timestamp = repair_time
             repair.status = 1
+            repair.author_detail = profile
             repair.author = request.user.username
             repair.type = repair_type
             repair.repair_item = item.item
@@ -241,7 +259,7 @@ def own_repair(request):
     profile = ProfileDetail.objects.get(profile=request.user)
     communities = Community.objects.all()
     if len(repairs) > 0:
-        paginator = Paginator(repairs, 5)
+        paginator = Paginator(repairs, 7)
         page = request.GET.get('page')
         try:
             repairs_list = paginator.page(page)
@@ -316,6 +334,7 @@ def api_repair_create(request):
             repair.timestamp = repair_time
             repair.status = 1
             repair.author = request.user.username
+            repair.author_detail = profile
             repair.type = repair_type
             repair.repair_item = item.item
             repair.price = item.price
@@ -377,6 +396,9 @@ def api_own_repair(request):
             data = {
                 'id': repair_detail.id,
                 'repair_author': repair_detail.author,
+                'author_community': repair_detail.community.title,
+                'author_floor': repair_detail.author_detail.floor,
+                'author_room': repair_detail.author_detail.gate_card,
                 'content': repair_detail.content,
                 'type': repair_detail.type,
                 'deal_status': repair_detail.status,
@@ -471,6 +493,9 @@ def api_show_all_repair(request):
             data = {
                 'id': repair_detail.id,
                 'repair_author': repair_detail.author,
+                'author_community': repair_detail.community.title,
+                'author_floor': repair_detail.author_detail.floor,
+                'author_room': repair_detail.author_detail.gate_card,
                 'content': repair_detail.content,
                 'type': repair_detail.type,
                 'deal_status': repair_detail.status,
@@ -538,6 +563,9 @@ def api_show_repair_by_status(request):
             data = {
                 'id': repair_detail.id,
                 'repair_author': repair_detail.author,
+                'author_community': repair_detail.community.title,
+                'author_floor': repair_detail.author_detail.floor,
+                'author_room': repair_detail.author_detail.gate_card,
                 'content': repair_detail.content,
                 'type': repair_detail.type,
                 'deal_status': repair_detail.status,

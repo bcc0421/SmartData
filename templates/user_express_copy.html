@@ -93,12 +93,6 @@
         .container {
             width: 1260px !important;
         }
-        .express_card{
-            display: none;
-            width:789px;
-            border: 1px solid #00a1e9;
-            height: 400px;
-        }
 
     </style>
 {% endblock %}
@@ -109,7 +103,7 @@
         <div class="el_blank_h20"></div>
         <div class="el_w_974 fn_right">
             <!-- vessel start -->
-            <div class="vessel vessel_s1 show_express">
+            <div class="vessel vessel_s1">
                 <div style="width: 972px;float: left">
                     <div class="vessel vessel_s1" style="margin-bottom: 10px">
                         <div class="vessel_titBox" style="border: 1px solid #dadada;"><span class="tit">快件管理</span></div>
@@ -122,73 +116,15 @@
                             <th style="width: 250px">收件人</th>
                             <th style="width: 170px">到达时间</th>
                             <th style="width: 170px">取件时间</th>
-                            <th style="width: 170px">取件方式</th>
+                            <th>取件方式</th>
                             <th>取件状态</th>
-                            <th style="width: 130px">满意度</th>
+                            <th style="width: 30px">满意度</th>
                         </tr>
                         </thead>
                         <tbody>
 
                         {% for express in expresses %}
-                              <div class="modal fade" id="express_response_{{ express.id }}" tabindex="-1"
-                                 role="dialog" aria-labelledby="ModalLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="ModalLabel">
-                                                服务满意度反馈</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <h3>您对商家的服务评价</h3>
-                                                        <span class="rate-standard-border rate-standard-show leftoffset">
 
-                                                            <div class="rate-standard">
-                                                                <span>满意</span>
-                                                                <span>一般</span>
-                                                                <span>差</span>
-{#                                                                <span>满意</span>#}
-{#                                                                <span>惊喜</span>#}
-                                                            </div>
-
-                                                        </span>
-
-                                            <div class="pleased">
-                                                            <span class="sr-title sr-big-title">
-                                                                <span class="text">服务态度：</span>
-                                                            </span>
-                                            </div>
-                                            <div class="sr-shop-rating " id="radio">
-                                                <ul class="sr-rating-level">
-                                                    <li><input value="1" name="radiobutton" type="radio"></li>
-                                                    <li><input value="2" name="radiobutton" type="radio"></li>
-                                                    <li><input value="3" name="radiobutton" type="radio"></li>
-{#                                                    <li><input value="4" name="radiobutton" type="radio"></li>#}
-{#                                                    <li><input value="5" name="radiobutton" type="radio"></li>#}
-                                                </ul>
-                                            </div>
-                                            <div style="margin-top: 50px">
-                                                <textarea id="textarea"
-                                                          style="line-height: normal;width:550px;height: 100px"
-                                                          placeholder="你可以对此次服务做出综合性的评论...."></textarea>
-                                                <button style="width: 90px;border-radius: 0px 0px 0px 0px;margin-left: 35px;margin-top:32px;"
-                                                        class="btn"
-                                                        onclick="submit_express_data(this)">提交
-                                                </button>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                关闭
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <tr class="except_one">
                                 <td><input type="checkbox" name="chk" id={{ express.id }}></td>
                                 <td>
@@ -205,9 +141,9 @@
                                         <span style="color: green">已签收</span>
                                     {% else %}
                                         <button class='btn'
-                                          name={{ express.id  }}
-                                          onclick="show_express_card()"
-                                          id="get_express_single_{{ express.id  }}"
+                                          name={{ one_complain.id  }}
+                                          onclick="delete_complain_single(this)"
+                                          id="delete_complain_single_{{ one_complain.id  }}"
                                           style=" background: url('/static/images/get_express.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
                                           width: 67px;height: 28px;
                                           margin-left: 22px;
@@ -220,16 +156,8 @@
 
                                     {% if express.status %}
                                        {% if express.pleased == 0 %}
-                                            <button class='btn'
-                                              data-toggle="modal"
-                                              data-target="#express_response_{{ express.id }}"
-                                              name='{{ express.id  }}'
-                                              id="delete_complain_single_{{ express.id  }}"
-                                              style=" background: url('/static/images/comment.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                                              width: 67px;height: 28px;
-                                              margin-left: 22px;
-                                              margin-top: 5px">
-                                          </button>
+                                            <button class="btn"  data-toggle="modal"
+                                               data-target="#response_{{express.id  }}">满意反馈</button>
                                         {% else %}
                                             {% if express.pleased ==  1 %}
                                                 <span>满意</span>
@@ -252,76 +180,96 @@
                 </div>
 
 
-{#            <div style="float: right">#}
-{#                    <span>领取方式：</span>#}
-{#                    <select id="select_express_type">#}
-{#                        <option value="自己领取">自己领取</option>#}
-{#                        <option value="物业派送">物业派送</option>#}
-{#                    </select>#}
-{##}
-{#                    <div style="margin-top: 10px">#}
-{#                        <span>领取时间：</span>#}
-{#                        <input type="text" name="datetime" id="datetime" value=""/>#}
-{#                    </div>#}
-{##}
-{#                    <div style="margin-top:12px; ">#}
-{#                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="get_my_express"#}
-{#                                onclick="get_my_express()">#}
-{#                            <span> 领取</span>#}
-{#                        </button>#}
-{#                        <button class="btn btn-primary" data-toggle="modal" style="border-radius: 0px 0px 0px 0px;"#}
-{#                                data-target="#express_response">#}
-{#                            <span> 满意度反馈</span>#}
-{#                        </button>#}
-{#                    </div>#}
-{#                </div>#}
+            <div style="float: right">
+                    <span>领取方式：</span>
+                    <select id="select_express_type">
+                        <option value="自己领取">自己领取</option>
+                        <option value="物业派送">物业派送</option>
+                    </select>
+
+                    <div style="margin-top: 10px">
+                        <span>领取时间：</span>
+                        <input type="text" name="datetime" id="datetime" value=""/>
+                    </div>
+
+                    <div style="margin-top:12px; ">
+                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" id="get_my_express"
+                                onclick="get_my_express()">
+                            <span> 领取</span>
+                        </button>
+                        <button class="btn btn-primary" data-toggle="modal" style="border-radius: 0px 0px 0px 0px;"
+                                data-target="#express_response">
+                            <span> 满意度反馈</span>
+                        </button>
+                        <div class="modal fade" id="express_response" tabindex="-1"
+                             role="dialog" aria-labelledby="ModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="ModalLabel">
+                                            服务满意度反馈</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3>您对商家的服务评价</h3>
+                                                    <span class="rate-standard-border rate-standard-show leftoffset">
+
+                                                        <div class="rate-standard">
+                                                            <span>失望</span>
+                                                            <span>不满</span>
+                                                            <span>一般</span>
+                                                            <span>满意</span>
+                                                            <span>惊喜</span>
+                                                        </div>
+
+                                                    </span>
+
+                                        <div class="pleased">
+                                                        <span class="sr-title sr-big-title">
+                                                            <span class="text">服务态度：</span>
+                                                        </span>
+                                        </div>
+                                        <div class="sr-shop-rating " id="radio">
+                                            <ul class="sr-rating-level">
+                                                <li><input value="1" name="radiobutton" type="radio"></li>
+                                                <li><input value="2" name="radiobutton" type="radio"></li>
+                                                <li><input value="3" name="radiobutton" type="radio"></li>
+                                                <li><input value="4" name="radiobutton" type="radio"></li>
+                                                <li><input value="5" name="radiobutton" type="radio"></li>
+                                            </ul>
+                                        </div>
+                                        <div style="margin-top: 50px">
+                                            <textarea id="textarea"
+                                                      style="line-height: normal;width:550px;height: 100px"
+                                                      placeholder="你可以对此次服务做出综合性的评论...."></textarea>
+                                            <button style="width: 90px;border-radius: 0px 0px 0px 0px;margin-left: 35px;margin-top:32px;"
+                                                    class="btn"
+                                                    onclick="submit_express_data(this)">提交
+                                            </button>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                                            关闭
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
             </div>
-            <div  class="express_card">
-                <div style="height: 40px;width: 789px;background-color: #00a1e9;padding-top: 8px;padding-left: 15px">
-                    <span style="color: white">快递领取</span>
-                </div>
-                <div style="margin-top: 50px;margin-left: 100px">
-                    <span style="color: #808080"><strong>取件方式:</strong></span>
-                    <input name="radiobutton" type="radio" style="margin-left: 10px;margin-top:-5px" value="送货上门">
-                    <span style="height: 30px;width:50px;background-color: #ffffff;border:1px solid #d6d6d6;padding:3px 21px;">送货上门</span>
-                    <span style="color: #808080"><strong>送货时间:</strong></span>
-                    <input type="text" style="width: 155px;margin-top: -2px;height: 26px" name="datetime" id="datetime" value=""/>
-                </div>
-                <div style="margin-top: 50px;margin-left: 172px" >
-                     <input  name="radiobutton" type="radio" style="margin-left: 10px;margin-top:-5px"value="自取">
-                     <span style="height: 30px;width:50px;background-color: #ffffff;border:1px solid #d6d6d6;padding:3px 21px;">
-                         自&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;取
-                     </span>
-                </div>
-                <div
-                        style="background: url('/static/images/send_express.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                        height: 216px;width:220px;
-                        float: left">
-
-                </div>
-
-                <div
-                        style="background:url('/static/images/car.png') no-repeat;
-                        height: 84px;width:134px;
-{#                        border:1px solid red;#}
-                        float: right;
-                        margin-top: 128px">
-                </div>
-                 <div style="float: left;margin-top: 147px;margin-left: 30px">
-                    <button
-                            onclick="get_my_express()"
-                            class="btn" style="background:url('/static/images/express_submit.png') no-repeat;height: 44px;width:125px;"></button>
-                </div>
-                <div style="float: left;margin-top: 147px;margin-left: 50px">
-                    <button onclick="express_back_list()" class="btn express_back" style="height: 44px;width:125px;">
-                        <img src="/static/images/express_back.png"/> 返回</button>
-                </div>
-           </div>
          </div>
             <!-- vessel end -->
+
+
         <div class="el_blank_h10 fn_clear"></div>
         <div class="el_blank_h50 fn_clear"></div>
     </div>
@@ -329,20 +277,10 @@
     <!-- page -->
 
 
-
-
-
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
-        function show_express_card(){
-            $('.show_express').hide()
-            $('.express_card').show();
-        }
-    function express_back_list(){
-        $('.express_card').hide();
-        $('.show_express').show()
-    }
+
         function get_my_express() {
             var checked_array = new Array();
             $('input[type="checkbox"][name="chk"]:checked').each(
@@ -351,12 +289,11 @@
                         checked_array.push(id);
                     }
             );
-           var get_express_type=$('.express_card input[type="radio"]:checked').val();
+            var get_express_type = $('#select_express_type').val();
             var get_express_time = $('#datetime').val();
             //alert(get_express_time);
             if (checked_array.length > 0) {
-                if(get_express_type){
-                    $.post('/userself/get_express/',
+                $.post('/userself/get_express/',
                         {
                             'selected_express_string': checked_array.toString(),
                             'get_express_type': get_express_type,
@@ -368,8 +305,7 @@
                                 $('input[type="checkbox"][name="chk"]:checked').each(
                                         function () {
                                             var id = $(this).attr('id');
-                                            $(this).remove();
-                                            $("#status_" + id + "").html("<span style='color: green' >提交签收</span>");
+                                            $("#type_" + id + "").html("<span style='color: green' >" + data.express_type + "</span>");
                                         }
                                 );
                             }
@@ -378,10 +314,6 @@
                             }
                         }
                 )
-                }else{
-                    alert("请选择取件方式");
-                }
-
             } else {
                 alert("请选择处理数据");
             }

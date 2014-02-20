@@ -105,10 +105,27 @@ def complain(request):
                 'is_admin': False
             })
     elif profile.is_admin:
-        complains = Complaints.objects.filter(handler=request.user).order_by('-timestamp')
+        if deal_status == u'2':
+            complains = Complaints.objects.filter(handler=request.user, status=2).order_by('-timestamp')
+            btn_status = 2
+        elif deal_status == u'3':
+            complains = Complaints.objects.filter(handler=request.user, status=3).order_by('-timestamp')
+            btn_status = 3
+        else:
+            complains = Complaints.objects.filter(handler=request.user, status=2).order_by('-timestamp')
+            btn_status = 2
         if len(complains) > 0:
-            return render_to_response('admin_complains.html', {
-                'complains': list(complains),
+            paginator = Paginator(complains, 4)
+            page = request.GET.get('page')
+            try:
+                complains_list = paginator.page(page)
+            except PageNotAnInteger:
+                complains_list = paginator.page(1)
+            except EmptyPage:
+                complains_list = paginator.page(paginator.num_pages)
+            return render_to_response('worker_complains.html', {
+                'complains': complains_list,
+                'btn_style': btn_status,
                 'show': True,
                 'profile': profile,
                 'communities': communities,
@@ -118,7 +135,7 @@ def complain(request):
                 'is_admin': True
             })
         else:
-            return render_to_response('admin_complains.html', {
+            return render_to_response('worker_complains.html', {
                 'show': False,
                 'communities': communities,
                 'profile': profile,
@@ -152,6 +169,7 @@ def complain_create(request):
             complain.timestamp = complain_time
             complain.status = 1
             complain.author = request.user.username
+            complain.author_detail = profile
             complain.type = complain_type
             complain.community = profile.community
             complain.is_admin_read = True
@@ -267,7 +285,7 @@ def own_complain(request):
         complains = Complaints.objects.filter(author=request.user.username)
     profile = ProfileDetail.objects.get(profile=request.user)
     if len(complains) > 0:
-        paginator = Paginator(complains, 5)
+        paginator = Paginator(complains, 7)
         page = request.GET.get('page')
         try:
             complains_list = paginator.page(page)
@@ -349,6 +367,7 @@ def api_complain_create(request):
         if complain_content or complain_type:
             complain = Complaints(author=request.user.username)
             complain.content = complain_content
+            complain.author_detail = profile
             complain.timestamp = complain_time
             complain.type = complain_type
             complain.is_admin_read = True
@@ -408,6 +427,9 @@ def api_own_complain(request):
             data = {
                 'id': complain_detail.id,
                 'complain_author': complain_detail.author,
+                'author_community': complain_detail.community.title,
+                'author_floor': complain_detail.author_detail.floor,
+                'author_room': complain_detail.author_detail.gate_card,
                 'content': complain_detail.content,
                 'type': complain_detail.type,
                 'deal_status': complain_detail.status,
@@ -509,6 +531,9 @@ def api_show_all_complains(request):
             data = {
                 'id': complain_detail.id,
                 'complain_author': complain_detail.author,
+                'author_community': complain_detail.community.title,
+                'author_floor': complain_detail.author_detail.floor,
+                'author_room': complain_detail.author_detail.gate_card,
                 'content': complain_detail.content,
                 'type': complain_detail.type,
                 'deal_status': complain_detail.status,
@@ -578,6 +603,9 @@ def api_show_complains_by_status(request):
             data = {
                 'id': complain_detail.id,
                 'complain_author': complain_detail.author,
+                'author_community': complain_detail.community.title,
+                'author_floor': complain_detail.author_detail.floor,
+                'author_room': complain_detail.author_detail.gate_card,
                 'content': complain_detail.content,
                 'type': complain_detail.type,
                 'deal_status': complain_detail.status,

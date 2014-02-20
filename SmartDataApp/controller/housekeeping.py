@@ -417,6 +417,9 @@ def api_own_housekeeping(request):
             data = {
                 'id': housekeeping_detail.id,
                 'housekeeping_author': str(housekeeping_detail.author.profile),
+                'author_community': housekeeping_detail.author.community.title ,
+                'author_floor': housekeeping_detail.author.floor,
+                'author_room': housekeeping_detail.author.gate_card,
                 'content': housekeeping_detail.housekeeping_item.content,
                 'housekeeping_status': housekeeping_detail.status,
                 'price_description': housekeeping_detail.housekeeping_item.price_description,
@@ -444,7 +447,7 @@ def api_housekeeping_deal(request):
         data = simplejson.loads(request.body)
         housekeeping_array = data.get("housekeeping_id_string", None)
         deal_person_id = data.get("deal_person_id", None)
-        if housekeeping_array and deal_person_id:
+        if housekeeping_array:
             list_housekeeping = str(housekeeping_array).split(",")
             for i in range(len(list_housekeeping)):
                 com_id = int(list_housekeeping[i])
@@ -511,6 +514,9 @@ def api_show_all_housekeeping(request):
             data = {
                 'id': housekeeping_detail.id,
                 'housekeeping_author': str(housekeeping_detail.author.profile),
+                'author_community': housekeeping_detail.author.community.title ,
+                'author_floor': housekeeping_detail.author.floor,
+                'author_room': housekeeping_detail.author.gate_card,
                 'content': housekeeping_detail.housekeeping_item.content,
                 'housekeeping_status': housekeeping_detail.status,
                 'price_description': housekeeping_detail.housekeeping_item.price_description,
@@ -691,6 +697,9 @@ def api_show_housekeeping_by_status(request):
             data = {
                 'id': housekeeping_detail.id,
                 'housekeeping_author': str(housekeeping_detail.author.profile),
+                'author_community': housekeeping_detail.author.community.title ,
+                'author_floor': housekeeping_detail.author.floor,
+                'author_room': housekeeping_detail.author.gate_card,
                 'content': housekeeping_detail.housekeeping_item.content,
                 'housekeeping_status': housekeeping_detail.status,
                 'price_description': housekeeping_detail.housekeeping_item.price_description,
