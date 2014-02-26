@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'SmartDataApp',
     'south',
     'captcha',
+    "gunicorn",
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
