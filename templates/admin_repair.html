@@ -86,8 +86,8 @@
 
         .vessel .vessel_titBox {
             background: url("") repeat-x scroll 0 -226px rgba(0, 0, 0, 0);
-            border-bottom: 1px solid #00a1e9;
-            height: 40px;
+            border-bottom: 2px solid #00a1e9;
+            height: 39px;
             line-height: 40px;!important
     }
         .vessel{
@@ -107,6 +107,12 @@
       .border_style{
 {#          border-left:2px solid #eeeeee#}
       }
+    .btn_style{
+        border:1px solid #dcdcdc;
+        border-radius: 0px 0px 0px 0px;
+        height:34px;
+        border-bottom:1px solid #00a1e9;
+    }
     </style>
 
 {% endblock %}
@@ -116,32 +122,32 @@
                   <div class="vessel vessel_s1" style="margin-bottom: 10px">
                         <div class="vessel_titBox">
                              <a href="/repair/?deal_status=1"
-                                class="btn_type btn {% if btn_style == 1 %}btn-primary{% endif %} "
-                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">
+                                class="btn_style btn_type btn {% if btn_style == 1 %}btn-primary{% endif %} "
+                                style="width: 70px">
                                未受理
                              </a>
 
 
                             <a href="/repair/?deal_status=4"
-                               class="btn_type btn {% if btn_style == 4 %}btn-primary{% endif %} "
-                               style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
+                               class="btn_style btn_type btn {% if btn_style == 4 %}btn-primary{% endif %} "
+                               style="width: 80px">
                                已受理
                             </a>
 
                              <a href="/repair/?deal_status=2"
-                                class="btn_type btn {% if btn_style == 2 %}btn-primary{% endif %} "
-                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">
+                                class="btn_style btn_type btn {% if btn_style == 2 %}btn-primary{% endif %} "
+                                style="width: 70px">
                                处理中
                              </a>
                             <a href="/repair/?deal_status=3"
-                               class="btn_type btn {% if btn_style == 3 %}btn-primary{% endif %} "
-                               style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
+                               class="btn_style btn_type btn {% if btn_style == 3 %}btn-primary{% endif %} "
+                               style="width: 80px">
                                已处理
                             </a>
 
                             <a href="/manage/repair/item/"target="_blank"
-                               class="btn_type btn "
-                               style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 105px;">
+                               class="btn_style btn_type btn "
+                               style="width: 105px;">
                                 <img style="margin-top: -5px" src="/static/images/plus_icon.png"/>
                                <span >添加项目</span>
                             </a>
