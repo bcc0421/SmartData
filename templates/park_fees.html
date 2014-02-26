@@ -1,6 +1,14 @@
 {% extends "baseheader.html" %}
 {% block title %}停车缴费{% endblock %}
 {% block css %}
+    <style>
+        #add .add_box {
+            border: 1px solid #DADADA;
+            height: 186px;
+            padding: 19px;
+            width: 660px;
+        }
+    </style>
 {% endblock %}
 {% block container %}
     <!-- 主要内容区域 start -->
@@ -37,7 +45,7 @@
 
 
                         <!--增加部分隐藏 start-->
-                        <form action="/property/verifyParking" method="post" name="parking-fees-form">
+                        <form action="/user/property/verifyParking/" method="post" name="parking-fees-form">
                             <div id="add" style="display: block;">
                                 <div class="el_tipPop_h_i">
                                     <span class="title">增加停车卡</span>
@@ -45,20 +53,13 @@
                                 <div class="add_box">
                                     <p>
                                         <span>所在小区：</span>
-                                        <input class="func_position xiaoqu el_btn" type="button" value="请选择小区"
+                                        <input class="func_position xiaoqu el_btn" type="text" value="请填写小区"
                                                get_position_pid="" get_position_cid="" get_positionid="">
-                                        <input type="hidden" name="Parking[id]" class="id_text_for_from"/>
-                                        <input type="hidden" name="Parking[community_id]"
-                                               class="community_text_for_form" value=""/>
                                     </p>
 
                                     <p>
                                         <span>楼栋房号：</span>
-                                        <input class="func_building_parking xiaoqu el_btn" type="button" value="选择楼栋房间">
-                                        <input type="hidden" name="Parking[build_id]" value=""
-                                               class="build_text_for_form"/>
-                                        <input type="hidden" name="Parking[room_id]" value=""
-                                               class="room_text_for_form"/>
+                                        <input class="func_building_parking xiaoqu el_btn" type="text" value="请填写栋房间">
                                     </p>
 
                                     <p>
@@ -67,16 +68,14 @@
                                                name="Parking[car_number]" defaultTxt="车牌号">
                                     </p>
                                 </div>
-
-
                             </div>
                             <!--增加部分隐藏 end-->
                             <div class="vessel_conBox_text_button">
                                 <div>
-                                    <input type="button" value="立即缴费" class="el_btn_orange_xsl el_btn btn_by_parking"/>
+                                    <input type="submit" value="立即缴费" class="el_btn_orange_xsl el_btn btn_by_parking"/>
                                 </div>
                                 <div style="width: 468px;">
-                                    <input type="checkbox" name="is_save" value="1"/>
+                                    <input style="margin-top: -2px" type="checkbox" name="is_save" value="1"/>
                                     <label>将车位信息保存到您的账号</label>
                                 </div>
                             </div>
@@ -84,13 +83,7 @@
 
                         <div class="line"></div>
                         <div class="last_text_box">
-                            <p>
-                                1、本应用只适用于所有彩生活集团管理的物业！
-                            </p>
 
-                            <p>
-                                2、最终解释权归彩生活集团所有！
-                            </p>
                         </div>
                     </div>
                     <!--步骤1内容 end-->

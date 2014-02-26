@@ -51,6 +51,9 @@ def repair(request):
         elif deal_status == u'3':
             repairs = Repair.objects.filter(community=one_community, status=3).order_by('-timestamp')
             btn_status = 3
+        elif deal_status == u'4':
+            repairs = Repair.objects.filter(community=one_community, status=4).order_by('-timestamp')
+            btn_status = 4
         else:
             repairs = Repair.objects.filter(community=one_community, status=1).order_by('-timestamp')
             btn_status = 1
@@ -79,6 +82,7 @@ def repair(request):
             return render_to_response('admin_repair.html', {
                 'show': False,
                 'user': request.user,
+                'btn_style': btn_status,
                 'community': one_community,
                 'change_community': status,
                 'communities': communities,
@@ -94,9 +98,12 @@ def repair(request):
         elif deal_status == u'3':
             repairs = Repair.objects.filter(handler=request.user, status=3).order_by('-timestamp')
             btn_status = 3
+        elif deal_status == u'4':
+            repairs = Repair.objects.filter(handler=request.user, status=4).order_by('-timestamp')
+            btn_status = 4
         else:
-            repairs = Repair.objects.filter(handler=request.user, status=2).order_by('-timestamp')
-            btn_status = 2
+            repairs = Repair.objects.filter(handler=request.user, status=4).order_by('-timestamp')
+            btn_status = 4
         if len(repairs) > 0:
             paginator = Paginator(repairs, 4)
             page = request.GET.get('page')
@@ -120,6 +127,7 @@ def repair(request):
         else:
             return render_to_response('worker_repair.html', {
                 'show': False,
+                'btn_style': btn_status,
                 'community': one_community,
                 'change_community': status,
                 'communities': communities,
@@ -205,6 +213,7 @@ def repair_create(request):
 
 @transaction.atomic
 @csrf_exempt
+@login_required(login_url='/login/')
 def repair_deal(request):
     if request.method != u'POST':
         return redirect(index)
@@ -218,7 +227,7 @@ def repair_deal(request):
                 repair = Repair.objects.get(id=re_id)
                 repair.is_read = True
                 repair.is_worker_read = True
-                repair.status = 2
+                repair.status = 4
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
                     repair.handler = user_obj
@@ -226,6 +235,28 @@ def repair_deal(request):
             response_data = {'success': True, 'info': '授权成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def worker_deal_repair(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        repair_array = request.POST.get("selected_repair_string", None)
+        if repair_array:
+            list_repair = str(repair_array).split(",")
+            for i in range(len(list_repair)):
+                re_id = int(list_repair[i])
+                repair = Repair.objects.get(id=re_id)
+                repair.is_read = True
+                repair.is_worker_read = True
+                repair.status = 2
+                #user_obj = User.objects.get(id=deal_person_id)
+                #if user_obj:
+                #    repair.handler = user_obj
+                repair.save()
+            response_data = {'success': True, 'info': '已更改状态！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 @transaction.atomic
 @csrf_exempt
@@ -430,12 +461,39 @@ def api_repair_deal(request):
             for i in range(len(list_repair)):
                 rep_id = int(list_repair[i])
                 repair = Repair.objects.get(id=rep_id)
-                repair.status = 2
+                repair.status = 4
                 repair.is_read = True
                 repair.is_worker_read = True
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
                     repair.handler = user_obj
+                repair.save()
+            response_data = {'success': True, 'info': u'授权成功！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False, 'info': u'请选择要处理的报修'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+@transaction.atomic
+@csrf_exempt
+def api_worker_repair_deal(request):
+    convert_session_id_to_user(request)
+    if request.method != u'POST':
+        return return_error_response()
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        repair_array = data.get("repair_id_string", None)
+        if repair_array:
+            list_repair = str(repair_array).split(",")
+            for i in range(len(list_repair)):
+                rep_id = int(list_repair[i])
+                repair = Repair.objects.get(id=rep_id)
+                repair.status = 2
+                repair.is_read = True
+                repair.is_worker_read = True
+                #user_obj = User.objects.get(id=deal_person_id)
+                #if user_obj:
+                #    repair.handler = user_obj
                 repair.save()
             response_data = {'success': True, 'info': u'授权成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
@@ -592,7 +650,8 @@ def api_repair_create_android(request):
         repair_content = unquote(str(request.POST.get('content', None)))
         repair_type = unquote(str(request.POST.get('category', None)))
         category_item_id = request.POST.get('category_item_id', None)
-        upload_repair_src = unquote(str(request.FILES.get('upload_repair_img', None)))
+        #upload_repair_src = unquote(str(request.FILES.get('upload_repair_img', None)))
+        upload_repair_src = request.FILES.get('upload_repair_img', None)
         repair_time = datetime.datetime.now()
         item = Repair_item.objects.get(id=category_item_id)
         profile = ProfileDetail.objects.get(profile=request.user)
@@ -602,6 +661,7 @@ def api_repair_create_android(request):
             repair.timestamp = repair_time
             repair.status = 1
             repair.author = request.user.username
+            repair.author_detail = profile
             repair.type = repair_type
             repair.repair_item = item.item
             repair.price = item.price

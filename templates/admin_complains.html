@@ -116,8 +116,13 @@
                              <a href="/complain/?deal_status=1"
                                 class="btn_type btn {% if btn_style == 1 %}btn-primary{% endif %} "
                                 style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">
-                               未处理
+                               未受理
                              </a>
+                             <a href="/complain/?deal_status=4"
+                               class="btn_type btn {% if btn_style == 4 %}btn-primary{% endif %} "
+                               style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
+                               已受理
+                            </a>
                             <a href="/complain/?deal_status=2"
                                class="btn_type btn {% if btn_style == 2 %}btn-primary{% endif %} "
                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
@@ -168,7 +173,7 @@
         {#                                        ，户主：<span>{{ one_complain.author_detail.profile.username}}</span>#}
                                             </li>
                                             <li style="width:92px;margin-left: 18px ">{{ one_complain.type }}</li>
-                                            <li style="width:215px;margin-left: 0px ">{{ one_complain.content|truncatewords:"30" }}</li>
+                                            <li style="width:215px;margin-left: 0px ">{{ one_complain.content|truncatechars:40 }}</li>
                                             <li  style="width:77px;margin-left: 0px"class="border_style">
                                                 {% ifequal one_complain.status 1 %}
                                                     <select id="handler_complain_{{one_complain.id }}">
@@ -254,7 +259,7 @@
         {#                                        ，户主：<span>{{ one_complain.author_detail.profile.username}}</span>#}
                                             </li>
                                             <li style="width:92px;margin-left: 40px ">{{ one_complain.type }}</li>
-                                            <li style="width:230px;margin-left: 16px ">{{ one_complain.content|truncatewords:"30" }}</li>
+                                            <li style="width:230px;margin-left: 16px ">{{ one_complain.content|truncatechars:40  }}</li>
                                             <li  style="width:110px;margin-left: 13px"class="border_style">
                                                 {% ifequal one_complain.status 1 %}
                                                     <select id="handler_complain_{{one_complain.id }}">
@@ -306,7 +311,6 @@
                                                       margin-top: 5px">
                                                     </button>
                                                 {% endifequal %}
-
                                             </li>
 
                                         </ul>

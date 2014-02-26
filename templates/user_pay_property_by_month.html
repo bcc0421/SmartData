@@ -1,0 +1,354 @@
+{% extends "baseheader.html" %}
+{% block title %}物业缴费{% endblock %}
+{% block css %}
+    <style>
+        body{
+            background-color: #ffffff;
+        }
+    .font_style{
+        color: #b46e28;
+    }
+    </style>
+{% endblock %}
+{% block container %}
+    <form method="post" action="/property/user_pay_online/" name="property-form">
+    <div class="s_ifs_ix main el_container">
+    <div class="el_blank_h20"></div>
+    <!-- 右侧栏 start -->
+    <div class="el_w_974 fn_right">
+        <!-- vessel start -->
+        <div class="vessel vessel_s1 vessel_s3">
+            <div class="vessel_titBox">
+                <span class="tit">物业缴费</span>
+            </div>
+
+            <!--缴费步骤 start-->
+            <div class="vessel_conBox_step2">
+                <div class="vessel_conBox_step_head">
+                                    <span class="stepName stepName_s1">
+                                        <a style="color: #FFF"
+                                           href="http://bslt.c.colourlife.com/property/createProperty">
+                                            选择物业
+                                        </a>
+                                    </span>
+
+                                    <span class="stepName stepName_s2">
+                                        缴费清单
+                                    </span>
+
+                    <span class="stepName stepName_s3">在线支付</span>
+                    <span class="stepName stepName_s4">缴费成功</span>
+                </div>
+            </div>
+            <!--缴费步骤 end-->
+
+
+            <!--步骤3内容 start-->
+            <div class="vessel_conBox_text" style="width: 661px;">
+{#                <table class="payment_table">#}
+{#                    <thead>#}
+{#                    <tr>#}
+{#                        <th>#}
+{#                            <div class="pay_table_th">#}
+{#                                <!--#}
+{#                                  <p class="clearfix">#}
+{#                                    <a href="javascript:void(0);" class="goback">&lt;&lt;&nbsp;返回</a>#}
+{#                                    <span class="list_number">NO.2309848348238</span>#}
+{#                                  </p>#}
+{#                                   -->#}
+{#                                <h4>半山御景物业费用清单</h4>#}
+{##}
+{#                                <p class="owner_info">#}
+{#                                    <span class="owner_name" style="width: 160px;">业主：snail</span>#}
+{#                                    <span class="owner_area" style="width:  260px;">物业：半山御景</span>#}
+{#                                    <span class="due_time">日期：2014-02-17 14:47:03</span>#}
+{#                                </p>#}
+{#                            </div>#}
+{#                        </th>#}
+{#                    </tr>#}
+{#                    </thead>#}
+{#                    <tbody>#}
+{#                    <tr>#}
+{#                        <td>#}
+{##}
+{##}
+{#                        </td>#}
+{#                    </tr>#}
+{##}
+{#                    </tbody>#}
+{##}
+{#                </table>#}
+                <div style="border: 1px solid #dddddd;height: 150px;padding: 5px 5px">
+                    <p class="font_style" >某某小区物业费清单</p>
+                    <p class="font_style">电费：</p>
+                    <p class="font_style">水费：</p>
+                    <p class="font_style">128平方米*10</p>
+                </div>
+                <div style="border: 1px solid #dddddd;height: 30px;padding: 5px 5px">
+                    <span class="font_style">合计1200￥</span>
+                </div>
+                <div style="padding: 15px 10px">
+                    <span>业主：</span>
+                    <span>物业：</span>
+                   <span>日期：2013年3月28日</span>
+                </div>
+            </div>
+
+            <!--步骤2内容 end-->
+
+        </div>
+        <!-- vessel end -->
+    </div>
+    <!-- 右侧栏 end -->
+
+
+    <div class="el_blank_h10 fn_clear"></div>
+
+
+    支付方式：
+    <div style="margin-top:15px;" class="defaultSwitchBox switchBox">
+    <div class="headBox">
+                            <span tarindex="1" class="headBox_itemBox currentEle">
+                                <a class="headBox_item">储蓄卡/信用卡</a>
+                            </span>
+                            <span tarindex="2" class="headBox_itemBox">
+                                <a class="headBox_item">第三方支付</a>
+                            </span>
+
+    </div>
+    <div id="containBox1" class="containBox">
+    <div srcindex="1" class="containBox_inner currentEle">
+        <!-- 彩付9.8折 start -->
+
+        <div class="box">
+            <label class="radio">
+                <input type="radio" value="5" bankcode="ceb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span class="txt"><img title="光大银行"
+                                                   src="http://cc.colourlife.com/common/images/bank/logo/bank_ceb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="boc" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="中国银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_boc.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="ccb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="建设银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_ccb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="abc" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="农业银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_abc.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="cmb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="招商银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_cmb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="icbc" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="工商银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_icbc.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="nbcb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="宁波银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_nbcb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="czb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="浙商银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_czb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="bjrcb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="农村商业银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_bjrcb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="njcb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="南京银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_njcb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="cib" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="兴业银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_cib.gif"></span>
+            </label>
+
+            <label class="radio">
+                <input type="radio" value="5" bankcode="gdb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="广发银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_gdb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="spdb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="浦发银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_spdb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="bcom" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="交通银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_bcom.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="bea" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="东亚银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_bea.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="bob" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="北京银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_bob.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="cbhb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="渤海银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_cbhb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="citic" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="中信银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_citic.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="cmbc" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="民生银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_cmbc.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="gzcb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="广州银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_gzcb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="gzrcc" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="广州农村信用社银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_gzrcc.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="hsb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="徽商银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_hsb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="hxb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="华夏银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_hxb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="hzb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="杭州银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_hzb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="shrcc" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="上海农村信用合作社" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_shrcc.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="pab" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="平安银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_pab.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="post" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="邮政银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_post.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="sdb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="深发展银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_sdb.gif"></span>
+            </label>
+            <label class="radio">
+                <input type="radio" value="5" bankcode="shb" root="储蓄卡/信用卡" name="OthersFees[payment_id]"
+                       class="el_radio bank_payment">
+                            <span title="上海银行" class="txt"><img
+                                    src="http://cc.colourlife.com/common/images/bank/logo/bank_shb.gif"></span>
+            </label>
+        </div>
+
+        <!-- 储蓄卡/信用卡 end -->
+    </div>
+    <div srcindex="2" class="containBox_inner">
+        <!--第三方  start-->
+        <div class="box">
+            <label class="radio">
+                <input class="el_radio" type="radio" bankcode="" paymentcode="tenpay"
+                       name="OthersFees[payment_id]" root="财付通电脑" value="3">
+                                                    <span class="txt"><img
+                                                            src="http://cimg.colourlife.com/images/2013/09/13/14/110427128.png"
+                                                            title="财付通电脑"
+                                                            class="bank" alt="财付通电脑"></span>
+
+            </label>
+            <label class="radio">
+                <input class="el_radio" type="radio" bankcode="" paymentcode="kuaiqian"
+                       name="OthersFees[payment_id]" root="快钱支付" value="5">
+                                                    <span class="txt"><img
+                                                            src="http://cimg.colourlife.com/images/2013/08/09/20/571268223.png"
+                                                            title="快钱支付"
+                                                            class="bank" alt="快钱支付"></span>
+
+            </label>
+            <!--第三方  end-->
+        </div>
+
+
+    </div>
+    </div>
+
+    <input type="hidden" name="Property[colorcloud_id]" value="HYN-BY"/>
+    <input type="hidden" name="Property[colorcloud_bills]" id="Property_colorcloud_bills"
+           value="39643033,39642668,39642331,39641994,39643000,33471910,33471571"/>
+    <input type="hidden" name="OthersFees[amount]" id="property_amount" value="583.28"/>
+    <input type="hidden" name="Property[community_id]" value="112"/>
+    <input type="hidden" name="Property[colorcloud_building]" value="HYN-BY-1"/>
+    <input type="hidden" name="Property[colorcloud_unit]" value="HYN-BY-1-01"/>
+    <input type="hidden" name="Property[build]" value=""/>
+    <input type="hidden" name="Property[room]" value=""/>
+    <input type="hidden" name="bankcode" id="bank_code_by_form" value=""/>
+    <input type="hidden" name="old_property_fees" id="old_property_fees" value="0">
+    <input type="hidden" id="discount_property" name="discount_property" value="?>">
+
+    <div class="el_tipPop_b"></div>
+
+    <p class="vessel_conBox_text_button2">
+        <input type="submit" class="el_btn_orange_xsl el_btn" id="propertyBtn" value="提交订单"/>
+    </p>
+
+    <div class="el_blank_h50 fn_clear"></div>
+    </div>
+    </form>
+    <!-- 主要内容区域 end -->
+{% endblock %}

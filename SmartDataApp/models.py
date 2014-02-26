@@ -39,6 +39,7 @@ class ProfileDetail(models.Model):
     device_user_id = models.CharField(max_length=250, null=True, default=0)
     device_chanel_id = models.CharField(max_length=250, null=True, default='')
     device_type = models.CharField(max_length=250, null=True, default='')
+    car_number = models.CharField(max_length=20, null=True)
     def __str__(self):
         return self.phone_number
 
@@ -143,6 +144,29 @@ class Housekeeping(models.Model):
 
     def __str__(self):
         return self.author
+
+
+class Wallet(models.Model):
+    user_profile = models.ForeignKey(ProfileDetail, null=True)
+    money_sum = models.DecimalField(max_digits=19, decimal_places=6, default=0.0)
+    grade_sum = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.money_sum
+
+
+class Transaction(models.Model):
+    action = models.CharField(max_length=250, null=True)
+    time = models.DateTimeField(null=True)
+    money_num = models.DecimalField(max_digits=19, decimal_places=6, default=0.0)
+    grade_num = models.IntegerField(default=0)
+    remark = models.CharField(max_length=250, null=True)
+    wallet_profile = models.ForeignKey(Wallet, null=True)
+
+    def __str__(self):
+        return self.action
+
+
 
 
 

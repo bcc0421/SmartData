@@ -68,6 +68,9 @@ def complain(request):
         elif deal_status == u'3':
             complains = Complaints.objects.filter(community=one_community, status=3).order_by('-timestamp')
             btn_status = 3
+        elif deal_status == u'4':
+            complains = Complaints.objects.filter(community=one_community, status=4).order_by('-timestamp')
+            btn_status = 4
         else:
             complains = Complaints.objects.filter(community=one_community, status=1).order_by('-timestamp')
             btn_status = 1
@@ -97,6 +100,7 @@ def complain(request):
             return render_to_response('admin_complains.html', {
                 'show': False,
                 'user': request.user,
+                'btn_style': btn_status,
                 'deal_person_list': deal_person_list,
                 'community': one_community,
                 'communities': communities,
@@ -111,9 +115,12 @@ def complain(request):
         elif deal_status == u'3':
             complains = Complaints.objects.filter(handler=request.user, status=3).order_by('-timestamp')
             btn_status = 3
+        elif deal_status == u'4':
+            complains = Complaints.objects.filter(handler=request.user, status=4).order_by('-timestamp')
+            btn_status = 4
         else:
-            complains = Complaints.objects.filter(handler=request.user, status=2).order_by('-timestamp')
-            btn_status = 2
+            complains = Complaints.objects.filter(handler=request.user, status=4).order_by('-timestamp')
+            btn_status = 4
         if len(complains) > 0:
             paginator = Paginator(complains, 4)
             page = request.GET.get('page')
@@ -137,6 +144,7 @@ def complain(request):
         else:
             return render_to_response('worker_complains.html', {
                 'show': False,
+                'btn_style': btn_status,
                 'communities': communities,
                 'profile': profile,
                 'community': one_community,
@@ -224,7 +232,7 @@ def complain_deal(request):
                 complain = Complaints.objects.get(id=com_id)
                 complain.is_read = True
                 complain.is_worker_read = True
-                complain.status = 2
+                complain.status = 4
                 user_obj = User.objects.get(id=deal_person_id)
                 if user_obj:
                     complain.handler = user_obj
@@ -239,6 +247,27 @@ def complain_deal(request):
             else:
                 response_data = {'success': True, 'info': '授权成功,消息推送失败！'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def worker_deal_complain(request):
+    if request.method != u'POST':
+        return redirect(index)
+    else:
+        complain_array = request.POST.get("selected_complain_string", None)
+        if complain_array:
+            list_complain = str(complain_array).split(",")
+            for i in range(len(list_complain)):
+                re_id = int(list_complain[i])
+                complain = Complaints.objects.get(id=re_id)
+                complain.is_read = True
+                complain.is_worker_read = True
+                complain.status = 2
+                complain.save()
+            response_data = {'success': True, 'info': '已更改状态'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
 @transaction.atomic
@@ -463,7 +492,7 @@ def api_complain_deal(request):
             for i in range(len(list_complain_)):
                 com_id = int(list_complain_[i])
                 complain = Complaints.objects.get(id=com_id)
-                complain.status = 2
+                complain.status = 4
                 complain.is_worker_read = True
                 complain.is_read = True
                 user_obj = User.objects.get(id=deal_person_id)
@@ -631,7 +660,8 @@ def api_complain_create_android(request):
     else:
         complain_content = unquote(str(request.POST.get('content', None)))
         complain_type = unquote(str(request.POST.get('category', None)))
-        upload__complain_src = unquote(str(request.FILES.get('upload_complain_img', None)))
+        #upload__complain_src = unquote(str(request.FILES.get('upload_complain_img', None)))
+        upload__complain_src = request.FILES.get('upload_complain_img', None)
         #complain_time = datetime.datetime.utcnow().replace(tzinfo=utc)
         complain_time = datetime.datetime.now()
         profile = ProfileDetail.objects.get(profile=request.user)
@@ -639,6 +669,7 @@ def api_complain_create_android(request):
             complain = Complaints(author=request.user.username)
             complain.content = complain_content
             complain.timestamp = complain_time
+            complain.author_detail = profile
             complain.type = complain_type
             complain.is_admin_read = True
             complain.community = profile.community
