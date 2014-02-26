@@ -31,7 +31,7 @@ def validateEmail(email):
 
 @transaction.atomic
 @csrf_exempt
-# @login_required
+@login_required
 def register(request):
     if request.method != 'POST':
         communities = Community.objects.all()

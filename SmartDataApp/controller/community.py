@@ -12,7 +12,7 @@ from SmartDataApp.views import index
 
 @transaction.atomic
 @csrf_exempt
-# @login_required
+@login_required
 def add_community(request):
     if request.method != u'POST':
         communities = Community.objects.all()
