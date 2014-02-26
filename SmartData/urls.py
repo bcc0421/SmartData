@@ -132,12 +132,18 @@ urlpatterns = patterns('',
                        url(r'^api/complain/create/android/$',api_complain_create_android),
                        url(r'^api/complain/complete/$',api_complain_complete),
                        url(r'^api/return_xml/$',return_xml),
-                       #url(r'^property/$',property_service),
+                       url(r'^property/$',property_service),
                        url(r'^delete/complain/$',complain_delete),
                        url(r'^delete/repair/$',repair_delete),
                        url(r'^delete/housekeeping/$',housekeeping_delete),
-                        url(r'^user/fee_list/$',property_user_fee_list),
+                        url(r'^user/pay_property_by_month/$',user_pay_property_by_month),
                         url(r'^property/user_pay_online/$',property_user_pay_online),
+                        url(r'^own/housekeeping_detail/$',housekeeping_detail),
+                        url(r'^worker_deal/repair/$',worker_deal_repair),
+                        url(r'^worker_deal/complain/$',worker_deal_complain),
+                        url(r'^user/prepare_pay_property_fees/$',user_prepare_pay_fee),
+                        url(r'^user/property/verifyParking/$',user_property_verifyParking),
+
 
 
 

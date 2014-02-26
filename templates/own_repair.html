@@ -94,9 +94,9 @@
                     <li style="margin-left: 45px">时间</li>
                     <li>报修类型</li>
                     <li>报修内容</li>
-                    <li  style="margin-left: 136px">照片</li>
-                    <li style="margin-left: 75px">处理状态</li>
+                    <li style="margin-left: 136px">处理状态</li>
                     <li style="margin-left: 62px">满意度</li>
+                    <li  style="margin-left: 75px">照片</li>
                 </ul>
             </div>
             {% for repair in repairs %}
@@ -158,13 +158,7 @@
                         <li style="width: 150px;margin-left: 0px">{{ repair.timestamp | date:"Y-m-d H:i:s"}} </li>
                         <li>{{ repair.type }}</li>
                         <li style="width:224px">{{ repair.content|truncatechars:40 }}</li>
-                        <li>
-                            {% if repair.src  %}
-                                 <img src="/media/{{ repair.src }}"style="height: 50px;width: 50px">
-                             {% else %}
-                                  <span  style="height: 25px;width: 25px">无图片</span>
-                              {% endif %}
-                        </li>
+
                         <li>
                              {% ifequal repair.status 1 %}
                                     <span style="color: red">未受理</span>
@@ -193,6 +187,16 @@
                              {% else %}
                                  <span>暂无</span>
                              {% endifequal %}
+                        </li>
+                         <li>
+{#                            {% if repair.src  %}#}
+{#                                 <img src="/media/{{ repair.src }}"style="height: 50px;width: 50px">#}
+{#                             {% else %}#}
+{#                                  <span  style="height: 25px;width: 25px">无图片</span>#}
+{#                              {% endif %}#}
+                               <a href="/show/image_detail/{{ repair.id }}/?type=repair"target="_blank">
+                                    查看详情
+                               </a>
                         </li>
                     </ul>
                 </div>

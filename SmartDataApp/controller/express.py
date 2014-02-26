@@ -1,5 +1,6 @@
 #coding:utf-8
 import datetime
+from urllib import unquote
 from django.http import HttpResponse
 import simplejson
 from django.contrib.auth.decorators import login_required
@@ -173,7 +174,8 @@ def user_self_get_express(request):
                 express_id = int(list_express[i])
                 express = Express.objects.get(id=express_id)
                 express.type = express_type
-                if get_express_time != u'header':
+                express.submit_express_status = 1
+                if get_express_time:
                     express.allowable_get_express_time = get_express_time
                 express.save()
             response_data = {'success': True, 'info': '提交成功！', 'express_type':express_type}
@@ -332,10 +334,12 @@ def api_user_obtain_express(request):
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
         express_id = data .get("express_id", None)
+        #express_type = unquote(str(data .get("express_type", None)))
         express_type = data .get("express_type", None)
+        #allowable_get_express_time = unquote(str(data .get("allowable_get_express_time", None)))
         allowable_get_express_time = data .get("allowable_get_express_time", None)
         express = Express.objects.get(id=express_id)
-        if express:
+        if express and express_type:
             express.allowable_get_express_time = allowable_get_express_time
             express.type = express_type
             express.save()
