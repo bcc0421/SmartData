@@ -33,4 +33,21 @@ def parking_fees(request):
         return render_to_response('park_fees.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
 
 
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def user_property_verifyParking(request):
+    profile = ProfileDetail.objects.get(profile=request.user)
+    community_id = request.session.get('community_id', profile.community.id)
+    one_community = Community.objects.get(id=community_id)
+    status = None
+    if community_id == profile.community.id:
+        status = 2
+    else:
+        status = 1
+    communities = Community.objects.all()
+
+    return render_to_response('user_car_port.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+
+
 

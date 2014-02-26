@@ -814,7 +814,7 @@ category 和 category_item_id 必填
 
 ### 29. Modify repair item(用户需要登录)（管理员调用）
 
-#### URL : /api/api/modify/repair_item/
+#### URL : /api/modify/repair_item/
 
 #### Method : POST（四个参数可以任意给一个）
 

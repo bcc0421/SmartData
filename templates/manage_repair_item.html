@@ -114,7 +114,7 @@
                         <td>{{ item.price }}</td>
                         <td>
                             <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;"
-                                    onclick="modify_item({{ item.id }})">
+                                    onclick="modify_item('{{ item.id }} ','{{ item.item }}','{{ item.price }}')">
                                 修改
                             </button>
                         </td>
@@ -249,10 +249,14 @@
         $('.modify').hide();
         $('#add_repair_item').modal('show');
     }
-    function modify_item(id) {
+    function modify_item(id,default_item,default_price) {
         $('.add_item').hide();
         $('.modify').show();
         $('.modify').attr('name', id);
+{#        alert(default_item);#}
+{#        alert(default_price);#}
+        $('input[name="input_item"]').attr("value",default_item);
+        $('input[name="input_price"]').attr("value",default_price);
         $('#add_repair_item').modal('show');
     }
 

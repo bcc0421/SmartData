@@ -105,11 +105,6 @@
                                 style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">
                                未处理
                              </a>
-                            <a href="/housekeeping/?deal_status=2"
-                               class="btn_type btn {% if btn_style == 2 %}btn-primary{% endif %} "
-                               style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
-                               处理中
-                            </a>
                             <a href="/housekeeping/?deal_status=3"
                                class="btn_type btn {% if btn_style == 3 %}btn-primary{% endif %} "
                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
@@ -264,14 +259,14 @@
         }
         function deal_housekeeping_single(obj){
             var id = $(obj).attr('name');
-            var deal_person_id = $("#handler_housekeeping_"+id+"").val();
+{#            var deal_person_id = $("#handler_housekeeping_"+id+"").val();#}
             var checked_array = new Array();
             if($(".chk_"+id+"").attr("checked")){
                  checked_array.push(id);
                  $.post('/deal/housekeeping/',
                             {
                                 'selected_housekeeping_string': checked_array.toString(),
-                                'deal_person_id': deal_person_id
+{#                                'deal_person_id': deal_person_id#}
                             },
                             function (data) {
                                 if (data.success) {

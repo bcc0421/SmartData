@@ -113,11 +113,11 @@
             <div style="width: 944px;overflow: auto;border-top: 0px;margin-left: 5px;float: left;background-color: #ffffff">
                   <div class="vessel vessel_s1" style="margin-bottom: 10px">
                         <div class="vessel_titBox">
-{#                             <a href="/complain/?deal_status=1"#}
-{#                                class="btn_type btn {% if btn_style == 1 %}btn-primary{% endif %} "#}
-{#                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">#}
-{#                               未处理#}
-{#                             </a>#}
+                             <a href="/complain/?deal_status=4"
+                                class="btn_type btn {% if btn_style == 4 %}btn-primary{% endif %} "
+                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">
+                               已受理
+                             </a>
                             <a href="/complain/?deal_status=2"
                                class="btn_type btn {% if btn_style == 2 %}btn-primary{% endif %} "
                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
@@ -168,7 +168,7 @@
         {#                                        ，户主：<span>{{ one_complain.author_detail.profile.username}}</span>#}
                                             </li>
                                             <li style="width:92px;margin-left: 18px ">{{ one_complain.type }}</li>
-                                            <li style="width:215px;margin-left: 0px ">{{ one_complain.content|truncatewords:"30" }}</li>
+                                            <li style="width:215px;margin-left: 0px ">{{ one_complain.content|truncatechars:40  }}</li>
                                             <li  style="width:77px;margin-left: 0px"class="border_style">
                                                 {% ifequal one_complain.status 2 %}
                                                     <span style="color: deepskyblue">{{one_complain.handler.username  }}</span>
@@ -203,18 +203,6 @@
                                                 <a href="/show/image_detail/{{ one_complain.id }}/?type=complain"target="_blank">
                                                  查看详情
                                                 </a>
-{#                                                {% ifequal one_complain.status 3 %}#}
-{##}
-{#                                                      <button class='btn'#}
-{#                                                      name={{ one_complain.id  }}#}
-{#                                                      onclick="delete_complain_single(this)"#}
-{#                                                      id="delete_complain_single_{{ one_complain.id  }}"#}
-{#                                                      style=" background: url('/static/images/delete.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);#}
-{#                                                      width: 67px;height: 28px;#}
-{#                                                      margin-left: 22px;#}
-{#                                                      margin-top: 5px">#}
-{#                                                    </button>#}
-{#                                                {% endifequal %}#}
 
                                             </li>
 
@@ -238,7 +226,7 @@
         {#                                        ，户主：<span>{{ one_complain.author_detail.profile.username}}</span>#}
                                             </li>
                                             <li style="width:92px;margin-left: 40px ">{{ one_complain.type }}</li>
-                                            <li style="width:230px;margin-left: 16px ">{{ one_complain.content|truncatewords:"30" }}</li>
+                                            <li style="width:230px;margin-left: 16px ">{{ one_complain.content|truncatechars:40  }}</li>
                                             <li  style="width:110px;margin-left: 13px"class="border_style">
                                                 {% ifequal one_complain.status 2 %}
                                                     <span style="color: deepskyblue">{{one_complain.handler.username  }}</span>
@@ -259,8 +247,19 @@
                                                 <a href="/show/image_detail/{{ one_complain.id }}/?type=complain"target="_blank">
                                                  查看详情
                                                 </a>
+                                                 {% ifequal one_complain.status 4 %}
+                                                   <button class='btn'
+                                                      name={{ one_complain.id  }}
+                                                      onclick="worker_deal_complain_single(this)"
+                                                      id="complete_complain_single_{{ one_repair.id  }}"
+                                                      style=" background: url('/static/images/deal_complain.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                                                      width: 67px;height: 26px;
+                                                      margin-left: 22px;
+                                                      margin-top: 5px">
+                                                    </button>
+                                                {% endifequal %}
                                                 {% ifequal one_complain.status 2 %}
-                                                    <button class='btn'
+                                                   <button class='btn'
                                                       name={{ one_complain.id  }}
                                                       onclick="complete_complain_single(this)"
                                                       id="complete_complain_single_{{ one_complain.id  }}"
@@ -280,37 +279,6 @@
                         {% endifequal %}
 
                          <div class="paginator" style="background-color:#dcdcdc;height: 40px;margin-top: 10px;padding-top: 8px;text-align: right">
-{#                             <div style="float: left">#}
-{#                                        {% ifequal btn_style 1 %}#}
-{#                                            <input type="checkbox" name="chk_all"style="margin-left: 5px;margin-top: -3px" onclick="check_all(this)" >#}
-{#                                             <span>全选</span>&nbsp;&nbsp;#}
-{#                                              <span>处理人：</span>#}
-{#                                             <select id="id_handler">#}
-{#                                                        {% for deal_person in deal_person_list %}#}
-{#                                                            <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>#}
-{#                                                        {% endfor %}#}
-{#                                              </select>#}
-{#                                              <button class='btn'#}
-{#                                                      id="deal_complain"#}
-{#                                                      style=" background: url('/static/images/solve.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);#}
-{#                                                      width: 76px;height: 28px;#}
-{#                                                      margin-top: -5px">#}
-{#                                               </button>#}
-{#                                        {% endifequal %}#}
-{#                                        {% ifequal btn_style 2 %}#}
-{#                                        {% endifequal %}#}
-{#                                        {% ifequal btn_style 3 %}#}
-{#                                            <input type="checkbox" name="chk_all"style="margin-left: 5px;margin-top: -3px" onclick="check_all(this)" >#}
-{#                                            <span>全选</span>&nbsp;&nbsp;#}
-{#                                            <button class='btn'#}
-{#                                                      id="delete_complain"#}
-{#                                                      style=" background: url('/static/images/delete.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);#}
-{#                                                      width: 76px;height: 28px;#}
-{#                                                      margin-top: -5px">#}
-{#                                            </button>#}
-{#                                        {% endifequal %}#}
-{##}
-{#                             </div>#}
                             <div>
                                 <span class="step-links">
                                     {% if complains.has_previous %}
@@ -366,7 +334,29 @@
 
         }
 
+         function worker_deal_complain_single(obj){
+            var id = $(obj).attr('name');
+            var checked_array = new Array();
+            if($(".chk_"+id+"").attr("checked")){
+                 checked_array.push(id);
+                 $.post('/worker_deal/complain/',
+                            {
+                                'selected_complain_string': checked_array.toString()
+                            },
+                            function (data) {
+                                if (data.success) {
+                                    alert(data.info);
+                                    $(".chk_"+id+"").remove();
+                                    $(obj).remove();
+                                }
+                            }
+                    )
 
+            }
+              else {
+                    alert("请选择处理数据");
+                }
+        }
 
         $(function () {
             $('#decide_skip_page').click(function(){

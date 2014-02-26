@@ -1,6 +1,31 @@
 {% extends "baseheader.html" %}
 {% block title %}物业缴费{% endblock %}
 {% block css %}
+    <style>
+        body{
+            background-color: #ffffff;
+        }
+
+        .vessel_conBox_text_head {
+            border-bottom: 1px solid #808080;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            line-height: normal;
+            margin: 0px;!important
+        }
+
+        .payment_btn {
+{#            background: url("/static/images/property_submit.png") no-repeat ;#}
+            color: #FFFFFF;
+            font-family: "微软雅黑";
+            font-size: 18px;
+            height: 40px;
+            line-height: 43px;
+            text-align: center;
+            width: 115px;
+{#}#}
+    </style>
 {% endblock %}
 {% block container %}
 <!-- 主要内容区域 start -->
@@ -26,50 +51,52 @@
                 <!--步骤1内容 start-->
                 <div class="vessel_conBox_text">
                     <div class="vessel_conBox_text_head">
-                        <span class="tit">我的物业</span>
+                        <button class="btn"onclick="my_property()" style="border-radius: 0px 0px 0px 0px;background-color: #ffffff">
+                             <span class="tit" >我的物业</span>
+                        </button>
+
+                        <button class="btn" onclick="add_property()" style="border-radius: 0px 0px 0px 0px;background-color: #ffffff">
+                            <span class="tit"style="margin-left: 10px" >增加物业</span>
+                            <img style="margin-top: -4px" src="/static/images/propery_add.png" />
+                        </button>
+
+
                     </div>
-                    <div class="vessel_conBox_text_content">
+                    <div class="vessel_conBox_text_content" style="border:1px solid #f1f1f1;height: 160px" id="self_property">
                                                 <p>暂无物业地址</p>
-                                        </div>
-                    <div class="vessel_conBox_text_head">
-                        <span class="tit">缴费地址</span>
                     </div>
-                    <form action="/user/fee_list/" method="post" name="property-fees-form" id="add_property_fees">
-                        <input type="hidden" name="Property[id]" class="address_id_for_property"
-                               value=""
-                               id="address_id_for_property" />
-                        <input type="hidden" name="Property[colorcloud_id]" class="colorcloud_for_property"
-                               value=""
-                               id="colorcloud_for_property" />
-                        <input type="hidden" name="Property[community_id]" value="" class="community_text_for_property" id="community_id_for_property" />
-                        <input type="hidden" name="Property[build_id]" value="" class="build_text_for_property" id="build_id_for_property" />
-                        <input type="hidden" name="Property[room_id]" value="" class="room_text_for_property"  id="room_id_for_property"/>
-                        <input type="hidden" name="Property[community_name]" value="" class="community_name_for_property" id="community_name_for_property" />
-                        <input type="hidden" name="Property[build]" value="" class="build_name_for_property" id="build_name_for_property" />
-                        <input type="hidden" name="Property[room]" value="" class="room_name_for_property" id="room_name_for_property" />
+                    <div class="vessel_conBox_text_content" style="border:1px solid #f1f1f1;height: 160px;display: none"id="property_add">
+                        <div style="height: 30px;background-color: #f1f1f1;padding: 3px 10px">
+                            <span>物业增加</span>
+                        </div>
+                        <div style="padding:10px 20px">
+                            <p>
+                                <span>所在小区：</span><input type="text" style="width: 100px;height: 25px;">
+                            </p>
+                            <p>
+                                <span>楼栋房号：</span><input type="text"style="width: 100px;height: 25px;">
+                            </p>
+                            <button onclick="express_back_list()" class="btn" style="height: 25px;width:65px;
+                                border-radius: 0px 0px 0px 0px;padding-top: 2px;
+                                margin-left: 70px">
+                               <span ><font size=2px>保存</font></span>
+                            </button>
+                        </div>
 
-                        <input type="hidden" name="temp_colorcloud_id" id="colorcloud_for_temp" />
-                        <input type="hidden" name="temp_community_id" id="community_id_for_temp" />
-                        <input type="hidden" name="temp_community_name" id="community_name_for_temp" />
-                        <input type="hidden" name="temp_build_id" id="build_id_for_temp" />
-                        <input type="hidden" name="temp_build_name" id="build_name_for_temp" />
+                    </div>
+{#                    <div class="vessel_conBox_text_head">#}
+{#                        <span class="tit">缴费地址</span>#}
+{#                    </div>#}
+                    <form action="" method="post" name="property-fees-form" id="add_property_fees">
 
-                        <div class="vessel_conBox_text_content paymethod">
-                            <div class="simulate_s">
-                                <input type="text" name="Property[fees_address]" class="payment_address" value="请选择缴费地址" readonly="readonly"  onfocus="this.blur()"/>
-                            </div>
-{#                            <div class="identity_erro">#}
-{#                                <label>身份证：</label>#}
-{#                                <input type="text" name="Property[id_card]" class="idlast_four" id="id_card_for_property" value="" />#}
-{#                                <span class="yellow_color">身份证尾数与物业地址不匹配,请重新输入身份证后四位</span>#}
-{#                            </div>#}
-                            <p>&nbsp;</p>
+                        <div class="vessel_conBox_text_content paymethod"style="height: 20px;padding-bottom: 36px">
+{#                            <p>&nbsp;</p>#}
                             <input type="radio" name="property_type_list" value="0"  id="property_month" ><label for="property_month">&nbsp;按月缴费</label>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <input type="radio" name="property_type_list" value="1"   id="property_before" ><label for="property_before">&nbsp;预缴费</label>
 
-                            </div>
-                            <div class="payment_button"><input type="submit" id="btn_by_property" class="el_btn payment_btn" value="立即缴费" ></div>
+                        </div>
+                            <div class="payment_button"><button onclick="skip_by_property_way()" type="submit" id="btn_by_property" class="el_btn payment_btn" ></button></div>
                     </form>
                  </div>
                 <!--步骤1内容 end-->
@@ -77,83 +104,30 @@
         </div>
     <!-- vessel end -->
     </div>
-<!-- 左侧栏 end -->
-<!-- //引入右侧服务页面 -->
-<!-- 侧栏 start -->
-{#    <div class="el_w_264 fn_right">#}
-{#        <!-- vessel start -->#}
-{#        <div class="vessel vessel_s1">#}
-{#            <div class="vessel_titBox">#}
-{#                <span class="tit">服务排行</span>#}
-{#            </div>#}
-{#            <div class="vessel_conBox">#}
-{#                <!-- 元素 start -->#}
-{#                <ul class="vessel_serBox vessel_s1_s1">#}
-{#                    <li class="picBox">#}
-{#                        <a class="link" href="/property/createProperty" target="_blank"></a>#}
-{#                    </li>#}
-{#                    <li class="conBox">#}
-{#                        <p class="txt fn_right">1.9万人次使用</p>#}
-{#                        <p class="txt"><a class="title link" href="/property/createProperty" target="_blank">物业缴费</a></p>#}
-{#                        <p class="txt">开发商：彩之云</p>#}
-{#                    </li>#}
-{#                </ul>#}
-{#                <!-- 元素 end -->#}
-{##}
-{#                <!-- 元素 start -->#}
-{#                <ul class="vessel_serBox vessel_s1_s2">#}
-{#                    <li class="picBox">#}
-{#                        <a class="link" href="/property/createParking" target="_blank"></a>#}
-{#                    </li>#}
-{#                    <li class="conBox">#}
-{#                        <p class="txt fn_right">1.6万人次使用</p>#}
-{#                        <p class="txt"><a class="title link" href="/property/createParking" target="_blank">停车费</a></p>#}
-{#                        <p class="txt">开发商：彩之云</p>#}
-{#                    </li>#}
-{#                </ul>#}
-{#                <!-- 元素 end -->#}
-{##}
-{#                <!-- 元素 start -->#}
-{#                <ul class="vessel_serBox vessel_s1_s3">#}
-{#                    <li class="picBox">#}
-{#                        <a class="link" href="/phoneRecharge" target="_blank"></a>#}
-{#                    </li>#}
-{#                    <li class="conBox">#}
-{#                        <p class="txt fn_right">1.1万人次使用</p>#}
-{#                        <p class="txt"><a class="title link" href="/phoneRecharge" target="_blank">手机充值</a></p>#}
-{#                        <p class="txt">开发商：彩之云</p>#}
-{#                    </li>#}
-{#                </ul>#}
-{#                <!-- 元素 end -->#}
-{##}
-{#                <!-- 元素 start -->#}
-{#                <ul class="vessel_serBox vessel_s1_s4">#}
-{#                    <li class="picBox">#}
-{#                        <a class="link" href="/goods" target="_blank"></a>#}
-{#                    </li>#}
-{#                    <li class="conBox">#}
-{#                        <p class="txt fn_right">1.0万人次使用</p>#}
-{#                        <p class="txt"><a class="title link" href="/goods" target="_blank">生活超市</a></p>#}
-{#                        <p class="txt">开发商：彩之云</p>#}
-{#                    </li>#}
-{#                </ul>#}
-{#                <!-- 元素 end -->#}
-{##}
-{#                <!-- 元素 start -->#}
-{#                <ul class="vessel_serBox vessel_s1_s5">#}
-{#                    <li class="picBox">#}
-{#                        <a class="link" href="/repair/create" target="_blank"></a>#}
-{#                    </li>#}
-{#                    <li class="conBox">#}
-{#                        <p class="txt fn_right">9.8千人次使用</p>#}
-{#                        <p class="txt"><a class="title link" href="/repair/create" target="_blank">报修</a></p>#}
-{#                        <p class="txt">开发商：彩之云</p>#}
-{#                    </li>#}
-{#                </ul>#}
-{#                <!-- 元素 end -->#}
-{#                </div>#}
-{#            </div>#}
-        <!-- vessel end -->
-{#        </div>#}
+
 </div>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+    function add_property(){
+        $('#property_add').show();
+        $('#self_property').hide();
+    }
+    function my_property(){
+        $('#property_add').hide();
+        $('#self_property').show();
+    }
+     function skip_by_property_way(){
+         var pay_type =$('input[type="radio"]:checked').val();
+         if(pay_type ==0){
+             $('form').attr('action','/user/pay_property_by_month/');
+         } else if(pay_type == 1){
+            $('form').attr('action','/user/prepare_pay_property_fees/');
+         }else{
+             alert('选择缴费方式');
+         }
+
+
+     }
+    </script>
 {% endblock %}

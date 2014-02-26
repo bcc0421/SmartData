@@ -1,0 +1,126 @@
+{% extends "baseheader.html" %}
+{% block title %}停车缴费{% endblock %}
+{% block css %}
+{% endblock %}
+{% block container %}
+ <div class="s_ifs_ix main el_container">
+    <div class="el_blank_h20"></div>
+    <!-- 右侧栏 start -->
+    <div class="el_w_974 fn_right">
+    <!-- vessel start -->
+        <div class="vessel vessel_s1">
+            <div class="vessel_titBox">
+                        <span class="tit">
+                            停车费
+                        </span>
+            </div>
+        <div class="vessel_conBox">
+    <!--缴费步骤 start-->
+                <div class="vessel_conBox_step2">
+                        <div class="vessel_conBox_step_head">
+                                        <span class="stepName stepName_s1">
+                                           <a href="http://bslt.c.colourlife.com/property/createParking" style="color: #ffffff">
+                                               私家车
+                                           </a>
+                                        </span>
+                                        <span class="stepName stepName_s2">
+                                            车位
+                                        </span>
+                                        <span class="stepName stepName_s3">
+                                            在线支付
+                                        </span>
+                                        <span class="stepName stepName_s4">
+                                            支付成功
+                                        </span>
+                        </div>
+                </div>
+            <!--缴费步骤 end-->
+            <!--步骤2内容 start-->
+                    <form method="post" action="/property/parkingOrder" name="parking-form">
+                        <div class="vessel_conBox_text">
+                                <div class="last_text_box2">
+                                    <p>
+                                        小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 区：东方园博苑1栋4B123 <input type="hidden" name="Parking[community_id]"
+                                                                                                    value="728"/>
+                                        <input type="hidden" name="Parking[build_id]" value="17359"/>
+                                        <input type="hidden" name="Parking[room]" value="123"/>
+                                    </p>
+
+                                    <p>
+                                        车 &nbsp;牌 &nbsp;号：e72501 <input type="hidden" name="Parking[car_number]" value="e72501"/>
+                                    </p>
+
+                                    <p>
+                                        车位类型：
+                                        <select name="Parking[type_id]" id="type_for_parking">
+                                            <option value="请选择">请选择车位类型</option>
+                                            <option fees="250.00" value="655"
+                                                    >室内停车位
+                                            </option>
+                                            <option fees="250.00" value="656"
+                                                    >室内停车位
+                                            </option>
+                                        </select>
+                                    </p>
+                                    <p>
+                                        续费时间：
+                                        <select name="Parking[period]" id="period_for_parking">
+                                            <option value="请选择">请选择续费时间</option>
+                                            <option value="1">一个月</option>
+                                            <option value="3">三个月</option>
+                                            <option value="6">六个月</option>
+                                            <option value="12">一年</option>
+                                        </select>
+                                    </p>
+                                    <p>
+                                        缴费金额：
+                                                        <span class="txt">
+                                                            ￥<span id="amount_span_for_parking" listPrice="0">0
+
+                                                            </span>
+                                                            <input type="hidden" name="OthersFees[amount]" value="" id="amount_text_for_parking"/>
+                                                        </span>
+                                        <input type="hidden" name="bankcode" id="bank_code_by_form" value=""/>
+                                    </p>
+                                </div>
+                                <div class="line"> </div>
+
+
+                                <div class="vessel_conBox_text_button" style="padding:20px 0 4px 0;">
+                                    <input type="button" value="立即支付" id="parkingBtn" class="el_btn_orange_xsl el_btn"/>
+                                </div>
+                                <div class="line"> </div>
+
+                                <div class="last_text_box">
+                                    <span class="vessel_conBox_step_head1">
+                                        注意事项：
+                                    </span>
+
+                                    <p>
+                                        1、如您的停车卡是老卡，缴费成功后请到管理处激活；
+                                    </p>
+
+                                    <p>
+                                        2、您可以到管理处更换新卡；
+                                    </p>
+
+                                </div>
+                        </div>
+                    </form>
+            <!--步骤2内容 end-->
+                </div>
+        </div>
+    <!-- vessel end -->
+    </div>
+    <!-- 右侧栏 end -->
+
+    </div>
+    <!-- 主要内容区域 end -->
+    <!-- page -->
+
+    <!-- 服务快链区域 start -->
+    <div class="serverBar"></div>
+    <div class="serverBar_box el_container"></div>
+
+
+{% endblock %}

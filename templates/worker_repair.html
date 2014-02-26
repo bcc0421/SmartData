@@ -115,6 +115,12 @@
             <div style="width: 944px;overflow: auto;border-top: 0px;margin-left: 5px;float: left;background-color: #ffffff">
                   <div class="vessel vessel_s1" style="margin-bottom: 10px">
                         <div class="vessel_titBox">
+                            <a href="/repair/?deal_status=4"
+                               class="btn_type btn {% if btn_style == 4 %}btn-primary{% endif %} "
+                               style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
+                               已受理
+                            </a>
+
                             <a href="/repair/?deal_status=2"
                                class="btn_type btn {% if btn_style == 2 %}btn-primary{% endif %} "
                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
@@ -166,7 +172,7 @@
 {#                                                户主：<span>{{ one_repair.author_detail.profile.username}}</span>#}
                                             </li>
                                             <li style="width:92px;margin-left: 10px ">{{ one_repair.type }}</li>
-                                            <li style="width:215px;margin-left: 0px ">{{ one_repair.content|truncatewords:"30" }}</li>
+                                            <li style="width:215px;margin-left: 0px ">{{ one_repair.content|truncatechars:40  }}</li>
                                             <li  style="width:65px;margin-left: 0px"class="border_style">
                                                 {% ifequal one_repair.status 1 %}
                                                     <select id="handler_repair_{{one_repair.id }}">
@@ -230,15 +236,15 @@
 {#                                                ，户主：<span>{{ one_repair.author_detail.profile.username}}</span>#}
                                             </li>
                                             <li style="width:92px;margin-left: 10px ">{{ one_repair.type }}</li>
-                                            <li style="width:215px;margin-left: 19px ">{{ one_repair.content|truncatewords:"30" }}</li>
+                                            <li style="width:215px;margin-left: 19px ">{{ one_repair.content|truncatechars:40 }}</li>
                                             <li  style="width:122px;margin-left: 20px"class="border_style">
-                                                {% ifequal one_repair.status 1 %}
-                                                    <select id="handler_repair_{{one_repair.id }}">
-                                                    {% for deal_person in deal_person_list %}
-                                                        <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>
-                                                    {% endfor %}
-                                                 </select>
-                                                {% endifequal %}
+{#                                                {% ifequal one_repair.status 1 %}#}
+{#                                                    <select id="handler_repair_{{one_repair.id }}">#}
+{#                                                    {% for deal_person in deal_person_list %}#}
+{#                                                        <option value="{{ deal_person.profile.id }}">{{ deal_person.profile.username }}</option>#}
+{#                                                    {% endfor %}#}
+{#                                                 </select>#}
+{#                                                {% endifequal %}#}
                                                 {% ifequal one_repair.status 2 %}
                                                     <span style="color: deepskyblue">{{one_repair.handler.username  }}</span>
                                                 {% endifequal %}
@@ -259,6 +265,17 @@
                                                 <a href="/show/image_detail/{{ one_repair.id }}/?type=repair"target="_blank">
                                                  查看详情
                                                 </a>
+                                                 {% ifequal one_repair.status 4 %}
+                                                   <button class='btn'
+                                                      name={{ one_repair.id  }}
+                                                      onclick="worker_deal_repair_single(this)"
+                                                      id="complete_repair_single_{{ one_repair.id  }}"
+                                                      style=" background: url('/static/images/deal_complain.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                                                      width: 67px;height: 26px;
+                                                      margin-left: 22px;
+                                                      margin-top: 5px">
+                                                    </button>
+                                                {% endifequal %}
                                                 {% ifequal one_repair.status 2 %}
                                                    <button class='btn'
                                                       name={{ one_repair.id  }}
@@ -331,6 +348,29 @@
                 }
         }
 
+         function worker_deal_repair_single(obj){
+            var id = $(obj).attr('name');
+            var checked_array = new Array();
+            if($(".chk_"+id+"").attr("checked")){
+                 checked_array.push(id);
+                 $.post('/worker_deal/repair/',
+                            {
+                                'selected_repair_string': checked_array.toString()
+                            },
+                            function (data) {
+                                if (data.success) {
+                                    alert(data.info);
+                                    $(".chk_"+id+"").remove();
+                                    $(obj).remove();
+                                }
+                            }
+                    )
+
+            }
+              else {
+                    alert("请选择处理数据");
+                }
+        }
         $(function () {
             $('#decide_skip_page').click(function(){
                 var page_num = $('#input_page').val();
