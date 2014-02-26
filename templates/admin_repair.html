@@ -118,13 +118,21 @@
                              <a href="/repair/?deal_status=1"
                                 class="btn_type btn {% if btn_style == 1 %}btn-primary{% endif %} "
                                 style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">
-                               未处理
+                               未受理
                              </a>
-                            <a href="/repair/?deal_status=2"
-                               class="btn_type btn {% if btn_style == 2 %}btn-primary{% endif %} "
+
+
+                            <a href="/repair/?deal_status=4"
+                               class="btn_type btn {% if btn_style == 4 %}btn-primary{% endif %} "
                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
-                               处理中
+                               已受理
                             </a>
+
+                             <a href="/repair/?deal_status=2"
+                                class="btn_type btn {% if btn_style == 2 %}btn-primary{% endif %} "
+                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 70px">
+                               处理中
+                             </a>
                             <a href="/repair/?deal_status=3"
                                class="btn_type btn {% if btn_style == 3 %}btn-primary{% endif %} "
                                style="border:1px solid #dcdcdc; border-radius: 0px 0px 0px 0px;height:34px;width: 80px">
@@ -178,7 +186,7 @@
 {#                                                户主：<span>{{ one_repair.author_detail.profile.username}}</span>#}
                                             </li>
                                             <li style="width:92px;margin-left: 10px ">{{ one_repair.type }}</li>
-                                            <li style="width:215px;margin-left: 0px ">{{ one_repair.content|truncatewords:"30" }}</li>
+                                            <li style="width:215px;margin-left: 0px ">{{ one_repair.content|truncatechars:40 }}</li>
                                             <li  style="width:65px;margin-left: 0px"class="border_style">
                                                 {% ifequal one_repair.status 1 %}
                                                     <select id="handler_repair_{{one_repair.id }}">
@@ -262,7 +270,7 @@
 {#                                                ，户主：<span>{{ one_repair.author_detail.profile.username}}</span>#}
                                             </li>
                                             <li style="width:92px;margin-left: 10px ">{{ one_repair.type }}</li>
-                                            <li style="width:215px;margin-left: 19px ">{{ one_repair.content|truncatewords:"30" }}</li>
+                                            <li style="width:215px;margin-left: 19px ">{{ one_repair.content|truncatechars:40 }}</li>
                                             <li  style="width:122px;margin-left: 20px"class="border_style">
                                                 {% ifequal one_repair.status 1 %}
                                                     <select id="handler_repair_{{one_repair.id }}">

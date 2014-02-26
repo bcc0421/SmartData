@@ -1,0 +1,88 @@
+{% extends "baseheader.html" %}
+{% block title %}物业缴费{% endblock %}
+{% block css %}
+    <style>
+        .pay_table_th {
+            background: none repeat scroll 0 0 #EEF7FF;
+            height: 121%;
+            overflow: hidden;
+            padding: 5px 0;
+        }
+    </style>
+{% endblock %}
+{% block container %}
+    <div class="s_ifs_ix main el_container">
+    <p>&nbsp;</p>
+    <!-- 左侧栏 start -->
+    <div class="el_w_700 fn_left">
+        <!-- vessel start -->
+        <div class="vesse vessel_s3">
+            <div class="vesse_titBox">
+                <span class="tit">物业缴费</span>
+            </div>
+            <div class="vessel_conBox">
+                <!--缴费步骤 start-->
+                <div class="vessel_conBox_step2">
+                    <div class="vessel_conBox_step_head">
+                        <span class="stepName stepName_s1">
+                          <a href="http://bslt.c.colourlife.com/property/createProperty" style="color: #ffffff">
+                            选择物业
+                          </a>
+                        </span>
+                        <span class="stepName stepName_s2">缴费清单</span>
+                        <span class="stepName stepName_s3">在线支付</span>
+                        <span class="stepName stepName_s4">缴费成功</span>
+                    </div>
+                </div>
+                <!--缴费步骤 end-->
+                <!--步骤3内容 start-->
+                <div class="vessel_conBox_text">
+                    <form method="post" action="/advance/advanceOrder" name="advance-form">
+                    <table class="payment_table">
+                        <thead>
+                        <tr>
+                            <th>
+                                <div class="pay_table_th">
+
+                                    <h4 style="text-align: center">半山御景物业费用清单</h4>
+                                    <p class="owner_info">
+                                        <span class="owner_name">业主：snail</span>
+                                        <span class="owner_area">物业：半山御景</span>
+                                        <span class="due_time">日期：2014-02-24 15:58:44</span>
+                                    </p>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="receipt">
+
+                                    <div class="cost">
+                                        <label>预缴金额：</label><input type="text" value="1000" class="write_cash" name="OthersFees[amount]" id="property_amount"
+                                             />
+                                        <span></span>
+                                    </div>
+                                    <div class="receipt_detail">
+                                        <p>您的可预缴费项：二房城市垃圾处理费、排水费、水费、本体金、住宅管理费</p>
+                                        <p class="payitem"><a href="javascript:void(0)" class="look_pay">查看所有缴费项</a></p>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                     </table>
+                         <div class="payment_button pay_btn2">
+                             <a href="javascript:history.go(-1);">上一步</a>&nbsp;&nbsp;
+                              <input type="button" class="el_btn_orange_xsl el_btn"  id="payment_btn_advance" value="提交订单" />
+                        </div>
+                    </form>
+                 </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

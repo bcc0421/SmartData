@@ -98,7 +98,7 @@
                                          class="upload_image img-polaroid ">
                                 </div>
                                   <span class="file1">
-                                      <div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;"onclick="upload_repair_img.click()">上传图片</div>
+                                      <div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;"id="show_upload_image">上传图片</div>
                                        <input type="file" class=" input" style="display:none" id="upload_repair_img" name="upload_repair_img"
                                          target="#reviewContent"/>
                                   </span>
@@ -127,6 +127,9 @@
         }).mouseout(function(){
            $(this).attr("style","background: url('/static/images/submit.png') no-repeat;width:106px;height:36px");
                 })
+        $('#show_upload_image').click(function(){
+            $('#upload_repair_img').trigger('click');
+        })
     })
     function select_type_repair(){
         var objS = document.getElementById("select_type");

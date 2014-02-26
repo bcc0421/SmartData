@@ -1,0 +1,43 @@
+{% extends "baseheader.html" %}
+{% block title %}查看详情{% endblock %}
+{% block css %}
+    <style>
+
+    .container_inner {
+         margin: 15px auto;
+    }
+
+    .container{
+            width: 970px; !important
+    }
+
+    .top_style{
+         margin-top: 10px;
+     }
+
+    </style>
+{% endblock %}
+{% block container %}
+    <div class="container_inner" >
+        <div>
+            <span>申请时间：{{ housekeeping_detail.time| date:"Y-m-d H:i:s" }}</span>
+        </div>
+        <div class="top_style">
+            <span>项目：{{housekeeping_detail.housekeeping_item.item }}</span>
+        </div>
+        <div class="top_style">
+            <span>项目内容：{{housekeeping_detail.housekeeping_item.content }}</span>
+        </div >
+        <div class="top_style"><span>价格描述：</span></div>
+        <div >
+            <span style="background-color: #808080">{{housekeeping_detail.housekeeping_item.price_description }}</span>
+        </div>
+        <div style="margin-top: 10px"><span>备注：</span></div>
+            <div >
+                <span style="background-color: #808080">{{housekeeping_detail.housekeeping_item.remarks }}</span>
+            </div>
+        <div class="top_style">
+            <span>服务时间：{{housekeeping_detail.allow_deal_time }}</span>
+        </div >
+    </div>
+{% endblock %}

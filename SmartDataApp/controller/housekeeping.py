@@ -221,20 +221,23 @@ def deal_housekeeping(request):
         return redirect(index)
     else:
         housekeeping_array = request.POST.get("selected_housekeeping_string", None)
-        deal_person_id = request.POST.get("deal_person_id", None)
-        if housekeeping_array and deal_person_id:
+        #deal_person_id = request.POST.get("deal_person_id", None)
+        if housekeeping_array:
             list_housekeeping = str(housekeeping_array).split(",")
             for i in range(len(list_housekeeping)):
                 house_id = int(list_housekeeping[i])
                 housekeeping = Housekeeping.objects.get(id=house_id)
+
+
+
                 housekeeping.is_read = True
                 housekeeping.is_worker_read =True
-                housekeeping.status = 2
-                user_obj = User.objects.get(id=deal_person_id)
-                if user_obj:
-                    housekeeping.handler = user_obj
+                housekeeping.status = 3
+                #user_obj = User.objects.get(id=deal_person_id)
+                #if user_obj:
+                #    housekeeping.handler = user_obj
                 housekeeping.save()
-            response_data = {'success': True, 'info': '授权成功！'}
+            response_data = {'success': True, 'info': '提交成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
@@ -271,7 +274,7 @@ def own_housekeeping(request):
     else:
         housekeepings = Housekeeping.objects.filter(author=profile)
     if len(housekeepings) > 0:
-        paginator = Paginator(housekeepings, 5)
+        paginator = Paginator(housekeepings, 7)
         page = request.GET.get('page')
         try:
             housekeeping_list = paginator.page(page)
@@ -715,3 +718,24 @@ def api_show_housekeeping_by_status(request):
     else:
         response_data = {'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def housekeeping_detail(request):
+        profile = ProfileDetail.objects.get(profile=request.user)
+        community_id = request.session.get('community_id', profile.community.id)
+        own_housekeeping_id = request.GET.get('housekeeping' , None)
+        status = None
+        if community_id == profile.community.id:
+            status = 2
+        else:
+            status = 1
+        communities = Community.objects.all()
+        housekeeping = Housekeeping.objects.get(id=own_housekeeping_id)
+        return render_to_response('own_housekeeping_detail.html',
+                                  {'user': request.user, 'communities': communities, 'housekeeping_detail': housekeeping,'is_show': True, 'change_community': status, 'profile': profile})
+
+
+

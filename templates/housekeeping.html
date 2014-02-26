@@ -1,6 +1,7 @@
 {% extends "baseheader.html" %}
 {% block title %}家政服务{% endblock %}
 {% block css %}
+    <link href="/static/css/jquery-ui-1.7.2.custom.css" rel="stylesheet">
     <style>
         .help-inline {
             display: block;
@@ -21,13 +22,13 @@
 
         }
 
-        tr:first-child {
-            background-color: #A674B0;
-        }
-
-        tr:hover {
-            background-color: #A674B0;
-        }
+{#        tr:first-child {#}
+{#            background-color: #A674B0;#}
+{#        }#}
+{##}
+{#        tr:hover {#}
+{#            background-color: #A674B0;#}
+{#        }#}
 
         .prev {
             margin-left: 200px !important;
@@ -58,6 +59,7 @@
         .container {
             width: 1010px !important;
         }
+        .ui-datepicker{ z-index: 9999 !important;}
 
     </style>
 
@@ -109,19 +111,18 @@
                     </div>
                     <!-- 分页 end -->
                 {% endif %}
+                <div style="float: right;width: 53px; margin-top: -24px;margin-right: -184px;">
+                    <button class='btn'
+{#                      data-toggle="modal"#}
+                      id="show_modal"
+                      style=" background: url('/static/images/submit_housekeeping.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                      width: 54px;height: 28px;
+                     ">
+                    </button>
+                </div>
 
             </div>
             <!-- 中部 end -->
-            <!-- 右侧 start -->
-            <div class="el_w_237 fn_right" style="width:58px">
-
-                    <div style="margin-top:10px;">
-                        <button class="btn btn-primary" style="border-radius: 0px 0px 0px 0px;" data-toggle="modal" id="show_modal">
-                           提交
-                        </button>
-                    </div>
-            </div>
-
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -129,28 +130,62 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="myModalLabel">请填入允许服务的时间段</h4>
                   </div>
-                  <div class="modal-body">
-                    <textarea style="width:500px" id="text_area"></textarea>
-                  </div>
+                     <div style="margin-top: 10px">
+                        <span>领取时间：</span>
+                        <input type="text" name="start_time" id="start_time" value=""/>
+                        <span class="sep"> - </span>
+                        <input type="text" name="end_time" id="end_time" value=""/>
+                    </div>
+{#                  <div class="modal-body">#}
+{#                    <textarea style="width:500px" id="text_area"></textarea>#}
+{#                  </div>#}
                   <div class="modal-footer">
 {#                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
                     <button type="button" class="btn btn-default" id="submit_housekeeping">确认</button>
-
                   </div>
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
-
-
             <!-- 右侧 end -->
             <div class="el_blank_h10 fn_clear"></div>
         </div>
     <!-- page -->
-
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
+        jQuery(function($){
+            $.datepicker.regional['zh-CN'] = {
+                closeText: '确定',
+                prevText: '<上月',
+                nextText: '下月>',
+                currentText: '今天',
+                monthNames: ['一月','二月','三月','四月','五月','六月',
+                '七月','八月','九月','十月','十一月','十二月'],
+                monthNamesShort: ['一','二','三','四','五','六',
+                '七','八','九','十','十一','十二'],
+                dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+                dayNamesMin: ['日','一','二','三','四','五','六'],
+                weekHeader: '周',
+                dateFormat: 'yy-mm-dd',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: true,
+                yearSuffix: '年'};
+            $.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+        });
+
+
+        $("#show_modal").click(function(){
+
+            $('#myModal').modal('show');
+{#              $('#datetime').datepicker({#}
+{#                duration: '',#}
+{#                showTime: true,#}
+{#                constrainInput: false#}
+{#            });#}
+        })
+
         $(function () {
             $('#show_modal').click(function(){
                  $('#text_area').val("");
@@ -165,7 +200,10 @@
                         }
                 );
                 if (checked_array.length > 0) {
-                    var allowable_time_description = $('#text_area').val().replace(/(^\s*)|(\s*$)/g, "");
+{#                    var allowable_time_description = $('#text_area').val().replace(/(^\s*)|(\s*$)/g, "");#}
+                    var start_time =$("#start_time").val();
+                    var ent_time = $('#end_time').val();
+                    var allowable_time_description = ""+start_time+"  到  "+ent_time+"";
                     if (allowable_time_description.length != 0){
                         $.post('/submit/housekeeping/',
                             {
@@ -204,10 +242,29 @@
                 }
             });
         });
+        $(document).ready(function () {
+            $('#start_time').datepicker({
+                duration: '',
+                 showTime: true,
+                constrainInput: false
+
+            });
+        });
+
+         $(document).ready(function () {
+            $('#end_time').datepicker({
+                duration: '',
+                 showTime: true,
+                constrainInput: false
+
+            });
+        });
 
 
     </script>
 
     <script src="/static/js/jquery.dataTables.min.js"></script>
     <script src="/static/js/DT_bootstrap.js"></script>
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <script src="/static/js/timepicker.js"></script>
 {% endblock %}

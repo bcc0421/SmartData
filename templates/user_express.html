@@ -54,9 +54,9 @@
             margin-top: -20px;
         }
 
-        tr:first-child {
-            background-color: #A674B0;
-        }
+{#        tr:first-child {#}
+{#            background-color: #A674B0;#}
+{#        }#}
         .vessel {
             border: 0px solid #dadada;!important
         }
@@ -97,9 +97,12 @@
             display: none;
             width:789px;
             border: 1px solid #00a1e9;
+            margin-left: 40px;
             height: 400px;
         }
-
+        td{
+            text-align: center;
+        }
     </style>
 {% endblock %}
 {% block container %}
@@ -123,8 +126,8 @@
                             <th style="width: 170px">到达时间</th>
                             <th style="width: 170px">取件时间</th>
                             <th style="width: 170px">取件方式</th>
-                            <th>取件状态</th>
-                            <th style="width: 130px">满意度</th>
+                            <th style="width: 100px">取件状态</th>
+                            <th style="width: 100px">满意度</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -200,19 +203,23 @@
                                 <td>{{ express.arrive_time| date:"Y-m-d H:i:s" }}</td>
                                 <td>{{ express.get_time | date:"Y-m-d H:i:s" }}</td>
                                 <td id="type_{{ express.id }}">{{ express.type }}</td>
-                                <td class="deal_status" id="status_{{ express.id }}">
+                                <td class="deal_status" id="status_{{ express.id }}"style="text-align: center">
                                     {% if express.status %}
                                         <span style="color: green">已签收</span>
                                     {% else %}
-                                        <button class='btn'
-                                          name={{ express.id  }}
-                                          onclick="show_express_card()"
-                                          id="get_express_single_{{ express.id  }}"
-                                          style=" background: url('/static/images/get_express.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                                          width: 67px;height: 28px;
-                                          margin-left: 22px;
-                                          margin-top: 5px">
-                                      </button>
+                                        {% if express.submit_express_status == 1 %}
+                                            <span style="color: green">申请领取中..</span>
+                                        {% else %}
+                                            <button class='btn'
+                                              name={{ express.id  }}
+                                              onclick="show_express_card(this)"
+                                              id="get_express_single_{{ express.id  }}"
+                                              style=" background: url('/static/images/get_express.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                                              width: 52px;height: 28px;">
+{#                                              margin-left: 22px;margin-top: 5px#}
+
+                                            </button>
+                                        {% endif %}
                                     {% endif %}
                                 </td>
                                 <td>
@@ -226,7 +233,7 @@
                                               name='{{ express.id  }}'
                                               id="delete_complain_single_{{ express.id  }}"
                                               style=" background: url('/static/images/comment.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                                              width: 67px;height: 28px;
+                                              width: 53px;height: 28px;
                                               margin-left: 22px;
                                               margin-top: 5px">
                                           </button>
@@ -335,9 +342,13 @@
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
-        function show_express_card(){
+        function show_express_card(obj){
+           var selected_chk_box= $('input[type="checkbox"][name="chk"]:checked').attr('id');
+           var button_id =$(obj).attr('name');
+            if(selected_chk_box == button_id){
             $('.show_express').hide()
             $('.express_card').show();
+            }
         }
     function express_back_list(){
         $('.express_card').hide();
@@ -369,7 +380,7 @@
                                         function () {
                                             var id = $(this).attr('id');
                                             $(this).remove();
-                                            $("#status_" + id + "").html("<span style='color: green' >提交签收</span>");
+                                            $("#status_" + id + "").html("<span style='color: green' >申请领取中...</span>");
                                         }
                                 );
                             }

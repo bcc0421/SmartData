@@ -94,9 +94,9 @@
                     <li style="margin-left: 45px">时间</li>
                     <li>投诉类型</li>
                     <li>投诉内容</li>
-                    <li  style="margin-left: 136px">照片</li>
-                    <li style="margin-left: 75px">处理状态</li>
+                    <li style="margin-left: 136px">处理状态</li>
                     <li style="margin-left: 62px">满意度</li>
+                    <li  style="margin-left: 75px">其他</li>
                 </ul>
             </div>
             {% for complain in complains %}
@@ -160,13 +160,6 @@
                         <li>{{ complain.type }}</li>
                         <li style="width:224px">{{ complain.content|truncatechars:40 }}</li>
                         <li>
-                            {% if complain.src  %}
-                                 <img src="/media/{{ complain.src }}"style="height: 50px;width: 50px">
-                             {% else %}
-                                  <span  style="height: 25px;width: 25px">无图片</span>
-                              {% endif %}
-                        </li>
-                        <li>
                              {% ifequal complain.status 1 %}
                                     <span style="color: red">未受理</span>
                                 {% endifequal %}
@@ -195,6 +188,15 @@
                                  <span>暂无</span>
                              {% endifequal %}
                         </li>
+                        <li>
+{#                            {% if complain.src  %}#}
+{#                                 <img src="/media/{{ complain.src }}"style="height: 50px;width: 50px">#}
+{#                             {% else %}#}
+{#                                  <span  style="height: 25px;width: 25px">无图片</span>#}
+{#                              {% endif %}#}
+                             <a href="/show/image_detail/{{ complain.id }}/?type=complain"target="_blank">查看详情</a>
+                        </li>
+
                     </ul>
                 </div>
             {% endfor %}
