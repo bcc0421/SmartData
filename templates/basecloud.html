@@ -93,6 +93,11 @@
             .container {
                 width: 1003px !important;
              }
+            .left_cn{
+                border: 1px solid #dcdcdc;
+                height: 592px;
+                background-color: #ffffff
+            }
     </style>
     {% block css %}
     {% endblock %}
@@ -300,7 +305,7 @@
         <div class="el_blank_h20"></div>
 
 
-               <div class="el_w_203 fn_left" style="border: 1px solid #dcdcdc;height: 592px;background-color: #ffffff" >
+               <div class="el_w_203 fn_left left_cn">
                 <!-- 服务列表 start -->
                 <div class="sur_ix_serBox">
                     <!-- 元素 start -->
@@ -363,7 +368,7 @@
                         <span class="title"><strong>快递</strong></span>
                     </a>
                     <!-- 元素 end -->
-                     <a class="item_s7 item out" href="/express/">
+                     <a class="item_s7 item out" href="/community/notification/">
 {#                        <i name="express" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
                          <div class="icon_index"s>
                             <img src="/static/images/index_arrow.png" />
@@ -374,65 +379,6 @@
                 <!-- 服务列表 end -->
             </div>
 
-        <!-- 左侧 start -->
-{#        <div class="el_w_203 fn_left" style="width: 123px">#}
-
-{#        <div class="dropdown" style="margin-top: 2px;padding-left: 91px;">#}
-{#          <a id="dLabel"  role="button" data-toggle="dropdown" data-target="#"href="#" >#}
-{#            <span class="glyphicon glyphicon-align-justify"></span>#}
-{#              <img style="margin-left: 10px" src="/static/images/arrow.png" />#}
-{#          </a>#}
-{#             <div class="sur_ix_serBox dropdown-menu" role="menu" aria-labelledby="dLabel"style="width:214px">#}
-{#                 <div style="margin-top: 4px;margin-left:7px">#}
-{#                       <!-- 元素 start -->#}
-{#                    <a class="item_s1 item out" href="/repair/">#}
-{#                        <i name="repair" class="icon change_style" style="background: url('/static/images/repair.png') no-repeat;"></i>#}
-{#                        <span class="title">报修</span>#}
-{#                    </a>#}
-{#                    <!-- 元素 end -->#}
-{##}
-{#                    <!-- 元素 start -->#}
-{#                    <a class="item_s2 item out" href="/complain/">#}
-{#                        <i name="complain" class="icon change_style" style="background: url('/static/images/complain.png') no-repeat;"></i>#}
-{#                        <span class="title">投诉</span>#}
-{#                    </a>#}
-{#                    <!-- 元素 end -->#}
-{##}
-{#                    <!-- 元素 start -->#}
-{#                    <a class="item_s3 item out" href="/housekeeping/">#}
-{#                        <i name="housekeeping" class="icon change_style" style="background: url('/static/images/housekeeping.png') no-repeat;"></i>#}
-{#                        <span class="title">家政</span>#}
-{#                    </a>#}
-{#                    <!-- 元素 end -->#}
-{##}
-{#                    <!-- 元素 start -->#}
-{#                    <a class="item_s4 item out" href="/parking/fees/">#}
-{#                        <i name="park" class="icon change_style" style="background: url('/static/images/park.png') no-repeat;"></i>#}
-{#                        <span class="title">停车费</span>#}
-{#                    </a>#}
-{#                    <!-- 元素 end -->#}
-{#                    <!-- 元素 start -->#}
-{#                    <a class="item_s5 item out" href="/house/pay_fees/">#}
-{#                        <i name="property" class="icon change_style" style="background: url('/static/images/property.png') no-repeat;"></i>#}
-{#                        <span class="title">物业缴费</span>#}
-{#                    </a>#}
-{#                    <!-- 元素 end -->#}
-{#                    <!-- 元素 start -->#}
-{#                    <a class="item_s7 item out" href="/express/">#}
-{#                        <i name="express" class="icon change_style" style="background: url('/static/images/express.png') no-repeat;"></i>#}
-{#                        <span class="title">快递</span>#}
-{#                    </a>#}
-{#                    <!-- 元素 end -->#}
-{#                 </div>#}
-{##}
-{#            </div>#}
-{##}
-{#        </div>#}
-{#            <!-- 服务列表 start -->#}
-
-            <!-- 服务列表 end -->
-{#        </div>#}
-        <!-- 左侧 end -->
         {% block right_container %}
 
         {% endblock %}
@@ -441,35 +387,6 @@
 <!-- 服务快链区域 start -->
 <div class="serverBar">
     <div class="serverBar_box el_container">
-{#<span class="borderBox">#}
-{#<span class="item">#}
-{#<strong class="title title_new">购物指南</strong>#}
-{#<span class="box">#}
-{#<a href="#" class="link" title="购物流程">购物流程</a><em class="el_blank"></em>#}
-{#<a href="#" class="link" title="订单状态说明">订单状态说明</a><em class="el_blank"></em>#}
-{#<a href="#" class="link" title="优惠券说明">优惠券说明</a><em class="el_blank"></em>#}
-{#</span>#}
-{#</span>#}
-{#<span class="item">#}
-{#<strong class="title title_new">支付帮助</strong>#}
-{#<span class="box">#}
-{#<a href="#" title="在线支付"><span style="color: #ffffff">在线支付</span></a><em class="el_blank"></em>#}
-{#</span>#}
-{#</span>#}
-{#<span class="item">#}
-{#<strong class="title title_new">物流配送</strong>#}
-{#<span class="box">#}
-{#<a href="#" class="link" title="商家配送">商家配送</a><em class="el_blank"></em>#}
-{#</span>#}
-{#</span>#}
-{#<span class="item">#}
-{#<strong class="title title_new">服务条款</strong>#}
-{#<span class="box">#}
-{#<a href="#" class="link" title="退换货说明">退换货说明</a><em class="el_blank"></em>#}
-{#<a href="#" class="link" title="联系客服">联系客服</a><em class="el_blank"></em>#}
-{#</span>#}
-{#</span>#}
-{#</span>#}
  <span class="borderBox"style="margin-left: -7px;width:780px">
     <span class="item">
         <strong class="title title_new">购物指南</strong>

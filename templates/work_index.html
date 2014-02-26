@@ -1,0 +1,259 @@
+{% extends 'baseheader.html' %}
+{% block title %}亨通物业管理平台{% endblock %}
+{% block container %}
+    <div class="container" id="page">
+        <style>
+            body{
+                background-color: #eeeeee;
+            }
+            .help-inline {
+                display: block;
+                margin-left: 70px;
+                padding-top: 10px;
+            }
+
+            .error {
+                color: #f00;
+            }
+
+            input.error {
+                border-color: #f00;
+            }
+            .change_width{
+                width:53px
+            }
+            .sur_ix_serBox .item {
+{#                background: url('/static/images/index_arrow.png') no-repeat;#}
+                background: #FFFFFF;
+                height: 55px;
+                width:200px;
+                margin: 0;!important
+            }
+{#            .sur_ix_serBox .title {#}
+{#                position: absolute;#}
+{#                bottom: 22px;#}
+{#                left: 56px;#}
+{#                color: #686868;#}
+{#                font-size: 12px;#}
+{#            }#}
+            .icon_index{
+                margin-top: 18px;
+                margin-left: 30px;
+                width:15px;
+{#                border: 1px solid blue#}
+            }
+            .sur_ix_serBox .title {
+                position: absolute;
+                bottom: 18px;
+                left: 56px;
+                color: #726464;
+                font-size: 15px;!important
+            }
+            .sur_ix_serBox .item:hover {
+                background: #bad804; !important
+            }
+            .sur_ix_serBox .item:hover .title {
+                 color: #726464;!important
+            }
+            .out{
+                border: 1px solid #ffffff;
+            }
+        </style>
+
+        <!-- 主要内容区域 start -->
+        <div class="s_sur_ix main el_container">
+            <div class="el_blank_h20"></div>
+
+            <!-- 左侧 start -->
+            <div class="el_w_203 fn_left" style="border: 1px solid #dcdcdc;background-color:#ffffff;height: 391px" >
+                <!-- 服务列表 start -->
+                <div class="sur_ix_serBox">
+                    <!-- 元素 start -->
+                    <a class="item_s1 item out" href="/repair/">
+{#                        <i  name="repair" class="icon change_style" style="background: url('/static/images/index_arrow.png') no-repeat;margin-top: 5px;margin-left: 5px"></i>#}
+{#                        <span class="title">报修</span>#}
+                        <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong><B>报修</B></strong></span>
+                    </a>
+                    <!-- 元素 end -->
+
+                    <!-- 元素 start -->
+                    <a class="item_s2 item out" href="/complain/">
+{#                        <i name="complain" class="icon change_style" style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+                         <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong><B>投诉</B></strong></span>
+                    </a>
+                    <!-- 元素 end -->
+
+                    <!-- 元素 start -->
+{#                    <a class="item_s3 item out" href="/housekeeping/">#}
+{#                        <i  name="housekeeping"class="icon change_style" style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                         <div class="icon_index">#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <span class="title"><strong>家政</strong></span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s4 item out" href="/parking/fees/">#}
+{#                        <i name="park" class="change_width icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                        <div class="icon_index">#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <span class="title"><strong>停车费</strong></span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s5 item out" href="/house/pay_fees/">#}
+{#                        <div class="icon_index">#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <i name="property" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                        <span class="title"><strong>物业缴费</strong></span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s7 item out" href="/express/">#}
+{#                        <i name="express" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                         <div class="icon_index">#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <span class="title"><strong>快递</strong></span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{#                     <a class="item_s7 item out" href="/express/">#}
+{#                        <i name="express" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                         <div class="icon_index"s>#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <span class="title"><strong><B>小区通知</B></strong></span>#}
+{#                    </a>#}
+                </div>
+                <!-- 服务列表 end -->
+            </div>
+            <!-- 左侧 end -->
+
+            <!-- 中部 start -->
+            <div class="el_w_524 fn_left">
+                <!-- 广告滚动 start -->
+                <div class="sur_ix_by_skyScrollPicBox skyScrollPicBox">
+                    <div class="skyScrollPicBox_btns">
+                        <a class="skyScrollPicBox_btn"></a>
+                        <a class="skyScrollPicBox_btn"></a>
+                        <a class="skyScrollPicBox_btn"></a>
+                        <a class="skyScrollPicBox_btn"></a>
+                    </div>
+                    <div class="skyScrollPicBox_pics">
+                        <a href="#" class="skyScrollPicBox_picLink">
+                            <img src="#" class="skyScrollPicBox_pic">
+                        </a>
+                        <a href="#" class="skyScrollPicBox_picLink">
+                            <img src="#" class="skyScrollPicBox_pic">
+                        </a>
+                        <a href="#" class="skyScrollPicBox_picLink">
+                            <img src="#" class="skyScrollPicBox_pic">
+                        </a>
+                        <a target="_blank" href="#"
+                           class="skyScrollPicBox_picLink">
+                            <img src="#" class="skyScrollPicBox_pic"/>
+                        </a>
+                    </div>
+                </div>
+                <!-- 广告滚动 end -->
+
+
+            </div>
+            <!-- 中部 end -->
+
+            <!-- 右侧 start -->
+            <div class="el_w_237 fn_right">
+                <!-- 右侧焦点图 start -->
+                <div>
+                    <a href="#">
+                        <img src="#"/>
+                    </a>
+                </div>
+                <!-- 右侧焦点图 end -->
+                <!-- 通知 start -->
+                <div class="sur_ix_infoBox">
+                    <div class="titBox">
+                        <i class="icon"></i>
+                        <a class="title link" href="#">通知</a>
+                    </div>
+
+                    <div class="conBox">
+                        <ul>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- 通知 end -->
+
+                <!-- 登录注册 start -->
+                <!-- 登录注册 end -->
+
+                <!-- 物业费、停车费、手机充值 start -->
+                <div class="defaultSwitchBox switchBox">
+                    <div class="headBox">
+                 <span class="headBox_itemBox first" tarIndex="1">
+                     <a class="headBox_item">手机充值</a>
+                 </span>
+                    </div>
+                    <div class="containBox">
+                        <!-- 手机充值 start -->
+
+                    </div>
+                </div>
+                <!-- 物业费、停车费、手机充值 end -->
+            </div>
+            <!-- 右侧 end -->
+            <div class="el_blank_h10 fn_clear"></div>
+
+        </div>
+
+    </div>
+    <!-- page -->
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+{#        $(function(){#}
+{#            $('.out').mouseover(function(){#}
+{#                var name =$(this).children(".change_style").attr('name');#}
+{#                $(this).children(".change_style").attr("style","background:url('/static/images/"+name+"_hover.png') no-repeat");#}
+{#            }).mouseout(function(){#}
+{#                var name =$(this).children(".change_style").attr('name');#}
+{#                $(this).children(".change_style").attr("style","background:url('/static/images/"+name+".png') no-repeat");#}
+{#                    })#}
+{#        })#}
+        function goodsTab(obj, f) {
+            var tag = $(obj).attr("tag");
+
+            $(".tab_" + f).removeClass("lv_selected");
+            $(obj).addClass("lv_selected");
+            $(".tab_content_" + f).hide();
+            $("#" + tag).show();
+        }
+
+        $(document).ready(function () {
+            $(".tab_goods_content").map(function () {
+                var obj = $(this).find("span:first-child");
+                var key = $(obj).attr("key");
+                goodsTab(obj, key);
+            });
+
+        });
+        // 广告滚动
+        $(".sur_ix_by_skyScrollPicBox").cl_skyScrollPicBox({
+            "delay": 3000
+        });
+
+    </script>
+
+{% endblock %}

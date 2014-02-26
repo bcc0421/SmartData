@@ -143,6 +143,8 @@ urlpatterns = patterns('',
                         url(r'^worker_deal/complain/$',worker_deal_complain),
                         url(r'^user/prepare_pay_property_fees/$',user_prepare_pay_fee),
                         url(r'^user/property/verifyParking/$',user_property_verifyParking),
+                        url(r'^community/notification/$',community_notification),
+
 
 
 

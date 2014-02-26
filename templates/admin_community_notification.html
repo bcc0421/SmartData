@@ -1,0 +1,154 @@
+{% extends "basecloud.html" %}
+{% block title %}报修管理{% endblock %}
+{% block css %}
+    <style>
+        .help-inline {
+            display: block;
+            margin-left: 70px;
+            padding-top: 10px;
+        }
+
+        .error {
+            color: #f00;
+        }
+
+        input.error {
+            border-color: #f00;
+        }
+
+        .repair1, span, button {
+            font-size: 15px;
+
+        }
+
+        tr:first-child {
+            background-color: #f3f3f3;;
+        }
+
+
+        .prev {
+            margin-left: 200px !important;
+        }
+
+        .next {
+            margin-left: 20px !important;
+        }
+
+        .dataTables_wrapper {
+            padding-left: 0px !important;
+        }
+
+        .dataTables_paginate {
+            float: right;
+            margin-top: -20px;
+        }
+
+        .dataTables_paginate li {
+            float: left
+        }
+
+        .dataTables_filter {
+            float: right;
+            margin-top: -25px
+        }
+
+        .container {
+            width: 1171px !important;
+            margin-top: -11px;
+        }
+        .repair_header{
+            margin-top: -10px;
+            padding-top: 6px;
+            height:32px;
+            border-bottom: 1px solid #808080;
+            background-color: #f3f3f3;
+
+        }
+
+        .vessel .vessel_titBox {
+            background: url("") repeat-x scroll 0 -226px rgba(0, 0, 0, 0);
+            border-bottom: 2px solid #00a1e9;
+            height: 39px;
+            line-height: 40px;!important;
+            width: 646px;
+    }
+        .vessel{
+            border: 0px ;
+        }
+
+
+         .btn_style{
+        border:1px solid #dcdcdc;
+        border-radius: 0px 0px 0px 0px;
+        height:34px;
+        border-bottom:1px solid #00a1e9;
+    }
+
+        .notification_container{
+            height:500px;
+            width: 850px;
+            overflow: auto;
+            border-top: 0px;
+            margin-left: 5px;
+            float: left;
+            background-color: #ffffff;
+            padding-top: 18px;
+            padding-left:20px;
+            margin-bottom: 40px;
+        }
+         .left_cn{
+            height: 501px;
+            }
+    .notification_container2{
+        border: 1px solid darkgray;width: 800px;height: 300px;padding:20px 20px
+    }
+    .input_style{
+        margin-top:15px
+    }
+    textarea{
+        width: 587px;
+        height: 180px;
+        border-color:darkgray
+    }
+    </style>
+
+{% endblock %}
+{% block right_container %}
+    <div class="notification_container">
+                     <div class="vessel vessel_s1" style="margin-bottom: 10px">
+                        <div class="vessel_titBox">
+                             <a href="/repair/?deal_status=1"
+                                class="btn_style btn_type btn btn-primary"
+                                style="width: 80px">
+                               已有通知
+                             </a>
+                            <a href="/manage/repair/item/"target="_blank"
+                               class="btn_style btn_type btn "
+                               style="width: 120px;">
+                                <img style="margin-top: -5px" src="/static/images/plus_icon.png"/>
+                               <span >添加新通知</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="notification_container2">
+                        <div>
+                            <span>标题：</span><input typt="text"style="width: 200px">
+                        </div>
+                        <div class="input_style">
+                            <span>时间：</span><input typt="text"style="width: 200px">
+                        </div>
+                        <div class="input_style">
+                            <span>内容：</span><textarea></textarea>
+                        </div>
+                    </div>
+
+                    <div style="text-align: right">
+                        <button class='btn'
+                          onclick="delete_repair_single(this)"
+                          style=" background: url('/static/images/property_submit.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                          width: 129px;height: 44px;">
+                        </button>
+                    </div>
+    </div>
+
+{% endblock %}
