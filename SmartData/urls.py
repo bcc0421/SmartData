@@ -21,7 +21,7 @@ from SmartDataApp.pusher.push_api import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-                       url(r'^$', index),
+                       url(r'^$', index_test),
                        url(r'^index/$', index),
                        url(r'^register/$', register),
                        url(r'^login/$', login),

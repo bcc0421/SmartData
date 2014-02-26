@@ -743,3 +743,7 @@ def api_get_dynamic_data(request):
     else:
         response_data = {'success': False}
         HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+def index_test(request):
+    return render_to_response('index_test.html')
