@@ -15,7 +15,7 @@ from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.controller.complain import UTC
 from SmartDataApp.models import Repair
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail, Repair_item, Community
+from SmartDataApp.models import ProfileDetail, Repair_item, Community, Wallet
 
 
 def return_error_response():
@@ -288,6 +288,9 @@ def own_repair(request):
     else:
         repairs = Repair.objects.filter(author=request.user.username).order_by('-timestamp')
     profile = ProfileDetail.objects.get(profile=request.user)
+    wallet = Wallet.objects.filter(user_profile=profile)
+    if wallet:
+        wallet = wallet[0]
     communities = Community.objects.all()
     if len(repairs) > 0:
         paginator = Paginator(repairs, 7)
@@ -301,12 +304,13 @@ def own_repair(request):
         return render_to_response('own_repair.html', {
             'repairs': repairs_list,
             'user': request.user,
+            'wallet': wallet,
             'profile': profile,
             'show': True
         })
     return render_to_response('own_repair.html',
                               {'show': False, 'user': request.user, 'communities': communities, 'profile': profile,
-                               'change_community': 2})
+                               'change_community': 2, 'wallet': wallet,})
 
 
 @transaction.atomic

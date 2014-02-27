@@ -137,6 +137,8 @@
                 {% if user.is_staff %}
                     <a href="/register/" class="optLink el_btn">添加用户</a>
                     <a href="/community/" class="optLink el_btn">添加社区</a>
+                 {% else %}
+                    <a href="/recharge/" class="optLink el_btn">充值</a>
                 {% endif %}
                 <a href="/logout/" class="optLink el_btn">登出</a>
             {% else %}
@@ -478,6 +480,7 @@
 <script src="/static/js/colourlife.form.js"></script>
 <script src="/static/js/jquery.dataTables.min.js"></script>
 <script src="/static/js/DT_bootstrap.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
 <script src="/static/js/timepicker.js"></script>
 <script type="text/javascript">
        $(function(){

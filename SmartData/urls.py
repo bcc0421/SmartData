@@ -148,6 +148,11 @@ urlpatterns = patterns('',
                         url(r'^user/prepare_pay_property_fees/$',user_prepare_pay_fee),
                         url(r'^user/property/verifyParking/$',user_property_verifyParking),
                         url(r'^community/notification/$',community_notification),
-
+                        url(r'^add/notification/$',add_notification),
+                        url(r'^notification/detail/$',notification_detail),
+                        url(r'^modify/notification/$',modify_notification),
+                        url(r'^delete/notification/$',delete_notification),
+                        url(r'^recharge/$',user_recharge),
+                        url(r'^decide/recharge/$',decide_recharge),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += staticfiles_urlpatterns()
+

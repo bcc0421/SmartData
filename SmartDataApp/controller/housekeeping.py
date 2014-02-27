@@ -11,7 +11,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail, Housekeeping, Housekeeping_items,Community
+from SmartDataApp.models import ProfileDetail, Housekeeping, Housekeeping_items,Community, Wallet
+
 
 def return_error_response():
     response_data = {'error': 'Just support POST method.'}
@@ -269,6 +270,7 @@ def own_housekeeping(request):
     start_time = request.POST.get('start_time', None)
     end_time = request.POST.get('end_time', None)
     profile = ProfileDetail.objects.get(profile=request.user)
+    wallet = Wallet.objects.get(user_profile=profile)
     if start_time and end_time:
         housekeepings = Housekeeping.objects.filter(author=profile, time__range=[start_time, end_time])
     else:
@@ -285,10 +287,11 @@ def own_housekeeping(request):
         return render_to_response('own_housekeeping.html', {
                             'housekeeping_list': housekeeping_list,
                             'user': request.user,
+                            'wallet': wallet,
                             'profile': profile,
                             'show': True
                         })
-    return render_to_response('own_housekeeping.html', {'show': False, 'user': request.user, 'profile': profile })
+    return render_to_response('own_housekeeping.html', {'show': False, 'user': request.user, 'profile': profile,'wallet': wallet, })
 
 
 

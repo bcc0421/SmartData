@@ -16,7 +16,7 @@ from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.models import Complaints, Repair
 from SmartDataApp.pusher.Channel import Channel
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail, Community
+from SmartDataApp.models import ProfileDetail, Community,Wallet
 import hashlib
 
 apiKey = "xS8MeH5f4vfgTukMcB2Bo6Ea"
@@ -313,6 +313,11 @@ def own_complain(request):
     else:
         complains = Complaints.objects.filter(author=request.user.username)
     profile = ProfileDetail.objects.get(profile=request.user)
+    wallet = Wallet.objects.filter(user_profile=profile)
+    if wallet:
+        wallet = wallet[0]
+    else:
+        wallet = 0
     if len(complains) > 0:
         paginator = Paginator(complains, 7)
         page = request.GET.get('page')
@@ -330,7 +335,7 @@ def own_complain(request):
             'show': True
         })
     return render_to_response('own_complain.html',
-                              {'show': False, 'user': request.user, 'profile': profile, 'change_community': 2})
+                              {'show': False, 'user': request.user, 'profile': profile, 'change_community': 2,'wallet': wallet})
 
 
 @transaction.atomic
