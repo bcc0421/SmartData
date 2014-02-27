@@ -8,15 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Wallet.get_grade_data'
-        db.add_column(u'SmartDataApp_wallet', 'get_grade_data',
-                      self.gf('django.db.models.fields.DateField')(null=True),
+        # Adding field 'Wallet.get_grade_date'
+        db.add_column(u'SmartDataApp_wallet', 'get_grade_date',
+                      self.gf('django.db.models.fields.DateField')(auto_now_add=True, default=datetime.datetime(2014, 2, 27, 0, 0), blank=True),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'Wallet.get_grade_data'
-        db.delete_column(u'SmartDataApp_wallet', 'get_grade_data')
+        # Deleting field 'Wallet.get_grade_date'
+        db.delete_column(u'SmartDataApp_wallet', 'get_grade_date')
 
 
     models = {
@@ -24,6 +24,9 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Community'},
             'description': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'notification_content': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
+            'notification_theme': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
+            'notification_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '50'})
         },
         u'SmartDataApp.complaints': {
@@ -156,7 +159,7 @@ class Migration(SchemaMigration):
         },
         u'SmartDataApp.wallet': {
             'Meta': {'object_name': 'Wallet'},
-            'get_grade_data': ('django.db.models.fields.DateField', [], {'null': 'True'}),
+            'get_grade_date': ('django.db.models.fields.DateField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'grade_sum': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'money_sum': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '19', 'decimal_places': '6'}),
