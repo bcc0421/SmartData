@@ -150,6 +150,7 @@ class Wallet(models.Model):
     user_profile = models.ForeignKey(ProfileDetail, null=True)
     money_sum = models.DecimalField(max_digits=19, decimal_places=6, default=0.0)
     grade_sum = models.IntegerField(default=0)
+    get_grade_data = models.DateField(null=True)
 
     def __str__(self):
         return self.money_sum
