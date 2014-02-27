@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail, Housekeeping, Housekeeping_items,Community
+from SmartDataApp.models import ProfileDetail, Housekeeping, Housekeeping_items,Community,Wallet
 
 
 @transaction.atomic
@@ -82,11 +82,10 @@ def property_service(request):
       return render_to_response('property_service.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
 
 
-
 @transaction.atomic
 @csrf_exempt
 @login_required(login_url='/login/')
-def community_notification(request):
+def user_recharge(request):
     profile = ProfileDetail.objects.get(profile=request.user)
     community_id = request.session.get('community_id', profile.community.id)
     one_community = Community.objects.get(id=community_id)
@@ -96,9 +95,25 @@ def community_notification(request):
     else:
         status = 1
     communities = Community.objects.all()
-    if request.user.is_staff:
-        return render_to_response('admin_community_notification.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+    return render_to_response('user_recharge.html',
+                                  {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status,})
 
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def decide_recharge(request):
+    profile = ProfileDetail.objects.get(profile=request.user)
+    community_id = request.session.get('community_id', profile.community.id)
+    one_community = Community.objects.get(id=community_id)
+    money_num = request.POST.get('money_num', None)
+    wallet = Wallet.objects.get_or_create(user_profile=profile)
+    wallet.money_sum = money_num
+    wallet.save()
+    status = None
+    if community_id == profile.community.id:
+        status = 2
     else:
-      return render_to_response('user_community_notification.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
-
+        status = 1
+    response_data = {'info': '充值成功', 'success': True}
+    return HttpResponse(simplejson.dumps(response_data), content_type='application/json')

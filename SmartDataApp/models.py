@@ -7,9 +7,6 @@ from django.utils import timezone
 class Community(models.Model):
     title = models.CharField(max_length=50, null=False, unique=True, blank=False)
     description = models.CharField(max_length=250, blank=True, null=True)
-    notification_content = models.CharField(max_length=250, blank=True, null=True)
-    notification_time = models.DateTimeField(null=True)
-    notification_theme = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -150,7 +147,7 @@ class Housekeeping(models.Model):
 
 
 class Wallet(models.Model):
-    user_profile = models.ForeignKey(ProfileDetail, null=True)
+    user_profile = models.OneToOneField(ProfileDetail, null=True)
     money_sum = models.DecimalField(max_digits=19, decimal_places=6, default=0.0)
     grade_sum = models.IntegerField(default=0)
 
@@ -169,6 +166,15 @@ class Transaction(models.Model):
     def __str__(self):
         return self.action
 
+
+class Notification(models.Model):
+    notification_content = models.CharField(max_length=100000, blank=True, null=True)
+    notification_time = models.DateTimeField(null=True)
+    notification_theme = models.CharField(max_length=250, blank=True, null=True)
+    notification_community = models.ForeignKey(Community, null=True)
+
+    def __str__(self):
+        return self.notification_content
 
 
 

@@ -1,0 +1,33 @@
+{% extends "baseheader.html" %}
+{% block title %}查看详情{% endblock %}
+{% block css %}
+    <style>
+
+    .container_inner {
+         margin: 15px auto;
+{#        border: 1px solid red;#}
+{#        height: 500px;#}
+    }
+
+    .container{
+            width: 970px; !important
+    }
+
+     .top_style{
+         margin-top: 10px;
+     }
+    </style>
+{% endblock %}
+{% block container %}
+    <div class="container_inner" >
+        <h2 style="text-align: center"><strong>{{ notification.notification_theme }}</strong></h2>
+        <p style="text-align: right;padding-right: 100px">
+            —&nbsp;—&nbsp;{{ notification.notification_time| date:"Y-m-d H:i:s" }}
+        </p>
+        <div style="border: 1px solid #000000;width: 746px;margin-top: 25px;margin-left: 93px;line-height:30px">
+            {{ notification.notification_content|linebreaksbr}}
+        </div>
+
+
+    </div>
+{% endblock %}
