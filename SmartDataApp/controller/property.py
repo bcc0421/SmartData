@@ -80,3 +80,25 @@ def property_service(request):
        return render_to_response('property_service.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
     else:
       return render_to_response('property_service.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def community_notification(request):
+    profile = ProfileDetail.objects.get(profile=request.user)
+    community_id = request.session.get('community_id', profile.community.id)
+    one_community = Community.objects.get(id=community_id)
+    status = None
+    if community_id == profile.community.id:
+        status = 2
+    else:
+        status = 1
+    communities = Community.objects.all()
+    if request.user.is_staff:
+        return render_to_response('admin_community_notification.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+
+    else:
+      return render_to_response('user_community_notification.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+

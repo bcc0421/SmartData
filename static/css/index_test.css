@@ -1,0 +1,81 @@
+body{
+	color: #333;
+	font-family: FranklinGothicFSBook, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+
+h1, h2, h3, p{
+	margin: 0;
+	padding: 0;
+}
+
+strong{
+	font-family: FranklinGothicFSMedium, Helvetica, Arial, sans-serif;
+	font-weight: normal;
+}
+
+p{
+	padding-top: 10px;
+}
+
+.serviceBlurb p.more{
+	clear: both;
+	text-align: right;
+}
+
+.clear{
+	clear: both;
+	line-height: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#servicesBox{
+	background: #aeaeae;
+	border: 1px solid #828282;
+	clear: both;
+	font-size:10px;
+	margin: 120px auto 30px;
+	padding: 30px;
+	width: 880px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	box-shadow: 0 0 6px #292929;
+	-webkit-box-shadow: 0 0 6px #292929;
+	-moz-box-shadow: 0 0 6px #292929;
+}
+
+.serviceBlurb{
+	float: left;
+	margin: 0 40px 0 0;
+	padding: 0;
+	width: 250px;
+}
+
+.firstServiceBlurb{
+	margin: 0 40px 0 30px;
+}
+
+.lastServiceBlurb{
+	margin: 0;
+}
+
+.serviceBlurb img{
+	margin: 15px 37px 10px;
+}
+
+.serviceBlurb h3{
+	clear: both;
+	color: #693386;
+	font-size: 24px;
+}
+
+
+
+
+

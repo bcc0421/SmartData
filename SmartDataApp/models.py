@@ -7,6 +7,9 @@ from django.utils import timezone
 class Community(models.Model):
     title = models.CharField(max_length=50, null=False, unique=True, blank=False)
     description = models.CharField(max_length=250, blank=True, null=True)
+    notification_content = models.CharField(max_length=250, blank=True, null=True)
+    notification_time = models.DateTimeField(null=True)
+    notification_theme = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
         return self.title

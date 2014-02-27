@@ -69,6 +69,8 @@ def index(request):
         profile = ProfileDetail.objects.get(profile=request.user)
         if request.user.is_staff:
             return render_to_response('admin_index.html', {'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
+        elif profile.is_admin:
+            return render_to_response('work_index.html', {'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
         else:
             return render_to_response('index.html', {'user': request.user, 'communities': communities, 'profile': profile, 'change_community': 2})
     else:
@@ -743,3 +745,7 @@ def api_get_dynamic_data(request):
     else:
         response_data = {'success': False}
         HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
+
+def index_test(request):
+    return render_to_response('index_test.html')
