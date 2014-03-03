@@ -18,7 +18,7 @@ from captcha.models import CaptchaStore
 from django.contrib.sessions.models import Session
 
 from SmartDataApp.forms import UserForm
-from SmartDataApp.models import Picture, ProfileDetail, Community, Complaints, Housekeeping, Express, Repair
+from SmartDataApp.models import Picture, ProfileDetail, Community, Complaints, Housekeeping, Express, Repair,Wallet
 
 
 class UTC(datetime.tzinfo):
@@ -64,7 +64,6 @@ def convert_session_id_to_user(request):
 
 def index(request):
     communities = Community.objects.all()
-
     if request.user.is_authenticated():
         profile = ProfileDetail.objects.get(profile=request.user)
         if request.user.is_staff:
@@ -80,8 +79,11 @@ def index(request):
 @login_required
 def own_information(request):
     profile = ProfileDetail.objects.get(profile=request.user)
+    wallet = Wallet.objects.filter(user_profile=profile)
+    if wallet:
+        wallet = wallet[0]
     if profile:
-        return render_to_response('own_information.html', {'user': request.user, 'profile': profile, })
+        return render_to_response('own_information.html', {'user': request.user, 'profile': profile,'wallet':wallet  })
     else:
         return render_to_response('index.html')
 

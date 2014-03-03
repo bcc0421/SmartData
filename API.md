@@ -465,7 +465,7 @@ category 和 category_item_id 必填
 
 
 
-### 15. User repair deal(用户需要登录)（管理员调用）
+### 15. User repair deal(用户需要登录)（管理员调用）(报修由未受理变改为已受理)
 
 #### URL : /api/repair/deal/
 
@@ -1063,7 +1063,7 @@ category 和 category_item_id 必填
 
 ### 39. Get complains by status(用户需要登录)（工作人员 管理员 用户 调用此接口 得到各自对应的数据）
 
-#### URL :/api/show/complains_by_status/?page=页数&community_id=(小区id号)&status=三选一(未处理，处理中，已处理) 如果是工作人员 status=(处理中，已处理)二选一
+#### URL :/api/show/complains_by_status/?page=页数&community_id=(小区id号)&status=1(未受理)，2(处理中)，3(已处理),4(已受理)， 如果是工作人员 status=2(处理中)，3(已处理),4(已受理)3选一
 
 #### Method : GET
 
@@ -1110,7 +1110,8 @@ category 和 category_item_id 必填
 
 ### 40. Get repair by status(用户需要登录)（工作人员 管理员 用户 调用此接口 得到各自对应的数据）
 
-#### URL :/api/show/repair_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一，如果是工作人员 status=(处理中，已处理)二选一
+#### URL :/api/show/repair_by_status/?page=页数&community_id=(小区id号)&status=1(未受理)，2(处理中)，3(已处理),4(已受理)， 如果是工作人员 status=2(处理中)，3(已处理),4(已受理)3选一
+
 
 #### Method : GET
 
@@ -1296,6 +1297,49 @@ category 和 category_item_id 必填
 #### Success
 
         {'complain_list': complain_list, 'success': True, 'identity': 'admin'}
+
+#### Error
+
+        { 'success': False}
+
+
+
+### 46. 工作人员修改状态处理状态改成处理中（之前所调用的接口，已改成已受理的状态）
+
+#### URL : /api_worker/deal/repair/
+
+#### Method : POST
+
+    {
+            'repair_id_string': '要处理的报修id号',（多个投诉id 拼接成字符串以逗号隔开 "1,2,32,45"）,
+     }
+
+### Result:
+
+#### Success
+
+        response_data = {'success': True, 'info': ''}
+
+#### Error
+
+        { 'success': False}
+
+
+### 47. 工作人员修改状态处理状态改成处理中（之前所调用的接口，已改成已受理的状态）
+
+#### URL : /api_worker/deal/complain/
+
+#### Method : POST
+
+    {
+            'complains_id_string': '要处理的投诉id号',（多个投诉id 拼接成字符串以逗号隔开 "1,2,32,45"）,
+     }
+
+### Result:
+
+#### Success
+
+        response_data = {'success': True, 'info': ''}
 
 #### Error
 

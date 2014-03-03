@@ -117,14 +117,17 @@ def housekeeping(request):
 @login_required(login_url='/login/')
 def manage_housekeeping_item(request):
     items = Housekeeping_items.objects.all()
+    profile = ProfileDetail.objects.get(profile=request.user)
     if len(items) > 0:
         return render_to_response('manage_housekeeping_item.html', {
             'items': items,
+            'profile': profile,
             'user': request.user,
             'is_show': True
         })
     else:
          return render_to_response('manage_housekeeping_item.html', {
+             'profile': profile,
              'user': request.user,
              'is_show': False
         })
@@ -270,7 +273,9 @@ def own_housekeeping(request):
     start_time = request.POST.get('start_time', None)
     end_time = request.POST.get('end_time', None)
     profile = ProfileDetail.objects.get(profile=request.user)
-    wallet = Wallet.objects.get(user_profile=profile)
+    wallet = Wallet.objects.filter(user_profile=profile)
+    if wallet:
+        wallet = wallet[0]
     if start_time and end_time:
         housekeepings = Housekeeping.objects.filter(author=profile, time__range=[start_time, end_time])
     else:

@@ -27,7 +27,7 @@
                 <div class="vessel_conBox_step_head">
                                     <span class="stepName stepName_s1">
                                         <a style="color: #FFF"
-                                           href="http://bslt.c.colourlife.com/property/createProperty">
+                                           href="javascript:history.go(-1);">
                                             选择物业
                                         </a>
                                     </span>
@@ -79,18 +79,17 @@
 {##}
 {#                </table>#}
                 <div style="border: 1px solid #dddddd;height: 150px;padding: 5px 5px">
-                    <p class="font_style" >某某小区物业费清单</p>
-                    <p class="font_style">电费：</p>
-                    <p class="font_style">水费：</p>
+                    <p class="font_style" >{{ profile.community.title }}小区{{ profile.floor }}栋{{ profile.gate_card }}号</p>
+
                     <p class="font_style">128平方米*10</p>
                 </div>
                 <div style="border: 1px solid #dddddd;height: 30px;padding: 5px 5px">
                     <span class="font_style">合计1200￥</span>
                 </div>
                 <div style="padding: 15px 10px">
-                    <span>业主：</span>
-                    <span>物业：</span>
-                   <span>日期：2013年3月28日</span>
+                    <span>业主：{{ user.username }}</span>
+                    <span>物业：{{ profile.community.title }}</span>
+                    <span>日期：</span><span id="timeArea">2013年3月28日</span>
                 </div>
             </div>
 
@@ -328,18 +327,6 @@
     </div>
     </div>
 
-    <input type="hidden" name="Property[colorcloud_id]" value="HYN-BY"/>
-    <input type="hidden" name="Property[colorcloud_bills]" id="Property_colorcloud_bills"
-           value="39643033,39642668,39642331,39641994,39643000,33471910,33471571"/>
-    <input type="hidden" name="OthersFees[amount]" id="property_amount" value="583.28"/>
-    <input type="hidden" name="Property[community_id]" value="112"/>
-    <input type="hidden" name="Property[colorcloud_building]" value="HYN-BY-1"/>
-    <input type="hidden" name="Property[colorcloud_unit]" value="HYN-BY-1-01"/>
-    <input type="hidden" name="Property[build]" value=""/>
-    <input type="hidden" name="Property[room]" value=""/>
-    <input type="hidden" name="bankcode" id="bank_code_by_form" value=""/>
-    <input type="hidden" name="old_property_fees" id="old_property_fees" value="0">
-    <input type="hidden" id="discount_property" name="discount_property" value="?>">
 
     <div class="el_tipPop_b"></div>
 
@@ -349,6 +336,16 @@
 
     <div class="el_blank_h50 fn_clear"></div>
     </div>
+    </div>
     </form>
     <!-- 主要内容区域 end -->
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        function showTime(){
+            var now_time=new Date();   //   初始化日期对象
+                $( "#timeArea").html(now_time.toLocaleString());
+            }
+        window.setInterval("showTime()",0);
+    </script>
 {% endblock %}

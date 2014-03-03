@@ -1,5 +1,6 @@
 #coding:utf-8
 import datetime
+from decimal import Decimal
 from django.utils.timezone import utc
 from django.http import HttpResponse
 import simplejson
@@ -27,8 +28,13 @@ def house_pay_fees(request):
     else:
         status = 1
     communities = Community.objects.all()
+    all_user_info_list = []
     if request.user.is_staff:
-        return render_to_response('admin_property_fees.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+        all_user_info = profile.community.profiledetail_set.all()
+        for user_info in all_user_info:
+            if user_info.profile.is_staff == False and user_info.is_admin == False:
+                all_user_info_list.append(user_info)
+        return render_to_response('admin_property_fees.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status,'all_user_info': all_user_info_list})
 
     else:
       return render_to_response('housing_service_fee.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
@@ -107,8 +113,9 @@ def decide_recharge(request):
     community_id = request.session.get('community_id', profile.community.id)
     one_community = Community.objects.get(id=community_id)
     money_num = request.POST.get('money_num', None)
-    wallet = Wallet.objects.get_or_create(user_profile=profile)
-    wallet.money_sum = money_num
+    money_num = Decimal(str(money_num))
+    wallet = Wallet.objects.get_or_create(user_profile=profile)[0]
+    wallet.money_sum += money_num
     wallet.save()
     status = None
     if community_id == profile.community.id:

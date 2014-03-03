@@ -197,12 +197,12 @@ def push_message(description, handler_detail, title):
     c = Channel(apiKey, secretKey)
     push_type = 1
     optional = dict()
-    #optional[Channel.USER_ID] = handler_detail.device_user_id
+    optional[Channel.USER_ID] = int(handler_detail.device_user_id)
     #optional[Channel.USER_ID] = '665778416804465913'
-    optional[Channel.USER_ID] = '665778416804465913'
-    optional[Channel.CHANNEL_ID] = '4617656892525519033'
+    #optional[Channel.USER_ID] = 900581881515728799
+    #optional[Channel.CHANNEL_ID] = 4422325214068124932
     #optional[Channel.CHANNEL_ID] = '4617656892525519033'
-    #optional[Channel.CHANNEL_ID] = handler_detail.device_chanel_id
+    optional[Channel.CHANNEL_ID] = int(handler_detail.device_chanel_id)
     #推送通知类型
     optional[Channel.DEVICE_TYPE] = 4
     optional[Channel.MESSAGE_TYPE] = 1
@@ -238,8 +238,8 @@ def complain_deal(request):
                     complain.handler = user_obj
                 complain.save()
             handler_detail = ProfileDetail.objects.get(profile=user_obj)
-            title = 'title'
-            description = 'description'
+            title = '消息通知'
+            description = '你有新的投诉需要处理请查看！'
             if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
                 push_message(description, handler_detail, title)
                 response_data = {'success': True, 'info': '授权成功并推送消息至处理人！'}
@@ -265,7 +265,13 @@ def worker_deal_complain(request):
                 complain.is_read = True
                 complain.is_worker_read = True
                 complain.status = 2
+                user_obj = User.objects.get(id=re_id)
+                title = '消息通知'
+                description = '你的投诉已经授权处理！'
+                profile = ProfileDetail.objects.get(profile=user_obj)
                 complain.save()
+                if profile.device_user_id and profile.device_chanel_id and profile.device_type:
+                    push_message(description, profile, title)
             response_data = {'success': True, 'info': '已更改状态'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
@@ -316,8 +322,6 @@ def own_complain(request):
     wallet = Wallet.objects.filter(user_profile=profile)
     if wallet:
         wallet = wallet[0]
-    else:
-        wallet = 0
     if len(complains) > 0:
         paginator = Paginator(complains, 7)
         page = request.GET.get('page')
@@ -412,6 +416,40 @@ def api_complain_create(request):
             return HttpResponse(simplejson.dumps({'error': False, 'info': u'投诉创建成功'}), content_type='application/json')
         else:
             return HttpResponse(simplejson.dumps({'error': True, 'info': u'投诉创建失败'}), content_type='application/json')
+
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def api_worker_deal_complain(request):
+    if request.method != u'POST':
+        return redirect(index)
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        complain_array = data.get("complains_id_string", None)
+        if complain_array:
+            list_complain = str(complain_array).split(",")
+            for i in range(len(list_complain)):
+                re_id = int(list_complain[i])
+                complain = Complaints.objects.get(id=re_id)
+                complain.is_read = True
+                complain.is_worker_read = True
+                complain.status = 2
+                complain.save()
+                user_obj = User.objects.get(id=re_id)
+                title = '消息通知'
+                description = '你的投诉已经授权处理！'
+                if user_obj.device_user_id and user_obj.device_chanel_id and user_obj.device_type:
+                    push_message(description, user_obj, title)
+            response_data = {'success': True, 'info': '已更改状态并发送消息至客户'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+    else:
+            response_data = {'success': False}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
 @transaction.atomic
@@ -597,29 +635,11 @@ def api_show_complains_by_status(request):
         response_data = {'info': '没有传入小区id', 'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     if request.user.is_staff:
-        if complains_status == u'未处理':
-            complains = Complaints.objects.filter(community=community, status=1).order_by('-timestamp')
-        if complains_status == u'处理中':
-            complains = Complaints.objects.filter(community=community, status=2).order_by('-timestamp')
-        if complains_status == u'已处理':
-            complains = Complaints.objects.filter(community=community, status=3).order_by('-timestamp')
+            complains = Complaints.objects.filter(community=community, status=int(str(complains_status))).order_by('-timestamp')
     elif profile.is_admin:
-        if complains_status == u'处理中':
-            complains = Complaints.objects.filter(community=community, status=2, handler=request.user).order_by(
-                '-timestamp')
-        if complains_status == u'已处理':
-            complains = Complaints.objects.filter(community=community, status=3, handler=request.user).order_by(
-                '-timestamp')
+        complains = Complaints.objects.filter(community=community, status=int(str(complains_status)), handler=request.user).order_by('-timestamp')
     else:
-        if complains_status == u'未处理':
-            complains = Complaints.objects.filter(community=community, status=1, author=request.user.username).order_by(
-                '-timestamp')
-        if complains_status == u'处理中':
-            complains = Complaints.objects.filter(community=community, status=2, author=request.user.username).order_by(
-                '-timestamp')
-        if complains_status == u'已处理':
-            complains = Complaints.objects.filter(community=community, status=3, author=request.user.username).order_by(
-                '-timestamp')
+        complains = Complaints.objects.filter(community=community, status=int(str(complains_status)), author=request.user.username).order_by('-timestamp')
     if len(complains) > 0:
         paginator = Paginator(complains, 20)
         page_count = paginator.num_pages

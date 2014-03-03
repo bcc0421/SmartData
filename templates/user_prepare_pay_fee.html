@@ -25,7 +25,7 @@
                 <div class="vessel_conBox_step2">
                     <div class="vessel_conBox_step_head">
                         <span class="stepName stepName_s1">
-                          <a href="http://bslt.c.colourlife.com/property/createProperty" style="color: #ffffff">
+                          <a href="javascript:history.go(-1);" style="color: #ffffff">
                             选择物业
                           </a>
                         </span>
@@ -44,11 +44,11 @@
                             <th>
                                 <div class="pay_table_th">
 
-                                    <h4 style="text-align: center">半山御景物业费用清单</h4>
+                                    <h4 style="text-align: center">{{ profile.community.title }}物业费用清单</h4>
                                     <p class="owner_info">
-                                        <span class="owner_name">业主：snail</span>
-                                        <span class="owner_area">物业：半山御景</span>
-                                        <span class="due_time">日期：2014-02-24 15:58:44</span>
+                                        <span class="owner_name">业主：{{ user.username }}</span>
+                                        <span class="owner_area">物业：{{ profile.community.title }}</span>
+                                        </span><span class="due_time"id="timeArea">2014-02-24 15:58:44</span>
                                     </p>
                                 </div>
                             </th>
@@ -85,4 +85,13 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        function showTime(){
+            var now_time=new Date();   //   初始化日期对象
+                $( "#timeArea").html(now_time.toLocaleString());
+            }
+        window.setInterval("showTime()",0);
+    </script>
 {% endblock %}

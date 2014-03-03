@@ -19,7 +19,7 @@
                 <div class="vessel_conBox_step2">
                         <div class="vessel_conBox_step_head">
                                         <span class="stepName stepName_s1">
-                                           <a href="http://bslt.c.colourlife.com/property/createParking" style="color: #ffffff">
+                                           <a href="javascript:history.go(-1);" style="color: #ffffff">
                                                私家车
                                            </a>
                                         </span>
@@ -40,14 +40,11 @@
                         <div class="vessel_conBox_text">
                                 <div class="last_text_box2">
                                     <p>
-                                        小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 区：东方园博苑1栋4B123 <input type="hidden" name="Parking[community_id]"
-                                                                                                    value="728"/>
-                                        <input type="hidden" name="Parking[build_id]" value="17359"/>
-                                        <input type="hidden" name="Parking[room]" value="123"/>
+                                        小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 区：{{ profile.community.title }}&nbsp;&nbsp;{{ profile.floor }}栋{{ profile.gate_card }}号
                                     </p>
 
                                     <p>
-                                        车 &nbsp;牌 &nbsp;号：e72501 <input type="hidden" name="Parking[car_number]" value="e72501"/>
+                                        车 &nbsp;牌 &nbsp;号：{{ profile.car_number }} <input type="hidden" name="Parking[car_number]" value="{{ profile.car_number }}"/>
                                     </p>
 
                                     <p>
@@ -55,10 +52,10 @@
                                         <select name="Parking[type_id]" id="type_for_parking">
                                             <option value="请选择">请选择车位类型</option>
                                             <option fees="250.00" value="655"
-                                                    >室内停车位
+                                                    >买断车位
                                             </option>
                                             <option fees="250.00" value="656"
-                                                    >室内停车位
+                                                    >租停车位
                                             </option>
                                         </select>
                                     </p>
@@ -66,9 +63,9 @@
                                         续费时间：
                                         <select name="Parking[period]" id="period_for_parking">
                                             <option value="请选择">请选择续费时间</option>
-                                            <option value="1">一个月</option>
-                                            <option value="3">三个月</option>
-                                            <option value="6">六个月</option>
+{#                                            <option value="1">一个月</option>#}
+{#                                            <option value="3">三个月</option>#}
+                                            <option value="6">半年</option>
                                             <option value="12">一年</option>
                                         </select>
                                     </p>
@@ -119,7 +116,7 @@
     <!-- page -->
 
     <!-- 服务快链区域 start -->
-    <div class="serverBar"></div>
+
     <div class="serverBar_box el_container"></div>
 
 

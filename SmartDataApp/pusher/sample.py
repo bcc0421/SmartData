@@ -10,9 +10,9 @@ from Channel import *
 #以下只是测试数据，请使用者自行修改为可用数据
 apiKey = "xS8MeH5f4vfgTukMcB2Bo6Ea"
 secretKey = "chcxUOTIvBkItk91bXbXxQw5VSAaYhBb"
-user_id = 665778416804465913
+user_id = 900581881515728799
 appid = 1867886
-channel_id = '4617656892525519033'
+channel_id = 4422325214068124932
 dev_host = 'https://channel.iospush.api.duapp.com'
 
 # "appid" = 1867886;

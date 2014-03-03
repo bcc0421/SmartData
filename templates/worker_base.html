@@ -14,46 +14,91 @@
     <link href="/static/css/baseNew.css" rel="stylesheet">
     <link href="/static/css/indexNew.css" rel="stylesheet">
     <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <style>
+        body{
+            background-color: #eeeeee;
+        }
+        .searchBox_tab_cur_new{
+            background: url(/static/images/search.png) no-repeat 0;
+            color: #fff;
+        }
+        .dataTables_wrapper {
+            padding-left: 0px !important;
+        }
 
-        <style>
-            body{
-                background-color: #f6f6f6;
-            }
-            .searchBox_tab_cur_new{
-                background: url(/static/images/search.png) no-repeat 0;
-                color: #fff;
-            }
-            .dataTables_wrapper {
-                padding-left: 0px !important;
-            }
+        .dataTables_paginate {
+            float: right;
+            margin-top: -20px;
+        }
 
-            .dataTables_paginate {
-                float: right;
-                margin-top: -20px;
-            }
+        .dataTables_paginate li {
+            float: left
+        }
 
-            .dataTables_paginate li {
-                float: left
-            }
+        .dataTables_filter {
+            float: right;
+            margin-top: -25px;
+            margin-right: 18px;
+        }
 
-            .dataTables_filter {
-                float: right;
-                margin-top: -25px;
-                margin-right: 18px
-            }
-
-            .span6 li {
-                padding-left: 1px;
-                padding-right: 1px;
-            }
-            a:hover{
+        .span6 li {
+            padding-left: 1px;
+            padding-right: 1px;
+        }
+        a:hover{
             text-decoration: none;
         }
-          .title_new{
+        .title_new{
             color:#ffffff
         }
 
-        .mainNav_item {
+
+
+        .sur_ix_serBox .item {
+{#                background: url('/static/images/index_arrow.png') no-repeat;#}
+                background: #ffffff;
+                height: 65px;
+                width:200px;
+                margin: 0;!important
+            }
+{#            .sur_ix_serBox .title {#}
+{#                position: absolute;#}
+{#                bottom: 22px;#}
+{#                left: 56px;#}
+{#                color: #686868;#}
+{#                font-size: 12px;#}
+{#            }#}
+            .icon_index{
+                margin-top: 28px;
+                margin-left: 30px;
+                width:15px;
+{#                border: 1px solid blue#}
+            }
+            .sur_ix_serBox .title {
+                position: absolute;
+                bottom: 18px;
+                left: 56px;
+                color: #726464;
+                font-size: 15px;!important
+            }
+            .sur_ix_serBox .item:hover {
+                background: #bad804; !important
+            }
+            .sur_ix_serBox .item:hover .title {
+                 color: #726464;!important
+            }
+{#            .out{#}
+{#                border: 1px solid #ffffff;#}
+{#            }#}
+            .container {
+                width: 1003px !important;
+             }
+            .left_cn{
+                border: 1px solid #dcdcdc;
+                height: 592px;
+                background-color: #ffffff
+            }
+            .mainNav_item {
 {#            border: 1px solid #FF0000;#}
             display: inline-block;
             height: 38px;
@@ -63,7 +108,7 @@
             vertical-align: top;
             width: 106px;
         }
-        </style>
+    </style>
     {% block css %}
     {% endblock %}
 </head>
@@ -72,7 +117,6 @@
     <div id="show_info_detail" class="alert alert-warning fade in">
         <button type="button" onclick="close_alert()" class="close">&times;</button>
         <div id="show_info_detail_content">
-
         </div>
         .
     </div>
@@ -97,14 +141,13 @@
         <!-- left part end -->
 
         <!-- right part start -->
-
         <div class="fn_right">
             {% if user %}
                 <a href="/own_information/" class="optLink el_btn">{{ user.username }}</a>
                 {% if user.is_staff %}
                     <a href="/register/" class="optLink el_btn">添加用户</a>
                     <a href="/community/" class="optLink el_btn">添加社区</a>
-                {% else %}
+                 {% else %}
                     <a href="/recharge/" class="optLink el_btn">充值</a>
                 {% endif %}
                 <a href="/logout/" class="optLink el_btn">登出</a>
@@ -132,8 +175,7 @@
         <div class="fn_right" style="margin-right: 10px;margin-top: 2px">
             {% if user %}
                 <span class=" glyphicon glyphicon-volume-up "></span>
-                <a id="show_detail_num" role="button" data-toggle="dropdown" href="#"><font
-                        color="#a52a2a">0</font></a>
+                <a id="show_detail_num" role="button" data-toggle="dropdown" href="#"><font color="#a52a2a">0</font></a>
                 <ul id="show_item_num" style="left: inherit" class="dropdown-menu" role="menu"
                     aria-labelledby="show_detail">
                     <li id="show_housekeeping_num" onclick="info_detail(this)" name="housekeeping"><a href="#">家政：0</a>
@@ -154,8 +196,7 @@
 <!-- 头部广告栏 start -->
 <div class="topBanner el_container">
     <a href="/index/" class="imgLink">
-{#        <img src="/images/pic_demo_banner.png/" class="demoPic">#}
-        <div  class="demoPic">
+        <div class="demoPic">
         </div>
     </a>
 </div>
@@ -167,7 +208,7 @@
     <!-- logo start -->
     <div class="logoBox fn_left">
         <a href="/index/" class="logoLink" title="彩生活">
-            <div   class="logoImg" >
+             <div class="logoImg">
             </div>
         </a>
     </div>
@@ -199,7 +240,7 @@
     <!-- search end -->
 
     <!-- telephone start -->
-    <div class="phoneBox fn_right"style="margin-top: -6px">
+    <div class="phoneBox fn_right" style="margin-top: -6px">
                 <span class="phoneBox_item">
                     <i class="icon"></i>
                     <span class="txt">客服热线:8888 888 888</span>
@@ -214,17 +255,32 @@
 <!-- 主导航栏 start -->
 <div class="mainNav">
     <div class="mainNav_box el_container">
-{#        <div class="btn-group" style="margin-left:10px;border: 1px solid red;width:50px;height: 50px">#}
-{#                <span style="border: 1px solid #000000;width: 500px;height: 30px">#}
+
+{#            <span type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown"style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">#}
+
+{#                <span type="button" class="mainNav_item btn btn-default dropdown-toggle" style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">#}
+{#                {% if change_community == 1 %}#}
+{#                    {{ community.title }}#}
+{#                {% elif change_community == 2 %}#}
 {#                    {{ profile.community.title }}#}
-{#                </span>#}
-{#            111111111111111111111#}
+{#                {% else %}#}
+{#                    切换小区#}
+{#                {% endif %}#}
+{#                    <img src="/static/images/triangle.png"  />#}
+
+{#                <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel">#}
+{#                    {% for community in communities %}#}
+{#                        <li id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a>#}
+{#                        </li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+
+
 {#        </div>#}
-{#     {% endif %}#}
-        {% if user.is_active %}
+         {% if user.is_active %}
             <a href="/index/" class="mainNav_item" title="小区首页">
-            <span class="txt">{{ profile.community.title }}</span>
-        </a>
+                <span class="txt">{{ profile.community.title }}</span>
+            </a>
          {% endif %}
         <a href="/index/" class="mainNav_item" title="小区首页">
             <span class="txt">小区首页</span>
@@ -238,7 +294,7 @@
             <span class="txt">本地生活</span>
         </a>
 
-         <a href="#" class="mainNav_item" title="天天超市">
+        <a href="#" class="mainNav_item" title="天天超市">
             <span class="txt">天天超市</span>
         </a>
 
@@ -260,13 +316,95 @@
 </div>
 <!-- 主导航栏 end -->
 <div class="container" id="page">
-    {% block container %}
-    {% endblock %}
+    <div style="width: 1210px;">
+        <!-- 主要内容区域 start -->
+
+        <div class="el_blank_h20"></div>
+
+
+               <div class="el_w_203 fn_left left_cn">
+                <!-- 服务列表 start -->
+                <div class="sur_ix_serBox">
+                    <!-- 元素 start -->
+                    <a class="item_s1 item out" href="/repair/">
+{#                        <i  name="repair" class="icon change_style" style="background: url('/static/images/index_arrow.png') no-repeat;margin-top: 5px;margin-left: 5px"></i>#}
+{#                        <span class="title">报修</span>#}
+                        <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong><B>报修</B></strong></span>
+                    </a>
+                    <!-- 元素 end -->
+
+                    <!-- 元素 start -->
+                    <a class="item_s2 item out" href="/complain/">
+{#                        <i name="complain" class="icon change_style" style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+                         <div class="icon_index">
+                            <img src="/static/images/index_arrow.png" />
+                        </div>
+                        <span class="title"><strong><B>投诉</B></strong></span>
+                    </a>
+                    <!-- 元素 end -->
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s3 item out" href="/housekeeping/">#}
+{#                        <i  name="housekeeping"class="icon change_style" style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                         <div class="icon_index">#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <span class="title"><strong>家政</strong></span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s4 item out" href="/parking/fees/">#}
+{#                        <i name="park" class="change_width icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                        <div class="icon_index">#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <span class="title"><strong>停车费</strong></span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s5 item out" href="/house/pay_fees/">#}
+{#                        <div class="icon_index">#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <i name="property" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                        <span class="title"><strong>物业缴费</strong></span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{##}
+{#                    <!-- 元素 start -->#}
+{#                    <a class="item_s7 item out" href="/express/">#}
+{#                        <i name="express" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                         <div class="icon_index">#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <span class="title"><strong>快递</strong></span>#}
+{#                    </a>#}
+{#                    <!-- 元素 end -->#}
+{#                     <a class="item_s7 item out" href="/community/notification/">#}
+{#                        <i name="express" class="icon change_style"style="background: url('/static/images/index_arrow.png') no-repeat;"></i>#}
+{#                         <div class="icon_index"s>#}
+{#                            <img src="/static/images/index_arrow.png" />#}
+{#                        </div>#}
+{#                        <span class="title"><strong><B>小区通知</B></strong></span>#}
+{#                    </a>#}
+                </div>
+                <!-- 服务列表 end -->
+            </div>
+
+        {% block right_container %}
+
+        {% endblock %}
+    </div>
 </div>
 <!-- 服务快链区域 start -->
 <div class="serverBar">
-    <div class="serverBar_box el_container" >
-<span class="borderBox"style="margin-left: -7px;width:780px">
+    <div class="serverBar_box el_container">
+ <span class="borderBox"style="margin-left: -7px;width:780px">
     <span class="item">
         <strong class="title title_new">购物指南</strong>
         <span class="box">
@@ -346,7 +484,7 @@
         CopyRight ©2013 SFI SuZhou All Rights Reserved
     </p>
     <p class="copyrightBox"style="margin-top: -36px">
-      <a href="http://www.miitbeian.gov.cn" target="_blank" rel="nofollow" hidefocus="false">苏ICP备14005523号-1</a>
+        <a href="http://www.miitbeian.gov.cn" target="_blank" rel="nofollow" hidefocus="false">苏ICP备14005523号-1</a>
     </p>
 
 </div>
@@ -357,10 +495,19 @@
 <script src="/static/js/colourlife.form.js"></script>
 <script src="/static/js/jquery.dataTables.min.js"></script>
 <script src="/static/js/DT_bootstrap.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
+<script src="/static/js/timepicker.js"></script>
 <script type="text/javascript">
-
-
-    $(function(){
+       $(function(){
+            $('.out').mouseover(function(){
+                var name =$(this).children(".change_style").attr('name');
+                $(this).children(".change_style").attr("style","background:url('/static/images/"+name+"_hover.png') no-repeat");
+            }).mouseout(function(){
+                var name =$(this).children(".change_style").attr('name');
+                $(this).children(".change_style").attr("style","background:url('/static/images/"+name+".png') no-repeat");
+                    })
+        })
+     $(function(){
         $('.searchBox_tabs a').click(function(){
             $(this).addClass('searchBox_tab_cur_new').siblings().removeClass('searchBox_tab_cur_new');
         })
@@ -376,37 +523,6 @@
                 })
     }
 {#    window.setInterval("get_new_num()", 3000);#}
-    function goTop() {
-        $(window).scroll(function (e) {
-            var clientHeight = $(window).height();
-            var clientWidth = $(window).width();
-            var realtop = clientHeight - 50;
-            var realleft = clientWidth - 60;
-            //若滚动条离顶部大于100元素
-            if ($(window).scrollTop() > 100) {
-                $("#backtop").css(
-                        {
-                            "top": realtop + "px",
-                            "left": realleft + "px"
-                        });
-                $("#backtop").fadeIn(1000);//以1秒的间隔渐显id=backtop的元素
-            }
-            else
-                $("#backtop").fadeOut(1000);//以1秒的间隔渐隐id=backtop的元素
-        });
-    }
-    //点击回到顶部的元素
-    $("#backtop").click(function (e) {
-        //以0.5秒的间隔返回顶部
-        $('body,html').animate({scrollTop: 0}, 500);
-    });
-    $("#backtop").mouseover(function (e) {
-        $(this).css("background", "url(../static/img/outbacktop.png) no-repeat 0px 0px");
-    });
-    $("#backtop").mouseout(function (e) {
-        $(this).css("background", "url(../static/img/onbacktop.png) no-repeat 0px 0px");
-    });
-    goTop();//实现回到顶部元素的渐显与渐隐
     function get_data(item_name) {
         function TableInit(DataSet) {
             $('#message_remind').dataTable({
@@ -419,7 +535,6 @@
                     [5, 10, 15, -1],
                     [5, 10, 15, 20]
                 ],
-                //"aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
                 "bSort": false,
                 "oLanguage": {
                     "sLengthMenu": "显示 _MENU_每页显示记录",
@@ -520,7 +635,52 @@
         $("#show_detail").slideUp();
         $("#show_info_detail_content").html('');
     }
+    function goTop() {
+        $(window).scroll(function (e) {
+            var clientHeight = $(window).height();
+            var clientWidth = $(window).width();
+            var realtop = clientHeight - 50;
+            var realleft = clientWidth - 60;
+            //若滚动条离顶部大于100元素
+            if ($(window).scrollTop() > 100) {
+                $("#backtop").css(
+                        {
+                            "top": realtop + "px",
+                            "left": realleft + "px"
+                        });
+                $("#backtop").fadeIn(1000);//以1秒的间隔渐显id=backtop的元素
+            }
+            else
+                $("#backtop").fadeOut(1000);//以1秒的间隔渐隐id=backtop的元素
+        });
+    }
+    //点击回到顶部的元素
+    $("#backtop").click(function (e) {
+        //以0.5秒的间隔返回顶部
+        $('body,html').animate({scrollTop: 0}, 500);
+    });
+    $("#backtop").mouseover(function (e) {
+        $(this).css("background", "url(../static/img/outbacktop.png) no-repeat 0px 0px");
+    });
+    $("#backtop").mouseout(function (e) {
+        $(this).css("background", "url(../static/img/onbacktop.png) no-repeat 0px 0px");
+    });
+    goTop();//实现回到顶部元素的渐显与渐隐
 
+    function selected_community(obj) {
+        var now_name = $(obj).attr('name');
+        var community_id = $(obj).attr('id');
+        $.post('/enter/community/',
+                {
+                    'community_id': community_id
+                },
+                function (data) {
+                    if (data.success) {
+                        $('#change_name').html("" + now_name + "<span class='caret'></span>");
+                    }
+                }
+        )
+    }
 </script>
 {% block script %}
 {% endblock %}

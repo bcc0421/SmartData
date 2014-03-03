@@ -98,6 +98,16 @@
                 height: 592px;
                 background-color: #ffffff
             }
+            .mainNav_item {
+{#            border: 1px solid #FF0000;#}
+            display: inline-block;
+            height: 38px;
+            line-height: 38px;
+            margin-left:20px;
+            text-align: center;
+            vertical-align: top;
+            width: 106px;
+        }
     </style>
     {% block css %}
     {% endblock %}
@@ -205,7 +215,7 @@
     <!-- logo end -->
 
     <!-- search start -->
-    <form id="search-form" action="/site/search" method="GET">
+    <form id="search-form" action="#" method="GET">
         <div class="searchBox fn_left">
             <div class="searchBox_tabs">
                 <a class="searchBox_tab searchBox_tab_cur_new"
@@ -246,27 +256,32 @@
 <div class="mainNav">
     <div class="mainNav_box el_container">
 
-        <div class="btn-group" style="margin-left:10px">
-            <span type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown"style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">
-{#            <span type="button" class="mainNav_item btn btn-default dropdown-toggle" style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">#}
-                {% if change_community == 1 %}
-                    {{ community.title }}
-                {% elif change_community == 2 %}
-                    {{ profile.community.title }}
-                {% else %}
-                    切换小区
-                {% endif %}
-                    <img src="/static/images/triangle.png"  />
-            </span>
-                <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                    {% for community in communities %}
-                        <li id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
+{#            <span type="button" class="mainNav_item btn btn-default dropdown-toggle" data-toggle="dropdown"style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">#}
+
+{#                <span type="button" class="mainNav_item btn btn-default dropdown-toggle" style="background: url('/static/images/change_community.png') no-repeat;color:#ffffff">#}
+{#                {% if change_community == 1 %}#}
+{#                    {{ community.title }}#}
+{#                {% elif change_community == 2 %}#}
+{#                    {{ profile.community.title }}#}
+{#                {% else %}#}
+{#                    切换小区#}
+{#                {% endif %}#}
+{#                    <img src="/static/images/triangle.png"  />#}
+
+{#                <ul id="down_menu_1" class="dropdown-menu" role="menu" aria-labelledby="dLabel">#}
+{#                    {% for community in communities %}#}
+{#                        <li id="{{ community.id }}"><a href="/enter/community/{{ community.id }}/">{{ community.title }}</a>#}
+{#                        </li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
 
 
-        </div>
+{#        </div>#}
+         {% if user.is_active %}
+            <a href="/index/" class="mainNav_item" title="小区首页">
+                <span class="txt">{{ profile.community.title }}</span>
+            </a>
+         {% endif %}
         <a href="/index/" class="mainNav_item" title="小区首页">
             <span class="txt">小区首页</span>
         </a>
@@ -507,7 +522,7 @@
                     $('#show_complain_num').html("<a href='#'>投诉：" + data.complain_num + "</a>");
                 })
     }
-    //window.setInterval("get_new_num()", 3000);
+{#    window.setInterval("get_new_num()", 3000);#}
     function get_data(item_name) {
         function TableInit(DataSet) {
             $('#message_remind').dataTable({

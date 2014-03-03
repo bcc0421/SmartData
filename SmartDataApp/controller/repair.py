@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.utils.http import *
 
 from SmartDataApp.controller.admin import convert_session_id_to_user
-from SmartDataApp.controller.complain import UTC
+from SmartDataApp.controller.complain import UTC, push_message
 from SmartDataApp.models import Repair
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail, Repair_item, Community, Wallet
@@ -184,31 +184,38 @@ def repair_create(request):
         repair_time = datetime.datetime.now()
         if repair_type == u'个人报修':
             category_id = category_person_id
+            repair_type = 1
         else:
             category_id = category_public_id
-        item = Repair_item.objects.get(id=category_id)
-        if repair_content or repair_type:
-            repair = Repair()
-            repair.content = repair_content
-            repair.timestamp = repair_time
-            repair.status = 1
-            repair.author_detail = profile
-            repair.author = request.user.username
-            repair.type = repair_type
-            repair.repair_item = item.item
-            repair.price = item.price
-            repair.community = profile.community
-            repair.is_admin_read = True
-            if upload_repair_src:
-                repair.src = upload_repair_src
-            repair.save()
-            return render_to_response('repair_success.html',
-                                      {'user': request.user, 'communities': communities, 'profile': profile,
-                                       'change_community': 2})
+            repair_type = 0
+        if category_id:
+            item = Repair_item.objects.get(id=category_id)
+            if repair_content or repair_type:
+                repair = Repair()
+                repair.content = repair_content
+                repair.timestamp = repair_time
+                repair.status = 1
+                repair.author_detail = profile
+                repair.author = request.user.username
+                repair.type = repair_type
+                repair.repair_item = item.item
+                repair.price = item.price
+                repair.community = profile.community
+                repair.is_admin_read = True
+                if upload_repair_src:
+                    repair.src = upload_repair_src
+                repair.save()
+                return render_to_response('repair_success.html',
+                                          {'user': request.user, 'communities': communities, 'profile': profile,
+                                           'change_community': 2})
+            else:
+                return render_to_response('repair.html',
+                                          {'user': request.user, 'communities': communities, 'profile': profile,
+                                           'change_community': 2})
         else:
-            return render_to_response('repair.html',
-                                      {'user': request.user, 'communities': communities, 'profile': profile,
-                                       'change_community': 2})
+                return render_to_response('repair.html',
+                                          {'user': request.user, 'communities': communities, 'profile': profile,
+                                           'change_community': 2,})
 
 
 @transaction.atomic
@@ -221,6 +228,7 @@ def repair_deal(request):
         repair_array = request.POST.get("selected_repair_string", None)
         deal_person_id = request.POST.get("deal_person_id", None)
         if repair_array and deal_person_id:
+            deal_person=User.objects.get(id=deal_person_id)
             list_repair = str(repair_array).split(",")
             for i in range(len(list_repair)):
                 re_id = int(list_repair[i])
@@ -228,12 +236,20 @@ def repair_deal(request):
                 repair.is_read = True
                 repair.is_worker_read = True
                 repair.status = 4
-                user_obj = User.objects.get(id=deal_person_id)
+                user_obj = deal_person
                 if user_obj:
                     repair.handler = user_obj
                 repair.save()
-            response_data = {'success': True, 'info': '授权成功！'}
-            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            handler_detail = ProfileDetail.objects.get(profile=deal_person)
+            title = '消息通知'
+            description = '你有新的投诉需要处理请查看！'
+            if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
+                push_message(description, handler_detail, title)
+                response_data = {'success': True, 'info': '授权成功并推送消息至处理人！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            else:
+                response_data = {'success': True, 'info': '授权成功,消息推送失败！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 @transaction.atomic
 @csrf_exempt
@@ -251,11 +267,13 @@ def worker_deal_repair(request):
                 repair.is_read = True
                 repair.is_worker_read = True
                 repair.status = 2
-                #user_obj = User.objects.get(id=deal_person_id)
-                #if user_obj:
-                #    repair.handler = user_obj
+                user_obj = User.objects.get(id=re_id)
                 repair.save()
-            response_data = {'success': True, 'info': '已更改状态！'}
+                title = '消息通知'
+                description = '你的报修已经授权处理！'
+                if user_obj.device_user_id and user_obj.device_chanel_id and user_obj.device_type:
+                    push_message(description, user_obj, title)
+            response_data = {'success': True, 'info': '已更改状态并发送消息至客户！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 @transaction.atomic
@@ -382,6 +400,39 @@ def api_repair_create(request):
         else:
             return HttpResponse(simplejson.dumps({'error': True, 'info': u'报修创建失败'}),
                                 content_type='application/json')
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def api_worker_deal_repair(request):
+    if request.method != u'POST':
+        return redirect(index)
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        repair_array = data.get("repair_id_string", None)
+        if repair_array:
+            list_repair = str(repair_array).split(",")
+            for i in range(len(list_repair)):
+                re_id = int(list_repair[i])
+                repair = Repair.objects.get(id=re_id)
+                repair.is_read = True
+                repair.is_worker_read = True
+                repair.status = 2
+                user_obj = User.objects.get(id=re_id)
+                repair.save()
+                title = '消息通知'
+                description = '你的报修已经授权处理！'
+                if user_obj.device_user_id and user_obj.device_chanel_id and user_obj.device_type:
+                    push_message(description, user_obj, title)
+            response_data = {'success': True, 'info': '已更改状态并发送消息至客户！'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+    else:
+        response_data = {'success': False}
+        return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
 @transaction.atomic
@@ -587,27 +638,12 @@ def api_show_repair_by_status(request):
         response_data = {'info': '没有传入小区id', 'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     if request.user.is_staff:
-        if repair_status == u'未处理':
-            repairs = Repair.objects.filter(community=community, status=1).order_by('-timestamp')
-        if repair_status == u'处理中':
-            repairs = Repair.objects.filter(community=community, status=2).order_by('-timestamp')
-        if repair_status == u'已处理':
-            repairs = Repair.objects.filter(community=community, status=3).order_by('-timestamp')
+        repairs = Repair.objects.filter(community=community, status=int(str(repair_status))).order_by('-timestamp')
     elif profile.is_admin:
-        if repair_status == u'处理中':
-            repairs = Repair.objects.filter(community=community, status=2, handler=request.user).order_by('-timestamp')
-        if repair_status == u'已处理':
-            repairs = Repair.objects.filter(community=community, status=3, handler=request.user).order_by('-timestamp')
+        repairs = Repair.objects.filter(community=community, status=int(str(repair_status)), handler=request.user).order_by('-timestamp')
     else:
-        if repair_status == u'未处理':
-            repairs = Repair.objects.filter(community=community, status=1, author=request.user.username).order_by(
-                '-timestamp')
-        if repair_status == u'处理中':
-            repairs = Repair.objects.filter(community=community, status=2, author=request.user.username).order_by(
-                '-timestamp')
-        if repair_status == u'已处理':
-            repairs = Repair.objects.filter(community=community, status=3, author=request.user.username).order_by(
-                '-timestamp')
+        repairs = Repair.objects.filter(community=community, status=int(str(repair_status)), author=request.user.username).order_by('-timestamp')
+
     if len(repairs) > 0:
         paginator = Paginator(repairs, 20)
         page_count = paginator.num_pages

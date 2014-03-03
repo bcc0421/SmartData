@@ -48,24 +48,24 @@
                         <form action="/user/property/verifyParking/" method="post" name="parking-fees-form">
                             <div id="add" style="display: block;">
                                 <div class="el_tipPop_h_i">
-                                    <span class="title">增加停车卡</span>
+{#                                    <span class="title">增加停车卡</span>#}
                                 </div>
                                 <div class="add_box">
                                     <p>
                                         <span>所在小区：</span>
-                                        <input class="func_position xiaoqu el_btn" type="text" value="请填写小区"
+                                        <input disabled = 'disabled'  class="func_position xiaoqu el_btn" type="text" value="{{ profile.community.title }}"
                                                get_position_pid="" get_position_cid="" get_positionid="">
                                     </p>
 
                                     <p>
                                         <span>楼栋房号：</span>
-                                        <input class="func_building_parking xiaoqu el_btn" type="text" value="请填写栋房间">
+                                        <input disabled = 'disabled'  class="func_building_parking xiaoqu el_btn" type="text" value="{{ profile.floor }}栋{{ profile.gate_card }}">
                                     </p>
 
                                     <p>
                                         <span>车&nbsp;&nbsp;牌&nbsp;&nbsp;号：</span>
-                                        <input class="el_inText" type="text" id="car_number" value="车牌号"
-                                               name="Parking[car_number]" defaultTxt="车牌号">
+                                        <input class="el_inText" type="text" id="car_number" placeholder="车牌号"required="required"
+                                               name="car_number">
                                     </p>
                                 </div>
                             </div>

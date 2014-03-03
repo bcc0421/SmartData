@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url, include
+from django.conf.urls import patterns, url, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -153,6 +154,8 @@ urlpatterns = patterns('',
                         url(r'^modify/notification/$',modify_notification),
                         url(r'^delete/notification/$',delete_notification),
                         url(r'^recharge/$',user_recharge),
-                        url(r'^decide/recharge/$',decide_recharge),
+                        url(r'^decide/recharge/$', decide_recharge),
+                        url(r'^api_worker/deal/repair/$', api_worker_deal_repair),
+                        url(r'^api_worker/deal/complain/$', api_worker_deal_complain),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

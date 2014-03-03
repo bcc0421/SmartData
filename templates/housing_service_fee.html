@@ -55,15 +55,15 @@
                              <span class="tit" >我的物业</span>
                         </button>
 
-                        <button class="btn" onclick="add_property()" style="border-radius: 0px 0px 0px 0px;background-color: #ffffff">
-                            <span class="tit"style="margin-left: 10px" >增加物业</span>
-                            <img style="margin-top: -4px" src="/static/images/propery_add.png" />
-                        </button>
+{#                        <button class="btn" onclick="add_property()" style="border-radius: 0px 0px 0px 0px;background-color: #ffffff">#}
+{#                            <span class="tit"style="margin-left: 10px" >增加物业</span>#}
+{#                            <img style="margin-top: -4px" src="/static/images/propery_add.png" />#}
+{#                        </button>#}
 
 
                     </div>
                     <div class="vessel_conBox_text_content" style="border:1px solid #f1f1f1;height: 160px" id="self_property">
-                                                <p>暂无物业地址</p>
+                     <p>{{ profile.community.title }}小区{{ profile.floor }}栋{{ profile.gate_card }}号</p>
                     </div>
                     <div class="vessel_conBox_text_content" style="border:1px solid #f1f1f1;height: 160px;display: none"id="property_add">
                         <div style="height: 30px;background-color: #f1f1f1;padding: 3px 10px">
@@ -91,9 +91,9 @@
 
                         <div class="vessel_conBox_text_content paymethod"style="height: 20px;padding-bottom: 36px">
 {#                            <p>&nbsp;</p>#}
-                            <input type="radio" name="property_type_list" value="0"  id="property_month" ><label for="property_month">&nbsp;按月缴费</label>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="property_type_list" value="1"   id="property_before" ><label for="property_before">&nbsp;预缴费</label>
+                            <input type="radio" name="property_type_list" value="0"  id="property_month" ><label for="property_month">&nbsp;按年缴费</label>
+{#                            &nbsp;&nbsp;&nbsp;&nbsp;#}
+{#                            <input type="radio" name="property_type_list" value="1"   id="property_before" ><label for="property_before">&nbsp;预缴费</label>#}
 
                         </div>
                             <div class="payment_button"><button onclick="skip_by_property_way()" type="submit" id="btn_by_property" class="el_btn payment_btn" ></button></div>

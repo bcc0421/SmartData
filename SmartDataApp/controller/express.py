@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from SmartDataApp.controller.admin import convert_session_id_to_user, return_error_response, return_404_response
-from SmartDataApp.controller.complain import UTC
+from SmartDataApp.controller.complain import UTC, push_message
 from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail, Community, Express
 
@@ -108,8 +108,15 @@ def add_user_express(request):
             express.is_read = True
             express.community = community
             express.save()
-            response_data = {'success': True, 'info': '添加成功！'}
-            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            title = '消息通知'
+            description = '你有新的快递到达请注意查收！'
+            if profile.device_user_id and profile.device_chanel_id and profile.device_type:
+                push_message(description, profile, title)
+                response_data = {'success': True, 'info': '添加成功并推送消息至收件人！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            else:
+                response_data = {'success': True, 'info': '添加成功,该用户没有注册手机端！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
             response_data = {'success': False, 'info': '没有此用户！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
@@ -368,8 +375,15 @@ def api_add_express_record(request):
             express.arrive_time = datetime.datetime.now()
             express.community = community
             express.save()
-            response_data = {'success': True, 'info': '添加成功！'}
-            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            title = '消息通知'
+            description = '你有新的快递到达请注意查收！'
+            if profile.device_user_id and profile.device_chanel_id and profile.device_type:
+                push_message(description, profile, title)
+                response_data = {'success': True, 'info': '添加成功并推送消息至收件人！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+            else:
+                response_data = {'success': True, 'info': '添加成功,该用户没有注册手机端！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
             response_data = {'success': False, 'info': '添加失败,没有此用户！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")

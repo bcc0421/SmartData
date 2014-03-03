@@ -459,7 +459,6 @@ class Channel(object):
         # url += resource
         if opt['phone_type'] == 'ios':
             url = 'https://channel.iospush.api.duapp.com' + '/rest/2.0/' + Channel.PRODUCT + '/'
-
         else:
            url = 'http://channel.api.duapp.com' + '/rest/2.0/' + Channel.PRODUCT + '/'
         url += resource

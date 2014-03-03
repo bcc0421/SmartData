@@ -9,15 +9,17 @@ import simplejson
 from SmartDataApp.controller.admin import convert_session_id_to_user, return_error_response
 from SmartDataApp.models import Community, ProfileDetail, Notification
 from SmartDataApp.views import index
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 @transaction.atomic
 @csrf_exempt
-@login_required
+#@login_required
 def add_community(request):
     if request.method != u'POST':
         communities = Community.objects.all()
-        return render_to_response('add_community.html', {'user': request.user, 'communities':communities})
+        profile = ProfileDetail.objects.get(profile=request.user)
+        return render_to_response('add_community.html', {'user': request.user, 'communities':communities, 'profile': profile,})
     else:
         name = request.POST.get(u'name', None)
         description = request.POST.get(u'description', None)
@@ -137,12 +139,22 @@ def community_notification(request):
     else:
         status = 1
     communities = Community.objects.all()
+    if notification:
+        paginator = Paginator(notification, 7)
+        page = request.GET.get('page')
+        try:
+            notification = paginator.page(page)
+        except PageNotAnInteger:
+            notification = paginator.page(1)
+        except EmptyPage:
+            notification = paginator.page(paginator.num_pages)
     if request.user.is_staff:
         return render_to_response('admin_community_notification.html',
-                                  {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status,'notifications':notification})
+                                  {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status, 'notifications': notification})
 
     else:
-      return render_to_response('user_community_notification.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+      return render_to_response('user_community_notification.html',
+                                {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status, 'notifications': notification})
 
 
 @transaction.atomic

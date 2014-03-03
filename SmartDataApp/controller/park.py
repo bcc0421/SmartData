@@ -27,8 +27,21 @@ def parking_fees(request):
     else:
         status = 1
     communities = Community.objects.all()
+    all_user_info_list = []
     if request.user.is_staff:
-        return render_to_response('admin_park.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+        all_user_info = profile.community.profiledetail_set.all()
+        for user_info in all_user_info:
+            if user_info.profile.is_staff == False and user_info.is_admin == False:
+                all_user_info_list.append(user_info)
+
+        #if all_user_info:
+        #    all_user_info = all_user_info
+        #    show = True
+        #else:
+        #    show =False
+
+        return render_to_response('admin_park.html',
+                                  {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status, 'all_user_info': all_user_info_list})
     else:
         return render_to_response('park_fees.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
 
@@ -46,8 +59,11 @@ def user_property_verifyParking(request):
     else:
         status = 1
     communities = Community.objects.all()
-
-    return render_to_response('user_car_port.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+    car_number = request.POST.get('car_number',None)
+    if car_number:
+        profile.car_number = car_number
+        profile.save()
+        return render_to_response('user_car_port.html', {'user': request.user, 'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
 
 
 
