@@ -1,4 +1,5 @@
 #coding:utf-8
+import threading
 from urllib import unquote
 
 from django.http import HttpResponse
@@ -26,6 +27,19 @@ def return_error_response():
 def return_404_response():
     return HttpResponse('', content_type='application/json', status=404)
 
+class ThreadClass(threading.Thread):
+  def __init__(self, description, handler_detail, title):
+      threading.Thread.__init__(self)
+      self._description = description
+      self._handler_detail = handler_detail
+      self._title = title
+  def run(self):
+    #push_message(self._description, self._handler_detail, self._title)
+    try:
+        push_message(self._description, self._handler_detail, self._title)
+    except Exception ,e:
+        print e
+        push_message(self._description, self._handler_detail, self._title)
 
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -229,26 +243,28 @@ def repair_deal(request):
         deal_person_id = request.POST.get("deal_person_id", None)
         if repair_array and deal_person_id:
             deal_person=User.objects.get(id=deal_person_id)
-            list_repair = str(repair_array).split(",")
-            for i in range(len(list_repair)):
-                re_id = int(list_repair[i])
-                repair = Repair.objects.get(id=re_id)
-                repair.is_read = True
-                repair.is_worker_read = True
-                repair.status = 4
-                user_obj = deal_person
-                if user_obj:
-                    repair.handler = user_obj
-                repair.save()
             handler_detail = ProfileDetail.objects.get(profile=deal_person)
-            title = '消息通知'
-            description = '你有新的投诉需要处理请查看！'
             if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
-                push_message(description, handler_detail, title)
+                list_repair = str(repair_array).split(",")
+                for i in range(len(list_repair)):
+                    re_id = int(list_repair[i])
+                    repair = Repair.objects.get(id=re_id)
+                    repair.is_read = True
+                    repair.is_worker_read = True
+                    repair.status = 4
+                    user_obj = deal_person
+                    if user_obj:
+                        repair.handler = user_obj
+                    repair.save()
+                title = '消息通知'
+                description = '你有新的报修需要处理请查看！'
+                push_class = ThreadClass(description, handler_detail, title)
+                push_class.start()
+                #push_message(description, handler_detail, title)
                 response_data = {'success': True, 'info': '授权成功并推送消息至处理人！'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
-                response_data = {'success': True, 'info': '授权成功,消息推送失败！'}
+                response_data = {'success': False, 'info': '请工作人员绑定手机端'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 @transaction.atomic
@@ -267,13 +283,20 @@ def worker_deal_repair(request):
                 repair.is_read = True
                 repair.is_worker_read = True
                 repair.status = 2
-                user_obj = User.objects.get(id=re_id)
+                user_obj = User.objects.get(username=repair.author)
                 repair.save()
+                profile = ProfileDetail.objects.get(profile=user_obj)
                 title = '消息通知'
                 description = '你的报修已经授权处理！'
-                if user_obj.device_user_id and user_obj.device_chanel_id and user_obj.device_type:
-                    push_message(description, user_obj, title)
-            response_data = {'success': True, 'info': '已更改状态并发送消息至客户！'}
+                if profile.device_user_id and profile.device_chanel_id and profile.device_type:
+                    try:
+                        push_class = ThreadClass(description, profile, title)
+                        push_class.start()
+                        #push_message(description, profile, title)
+                    except Exception,e:
+                        #print e
+                        continue
+            response_data = {'success': True, 'info': '工作人员处理中'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 @transaction.atomic
@@ -343,10 +366,15 @@ def repair_response(request):
         selected_pleased = request.POST.get("selected_radio", None)
         profile = ProfileDetail.objects.get(profile=request.user)
         repair = Repair.objects.get(id=repair_id)
+        handler_profile = ProfileDetail.objects.get(profile=repair.handler)
+        title = '消息通知'
+        description = '用户已对你的处理作出评价！'
         if repair:
             repair.pleased_reason = response_content
             repair.pleased = selected_pleased
             repair.save()
+            push_class = ThreadClass(description, handler_profile, title)
+            push_class.start()
             response_data = {'success': True, 'info': '评论成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
@@ -419,12 +447,19 @@ def api_worker_deal_repair(request):
                 repair.is_read = True
                 repair.is_worker_read = True
                 repair.status = 2
-                user_obj = User.objects.get(id=re_id)
+                user_obj = User.objects.get(username=repair.author)
                 repair.save()
+                profile = ProfileDetail.objects.get(profile=user_obj)
                 title = '消息通知'
                 description = '你的报修已经授权处理！'
-                if user_obj.device_user_id and user_obj.device_chanel_id and user_obj.device_type:
-                    push_message(description, user_obj, title)
+                if profile.device_user_id and profile.device_chanel_id and profile.device_type:
+                    try:
+                        push_class = ThreadClass(description, profile, title)
+                        push_class.start()
+                        #push_message(description, profile, title)
+                    except Exception,e:
+                        #print e
+                        continue
             response_data = {'success': True, 'info': '已更改状态并发送消息至客户！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
@@ -447,10 +482,15 @@ def api_repair_response(request):
         response_content = data.get("response_content", None)
         selected_pleased = data.get("selected_pleased", None)
         repair = Repair.objects.get(id=repair_id)
+        handler_profile = ProfileDetail.objects.get(profile=repair.handler)
+        title = '消息通知'
+        description = '用户已对你的处理作出评价！'
         if repair and selected_pleased:
             repair.pleased_reason = response_content
             repair.pleased = selected_pleased
             repair.save()
+            push_class = ThreadClass(description, handler_profile, title)
+            push_class.start()
             response_data = {'success': True, 'info': '反馈成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
         else:
@@ -511,49 +551,30 @@ def api_repair_deal(request):
         data = simplejson.loads(request.body)
         repair_array = data.get("repair_id_string", None)
         deal_person_id = data.get("deal_person_id", None)
-        if repair_array and deal_person_id:
-            list_repair = str(repair_array).split(",")
-            for i in range(len(list_repair)):
-                rep_id = int(list_repair[i])
-                repair = Repair.objects.get(id=rep_id)
-                repair.status = 4
-                repair.is_read = True
-                repair.is_worker_read = True
-                user_obj = User.objects.get(id=deal_person_id)
-                if user_obj:
-                    repair.handler = user_obj
-                repair.save()
-            response_data = {'success': True, 'info': u'授权成功！'}
-            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        deal_person = User.objects.get(id=deal_person_id)
+        handler_detail = ProfileDetail.objects.get(profile=deal_person)
+        if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
+            if repair_array and deal_person_id:
+                list_repair = str(repair_array).split(",")
+                for i in range(len(list_repair)):
+                    rep_id = int(list_repair[i])
+                    repair = Repair.objects.get(id=rep_id)
+                    repair.status = 4
+                    repair.is_read = True
+                    repair.is_worker_read = True
+                    user_obj = deal_person
+                    if user_obj:
+                        repair.handler = user_obj
+                    repair.save()
+                title = '消息通知'
+                description = '你有新的报修需要处理请查看！'
+                push_class = ThreadClass(description, handler_detail, title)
+                push_class.start()
+                #push_message(description, handler_detail, title)
+                response_data = {'success': True, 'info': '授权成功并推送消息至处理人！'}
+                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
-            response_data = {'success': False, 'info': u'请选择要处理的报修'}
-            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-
-@transaction.atomic
-@csrf_exempt
-def api_worker_repair_deal(request):
-    convert_session_id_to_user(request)
-    if request.method != u'POST':
-        return return_error_response()
-    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
-        data = simplejson.loads(request.body)
-        repair_array = data.get("repair_id_string", None)
-        if repair_array:
-            list_repair = str(repair_array).split(",")
-            for i in range(len(list_repair)):
-                rep_id = int(list_repair[i])
-                repair = Repair.objects.get(id=rep_id)
-                repair.status = 2
-                repair.is_read = True
-                repair.is_worker_read = True
-                #user_obj = User.objects.get(id=deal_person_id)
-                #if user_obj:
-                #    repair.handler = user_obj
-                repair.save()
-            response_data = {'success': True, 'info': u'授权成功！'}
-            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-        else:
-            response_data = {'success': False, 'info': u'请选择要处理的报修'}
+            response_data = {'success': False, 'info': '请工作人员帮定手机端'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 

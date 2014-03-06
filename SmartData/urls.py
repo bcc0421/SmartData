@@ -78,7 +78,7 @@ urlpatterns = patterns('',
                        url(r'^find/user_express/$', find_user_express),
                        url(r'^add/user_express/$', add_user_express),
                        url(r'^delete/user_express/$', delete_user_express),
-                       url(r'^user/get_express/$', user_get_express),
+                       url(r'^api_user/sign_express/$', api_user_sign_express),
                        url(r'^userself/get_express/$', user_self_get_express),
                        url(r'^express/response/$',express_response),
                        url(r'^api/express/response/$',api_express_response),
@@ -157,5 +157,6 @@ urlpatterns = patterns('',
                         url(r'^decide/recharge/$', decide_recharge),
                         url(r'^api_worker/deal/repair/$', api_worker_deal_repair),
                         url(r'^api_worker/deal/complain/$', api_worker_deal_complain),
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

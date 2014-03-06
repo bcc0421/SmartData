@@ -1,4 +1,5 @@
 #coding:utf-8
+import datetime
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -40,6 +41,7 @@ class ProfileDetail(models.Model):
     device_chanel_id = models.CharField(max_length=250, null=True, default='')
     device_type = models.CharField(max_length=250, null=True, default='')
     car_number = models.CharField(max_length=20, null=True)
+
     def __str__(self):
         return self.phone_number
 
@@ -101,6 +103,7 @@ class Express(models.Model):
     is_worker_read = models.BooleanField(default=False)
     is_admin_read = models.BooleanField(default=False)
     submit_express_status = models.IntegerField(default=0)
+    signer = models.CharField(max_length=250, null=True, blank=True)
 
     def __str__(self):
         return self.type
@@ -150,7 +153,7 @@ class Wallet(models.Model):
     user_profile = models.OneToOneField(ProfileDetail, null=True)
     money_sum = models.DecimalField(max_digits=19, decimal_places=6, default=0.0)
     grade_sum = models.IntegerField(default=0)
-    get_grade_date = models.DateField(auto_now_add=True, blank=True)
+    #get_grade_date = models.DateField(default=datetime.date.today(), blank=True)
 
     def __str__(self):
         return self.money_sum

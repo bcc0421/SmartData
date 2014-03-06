@@ -416,7 +416,8 @@ def get_message_num(request):
         repair_num = repair.count()
         housekeeping = Housekeeping.objects.filter(is_worker_read=True)
         housekeeping_num = housekeeping.count()
-        express_num = 0
+        express = Express.objects.filter(is_worker_read=True)
+        express_num = express.count()
         sum_num = complain_num + repair_num + housekeeping_num + express_num
         return complain_num, express_num, housekeeping_num, repair_num, sum_num
     else:
@@ -751,3 +752,4 @@ def api_get_dynamic_data(request):
 
 def index_test(request):
     return render_to_response('index_test.html')
+

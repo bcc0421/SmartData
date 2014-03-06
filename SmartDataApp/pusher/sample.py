@@ -10,9 +10,9 @@ from Channel import *
 #以下只是测试数据，请使用者自行修改为可用数据
 apiKey = "xS8MeH5f4vfgTukMcB2Bo6Ea"
 secretKey = "chcxUOTIvBkItk91bXbXxQw5VSAaYhBb"
-user_id = 900581881515728799
+user_id = 665778416804465913
 appid = 1867886
-channel_id = 4422325214068124932
+channel_id = '4617656892525519033'
 dev_host = 'https://channel.iospush.api.duapp.com'
 
 # "appid" = 1867886;
@@ -40,14 +40,16 @@ def test_pushMessage_to_user():
     c.DEFAULT_HOST=dev_host
     push_type = 1
     optional = dict()
-    optional[Channel.USER_ID] = 815730795201756090
+    #optional[Channel.USER_ID] = 900581881515728799
+    optional[Channel.USER_ID] = 880806020071711510
     #optional[Channel.USER_ID] = 665778416804465913
     #optional[Channel.CHANNEL_ID] = 4617656892525519033
-    optional[Channel.CHANNEL_ID] = 4320553738754859600
+    optional[Channel.CHANNEL_ID] = 5462963079944828847
+    #optional[Channel.CHANNEL_ID] = 3800664848253686124
     #推送通知类型
     optional[Channel.DEVICE_TYPE] = 4
     optional[Channel.MESSAGE_TYPE] = 1
-    optional['phone_type'] = 'io'
+    optional['phone_type'] = 'ios'
     ret = c.pushMessage(push_type, message, hashlib.md5(str(datetime.datetime.now())).hexdigest(), optional)
     print ret
 

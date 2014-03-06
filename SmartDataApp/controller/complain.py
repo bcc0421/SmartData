@@ -1,4 +1,5 @@
 #coding:utf-8
+import threading
 import datetime
 import json
 from urllib import unquote
@@ -198,15 +199,11 @@ def push_message(description, handler_detail, title):
     push_type = 1
     optional = dict()
     optional[Channel.USER_ID] = int(handler_detail.device_user_id)
-    #optional[Channel.USER_ID] = '665778416804465913'
-    #optional[Channel.USER_ID] = 900581881515728799
-    #optional[Channel.CHANNEL_ID] = 4422325214068124932
-    #optional[Channel.CHANNEL_ID] = '4617656892525519033'
     optional[Channel.CHANNEL_ID] = int(handler_detail.device_chanel_id)
     #推送通知类型
     optional[Channel.DEVICE_TYPE] = 4
     optional[Channel.MESSAGE_TYPE] = 1
-    optional['phone_type'] = handler_detail.device_type
+    optional['phone_type'] = str(handler_detail.device_type)
     message_key = hashlib.md5(str(datetime.datetime.now())).hexdigest()
     message = "{" \
               " 'title': '" + title + "', " \
@@ -214,6 +211,21 @@ def push_message(description, handler_detail, title):
                                                                          "}"
     c.pushMessage(push_type, message, message_key, optional)
 
+
+
+class ThreadClass(threading.Thread):
+  def __init__(self, description, handler_detail, title):
+      threading.Thread.__init__(self)
+      self._description = description
+      self._handler_detail = handler_detail
+      self._title = title
+  def run(self):
+    #push_message(self._description, self._handler_detail, self._title)
+    try:
+        push_message(self._description, self._handler_detail, self._title)
+    except Exception ,e:
+        print e
+        push_message(self._description, self._handler_detail, self._title)
 
 @transaction.atomic
 @csrf_exempt
@@ -224,29 +236,31 @@ def complain_deal(request):
         complain_array = request.POST.get("selected_complain_string", None)
         #handler_array = request.POST.get("selected_handler_string", None)
         deal_person_id = request.POST.get("deal_person_id", None)
-        if complain_array and deal_person_id:
-            list_complain_ = str(complain_array).split(",")
-            #deal_person_id = str(handler_array).split(",")
-            for i in range(len(list_complain_)):
-                com_id = int(list_complain_[i])
-                complain = Complaints.objects.get(id=com_id)
-                complain.is_read = True
-                complain.is_worker_read = True
-                complain.status = 4
-                user_obj = User.objects.get(id=deal_person_id)
-                if user_obj:
-                    complain.handler = user_obj
-                complain.save()
-            handler_detail = ProfileDetail.objects.get(profile=user_obj)
-            title = '消息通知'
-            description = '你有新的投诉需要处理请查看！'
-            if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
-                push_message(description, handler_detail, title)
+        user_obj = User.objects.get(id=deal_person_id)
+        handler_detail = ProfileDetail.objects.get(profile=user_obj)
+        if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
+            if complain_array and deal_person_id:
+                list_complain_ = str(complain_array).split(",")
+                #deal_person_id = str(handler_array).split(",")
+                for i in range(len(list_complain_)):
+                    com_id = int(list_complain_[i])
+                    complain = Complaints.objects.get(id=com_id)
+                    complain.is_read = True
+                    complain.is_worker_read = True
+                    complain.status = 4
+                    if user_obj:
+                        complain.handler = user_obj
+                    complain.save()
+                title = '消息通知'
+                description = '你有新的投诉需要处理请查看！'
+                push_class = ThreadClass(description, handler_detail, title)
+                push_class.start()
                 response_data = {'success': True, 'info': '授权成功并推送消息至处理人！'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
-            else:
-                response_data = {'success': True, 'info': '授权成功,消息推送失败！'}
-                return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+        else:
+            response_data = {'success': False, 'info': '请工作人员帮定手机端'}
+            return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+
 
 
 @transaction.atomic
@@ -265,14 +279,19 @@ def worker_deal_complain(request):
                 complain.is_read = True
                 complain.is_worker_read = True
                 complain.status = 2
-                user_obj = User.objects.get(id=re_id)
+                user_obj = User.objects.get(username=complain.author)
                 title = '消息通知'
                 description = '你的投诉已经授权处理！'
                 profile = ProfileDetail.objects.get(profile=user_obj)
                 complain.save()
                 if profile.device_user_id and profile.device_chanel_id and profile.device_type:
-                    push_message(description, profile, title)
-            response_data = {'success': True, 'info': '已更改状态'}
+                    try:
+                        push_class = ThreadClass(description, profile, title)
+                        push_class.start()
+                    except Exception ,e:
+                        print e
+                        continue
+            response_data = {'success': True, 'info': '工作人员处理中'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
@@ -297,6 +316,8 @@ def complain_complete(request):
     if request.method != u'POST':
         return redirect(index)
     else:
+        title="消息通知"
+        description = '你的投诉已经完成处理！'
         complain_array = request.POST.get("selected_complain_string", None)
         if complain_array:
             list_complain_ = str(complain_array).split(",")
@@ -305,6 +326,10 @@ def complain_complete(request):
                 complain = Complaints.objects.get(id=com_id)
                 complain.status = 3
                 complain.save()
+                user_obj = User.objects.get(username=complain.author)
+                profile = ProfileDetail.objects.get(profile=user_obj)
+                push_class = ThreadClass(description, profile, title)
+                push_class.start()
             response_data = {'success': True, 'info': '提交成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
@@ -354,10 +379,15 @@ def complain_response(request):
         selected_pleased = request.POST.get("selected_radio", None)
         profile = ProfileDetail.objects.get(profile=request.user)
         complain = Complaints.objects.get(id=complain_id)
+        handler_profile = ProfileDetail.objects.get(profile=complain.handler)
+        title = '消息通知'
+        description = '用户已对你的处理作出评价！'
         if complain:
             complain.pleased_reason = response_content
             complain.pleased = selected_pleased
             complain.save()
+            push_tread = ThreadClass(description,handler_profile,title)
+            push_tread.start()
             response_data = {'success': True, 'info': '评论成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
@@ -437,11 +467,18 @@ def api_worker_deal_complain(request):
                 complain.is_worker_read = True
                 complain.status = 2
                 complain.save()
-                user_obj = User.objects.get(id=re_id)
+                user_obj = User.objects.get(username=complain.author)
+                profile = ProfileDetail.objects.get(profile=user_obj)
                 title = '消息通知'
                 description = '你的投诉已经授权处理！'
-                if user_obj.device_user_id and user_obj.device_chanel_id and user_obj.device_type:
-                    push_message(description, user_obj, title)
+                if profile.device_user_id and profile.device_chanel_id and profile.device_type:
+                    try:
+                        push_class = ThreadClass(description, profile, title)
+                        push_class.start()
+                        #push_message(description, profile, title)
+                    except Exception ,e:
+                        print e
+                        continue
             response_data = {'success': True, 'info': '已更改状态并发送消息至客户'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
@@ -464,10 +501,15 @@ def api_complain_response(request):
         response_content = data.get("response_content", None)
         selected_pleased = data.get("selected_pleased", None)
         complain = Complaints.objects.get(id=complain_id)
+        handler_profile = ProfileDetail.objects.get(profile=complain.handler)
+        title = '消息通知'
+        description = '用户已对你的处理作出评价！'
         if complain and selected_pleased:
             complain.pleased_reason = response_content
             complain.pleased = selected_pleased
             complain.save()
+            push_class = ThreadClass(description, handler_profile, title)
+            push_class.start()
             response_data = {'success': True, 'info': '反馈成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
         else:
@@ -528,30 +570,32 @@ def api_complain_deal(request):
         data = simplejson.loads(request.body)
         complain_array = data.get("complains_id_string", None)
         deal_person_id = data.get("deal_person_id", None)
-        title = 'title'
-        description = 'description'
-        if complain_array and deal_person_id:
-            list_complain_ = str(complain_array).split(",")
-            for i in range(len(list_complain_)):
-                com_id = int(list_complain_[i])
-                complain = Complaints.objects.get(id=com_id)
-                complain.status = 4
-                complain.is_worker_read = True
-                complain.is_read = True
-                user_obj = User.objects.get(id=deal_person_id)
-                if user_obj:
-                    complain.handler = user_obj
-                complain.save()
-            handler_detail = ProfileDetail.objects.get(profile=user_obj)
-            if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
-                push_message(description, handler_detail, title)
+        title = '消息通知'
+        description = '你有新的投诉需要处理'
+        user_obj = User.objects.get(id=deal_person_id)
+        handler_detail = ProfileDetail.objects.get(profile=user_obj)
+        if handler_detail.device_user_id and handler_detail.device_chanel_id and handler_detail.device_type:
+            if complain_array and deal_person_id:
+                list_complain_ = str(complain_array).split(",")
+                for i in range(len(list_complain_)):
+                    com_id = int(list_complain_[i])
+                    complain = Complaints.objects.get(id=com_id)
+                    complain.status = 4
+                    complain.is_worker_read = True
+                    complain.is_read = True
+                    if user_obj:
+                        complain.handler = user_obj
+                    complain.save()
+                    push_class = ThreadClass(description, handler_detail, title)
+                    push_class.start()
+                    #push_message(description, handler_detail, title)
                 response_data = {'success': True, 'info': u'授权成功，并推送消息至处理人！'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
-                response_data = {'success': True, 'info': u'授权成功，推送消息失败！'}
+                response_data = {'success': False, 'info': u'请选择要处理的投诉'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
         else:
-            response_data = {'success': False, 'info': u'请选择要处理的投诉'}
+            response_data = {'success': False, 'info': u'请工作人员绑定手机端'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
@@ -564,12 +608,18 @@ def api_complain_complete(request):
     elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
         data = simplejson.loads(request.body)
         complain_array = data.get("complains_id_string", None)
+        title = '消息通知'
+        description = '你投诉已完成处理'
         if complain_array:
             list_complain_ = str(complain_array).split(",")
             for i in range(len(list_complain_)):
                 com_id = int(list_complain_[i])
                 complain = Complaints.objects.get(id=com_id)
                 complain.status = 3
+                user_obj = User.objects.get(username=complain.author)
+                profile = ProfileDetail.objects.get(profile=user_obj)
+                push_class = ThreadClass(description, profile, title)
+                push_class.start()
                 complain.save()
             response_data = {'success': True, 'info': '提交成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")

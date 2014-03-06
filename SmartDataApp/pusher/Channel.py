@@ -236,7 +236,7 @@ class Channel(object):
         try:
             tmpArgs = [userId, optional]
             arrArgs = self._mergeArgs([Channel.USER_ID], tmpArgs)
-            arrArgs[Channel.METHOD] = 'verify_bind';
+            arrArgs[Channel.METHOD] = 'verify_bind'
             return self._commonProcess(arrArgs)
         except ChannelException, e:
             self._channelExceptionHandler(e)
@@ -257,7 +257,7 @@ class Channel(object):
         try:
             tmpArgs = [userId, optional]
             arrArgs = self._mergeArgs([Channel.USER_ID], tmpArgs)
-            arrArgs[Channel.METHOD] = 'fetch_msg';
+            arrArgs[Channel.METHOD] = 'fetch_msg'
             return self._commonProcess(arrArgs)
         except ChannelException, e:
             self._channelExceptionHandler(e)
@@ -277,7 +277,7 @@ class Channel(object):
         try:
             tmpArgs = [userId, optional]
             arrArgs = self._mergeArgs([Channel.USER_ID], tmpArgs)
-            arrArgs[Channel.METHOD] = 'fetch_msgcount';
+            arrArgs[Channel.METHOD] = 'fetch_msgcount'
             return self._commonProcess(arrArgs)
         except ChannelException, e:
             self._channelExceptionHandler(e)
@@ -299,7 +299,7 @@ class Channel(object):
         try:
             tmpArgs = [userId, msgId, optional]
             arrArgs = self._mergeArgs([Channel.USER_ID, Channel.MSG_IDS], tmpArgs)
-            arrArgs[Channel.METHOD] = 'delete_msg';
+            arrArgs[Channel.METHOD] = 'delete_msg'
             if (isinstance(arrArgs[Channel.MSG_IDS], list)):
                 arrArgs[Channel.MSG_IDS] = json.dumps(arrArgs[Channel.MSG_IDS])
             return self._commonProcess(arrArgs)
@@ -321,7 +321,7 @@ class Channel(object):
         try:
             tmpArgs = [tagName, optional]
             arrArgs = self._mergeArgs([Channel.TAG_NAME], tmpArgs)
-            arrArgs[Channel.METHOD] = 'set_tag';
+            arrArgs[Channel.METHOD] = 'set_tag'
             return self._commonProcess(arrArgs)
         except ChannelException, e:
             self._channelExceptionHandler(e)
@@ -341,7 +341,7 @@ class Channel(object):
         try:
             tmpArgs = [optional]
             arrArgs = self._mergeArgs([], tmpArgs)
-            arrArgs[Channel.METHOD] = 'fetch_tag';
+            arrArgs[Channel.METHOD] = 'fetch_tag'
             return self._commonProcess(arrArgs)
         except ChannelException, e:
             self._channelExceptionHandler(e)
@@ -362,7 +362,7 @@ class Channel(object):
         try:
             tmpArgs = [tagName, optional]
             arrArgs = self._mergeArgs([Channel.TAG_NAME], tmpArgs)
-            arrArgs[Channel.METHOD] = 'delete_tag';
+            arrArgs[Channel.METHOD] = 'delete_tag'
             return self._commonProcess(arrArgs)
         except ChannelException, e:
             self._channelExceptionHandler(e)
@@ -383,7 +383,7 @@ class Channel(object):
         try:
             tmpArgs = [userId, optional]
             arrArgs = self._mergeArgs([Channel.USER_ID], tmpArgs)
-            arrArgs[Channel.METHOD] = 'query_user_tags';
+            arrArgs[Channel.METHOD] = 'query_user_tags'
             return self._commonProcess(arrArgs)
         except ChannelException, e:
             self._channelExceptionHandler(e)
@@ -404,7 +404,7 @@ class Channel(object):
         try:
             tmpArgs = [channelId, optional]
             arrArgs = self._mergeArgs([Channel.CHANNEL_ID], tmpArgs)
-            arrArgs[Channel.METHOD] = 'query_device_type';
+            arrArgs[Channel.METHOD] = 'query_device_type'
             return self._commonProcess(arrArgs)
         except ChannelException, e:
             self._channelExceptionHandler(e)
@@ -452,15 +452,15 @@ class Channel(object):
                 resource = opt[Channel.CHANNEL_ID]
                 del opt[Channel.CHANNEL_ID]
 
-        host = opt[Channel.HOST]
+        #host = opt[Channel.HOST]
         del opt[Channel.HOST]
         # TODO: Production.....
-        # url = 'http://' + host + '/rest/2.0/' + Channel.PRODUCT + '/'
-        # url += resource
+        #url = 'http://' + host + '/rest/2.0/' + Channel.PRODUCT + '/'
+        #url += resource
         if opt['phone_type'] == 'ios':
             url = 'https://channel.iospush.api.duapp.com' + '/rest/2.0/' + Channel.PRODUCT + '/'
         else:
-           url = 'http://channel.api.duapp.com' + '/rest/2.0/' + Channel.PRODUCT + '/'
+            url = 'http://channel.api.duapp.com' + '/rest/2.0/' + Channel.PRODUCT + '/'
         url += resource
         http_method = 'POST'
         opt[Channel.SIGN] = self._genSign(http_method, url, opt)

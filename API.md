@@ -296,11 +296,11 @@ content 和category (必须有一个给值)
 
 #### Success
 
-         {'success': True, 'info': '授权成功！'}
+         {'success': True, 'info': '并发送消息至工作人员！'}
 
 #### Error
 
-        {'success': False, 'info': u'请选择要处理的投诉'}
+        {'success': False, 'info': ''}（要求工作人员必须绑定手机端）
 
 
 
@@ -1154,7 +1154,7 @@ category 和 category_item_id 必填
         {'success': False}
 
 
-### 41 Show housekeeping by status(用户需要登录)（工作人员 管理员 用户 调用此接口 得到各自对应的数据）
+### 41 Show housekeeping by status(用户需要登录)（工作人员 管理员 用户 调用此接口 得到各自对应的数据)
 
 #### URL : /api/show/housekeeping_by_status/?page=页数&community_id=(小区id号)&status=(未处理，处理中，已处理)三选一，如果是工作人员 status=(处理中，已处理)二选一
 
@@ -1266,7 +1266,7 @@ category 和 category_item_id 必填
     {
             'channel_id': '频道id',
             'user_id': '手机用户id',
-            'device_type':手机类型
+            'device_type':手机类型(android ,ios)
 
      }
 

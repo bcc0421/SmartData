@@ -1,5 +1,6 @@
 #coding:utf-8
 import datetime
+import threading
 from urllib import unquote
 from django.http import HttpResponse
 import simplejson
@@ -14,6 +15,18 @@ from SmartDataApp.views import index
 from SmartDataApp.models import ProfileDetail, Community, Express
 
 
+class ThreadClass(threading.Thread):
+  def __init__(self, description, handler_detail, title):
+      threading.Thread.__init__(self)
+      self._description = description
+      self._handler_detail = handler_detail
+      self._title = title
+  def run(self):
+    try:
+        push_message(self._description, self._handler_detail, self._title)
+    except Exception ,e:
+        print e
+        push_message(self._description, self._handler_detail, self._title)
 
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -110,8 +123,14 @@ def add_user_express(request):
             express.save()
             title = '消息通知'
             description = '你有新的快递到达请注意查收！'
-            if profile.device_user_id and profile.device_chanel_id and profile.device_type:
-                push_message(description, profile, title)
+            if profile[0].device_user_id and profile[0].device_chanel_id and profile[0].device_type:
+                try:
+                    push_class = ThreadClass(description,  profile[0], title)
+                    push_class.start()
+                    #push_message(description, profile[0], title)
+                except Exception,e:
+                    response_data = {'success': True, 'info': '添加成功推送消息失败！'}
+                    return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
                 response_data = {'success': True, 'info': '添加成功并推送消息至收件人！'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
@@ -142,20 +161,30 @@ def delete_user_express(request):
 @transaction.atomic
 @csrf_exempt
 @login_required(login_url='/login/')
-def user_get_express(request):
+def api_user_sign_express(request):
+    convert_session_id_to_user(request)
     if request.method != u'POST':
         return redirect(index)
-    else:
-        express_array = request.POST.get("selected_express_string", None)
+    elif 'application/json' in request.META['CONTENT_TYPE'].split(';'):
+        data = simplejson.loads(request.body)
+        express_array = data.get("selected_express_string", None)
+        signer = data.get("signer", None)
         list_express = str(express_array).split(",")
+        title = '消息通知'
+        description = '你的快递到已签收！'
         for i in range(len(list_express)):
             express_id = int(list_express[i])
             express = Express.objects.get(id=express_id)
             express.status = True
+            express.signer = signer
             express.get_time = datetime.datetime.now()
+            push_class = ThreadClass(description,  express.author, title)
+            push_class.start()
             express.save()
         response_data = {'success': True, 'info': '操作成功！'}
         return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
+    response_data = {'success': False, 'info': '操作失败！'}
+    return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
 
 
@@ -200,6 +229,8 @@ def express_response(request):
         express_array = request.POST.get("selected_express_string", None)
         response_content = request.POST.get("response_content", None)
         selected_radio = request.POST.get("selected_radio", None)
+        title = '消息通知'
+        description = '用户已对你的处理作出评价！'
         if express_array:
             list_express = str(express_array).split(",")
             for i in range(len(list_express)):
@@ -208,6 +239,9 @@ def express_response(request):
                 express.pleased = selected_radio
                 express.pleased_reason = response_content
                 express.save()
+                profile = ProfileDetail.objects.get(profile_id=21)
+                push_class = ThreadClass(description,  profile, title)
+                push_class.start()
             response_data = {'success': True, 'info': '反馈成功！', }
             return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
 
@@ -294,6 +328,7 @@ def api_show_all_express(request):
                     'author_floor': express_detail.author.floor,
                     'author_room': express_detail.author.gate_card,
                     'get_express_type': express_detail.type,
+                    'express_signer': express_detail.signer,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
                     'arrive_time': str(arrive_time).split('.')[0],
@@ -319,10 +354,15 @@ def api_express_response(request):
         response_content = data.get("response_content", None)
         selected_pleased = data.get("selected_pleased", None)
         express =Express.objects.get(id=express_id)
+        title = '消息通知'
+        description = '用户已对你的处理作出评价！'
         if express and selected_pleased:
             express.pleased_reason = response_content
             express.pleased = selected_pleased
             express.save()
+            profile = ProfileDetail.objects.get(profile_id=21)
+            push_class = ThreadClass(description,  profile, title)
+            push_class.start()
             response_data = {'success': True, 'info': '反馈成功！'}
             return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
         else:
@@ -373,12 +413,16 @@ def api_add_express_record(request):
             express = Express(author=profile[0])
             express.handler = request.user
             express.arrive_time = datetime.datetime.now()
+            express.is_worker_read = True
+            express.is_read = True
             express.community = community
             express.save()
             title = '消息通知'
             description = '你有新的快递到达请注意查收！'
             if profile.device_user_id and profile.device_chanel_id and profile.device_type:
-                push_message(description, profile, title)
+                push_class = ThreadClass(description,  profile[0], title)
+                push_class.start()
+                #push_message(description, profile, title)
                 response_data = {'success': True, 'info': '添加成功并推送消息至收件人！'}
                 return HttpResponse(simplejson.dumps(response_data), content_type="application/json")
             else:
@@ -469,9 +513,9 @@ def api_show_express_by_status(request):
             expresses = Express.objects.filter(community=one_community, status=False).order_by('-arrive_time')
     elif profile.is_admin:
         if express_status == u'领取':
-            expresses = Express.objects.filter(community=one_community, status=True).order_by('-get_time')
+            expresses = Express.objects.filter(community=one_community, status=True,type='1').order_by('-get_time')
         if express_status == u'未领取':
-            expresses = Express.objects.filter(community=one_community, status=False).order_by('-arrive_time')
+            expresses = Express.objects.filter(community=one_community, status=False,type='1').order_by('-arrive_time')
     else:
         if express_status == u'领取':
             expresses = Express.objects.filter(community=one_community, status=True, author=profile).order_by('-get_time')
@@ -503,6 +547,7 @@ def api_show_express_by_status(request):
                     'author_floor': express_detail.author.floor,
                     'author_room': express_detail.author.gate_card,
                     'get_express_type': express_detail.type,
+                    'express_signer': express_detail.signer,
                     'deal_status': express_detail.status,
                     'pleased': express_detail.pleased,
                     'arrive_time': str(arrive_time).split('.')[0],

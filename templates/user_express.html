@@ -211,7 +211,7 @@
                                             <span style="color: green">申请领取中..</span>
                                         {% else %}
                                             <button class='btn'
-                                              name={{ express.id  }}
+                                              name='{{ express.id  }}'
                                               onclick="show_express_card(this)"
                                               id="get_express_single_{{ express.id  }}"
                                               style=" background: url('/static/images/get_express.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -292,13 +292,13 @@
                 </div>
                 <div style="margin-top: 50px;margin-left: 100px">
                     <span style="color: #808080"><strong>取件方式:</strong></span>
-                    <input name="radiobutton" type="radio" style="margin-left: 10px;margin-top:-5px" value="送货上门">
+                    <input name="radiobutton" type="radio" style="margin-left: 10px;margin-top:-5px" value="1">
                     <span style="height: 30px;width:50px;background-color: #ffffff;border:1px solid #d6d6d6;padding:3px 21px;">送货上门</span>
                     <span style="color: #808080"><strong>送货时间:</strong></span>
                     <input type="text" style="width: 155px;margin-top: -2px;height: 26px" name="datetime" id="datetime" value=""/>
                 </div>
                 <div style="margin-top: 50px;margin-left: 172px" >
-                     <input  name="radiobutton" type="radio" style="margin-left: 10px;margin-top:-5px"value="自取">
+                     <input  name="radiobutton" type="radio" style="margin-left: 10px;margin-top:-5px"value="2">
                      <span style="height: 30px;width:50px;background-color: #ffffff;border:1px solid #d6d6d6;padding:3px 21px;">
                          自&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;取
                      </span>

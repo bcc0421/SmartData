@@ -149,7 +149,7 @@
                     <thead>
                     <tr role="row">
                         <th></th>
-                        <th style="width:300px">业主信息</th>
+                        <th style="width:160px">业主信息</th>
                         <th>取件方式</th>
                         {% if btn_style == 1 %}
                         <th >取件时间</th>
@@ -157,10 +157,11 @@
                         <th >到达时间</th>
                         {% endif %}
                         {% if btn_style == 2 %}
-                        <th>是否签收</th>
+                        <th>允许派送时间</th>
                         {% endif %}
                         {% if btn_style == 1 %}
                          <th>满意度</th>
+                         <th>取件人</th>
                         <th>其他操作</th>
                         {% endif %}
 
@@ -177,7 +178,14 @@
                                 <span>{{ express.author.gate_card }}</span>房间，户主：
                                 <span>{{ express.author.profile.username}}</span>
                             </td>
-                            <td>{{ express.type }}</td>
+                            <td>
+                                {% if express.type == '1' %}
+{#                                    {{ express.type }}#}
+                                    <span>物业派送</span>
+                                {% elif express.type == '2' %}
+                                    <span>自己领取</span>
+                                {% endif %}
+                            </td>
                             <td>
                                  {%if express.status %}
                                     {{ express.get_time | date:"Y-m-d H:i:s"  }}
@@ -188,15 +196,16 @@
 {#                            <td id="type_{{ express.id }}">{{ express.type }}</td>#}
                             {% if btn_style == 2 %}
                                 <td class="deal_status" id="status_{{ express.id }}">
-                                    <button class='btn'
-                                      name='{{ express.id  }}'
-                                      onclick="sign_express_single(this)"
-                                      id="sign_in_single_{{ one_repair.id  }}"
-                                      style=" background: url('/static/images/sign_in.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-                                      width: 67px;height: 28px;
-                                      margin-left: 22px;
-                                      margin-top: 5px">
-                                     </button>
+{#                                    <button class='btn'#}
+{#                                      name='{{ express.id  }}'#}
+{#                                      onclick="sign_express_single(this)"#}
+{#                                      id="sign_in_single_{{ one_repair.id  }}"#}
+{#                                      style=" background: url('/static/images/sign_in.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);#}
+{#                                      width: 67px;height: 28px;#}
+{#                                      margin-left: 22px;#}
+{#                                      margin-top: 5px">#}
+{#                                     </button>#}
+                                    <span>{{ express.allowable_get_express_time }}</span>
                                 </td>
                             {% endif %}
 {#                            {% if is_admin %}#}
@@ -204,7 +213,24 @@
 {#                            {% endif %}#}
 
                          {% if btn_style == 1 %}
-                                <td>{{ express.pleased }}</td>
+                                <td>
+                                    {% if express.pleased ==  1 %}
+                                        <span>满意</span>
+                                    {% elif express.pleased == 2 %}
+                                        <span>一般</span>
+                                    {% elif express.pleased == 3 %}
+                                        <span>差</span>
+                                    {% else %}
+                                        <span>暂无</span>
+                                    {% endif%}
+                                </td>
+                             <td>
+                                {% if express.signer %}
+                                    {{ express.signer }}
+                                 {% else %}
+                                    <span>暂没签收</span>
+                                 {% endif %}
+                             </td>
                                 <td>
                                     <button class='btn'
                                       name='{{ express.id  }}'
