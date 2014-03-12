@@ -36,7 +36,7 @@
                 </div>
             <!--缴费步骤 end-->
             <!--步骤2内容 start-->
-                    <form method="post" action="/property/parkingOrder" name="parking-form">
+                    <form method="post" action="/property/parkingOrder/" name="parking-form" onsubmit="return check_select()">
                         <div class="vessel_conBox_text">
                                 <div class="last_text_box2">
                                     <p>
@@ -49,22 +49,16 @@
 
                                     <p>
                                         车位类型：
-                                        <select name="Parking[type_id]" id="type_for_parking">
+                                        <select name="type_parking" id="type_for_parking">
                                             <option value="请选择">请选择车位类型</option>
-                                            <option fees="250.00" value="655"
-                                                    >买断车位
-                                            </option>
-                                            <option fees="250.00" value="656"
-                                                    >租停车位
-                                            </option>
+                                            <option value="买断车位">买断车位</option>
+                                            <option  value="租停车位">租停车位</option>
                                         </select>
                                     </p>
                                     <p>
                                         续费时间：
-                                        <select name="Parking[period]" id="period_for_parking">
+                                        <select  name="period_parking" id="period_for_parking">
                                             <option value="请选择">请选择续费时间</option>
-{#                                            <option value="1">一个月</option>#}
-{#                                            <option value="3">三个月</option>#}
                                             <option value="6">半年</option>
                                             <option value="12">一年</option>
                                         </select>
@@ -77,14 +71,11 @@
                                                             </span>
                                                             <input type="hidden" name="OthersFees[amount]" value="" id="amount_text_for_parking"/>
                                                         </span>
-                                        <input type="hidden" name="bankcode" id="bank_code_by_form" value=""/>
                                     </p>
                                 </div>
                                 <div class="line"> </div>
-
-
                                 <div class="vessel_conBox_text_button" style="padding:20px 0 4px 0;">
-                                    <input type="button" value="立即支付" id="parkingBtn" class="el_btn_orange_xsl el_btn"/>
+                                    <input type="submit" value="立即支付" id="parkingBtn" class="el_btn_orange_xsl el_btn"/>
                                 </div>
                                 <div class="line"> </div>
 
@@ -118,6 +109,21 @@
     <!-- 服务快链区域 start -->
 
     <div class="serverBar_box el_container"></div>
-
-
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+        function check_select(){
+            var s = document.getElementById("type_for_parking");
+            s = s.selectedIndex;
+            var s1 = document.getElementById("period_for_parking");
+            s1 = s1.selectedIndex;
+            if(s==0 || s1==0){
+                alert('请选择相关信息');
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+    </script>
 {% endblock %}

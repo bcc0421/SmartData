@@ -312,6 +312,7 @@ def complete_repair(request):
             for i in range(len(list_repair)):
                 com_id = int(list_repair[i])
                 repair = Repair.objects.get(id=com_id)
+                repair.complete_time = datetime.datetime.now()
                 repair.status = 3
                 repair.save()
             response_data = {'success': True, 'info': '提交成功！'}
@@ -592,6 +593,7 @@ def api_repair_complete(request):
             for i in range(len(list_repair)):
                 rep_id = int(list_repair[i])
                 repair = Repair.objects.get(id=rep_id)
+                repair.complete_time = datetime.datetime.now()
                 repair.status = 3
                 repair.save()
             response_data = {'success': True, 'info': '提交成功！'}

@@ -40,7 +40,6 @@ class ProfileDetail(models.Model):
     device_user_id = models.CharField(max_length=250, null=True, default=0)
     device_chanel_id = models.CharField(max_length=250, null=True, default='')
     device_type = models.CharField(max_length=250, null=True, default='')
-    car_number = models.CharField(max_length=20, null=True)
 
     def __str__(self):
         return self.phone_number
@@ -61,6 +60,7 @@ class Complaints(models.Model):
     is_worker_read = models.BooleanField(default=False)
     is_admin_read = models.BooleanField(default=False)
     author_detail = models.ForeignKey(ProfileDetail, null=True)
+    complete_time = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.content
@@ -83,6 +83,7 @@ class Repair(models.Model):
     is_worker_read = models.BooleanField(default=False)
     is_admin_read = models.BooleanField(default=False)
     author_detail = models.ForeignKey(ProfileDetail, null=True)
+    complete_time = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.content
@@ -104,6 +105,7 @@ class Express(models.Model):
     is_admin_read = models.BooleanField(default=False)
     submit_express_status = models.IntegerField(default=0)
     signer = models.CharField(max_length=250, null=True, blank=True)
+    complete_time = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.type
@@ -181,5 +183,21 @@ class Notification(models.Model):
         return self.notification_content
 
 
+class Park_fee(models.Model):
+    author = models.ForeignKey(ProfileDetail, null=True)
+    park_type = models.CharField(max_length=250, null=True)
+    renewal_fees = models.IntegerField(default=0)
+    car_number = models.CharField(max_length=250, null=True)
+    valid_time = models.DateTimeField(default=timezone.now, null=True)
+
+    def __str__(self):
+        return self.car_number
 
 
+class Fees(models.Model):
+    name = models.CharField(max_length=250, null=True)
+    type = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=19, decimal_places=3, default=0.0)
+
+    def __str__(self):
+        return self.name

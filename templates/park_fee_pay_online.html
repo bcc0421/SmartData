@@ -1,0 +1,65 @@
+{% extends "baseheader.html" %}
+{% block title %}在线缴费{% endblock %}
+{% block css %}
+{% endblock %}
+{% block container %}
+ <div class="s_ifs_ix main el_container">
+			<div class="el_blank_h20"></div>
+              <!-- 右侧栏 start -->
+            <div class="el_w_974 fn_right">
+            	<!-- vessel start -->
+                <div class="vessel vessel_s1">
+                    <div class="vessel_titBox">
+                        <span class="tit">停车费</span>
+                    </div>
+                    <div class="vessel_conBox">
+                    <!--缴费步骤 start-->
+                    	<div class="vessel_conBox_step3">
+                        	<div class="vessel_conBox_step_head">
+                				<span class="stepName stepName_s1">
+                                    <a href="/static/images/property/createParking" style="color: #ffffff">
+                                        私家车
+                                    </a>
+                                </span>
+                    			<span class="stepName stepName_s2">
+                                  <a href="/static/images/property/verifyParking" style="color: #ffffff">
+                                    车位
+                                  </a>
+                                </span>
+                   				<span class="stepName stepName_s3">在线支付</span>
+                                <span class="stepName stepName_s4">支付成功</span>
+                			</div>
+                        </div>
+                    <!--缴费步骤 end-->
+                    <!--步骤2内容 start-->
+                    	<div class="vessel_conBox_step3_box">
+                        	<div class="vessel_conBox_step3_box_1">
+                            	<p>小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：{{ profile.community.title }}&nbsp;&nbsp;{{ profile.floor }}栋{{ profile.gate_card }}号</p>
+                                <p>车 &nbsp;牌 &nbsp;号: {{ park_fee.car_number }}</p>
+                                <p>车位类型：{{ park_fee.park_type }}</p>
+                                <p>续费时间：{{ park_fee.renewal_fees }}个月</p>
+                                <p>支付方式：<img src="http://cc.colourlife.com/common/images/bank/logo/bank_shrcc.gif"></p>
+                                <p>应付金额：<span class="txt">￥250.00</span></p>
+                                <p>红包抵扣：<span class="txt">￥0.00</span></p>
+                                <p>实际支付金额：<span class="txt">￥0.00</span></p>
+                            </div>
+                            <p class="vessel_conBox_text_button2">
+                                <button class="el_btn_orange_xsl el_btn"><span class="txt">立即支付</span></button>
+                            </p>
+                            <div style="display: none;">
+                                <div style="text-align:center"></div>
+                            </div>
+                      </div>
+
+                    <!--步骤2内容 end-->
+                    </div>
+                </div>
+                <!-- vessel end -->
+            </div>
+            <!-- 右侧栏 end -->
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+
+{% endblock %}

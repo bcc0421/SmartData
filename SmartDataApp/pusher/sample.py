@@ -41,10 +41,10 @@ def test_pushMessage_to_user():
     push_type = 1
     optional = dict()
     #optional[Channel.USER_ID] = 900581881515728799
-    optional[Channel.USER_ID] = 880806020071711510
+    optional[Channel.USER_ID] = 654406316281477917
     #optional[Channel.USER_ID] = 665778416804465913
     #optional[Channel.CHANNEL_ID] = 4617656892525519033
-    optional[Channel.CHANNEL_ID] = 5462963079944828847
+    optional[Channel.CHANNEL_ID] = 3800664848253686124
     #optional[Channel.CHANNEL_ID] = 3800664848253686124
     #推送通知类型
     optional[Channel.DEVICE_TYPE] = 4

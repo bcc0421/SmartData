@@ -325,6 +325,7 @@ def complain_complete(request):
                 com_id = int(list_complain_[i])
                 complain = Complaints.objects.get(id=com_id)
                 complain.status = 3
+                complain.complete_time = datetime.datetime.now()
                 complain.save()
                 user_obj = User.objects.get(username=complain.author)
                 profile = ProfileDetail.objects.get(profile=user_obj)
@@ -616,6 +617,7 @@ def api_complain_complete(request):
                 com_id = int(list_complain_[i])
                 complain = Complaints.objects.get(id=com_id)
                 complain.status = 3
+                complain.complete_time = datetime.datetime.now()
                 user_obj = User.objects.get(username=complain.author)
                 profile = ProfileDetail.objects.get(profile=user_obj)
                 push_class = ThreadClass(description, profile, title)

@@ -11,9 +11,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail, Housekeeping, Housekeeping_items,Community
+from SmartDataApp.models import ProfileDetail, Park_fee, Housekeeping_items,Community
 
-
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 @transaction.atomic
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -61,9 +63,52 @@ def user_property_verifyParking(request):
     communities = Community.objects.all()
     car_number = request.POST.get('car_number',None)
     if car_number:
-        profile.car_number = car_number
-        profile.save()
+        park_fee = Park_fee.objects.filter(author=profile)
+        if park_fee:
+            park_fee[0].car_number = car_number
+            park_fee[0].save()
+        else:
+            park_fee = Park_fee(author=profile)
+            park_fee.car_number = car_number
+            park_fee.save()
         return render_to_response('user_car_port.html', {'user': request.user, 'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
 
+def add_months(dt, months):
+    targetmonth = months + dt.month
+    try:
+        dt = dt.replace(year=dt.year+int((targetmonth-1)/ 12), month=((targetmonth-1) % 12)+1)
+    except:
+        dt = dt.replace(year=dt.year+int((targetmonth)/ 12), month=(((targetmonth ) % 12)+1), day=1)
+        dt += datetime.timedelta(days=-1)
+    return dt
+
+
+@transaction.atomic
+@csrf_exempt
+@login_required(login_url='/login/')
+def property_parking_Order(request):
+    profile = ProfileDetail.objects.get(profile=request.user)
+    community_id = request.session.get('community_id', profile.community.id)
+    one_community = Community.objects.get(id=community_id)
+    status = None
+    if community_id == profile.community.id:
+        status = 2
+    else:
+        status = 1
+    communities = Community.objects.all()
+    type_parking = request.POST.get('type_parking',None)
+    period_parking = request.POST.get('period_parking',None)
+    park_fee = Park_fee.objects.get(author=profile)
+    park_fee.park_type = str(type_parking)
+    park_fee.renewal_fees = int(str(period_parking))
+    park_fee.valid_time = add_months(park_fee.valid_time, int(str(period_parking)))
+    park_fee.save()
+    return render_to_response('park_fee_pay_online.html',
+                              {'user': request.user,
+                               'profile': profile,
+                               'park_fee': park_fee,
+                               'communities': communities,
+                               'community': one_community,
+                               'change_community': status})
 
 
