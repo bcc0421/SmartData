@@ -1,21 +1,19 @@
 #coding:utf-8
 import datetime
-from django.utils.timezone import utc
-from django.http import HttpResponse
-import simplejson
+import sys
+
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.models import User
-from SmartDataApp.controller.admin import convert_session_id_to_user
-from SmartDataApp.views import index
-from SmartDataApp.models import ProfileDetail, Park_fee, Housekeeping_items,Community
 
-import sys
+from SmartDataApp.models import ProfileDetail, Park_fee, Community
+
+
 reload(sys)
-sys.setdefaultencoding( "utf-8" )
+sys.setdefaultencoding("utf-8")
+
+
 @transaction.atomic
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -43,9 +41,13 @@ def parking_fees(request):
         #    show =False
 
         return render_to_response('admin_park.html',
-                                  {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status, 'all_user_info': all_user_info_list})
+                                  {'user': request.user, 'profile': profile, 'communities': communities,
+                                   'community': one_community, 'change_community': status,
+                                   'all_user_info': all_user_info_list})
     else:
-        return render_to_response('park_fees.html', {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+        return render_to_response('park_fees.html',
+                                  {'user': request.user, 'profile': profile, 'communities': communities,
+                                   'community': one_community, 'change_community': status})
 
 
 @transaction.atomic
@@ -61,7 +63,7 @@ def user_property_verifyParking(request):
     else:
         status = 1
     communities = Community.objects.all()
-    car_number = request.POST.get('car_number',None)
+    car_number = request.POST.get('car_number', None)
     if car_number:
         park_fee = Park_fee.objects.filter(author=profile)
         if park_fee:
@@ -71,14 +73,22 @@ def user_property_verifyParking(request):
             park_fee = Park_fee(author=profile)
             park_fee.car_number = car_number
             park_fee.save()
-        return render_to_response('user_car_port.html', {'user': request.user, 'profile': profile,'communities': communities,'community': one_community, 'change_community': status})
+        return render_to_response('user_car_port.html', {
+            'user': request.user,
+            'profile': profile,
+            'communities': communities,
+            'community': one_community,
+            'change_community': status,
+            'car_number': car_number
+        })
+
 
 def add_months(dt, months):
     targetmonth = months + dt.month
     try:
-        dt = dt.replace(year=dt.year+int((targetmonth-1)/ 12), month=((targetmonth-1) % 12)+1)
+        dt = dt.replace(year=dt.year + int((targetmonth - 1) / 12), month=((targetmonth - 1) % 12) + 1)
     except:
-        dt = dt.replace(year=dt.year+int((targetmonth)/ 12), month=(((targetmonth ) % 12)+1), day=1)
+        dt = dt.replace(year=dt.year + int((targetmonth) / 12), month=(((targetmonth ) % 12) + 1), day=1)
         dt += datetime.timedelta(days=-1)
     return dt
 
@@ -96,8 +106,8 @@ def property_parking_Order(request):
     else:
         status = 1
     communities = Community.objects.all()
-    type_parking = request.POST.get('type_parking',None)
-    period_parking = request.POST.get('period_parking',None)
+    type_parking = request.POST.get('type_parking', None)
+    period_parking = request.POST.get('period_parking', None)
     park_fee = Park_fee.objects.get(author=profile)
     park_fee.park_type = str(type_parking)
     park_fee.renewal_fees = int(str(period_parking))

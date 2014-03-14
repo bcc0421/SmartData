@@ -1,15 +1,17 @@
 #coding:utf-8
 import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.views.decorators.csrf import csrf_exempt
 import simplejson
-from SmartDataApp.controller.admin import convert_session_id_to_user, return_error_response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from SmartDataApp.controller.admin import convert_session_id_to_user
 from SmartDataApp.models import Community, ProfileDetail, Notification
 from SmartDataApp.views import index
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 @transaction.atomic
@@ -19,7 +21,8 @@ def add_community(request):
     if request.method != u'POST':
         communities = Community.objects.all()
         profile = ProfileDetail.objects.get(profile=request.user)
-        return render_to_response('add_community.html', {'user': request.user, 'communities':communities, 'profile': profile,})
+        return render_to_response('add_community.html',
+                                  {'user': request.user, 'communities': communities, 'profile': profile })
     else:
         name = request.POST.get(u'name', None)
         description = request.POST.get(u'description', None)
@@ -44,21 +47,24 @@ def update_community(request):
 def delete_community(request):
     pass
 
+
 @csrf_exempt
 def enter_community(request, id):
     community = Community.objects.get(id=id)
     communities = Community.objects.all()
     request.session['community_id'] = id
-    request.session.set_expiry(3600*24*7)
+    request.session.set_expiry(3600 * 24 * 7)
     if request.user.is_authenticated():
         return render_to_response('index.html', {
-                        'community': community,
-                        'communities': communities,
-                        'change_community': 1,
-                        'user': request.user,
-                    })
+            'community': community,
+            'communities': communities,
+            'change_community': 1,
+            'user': request.user,
+        })
     else:
-        return render_to_response('index.html', {'communities': communities,'change_community': 1, 'community': community})
+        return render_to_response('index.html',
+                                  {'communities': communities, 'change_community': 1, 'community': community})
+
 
 @transaction.atomic
 @csrf_exempt
@@ -68,18 +74,17 @@ def api_get_community(request):
     if communities:
         community_list = list()
         for community_detail in communities:
-                    data = {
-                        'id': community_detail.id,
-                        'community_title': community_detail.title,
-                        'community_description':community_detail.description
-                    }
-                    community_list.append(data)
-        response_data = {'community_list': community_list, 'success':True}
+            data = {
+                'id': community_detail.id,
+                'community_title': community_detail.title,
+                'community_description': community_detail.description
+            }
+            community_list.append(data)
+        response_data = {'community_list': community_list, 'success': True}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
     else:
         response_data = {'success': False}
         return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-
 
 
 @transaction.atomic
@@ -98,6 +103,7 @@ def add_notification(request):
     notification.save()
     response_data = {'info': '添加成功', 'success': True}
     return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
+
 
 @transaction.atomic
 @csrf_exempt
@@ -120,7 +126,6 @@ def delete_notification(request):
     Notification.objects.get(id=delete_id).delete()
     response_data = {'info': '删除成功', 'success': True}
     return HttpResponse(simplejson.dumps(response_data), content_type='application/json')
-
 
 
 @transaction.atomic
@@ -150,11 +155,15 @@ def community_notification(request):
             notification = paginator.page(paginator.num_pages)
     if request.user.is_staff:
         return render_to_response('admin_community_notification.html',
-                                  {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status, 'notifications': notification})
+                                  {'user': request.user, 'profile': profile, 'communities': communities,
+                                   'community': one_community, 'change_community': status,
+                                   'notifications': notification})
 
     else:
-      return render_to_response('user_community_notification.html',
-                                {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status, 'notifications': notification})
+        return render_to_response('user_community_notification.html',
+                                  {'user': request.user, 'profile': profile, 'communities': communities,
+                                   'community': one_community, 'change_community': status,
+                                   'notifications': notification})
 
 
 @transaction.atomic
@@ -173,5 +182,6 @@ def notification_detail(request):
         status = 1
     communities = Community.objects.all()
     return render_to_response('notification_detail.html',
-        {'user': request.user,'profile': profile,'communities': communities,'community': one_community, 'change_community': status,'notification':notification})
+                              {'user': request.user, 'profile': profile, 'communities': communities,
+                               'community': one_community, 'change_community': status, 'notification': notification})
 

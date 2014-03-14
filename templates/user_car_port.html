@@ -3,20 +3,20 @@
 {% block css %}
 {% endblock %}
 {% block container %}
- <div class="s_ifs_ix main el_container">
-    <div class="el_blank_h20"></div>
-    <!-- 右侧栏 start -->
-    <div class="el_w_974 fn_right">
-    <!-- vessel start -->
-        <div class="vessel vessel_s1">
-            <div class="vessel_titBox">
+    <div class="s_ifs_ix main el_container">
+        <div class="el_blank_h20"></div>
+        <!-- 右侧栏 start -->
+        <div class="el_w_974 fn_right">
+            <!-- vessel start -->
+            <div class="vessel vessel_s1">
+                <div class="vessel_titBox">
                         <span class="tit">
                             停车费
                         </span>
-            </div>
-        <div class="vessel_conBox">
-    <!--缴费步骤 start-->
-                <div class="vessel_conBox_step2">
+                </div>
+                <div class="vessel_conBox">
+                    <!--缴费步骤 start-->
+                    <div class="vessel_conBox_step2">
                         <div class="vessel_conBox_step_head">
                                         <span class="stepName stepName_s1">
                                            <a href="javascript:history.go(-1);" style="color: #ffffff">
@@ -33,95 +33,88 @@
                                             支付成功
                                         </span>
                         </div>
-                </div>
-            <!--缴费步骤 end-->
-            <!--步骤2内容 start-->
-                    <form method="post" action="/property/parkingOrder/" name="parking-form" onsubmit="return check_select()">
+                    </div>
+
+                    <form method="post" action="/property/parkingOrder/" name="parking-form"
+                          onsubmit="return check_select()">
                         <div class="vessel_conBox_text">
-                                <div class="last_text_box2">
-                                    <p>
-                                        小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 区：{{ profile.community.title }}&nbsp;&nbsp;{{ profile.floor }}栋{{ profile.gate_card }}号
-                                    </p>
+                            <div class="last_text_box2">
+                                <p>
+                                    小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    区：{{ profile.community.title }}&nbsp;&nbsp;{{ profile.floor }}栋{{ profile.gate_card }}号
+                                </p>
 
-                                    <p>
-                                        车 &nbsp;牌 &nbsp;号：{{ profile.car_number }} <input type="hidden" name="Parking[car_number]" value="{{ profile.car_number }}"/>
-                                    </p>
+                                <p>
+                                    车 &nbsp;牌 &nbsp;号：{{ car_number }} <input type="hidden"
+                                                                              name="Parking[car_number]"
+                                                                              value="{{ car_number }}"/>
+                                </p>
 
-                                    <p>
-                                        车位类型：
-                                        <select name="type_parking" id="type_for_parking">
-                                            <option value="请选择">请选择车位类型</option>
-                                            <option value="买断车位">买断车位</option>
-                                            <option  value="租停车位">租停车位</option>
-                                        </select>
-                                    </p>
-                                    <p>
-                                        续费时间：
-                                        <select  name="period_parking" id="period_for_parking">
-                                            <option value="请选择">请选择续费时间</option>
-                                            <option value="6">半年</option>
-                                            <option value="12">一年</option>
-                                        </select>
-                                    </p>
-                                    <p>
-                                        缴费金额：
-                                                        <span class="txt">
-                                                            ￥<span id="amount_span_for_parking" listPrice="0">0
-
-                                                            </span>
-                                                            <input type="hidden" name="OthersFees[amount]" value="" id="amount_text_for_parking"/>
+                                <p>
+                                    车位类型：
+                                    <select name="type_parking" id="type_for_parking">
+                                        <option value="请选择">请选择车位类型</option>
+                                        <option value="买断车位">买断车位</option>
+                                        <option value="租停车位">租停车位</option>
+                                    </select>
+                                </p>
+                                <p>
+                                    续费时间：
+                                    <select name="period_parking" id="period_for_parking">
+                                        <option value="请选择">请选择续费时间</option>
+                                        <option value="6">半年</option>
+                                        <option value="12">一年</option>
+                                    </select>
+                                </p>
+                                <p>
+                                    缴费金额：<span class="txt"> ￥<span id="amount_span_for_parking"
+                                                                   listPrice="0">1000                                                            </span>
+                                                            <input type="hidden" name="OthersFees[amount]" value=""
+                                                                   id="amount_text_for_parking"/>
                                                         </span>
-                                    </p>
-                                </div>
-                                <div class="line"> </div>
-                                <div class="vessel_conBox_text_button" style="padding:20px 0 4px 0;">
-                                    <input type="submit" value="立即支付" id="parkingBtn" class="el_btn_orange_xsl el_btn"/>
-                                </div>
-                                <div class="line"> </div>
+                                </p>
+                            </div>
+                            <div class="line"></div>
+                            <div class="vessel_conBox_text_button" style="padding:20px 0 4px 0;">
+                                <input type="submit" value="立即支付" id="parkingBtn" class="el_btn_orange_xsl el_btn"/>
+                            </div>
+                            <div class="line"></div>
 
-                                <div class="last_text_box">
+                            <div class="last_text_box">
                                     <span class="vessel_conBox_step_head1">
                                         注意事项：
                                     </span>
 
-                                    <p>
-                                        1、如您的停车卡是老卡，缴费成功后请到管理处激活；
-                                    </p>
+                                <p>
+                                    1、如您的停车卡是老卡，缴费成功后请到管理处激活；
+                                </p>
 
-                                    <p>
-                                        2、您可以到管理处更换新卡；
-                                    </p>
+                                <p>
+                                    2、您可以到管理处更换新卡；
+                                </p>
 
-                                </div>
+                            </div>
                         </div>
                     </form>
-            <!--步骤2内容 end-->
                 </div>
+            </div>
         </div>
-    <!-- vessel end -->
     </div>
-    <!-- 右侧栏 end -->
-
-    </div>
-    <!-- 主要内容区域 end -->
-    <!-- page -->
-
-    <!-- 服务快链区域 start -->
 
     <div class="serverBar_box el_container"></div>
 {% endblock %}
 {% block script %}
     <script type="text/javascript">
-        function check_select(){
+        function check_select() {
             var s = document.getElementById("type_for_parking");
             s = s.selectedIndex;
             var s1 = document.getElementById("period_for_parking");
             s1 = s1.selectedIndex;
-            if(s==0 || s1==0){
+            if (s == 0 || s1 == 0) {
                 alert('请选择相关信息');
                 return false;
             }
-            else{
+            else {
                 return true;
             }
         }
